@@ -1,17 +1,23 @@
+interface AbacusClasses{
+	abacus: string;
+	handle: string;
+	range: string;
+}
+
 /**
  * Options for the abacus plugin.
  */
 interface AbacusOptions {
-  animate: boolean | string | number;
-  classes: object;
-  disabled: boolean;
-  max: number;
-  min: number;
-  orientation: string;
-  range: boolean | string;
-  step: number;
-  value: number;
-  values: Array<number> | null;
+  animate?: boolean | string | number;
+  classes?: AbacusClasses;
+  disabled?: boolean;
+  max?: number;
+  min?: number;
+  orientation?: string;
+  range?: boolean | string;
+  step?: number;
+  value?: number;
+  values?: Array<number> | null;
 }
 
 /**
@@ -42,4 +48,9 @@ interface JQuery {
    * Extension of the abacus plugin.
    */
   abacus: Abacus;
+}
+
+
+interface HTMLAbacusElement extends HTMLElement{
+  jqueryAbacusInstance?: View;
 }

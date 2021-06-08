@@ -1,10 +1,10 @@
 class Model{
-	private initOptions: AbacusOptions = {
+	private _initOptions: AbacusOptions = {
 		animate: true,
 		classes: {
-			'abacus': 'abacus',
-			'handle': 'abacus__handle',
-			'range': 'abacus__range'
+			abacus: 'abacus',
+			handle: 'abacus__handle',
+			range: 'abacus__range'
 		},
 		disabled: false,
 		max: 100,
@@ -17,11 +17,17 @@ class Model{
 	}
 
 
-	constructor(data?: Object){
+	constructor(data?: object){
 		if( data ){
-			this.initOptions = $.extend({}, this.initOptions, data);
+			this._initOptions = $.extend({}, this._initOptions, data);
 		}
 	}
+
+	
+	public get initOptions() : AbacusOptions {
+		return this._initOptions;
+	}
+	
 }
 
 export default Model;

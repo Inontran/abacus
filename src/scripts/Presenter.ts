@@ -1,10 +1,14 @@
 import Model from './Model';
 
 class Presenter{
-	private model: Model;
+	private _model: Model;
 
-	constructor(model: Model){
-		this.model = model;
+	constructor(options?: object){
+		this._model = new Model(options);
+	}
+
+	getModelInitOptions(): AbacusOptions{
+		return this._model.initOptions;
 	}
 }
 
