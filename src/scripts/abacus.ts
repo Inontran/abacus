@@ -1,3 +1,7 @@
+/**
+ * @fileoverview
+ */
+
 import $ from 'jquery';
 import View from './View';
 

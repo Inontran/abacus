@@ -18,6 +18,7 @@ module.exports = {
   entry: {
     'abacus': [path.join(PATHS.src, '/scripts/abacus.ts'), path.join(PATHS.src, '/scss/abacus.scss')],
     'abacus-demo': [path.join(PATHS.src, '/scripts/abacus-demo.ts'), path.join(PATHS.src, '/scss/abacus-demo.scss')],
+		'abacus-tests': [path.join(PATHS.src, '/scripts/tests.ts')],
   },
   output: {
     path: PATHS.dist,

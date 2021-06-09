@@ -1,3 +1,7 @@
+/**
+ * @fileoverview
+ */
+
 $(() => {
   let $abacus = $('#abacus-1').abacus({
     min: 0,

@@ -28,12 +28,27 @@ class View{
 		this._widgetContainer.htmlElement.append(this._rangeItem.htmlElement);
 		this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
 
-		this._widgetContainer.htmlElement.addEventListener('mousedown', (event: Event) => {
+		this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
 			event.preventDefault();
-			console.log(event);
-			// let left = (event.layerX / this._widgetContainer.htmlElement.offsetWidth) * 100;
-			// this._handleItem.posLeft = left;
+			let left = this.getPosLeftPercent(event.clientX);
+			this._handleItem.posLeft = left;
 		});
+	}
+
+
+	getPosLeftPercent(clientX: number): number{
+		let result = 0;
+		let offsetLeftWidget = this._widgetContainer.htmlElement.offsetLeft;
+		let widthWidget = this._widgetContainer.htmlElement.offsetWidth;
+		let leftPx = clientX - offsetLeftWidget;
+		result = (leftPx / widthWidget) * 100;
+		if( result < 0 ){
+			result = 0;
+		}
+		if( result > 100 ){
+			result = 100;
+		}
+		return result;
 	}
 }
 
