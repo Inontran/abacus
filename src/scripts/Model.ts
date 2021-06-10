@@ -21,6 +21,15 @@ class Model{
 		if( data ){
 			this._initOptions = $.extend({}, this._initOptions, data);
 		}
+
+		this._initOptions.max = this._initOptions.max ? this._initOptions.max : 100;
+		this._initOptions.min = this._initOptions.min ? this._initOptions.min : 0;
+
+		if( this._initOptions.max < this._initOptions.min ){
+			let tmpMax = this._initOptions.max;
+			this._initOptions.max = this._initOptions.min;
+			this._initOptions.min = tmpMax;
+		}
 	}
 
 	

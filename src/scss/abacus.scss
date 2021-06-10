@@ -4,6 +4,11 @@
 	height: 10px;
 	background-color: gold;
 
+	&,
+	*{
+		box-sizing: border-box;
+	}
+
 	.abacus__handle{
 		display: inline-block;
 		width: 10px;

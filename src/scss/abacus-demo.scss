@@ -1,3 +1,16 @@
+*{
+	&,
+	&:after,
+	&:before{
+		box-sizing: border-box;
+	}
+}
+
+body{
+	font-family: sans-serif;
+	margin: 0;
+}
+
 .container{
 	max-width: 1200px;
 	padding-left: 15px;

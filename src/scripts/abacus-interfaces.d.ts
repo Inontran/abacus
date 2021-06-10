@@ -18,6 +18,13 @@ interface AbacusOptions {
   step?: number;
   value?: number;
   values?: Array<number> | null;
+
+	//Events
+	change?: (event: Event, ui: EventUIData) => void;
+	create?: (event: Event, ui: EventUIData) => void;
+	slide?: (event: Event, ui: EventUIData) => void;
+	start?: (event: Event, ui: EventUIData) => void;
+	stop?: (event: Event, ui: EventUIData) => void;
 }
 
 /**
@@ -53,4 +60,11 @@ interface JQuery {
 
 interface HTMLAbacusElement extends HTMLElement{
   jqueryAbacusInstance?: View;
+}
+
+interface EventUIData{
+	handle: Element;
+	handleIndex: number;
+	value: number;
+	values?: Array<number> | null;
 }
