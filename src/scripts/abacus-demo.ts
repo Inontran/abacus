@@ -24,10 +24,10 @@ $(() => {
   });
 
   let $abacus = $('#abacus-1').abacus({
-    min: 0,
-    max: 10,
+    min: -10,
+    max: 9,
     step: 2,
-    value: 3,
+    value: 0,
     change: (event, ui) =>{
       console.log('change');
       console.log( ui );

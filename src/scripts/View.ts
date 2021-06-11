@@ -106,14 +106,27 @@ class View{
 			});
 		}
 
+
 		this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
 			event.preventDefault();
 			let left: number = this.getPosLeftPercent(event.clientX);
-			let percent: number = this.getPosPerStep(left);
+			console.log('left == ' + left);
+			let newAbacusValue: number = this.getValFromPosPercent(left);
+			console.log('newAbacusValue == ' + newAbacusValue);
+			this._presenter.setAbacusValue(newAbacusValue);
+			newAbacusValue = this._presenter.getModelInitOptions().value as number;
+			let percent: number = this.getPosFromValue(newAbacusValue);
+			console.log('percent == ' + percent + ' ; ' + 'newAbacusValue == ' + newAbacusValue);
 			this._handleItem.posLeft = percent;
 			this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
 		});
 		//---------------
+
+
+		let currentValue: number = this._presenter.getModelInitOptions().value as number;
+		let startPosHandle: number = this.getPosFromValue(currentValue);
+		this._handleItem.posLeft = startPosHandle;
+
 
 		this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
 	}
@@ -157,12 +170,56 @@ class View{
 		let minVal: number = options.min as number;
 		let maxVal: number = options.max as number;
 		let step: number = options.step as number;
-		let sizeStepPercent: number = (maxVal - minVal) / step;
+		let sizeStepPercent: number = (step / (maxVal - minVal)) * 100;
 		result = persent / sizeStepPercent;
 		result = Math.round(result);
 		result = result * sizeStepPercent;
 		return result;
 	}
+
+	
+	getPosFromValue(value: number): number{
+		let result: number = 0;
+		let options: AbacusOptions = this._presenter.getModelInitOptions();
+		let minVal: number = options.min as number;
+		let maxVal: number = options.max as number;
+
+		// если минимальное значение меньше ноля, то 
+		// "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+		if( minVal < 0 ){
+			maxVal += (minVal * -1);
+			value += (minVal * -1);
+		}
+		result = (value / maxVal) * 100;
+
+		if( result < 0 ){
+			return 0;
+		}
+		if( result > 100 ){
+			return 100;
+		}
+		
+		return result;
+	}
+
+
+	getValFromPosPercent(posPercent: number): number{
+		let result: number = 0;
+		let options: AbacusOptions = this._presenter.getModelInitOptions();
+		let minVal: number = options.min as number;
+		let maxVal: number = options.max as number;
+
+		// если минимальное значение меньше ноля, то 
+		// "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+		if( minVal < 0 ){
+			maxVal += (minVal * -1);
+		}
+
+		result = (maxVal * posPercent) / 100;
+		result -= (minVal * -1);
+		return result;
+	}
+
 
 
 	private getEventUIData(): EventUIData{
@@ -171,7 +228,7 @@ class View{
 		uiData.handleIndex = this._handleItem.handleIndex;
 
 		let modelData = this._presenter.getModelInitOptions();
-		uiData.value = modelData.value ? modelData.value : 0;
+		uiData.value = modelData.value as number;
 		uiData.values = modelData.values;
 		return uiData;
 	}

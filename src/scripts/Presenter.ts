@@ -10,6 +10,10 @@ class Presenter{
 	getModelInitOptions(): AbacusOptions{
 		return this._model.initOptions;
 	}
+
+	setAbacusValue(value: number): void{
+		this._model.value = value;
+	}
 }
 
 export default Presenter;
