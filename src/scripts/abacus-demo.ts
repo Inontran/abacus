@@ -1,5 +1,5 @@
 /**
- * @fileoverview
+ * @fileoverview Файл с примерами использования плагина Abacus.
  */
 
 $(() => {

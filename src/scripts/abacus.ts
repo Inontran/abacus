@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery';
-import View from './View';
+import {View} from './View';
 
 $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : string, optionValue ? : any): JQuery {
 

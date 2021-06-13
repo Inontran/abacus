@@ -1,7 +1,7 @@
 interface AbacusClasses{
-	abacus: string;
-	handle: string;
-	range: string;
+  abacus: string;
+  handle: string;
+  range: string;
 }
 
 /**
@@ -19,12 +19,12 @@ interface AbacusOptions {
   value?: number;
   values?: Array<number> | null;
 
-	//Events
-	change?: (event: Event, ui: EventUIData) => void;
-	create?: (event: Event, ui: EventUIData) => void;
-	slide?: (event: Event, ui: EventUIData) => void;
-	start?: (event: Event, ui: EventUIData) => void;
-	stop?: (event: Event, ui: EventUIData) => void;
+  //Events
+  change?: (event: Event, ui: EventUIData) => void;
+  create?: (event: Event, ui: EventUIData) => void;
+  slide?: (event: Event, ui: EventUIData) => void;
+  start?: (event: Event, ui: EventUIData) => void;
+  stop?: (event: Event, ui: EventUIData) => void;
 }
 
 /**
@@ -63,8 +63,8 @@ interface HTMLAbacusElement extends HTMLElement{
 }
 
 interface EventUIData{
-	handle: Element;
-	handleIndex: number;
-	value: number;
-	values?: Array<number> | null;
+  handle: Element;
+  handleIndex: number;
+  value: number;
+  values?: Array<number> | null;
 }
