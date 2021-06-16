@@ -1,5 +1,13 @@
+/**
+ * Класс Model реализует "Модель" паттерна проектирования MVP.
+ * В этом классе хранится данные слайдера, а также бизнес логика работы с этими данными.
+ */
 export class Model{
-  private _initOptions: AbacusOptions = {
+  /**
+   * Свойства слайдера.
+   * @private
+   */
+  private _abacusProperty: AbacusOptions = {
     animate: true,
     classes: {
       abacus: 'abacus',
@@ -17,39 +25,56 @@ export class Model{
   }
 
 
+  /**
+   * @this Model
+   * @param {AbacusOptions} data - Свойства слайдера.
+   */
   constructor(data?: AbacusOptions){
     if( data ){
-      this._initOptions = $.extend({}, this._initOptions, data);
+      this._abacusProperty = $.extend({}, this._abacusProperty, data);
     }
 
-    this._initOptions.value = this._initOptions.value ? this._initOptions.value : 0;
-    this._initOptions.value = this.roundValuePerStep( this._initOptions.value );
-    this._initOptions.max = this._initOptions.max ? this._initOptions.max : 100;
-    this._initOptions.min = this._initOptions.min ? this._initOptions.min : 0;
+    this._abacusProperty.value = this._abacusProperty.value ? this._abacusProperty.value : 0;
+    this._abacusProperty.value = this.roundValuePerStep( this._abacusProperty.value );
+    this._abacusProperty.max = this._abacusProperty.max ? this._abacusProperty.max : 100;
+    this._abacusProperty.min = this._abacusProperty.min ? this._abacusProperty.min : 0;
 
-    if( this._initOptions.max < this._initOptions.min ){
-      let tmpMax = this._initOptions.max;
-      this._initOptions.max = this._initOptions.min;
-      this._initOptions.min = tmpMax;
+    if( this._abacusProperty.max < this._abacusProperty.min ){
+      let tmpMax = this._abacusProperty.max;
+      this._abacusProperty.max = this._abacusProperty.min;
+      this._abacusProperty.min = tmpMax;
     }
   }
 
 
-  public get initOptions() : AbacusOptions {
-    return this._initOptions;
+  /**
+   * Геттер свойств слайдера.
+   * @returns {AbacusOptions} - Свойства слайдера, хранящиеся в Модели.
+   */
+  public get abacusProperty() : AbacusOptions {
+    return this._abacusProperty;
   }
 
 
-  public set value(v : number) {
-    this._initOptions.value = this.roundValuePerStep(v);
+  /**
+   * Сеттер текущего значения слайдера.
+   * @param {number} value - Текущее значение слайдера.
+   */
+  public set value(value : number) {
+    this._abacusProperty.value = this.roundValuePerStep(value);
   }
 
 
+  /**
+   * Функция, округляющее переданное значение до ближайшего шага.
+   * @param {number} value - Текущее значение слайдера.
+   * @returns {number} - Значение слайдера, округленное до ближайшего шага.
+   */
   roundValuePerStep(value: number): number{
     let result: number = value;
-    let minVal: number = this._initOptions.min as number;
-    let maxVal: number = this._initOptions.max as number;
-    let step: number = this._initOptions.step as number;
+    let minVal: number = this._abacusProperty.min as number;
+    let maxVal: number = this._abacusProperty.max as number;
+    let step: number = this._abacusProperty.step as number;
 
     if( value >= maxVal ){
       return maxVal;

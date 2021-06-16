@@ -79,10 +79,6 @@
 	"typedocOptions": {
     "entryPoints": ["src/scripts"],
     "out": "docs",
-		"excludeExternals": "jquery",
-		"theme": "./node_modules/typedoc-theme-dark/dist/dark/",
-		"plugin": [
-			"typedoc-theme-dark"
-		]
+		"excludeExternals": "jquery"
   }
 }

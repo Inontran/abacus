@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     for (let i = 0; i < arrSetValues.length; i++) {
       it(`значение ${arrSetValues[i]} окргуляется до ${arrRightValues[i]}`, ()=>{
         model.value = arrSetValues[i];
-        assert.equal(arrRightValues[i], model.initOptions.value);
+        assert.equal(arrRightValues[i], model.abacusProperty.value);
       });
     }
   });

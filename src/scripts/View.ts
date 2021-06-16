@@ -3,6 +3,11 @@ import {WidgetContainer} from './WidgetContainer';
 import {Handle} from './Handle';
 import {Range} from './Range';
 
+/**
+ * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
+ * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
+ * находящихся в Модели.
+ */
 export class View{
   /**
    * Ссылка на Представителя, который связывает объект класса View с объектом класса Model 
@@ -20,14 +25,14 @@ export class View{
   private _widgetContainer: WidgetContainer;
 
   /**
-   * Объект, в котором содержится ссылка на progress bar.
+   * Объект, в котором содержится ссылка на HTML-элемент индикатора (progress bar) с дополнительными свойствами.
    * @type {Range}
    * @private
    */
   private _range: Range;
 
   /**
-   * Бегунок
+   * Объект, в котором содержится ссылка на HTML-элемент бегунка с дополнительными свойствами.
    * @type {Handle}
    * @private
    */
@@ -80,7 +85,7 @@ export class View{
     let viewInstance = this;
     this._presenter = new Presenter(options);
     
-    let classesAbacus = this._presenter.getModelInitOptions().classes;
+    let classesAbacus = this._presenter.getModelAbacusProperty().classes;
     if( classesAbacus ){
       this._widgetContainer = new WidgetContainer(abacusHtmlContainer, classesAbacus.abacus);
       this._range = new Range(classesAbacus.range);
@@ -174,7 +179,7 @@ export class View{
       let left: number = this.getPosLeftPercent(event.clientX);
       let newAbacusValue: number = this.getValFromPosPercent(left);
       this._presenter.setAbacusValue(newAbacusValue);
-      newAbacusValue = this._presenter.getModelInitOptions().value as number;
+      newAbacusValue = this._presenter.getModelAbacusProperty().value as number;
       let percent: number = this.getPosFromValue(newAbacusValue);
       this._handleItem.posLeft = percent;
       this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
@@ -182,7 +187,7 @@ export class View{
     //---------------
 
 
-    let currentValue: number = this._presenter.getModelInitOptions().value as number;
+    let currentValue: number = this._presenter.getModelAbacusProperty().value as number;
     let startPosHandle: number = this.getPosFromValue(currentValue);
     this._handleItem.posLeft = startPosHandle;
 
@@ -190,23 +195,43 @@ export class View{
     this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
   }
 
-	
+
+  /**
+   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента контейнера плагина.
+   * @public
+   * @returns {WidgetContainer} Возвращает ссылку на объект-обертку HTML-элемента контейнера плагина.
+   */
 	public get widgetContainer() : WidgetContainer {
 		return this._widgetContainer;
 	}
 	
 	
+  /**
+   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента индикатора (progress bar).
+   * @public
+   * @returns {Range} Возвращает ссылку на объект-обертку HTML-элемента индикатора (progress bar).
+   */
 	public get range() : Range {
 		return this._range;
 	}
 	
 	
+  /**
+   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента бегунка.
+   * @public
+   * @returns {Handle} Возвращает ссылку на объект-обертку HTML-элемента бегунка.
+   */
 	public get handleItem() : Handle {
 		return this._handleItem;
 	}
 	
 
-
+  /**
+   * Функция, которая получает на входе координату клика по оси Х относительно окна браузера, 
+   * а возвращает количество процентов от начала (левого края) слайдера.
+   * @param {number} clientX - Координата клика по оси Х относительно окна браузера.
+   * @returns {number} - Количество процентов от начала (левого края) слайдера.
+   */
   getPosLeftPercent(clientX: number): number{
     let result: number = 0;
     let offsetLeftWidget: number = this._widgetContainer.htmlElement.offsetLeft;
@@ -223,23 +248,35 @@ export class View{
   }
 
 
-  getPosPerStep(persent: number): number{
+  /**
+   * Функция, которая получает на вход процент от начала слайдера, 
+   * а возвращает соответствующее значение кратно заданному шагу.
+   * @deprecated
+   * @param {number} percent - Позиция бегунка в процентах от начала слайдера.
+   * @returns {number} Значение, соответствующее проценту и кратно шагу.
+   */
+  getPosPerStep(percent: number): number{
     let result: number = 0;
-    let options: AbacusOptions = this._presenter.getModelInitOptions();
+    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
     let minVal: number = options.min as number;
     let maxVal: number = options.max as number;
     let step: number = options.step as number;
     let sizeStepPercent: number = (step / (maxVal - minVal)) * 100;
-    result = persent / sizeStepPercent;
+    result = percent / sizeStepPercent;
     result = Math.round(result);
     result = result * sizeStepPercent;
     return result;
   }
 
 
+  /**
+   * Функция, которая вычисляет позицию бегунка в процентах от начала слайдера.
+   * @param {number} value - Значение слайдера.
+   * @returns {number} Позиция бегунка в процентах от начала слайдера.
+   */
   getPosFromValue(value: number): number{
     let result: number = 0;
-    let options: AbacusOptions = this._presenter.getModelInitOptions();
+    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
     let minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
@@ -262,9 +299,15 @@ export class View{
   }
 
 
+  /**
+   * Функция, которая получает на вход процент от начала слайдера, 
+   * а возвращает соответствующее значение.
+   * @param {number} posPercent - Позиция бегунка в процентах от начала слайдера.
+   * @returns {number} - Значение слайдера.
+   */
   getValFromPosPercent(posPercent: number): number{
-    let result: number = 0;
-    let options: AbacusOptions = this._presenter.getModelInitOptions();
+    let abacusValue: number = 0;
+    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
     let minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
@@ -274,19 +317,23 @@ export class View{
       maxVal += (minVal * -1);
     }
 
-    result = (maxVal * posPercent) / 100;
-    result -= (minVal * -1);
-    return result;
+    abacusValue = (maxVal * posPercent) / 100;
+    abacusValue -= (minVal * -1);
+    return abacusValue;
   }
 
 
-
+  /**
+   * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
+   * @private
+   * @returns {EventUIData} - Объект класса EventUIData.
+   */
   private getEventUIData(): EventUIData{
     let uiData: EventUIData = {} as EventUIData;
     uiData.handle = this._handleItem.htmlElement;
     uiData.handleIndex = this._handleItem.handleIndex;
 
-    let modelData = this._presenter.getModelInitOptions();
+    let modelData = this._presenter.getModelAbacusProperty();
     uiData.value = modelData.value as number;
     uiData.values = modelData.values;
     return uiData;
