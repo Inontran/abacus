@@ -50,5 +50,8 @@ $(() => {
     },
   });
 
-  console.log( $abacus );
+  $abacus.abacus('option', 'orientation', 'eee');
+  $abacus.abacus('option', {animate: 'eee'} as AbacusOptions);
+
+  console.log( $abacus.abacus('option') );
 })

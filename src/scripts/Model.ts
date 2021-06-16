@@ -55,6 +55,14 @@ export class Model{
     return this._abacusProperty;
   }
 
+  /**
+   * Сеттер свойств слайдера.
+   * @param {AbacusOptions} abacusProperty - Свойства слайдера, которые нужно добавить в Модель.
+   */
+  public set abacusProperty(abacusProperty: AbacusOptions) {
+    this._abacusProperty = $.extend({}, this._abacusProperty, abacusProperty);
+  }
+
 
   /**
    * Сеттер текущего значения слайдера.

@@ -39,7 +39,7 @@ interface AbacusFunction {
    */
   // (options?: AbacusOptions): JQuery;
   // (fucnName: string, option?: string, value?: any): JQuery;
-  (options ? : AbacusOptions | string, option ? : string, value ? : any): JQuery;
+  (options ? : AbacusOptions | string, option ? : any, value ? : any): JQuery;
 }
 
 /**

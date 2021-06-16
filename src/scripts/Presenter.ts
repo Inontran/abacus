@@ -30,6 +30,15 @@ export class Presenter{
 
 
   /**
+   * Функция получения свойств слайдера, полученные из Модели.
+   * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+   */
+  setModelAbacusProperty(abacusProperty: AbacusOptions): void{
+    this._model.abacusProperty = abacusProperty;
+  }
+
+
+  /**
    * Функция установки текущего значения слайдера.
    * @param {number} value - Текущее значение слайдера.
    */

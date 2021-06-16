@@ -324,6 +324,49 @@ export class View{
 
 
   /**
+   * Функция получения и установки свойств слайдера.
+   * @param {AbacusOptions | string} optionName - 
+   * @param {any} value - 
+   * @returns {}
+   */
+  option(optionName?: string, value?: AbacusOptions | any): any{
+    if( typeof optionName === 'string' ){
+      switch (optionName) {
+        case 'animate':
+        case 'classes': 
+        case 'disabled':
+        case 'max':
+        case 'min':
+        case 'orientation':
+        case 'range':
+        case 'step':
+        case 'value':
+        case 'values':
+          if( value !== undefined ){
+            // это условие для установки конкретного свойства слайдера
+            let newProperty = new Object as AbacusOptions;
+            newProperty[optionName] = value;
+            this._presenter.setModelAbacusProperty(newProperty);
+          }
+          else{
+            // это условие для получения конкретного свойства слайдера
+            return this._presenter.getModelAbacusProperty()[optionName];
+          }
+          break;
+      }
+    }
+    else if( typeof value === 'object' ){
+      // это условие для установки одного или несколько свойств слайдера в виде объекта
+      this._presenter.setModelAbacusProperty(value as AbacusOptions);
+    }
+    else{
+      // это условие для получения всех свойств слайдера в виде объекта
+      return this._presenter.getModelAbacusProperty();
+    }
+  }
+
+
+  /**
    * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
    * @private
    * @returns {EventUIData} - Объект класса EventUIData.
