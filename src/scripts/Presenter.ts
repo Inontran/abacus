@@ -17,6 +17,10 @@ export class Presenter{
    */
   constructor(options?: AbacusOptions){
     this._model = new Model(options);
+
+    this._model.eventTarget.addEventListener('update-model', function(event: Event){
+      console.log('Модель обновилась!');
+    });
   }
 
 

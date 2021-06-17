@@ -1,7 +1,6 @@
 /**
  * @fileoverview Файл с примерами использования плагина Abacus.
  */
-
 $(() => {
   $('#abacus-1').on('abacus-change', ()=>{
     console.log('abacus-change');
@@ -54,4 +53,4 @@ $(() => {
   $abacus.abacus('option', {animate: 'eee'} as AbacusOptions);
 
   console.log( $abacus.abacus('option') );
-})
+});

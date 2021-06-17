@@ -12,7 +12,7 @@ export class Model{
     classes: {
       abacus: 'abacus',
       handle: 'abacus__handle',
-      range: 'abacus__range'
+      range: 'abacus__range',
     },
     disabled: false,
     max: 100,
@@ -24,6 +24,17 @@ export class Model{
     values: null,
   }
 
+  /**
+   * Объект, который может генерировать события и может иметь подписчиков на эти события.
+   * @private
+   */
+  private _eventTarget: EventTarget;
+
+  /**
+   * Событие изменения данных в Модели.
+   * @private 
+   */
+  private _eventUpdateModel: CustomEvent;
 
   /**
    * @this Model
@@ -44,6 +55,9 @@ export class Model{
       this._abacusProperty.max = this._abacusProperty.min;
       this._abacusProperty.min = tmpMax;
     }
+    
+    this._eventTarget = new EventTarget();
+    this._eventUpdateModel = new CustomEvent('update-model');
   }
 
 
@@ -61,6 +75,7 @@ export class Model{
    */
   public set abacusProperty(abacusProperty: AbacusOptions) {
     this._abacusProperty = $.extend({}, this._abacusProperty, abacusProperty);
+    this._eventTarget.dispatchEvent(this._eventUpdateModel);
   }
 
 
@@ -70,6 +85,14 @@ export class Model{
    */
   public set value(value : number) {
     this._abacusProperty.value = this.roundValuePerStep(value);
+    this._eventTarget.dispatchEvent(this._eventUpdateModel);
+  }
+
+  /**
+   * 
+   */
+  public get eventTarget(): EventTarget{
+    return this._eventTarget;
   }
 
 
