@@ -89,7 +89,7 @@ export class Model{
   }
 
   /**
-   * 
+   * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
    */
   public get eventTarget(): EventTarget{
     return this._eventTarget;

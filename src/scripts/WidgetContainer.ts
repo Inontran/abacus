@@ -1,10 +1,12 @@
 export class WidgetContainer{
   private _htmlElement: HTMLAbacusElement;
   private _width: number = 100;
+	private _className: string;
 
   constructor(htmlElement: HTMLAbacusElement, className?: string){
     this._htmlElement = htmlElement;
-    this._htmlElement.classList.add(className ? className : 'abacus');
+		this._className = className ? className : 'abacus';
+    this._htmlElement.classList.add(this._className);
   }
 
 
@@ -20,5 +22,16 @@ export class WidgetContainer{
   public get htmlElement() : HTMLAbacusElement {
     return this._htmlElement;
   }
+
+
+	public get className() : string {
+		return this._className;
+	}
 	
+	
+	public set className(value : string) {
+		this._htmlElement.classList.remove(this._className);
+		this._htmlElement.classList.add(value);
+		this._className = value;
+	}
 }

@@ -83,7 +83,12 @@ export class View{
    */
   constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object){
     let viewInstance = this;
+
     this._presenter = new Presenter(options);
+    this._presenter.eventTarget.addEventListener('update-model', function(event: Event){
+      console.log('Модель обновилась!');
+      viewInstance.updateView();
+    });
     
     let classesAbacus = this._presenter.getModelAbacusProperty().classes;
     if( classesAbacus ){
@@ -101,98 +106,47 @@ export class View{
     this._widgetContainer.htmlElement.append(this._range.htmlElement);
     this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
 
-
-    // установка callbacks
-    // create change
     this._customEventChange = new CustomEvent('abacus-change', {
       bubbles: true,
       cancelable: true,
     });
 
-    if( options?.change ){
-      this._widgetContainer.htmlElement.addEventListener('abacus-change', function(event: Event){
-        if( typeof options?.change === 'function' ){
-          options.change(event, viewInstance.getEventUIData());
-        }
-      });
-    }
-
-    // create event
     this._customEventCreate = new CustomEvent('abacus-create', {
       bubbles: true,
       cancelable: true,
     });
 
-    if( options?.create ){
-      this._widgetContainer.htmlElement.addEventListener('abacus-create', function(event: Event){
-        if( typeof options?.create === 'function' ){
-          options.create(event, viewInstance.getEventUIData());
-        }
-      });
-    }
-
-    // slide event
     this._customEventSlide = new CustomEvent('abacus-slide', {
       bubbles: true,
       cancelable: true,
     });
-
-    if( options?.slide ){
-      this._widgetContainer.htmlElement.addEventListener('abacus-slide', function(event: Event){
-        if( typeof options?.slide === 'function' ){
-          options.slide(event, viewInstance.getEventUIData());
-        }
-      });
-    }
     
-    // create start
     this._customEventStart = new CustomEvent('abacus-start', {
       bubbles: true,
       cancelable: true,
     });
 
-    if( options?.start ){
-      this._widgetContainer.htmlElement.addEventListener('abacus-start', function(event: Event){
-        if( typeof options?.start === 'function' ){
-          options.start(event, viewInstance.getEventUIData());
-        }
-      });
-    }
-
-    // create stop
     this._customEventStop = new CustomEvent('abacus-stop', {
       bubbles: true,
       cancelable: true,
     });
 
-    if( options?.stop ){
-      this._widgetContainer.htmlElement.addEventListener('abacus-stop', function(event: Event){
-        if( typeof options?.stop === 'function' ){
-          options.stop(event, viewInstance.getEventUIData());
-        }
-      });
-    }
-
-
     this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
+      let abacusProperty = this._presenter.getModelAbacusProperty();
       let left: number = this.getPosLeftPercent(event.clientX);
       let newAbacusValue: number = this.getValFromPosPercent(left);
       this._presenter.setAbacusValue(newAbacusValue);
-      newAbacusValue = this._presenter.getModelAbacusProperty().value as number;
+      newAbacusValue = abacusProperty.value as number;
       let percent: number = this.getPosFromValue(newAbacusValue);
       this._handleItem.posLeft = percent;
-      this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
+
+      this._eventChangeWrapper(event);
     });
-    //---------------
 
+    this.updateView();
 
-    let currentValue: number = this._presenter.getModelAbacusProperty().value as number;
-    let startPosHandle: number = this.getPosFromValue(currentValue);
-    this._handleItem.posLeft = startPosHandle;
-
-
-    this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
+    this._eventCreateWrapper();
   }
 
 
@@ -367,11 +321,36 @@ export class View{
 
 
   /**
+   * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
+   * @returns 
+   */
+  updateView(): void{
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const viewInstance = this;
+    // Обновляем положение бегунка
+    let currentValue: number = abacusProperty.value as number;
+    let startPosHandle: number = this.getPosFromValue(currentValue);
+    this._handleItem.posLeft = startPosHandle;
+
+    // Обновляем название классов
+    if( abacusProperty.classes?.abacus ){
+      this._widgetContainer.className = abacusProperty.classes?.abacus;
+    }
+    if( abacusProperty.classes?.handle ){
+      this._handleItem.className = abacusProperty.classes?.handle;
+    }
+    if( abacusProperty.classes?.range ){
+      this._range.className = abacusProperty.classes?.range;
+    }
+  }
+
+
+  /**
    * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
    * @private
    * @returns {EventUIData} - Объект класса EventUIData.
    */
-  private getEventUIData(): EventUIData{
+  private _getEventUIData(): EventUIData{
     let uiData: EventUIData = {} as EventUIData;
     uiData.handle = this._handleItem.htmlElement;
     uiData.handleIndex = this._handleItem.handleIndex;
@@ -380,5 +359,47 @@ export class View{
     uiData.value = modelData.value as number;
     uiData.values = modelData.values;
     return uiData;
+  }
+
+
+  /**
+   * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
+   * @private
+   * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   */
+  private _eventChangeWrapper(event?: Event): boolean{
+    if( ! event ){
+      event = this._customEventChange;
+    }
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
+    const viewInstance = this;
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    if( typeof abacusProperty?.change === 'function' ){
+      abacusProperty.change(event, viewInstance._getEventUIData());
+    }
+
+    return dispatchEventResult;
+  }
+
+
+  /**
+   * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
+   * @private
+   * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   */
+  private _eventCreateWrapper(event?: Event): boolean{
+    if( ! event ){
+      event = this._customEventCreate;
+    }
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
+    const viewInstance = this;
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    if( typeof abacusProperty?.create === 'function' ){
+      abacusProperty.create(event, viewInstance._getEventUIData());
+    }
+
+    return dispatchEventResult;
   }
 }

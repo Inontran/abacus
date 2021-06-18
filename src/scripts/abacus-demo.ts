@@ -28,12 +28,11 @@ $(() => {
     step: 2,
     value: 0,
     change: (event, ui) =>{
-      console.log('change');
-      console.log( ui );
+      $('#abacus-1_input').val(ui.value);
     },
     create: (event, ui) =>{
       console.log('create');
-      console.log( ui );
+      console.log( event );
     },
     slide: (event, ui) =>{
       console.log('slide');
@@ -50,7 +49,18 @@ $(() => {
   });
 
   $abacus.abacus('option', 'orientation', 'eee');
-  $abacus.abacus('option', {animate: 'eee'} as AbacusOptions);
+  $abacus.abacus('option', {
+    animate: 'eee',
+  } as AbacusOptions);
 
   console.log( $abacus.abacus('option') );
+
+
+  setTimeout(() => {
+    // $abacus.abacus('option', {
+    //   classes: {
+    //     handle: 'qwe'
+    //   },
+    // } as AbacusOptions);
+  }, 5000);
 });

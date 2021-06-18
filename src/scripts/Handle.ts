@@ -3,10 +3,12 @@ export class Handle{
   private _posLeft: number = 0;
   private _posBottom: number = 0;
   private _handleIndex: number = 0;
+	private _className: string;
 
   constructor(className?: string, handleIndex?: number){
     this._htmlElement = document.createElement('span');
-    this._htmlElement.classList.add(className ? className : 'abacus__handle');
+		this._className = className ? className : 'abacus__handle';
+    this._htmlElement.classList.add(this._className);
 
     if( handleIndex != null ){
       this._handleIndex = handleIndex;
@@ -38,4 +40,16 @@ export class Handle{
     this._handleIndex = v;
   }
 
+
+	public get className() : string {
+		return this._className;
+	}
+	
+	
+	public set className(value : string) {
+		this._htmlElement.classList.remove(this._className);
+		this._htmlElement.classList.add(value);
+		this._className = value;
+	}
+	
 }
