@@ -25,6 +25,12 @@ export class Range{
   private _className: string;
 
   /**
+   * 
+   * @param className 
+   */
+  private _rangeType: RangeType = RangeType.HIDDEN;
+
+  /**
    * @constructor
    * @this   {Range}
    * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__range".
@@ -48,7 +54,11 @@ export class Range{
    * @param {number} width - ширина в процентах от 0 до 100.
    */
   public set width(width : number) {
+    if( width < 0 ) width = 0;
+    if( width > 100 ) width = 100;
+
     this._width = width;
+    this._htmlElement.style.width = width + '%';
   }
 
 
@@ -77,4 +87,30 @@ export class Range{
     this._htmlElement.classList.add(value);
     this._className = value;
   }
+
+
+  /**
+   * 
+   */
+  public get rangeType() : string {
+    return this._rangeType;
+  }
+  
+  /**
+   * 
+   */
+  public set rangeType(value : string) {
+    if( value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between' ){
+      value = 'hidden';
+    }
+    this._rangeType = value as RangeType;
+  }
+  
+}
+
+enum RangeType {
+  HIDDEN = 'hidden',
+  MIN = 'min',
+  MAX = 'max',
+  BETWEEN = 'between'
 }

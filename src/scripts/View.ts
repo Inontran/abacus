@@ -86,25 +86,17 @@ export class View{
 
     this._presenter = new Presenter(options);
     this._presenter.eventTarget.addEventListener('update-model', function(event: Event){
-      console.log('Модель обновилась!');
+      // console.log('Модель обновилась!');
       viewInstance.updateView();
     });
     
-    let classesAbacus = this._presenter.getModelAbacusProperty().classes;
-    if( classesAbacus ){
-      this._widgetContainer = new WidgetContainer(abacusHtmlContainer, classesAbacus.abacus);
-      this._range = new Range(classesAbacus.range);
-      this._handleItem = new Handle(classesAbacus.handle);
-    }
-    else{
-      this._widgetContainer = new WidgetContainer(abacusHtmlContainer);
-      this._range = new Range();
-      this._handleItem = new Handle();
-    }
-
+    let abacusProperty = this._presenter.getModelAbacusProperty();
+    
+    this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes?.abacus);
     this._widgetContainer.htmlElement.innerHTML = '';
-    this._widgetContainer.htmlElement.append(this._range.htmlElement);
-    this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+    this._handleItem = new Handle(abacusProperty.classes?.handle);
+    this._range = new Range(abacusProperty.classes?.range);
+
 
     this._customEventChange = new CustomEvent('abacus-change', {
       bubbles: true,
@@ -133,14 +125,10 @@ export class View{
 
     this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
-      let abacusProperty = this._presenter.getModelAbacusProperty();
       let left: number = this.getPosLeftPercent(event.clientX);
       let newAbacusValue: number = this.getValFromPosPercent(left);
       this._presenter.setAbacusValue(newAbacusValue);
-      newAbacusValue = abacusProperty.value as number;
-      let percent: number = this.getPosFromValue(newAbacusValue);
-      this._handleItem.posLeft = percent;
-
+      viewInstance.updateView();
       this._eventChangeWrapper(event);
     });
 
@@ -326,13 +314,50 @@ export class View{
    */
   updateView(): void{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
-    const viewInstance = this;
-    // Обновляем положение бегунка
-    let currentValue: number = abacusProperty.value as number;
-    let startPosHandle: number = this.getPosFromValue(currentValue);
-    this._handleItem.posLeft = startPosHandle;
 
-    // Обновляем название классов
+    // Добавляем или удалаем элементы инерфейса
+    this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+    
+    if( abacusProperty.range ){
+      switch (abacusProperty.range) {
+        case 'max':
+          this._range.rangeType = 'max';
+          break;
+      
+        default:
+          this._range.rangeType = 'min';
+          break;
+      }
+      this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+    }
+    else{
+      this._range.rangeType = 'hidden';
+      this._range.htmlElement.remove();
+    }
+
+    // Обновляем положение бегунка и индикатора
+    let currentValue: number = abacusProperty.value as number;
+    let posHandle: number = this.getPosFromValue(currentValue);
+    this._handleItem.posLeft = posHandle;
+    switch (this._range.rangeType) {
+      case 'min':
+        this._range.htmlElement.style.left = '0';
+        this._range.htmlElement.style.right = 'auto';
+        this._range.width = posHandle;
+        break;
+
+      case 'max':
+        this._range.htmlElement.style.left = 'auto';
+        this._range.htmlElement.style.right = '0';
+        this._range.width = 100 - posHandle;
+        break;
+    
+      default:
+        
+        break;
+    }
+
+    // Обновляем названия классов
     if( abacusProperty.classes?.abacus ){
       this._widgetContainer.className = abacusProperty.classes?.abacus;
     }

@@ -27,6 +27,7 @@ $(() => {
     max: 9,
     step: 2,
     value: 0,
+    range: true,
     change: (event, ui) =>{
       $('#abacus-1_input').val(ui.value);
     },

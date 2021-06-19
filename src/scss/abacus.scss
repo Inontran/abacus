@@ -3,6 +3,7 @@
 	display: block;
 	height: 10px;
 	background-color: gold;
+	border: 2px solid brown;
 
 	&,
 	*{
@@ -18,6 +19,17 @@
 		left: 0;
 		transform: translate(-50%, -50%);
 		background-color: silver;
+	}
+
+	.abacus__range{
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+		height: 6px;
+		width: auto;
+		background-color: brown;
 	}
 
 	&:not(.abacus_disabled){
