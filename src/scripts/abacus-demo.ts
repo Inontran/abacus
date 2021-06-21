@@ -2,6 +2,72 @@
  * @fileoverview Файл с примерами использования плагина Abacus.
  */
 $(() => {
+  $('body').on('submit', '.form_modifier-options', function(event: Event){
+    event.preventDefault();
+    if( ! event.currentTarget ){
+      return null;
+    }
+    let $form = $(event.currentTarget);
+    let abacusOptions = {} as AbacusOptions;
+    
+    if( $('[name="animate"]', $form).length ){
+      abacusOptions.animate = $('[name="animate"]', $form).val() as string;
+    }
+    
+    if( $('[name="disabled"]', $form).length ){
+      abacusOptions.disabled = ! $('[name="disabled"]', $form).prop('checked');
+    }
+
+    if( $('[name="max"]', $form).val() ){
+      abacusOptions.max = $('[name="max"]', $form).val() as number;
+    }
+
+    if( $('[name="min"]', $form).val() ){
+      abacusOptions.min = $('[name="min"]', $form).val() as number;
+    }
+
+    if( $('[name="value[]"]', $form).val() ){
+      abacusOptions.value = $('[name="value[]"]', $form).val() as number;
+    }
+
+    if( $('[name="orientation"]', $form).length ){
+      abacusOptions.orientation = $('[name="orientation"]', $form).val() as string;
+    }
+
+    if( $('[name="range"]', $form).length ){
+      let valRange = $('[name="range"]', $form).val() as string;
+      switch (valRange) {
+        case 'true':
+          abacusOptions.range = true;
+          break;
+
+        case 'false':
+          abacusOptions.range = false;
+          break;
+
+        case 'max':
+          abacusOptions.range = 'max';
+          break;
+
+        case 'min':
+          abacusOptions.range = 'min';
+          break;
+      
+        default:
+          abacusOptions.range = valRange;
+          break;
+      }
+    }
+
+    if( $('[name="step"]', $form).length ){
+      abacusOptions.step = $('[name="step"]', $form).val() as number;
+    }
+
+    // console.log(abacusOptions);
+    $abacus.abacus('option', abacusOptions);
+  });
+
+
   $('#abacus-1').on('abacus-change', ()=>{
     console.log('abacus-change');
   });
@@ -48,11 +114,6 @@ $(() => {
       console.log( ui );
     },
   });
-
-  $abacus.abacus('option', 'orientation', 'eee');
-  $abacus.abacus('option', {
-    animate: 'eee',
-  } as AbacusOptions);
 
   console.log( $abacus.abacus('option') );
 

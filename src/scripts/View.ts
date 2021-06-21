@@ -176,9 +176,9 @@ export class View{
    */
   getPosLeftPercent(clientX: number): number{
     let result: number = 0;
-    let offsetLeftWidget: number = this._widgetContainer.htmlElement.offsetLeft;
-    let widthWidget: number = this._widgetContainer.htmlElement.offsetWidth;
-    let leftPx: number = clientX - offsetLeftWidget;
+    let posLeftWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().left;
+    let widthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().width;
+    let leftPx: number = clientX - posLeftWidget;
     result = (leftPx / widthWidget) * 100;
     if( result < 0 ){
       result = 0;

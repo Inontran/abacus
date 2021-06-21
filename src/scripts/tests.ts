@@ -49,5 +49,116 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 
 
+  describe('set animate property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = [false, true, null, 'qwe', 'fast', 'slow', '1', 1, 0, '0', 0.1];
+    const arrRightValues: any[] = [false, true, false, false, 'fast', 'slow', 1, 1, 0, 0, 0];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {animate: arrTestValues[i]} as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.animate);
+      });
+    }
+  });
+
+
+  describe('set classes property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['abacus', true, null, 'qwe', 'fast', 'slow', '1', 1, 0, '0'];
+    const arrRightValues: any[] = ['abacus', 'abacus', 'abacus', 'qwe', 'fast', 'slow', '1', '1', '1', '0',];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {classes: {
+            abacus: arrTestValues[i]
+          }
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.classes?.abacus);
+      });
+    }
+  });
+
+
+  describe('set max property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
+    const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {
+          max: arrTestValues[i],
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.max);
+      });
+    }
+  });
+
+
+  describe('set min property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
+    const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {
+          min: arrTestValues[i],
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.min);
+      });
+    }
+  });
+
+
+  describe('set step property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
+    const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {
+          step: arrTestValues[i],
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.step);
+      });
+    }
+  });
+
+
+  describe('set orientation property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 'vertical', 'horizontal'];
+    const arrRightValues: any[] = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical', 'horizontal'];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {
+          orientation: arrTestValues[i],
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.orientation);
+      });
+    }
+  });
+
+
+  describe('set range property', () => {
+    let model: Model = new Model();
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 'max', 'min'];
+    const arrRightValues: any[] = [false, true, true, true, true, true, 'max', 'min'];
+
+    for (let i = 0; i < arrTestValues.length; i++) {
+      it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{
+        model.abacusProperty = {
+          range: arrTestValues[i],
+        } as AbacusOptions;
+        assert.equal(arrRightValues[i], model.abacusProperty.range);
+      });
+    }
+  });
+
+
   mocha.run();
 });

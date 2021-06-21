@@ -42,18 +42,7 @@ export class Model{
    */
   constructor(data?: AbacusOptions){
     if( data ){
-      this._abacusProperty = $.extend({}, this._abacusProperty, data);
-    }
-
-    this._abacusProperty.value = this._abacusProperty.value ? this._abacusProperty.value : 0;
-    this._abacusProperty.value = this.roundValuePerStep( this._abacusProperty.value );
-    this._abacusProperty.max = this._abacusProperty.max ? this._abacusProperty.max : 100;
-    this._abacusProperty.min = this._abacusProperty.min ? this._abacusProperty.min : 0;
-
-    if( this._abacusProperty.max < this._abacusProperty.min ){
-      let tmpMax = this._abacusProperty.max;
-      this._abacusProperty.max = this._abacusProperty.min;
-      this._abacusProperty.min = tmpMax;
+      this.abacusProperty = data;
     }
     
     this._eventTarget = new EventTarget();
@@ -74,8 +63,143 @@ export class Model{
    * @param {AbacusOptions} abacusProperty - Свойства слайдера, которые нужно добавить в Модель.
    */
   public set abacusProperty(abacusProperty: AbacusOptions) {
-    this._abacusProperty = $.extend({}, this._abacusProperty, abacusProperty);
-    this._eventTarget.dispatchEvent(this._eventUpdateModel);
+    // animate
+    if( abacusProperty.animate !== undefined ){
+      if (abacusProperty.animate == 'fast' 
+      || abacusProperty.animate == 'slow' 
+      || typeof abacusProperty.animate === 'boolean') 
+      {
+        this._abacusProperty.animate = abacusProperty.animate;
+      }
+      else if( abacusProperty.animate == null ){
+        this._abacusProperty.animate = false;
+      }
+      else if( !isNaN(abacusProperty.animate as number) ){
+        this._abacusProperty.animate = parseInt(abacusProperty.animate as string);
+      }
+    }
+
+    // classes
+    if( typeof abacusProperty.classes === 'object' ){
+      const arrClassName: string[] = ['abacus', 'range', 'handle'];
+
+      for (let i = 0; i < arrClassName.length; i++) {
+        if( typeof abacusProperty.classes[arrClassName[i]] === 'string' && this._abacusProperty.classes ){
+          this._abacusProperty.classes[arrClassName[i]] = abacusProperty.classes[arrClassName[i]];
+        }
+      }
+    }
+
+    // disabled
+    if( abacusProperty.disabled !== undefined ){
+      this._abacusProperty.disabled = !!abacusProperty.disabled;
+    }
+
+    //max
+    if( abacusProperty.max !== undefined && abacusProperty.max !== null ){
+      if( !isNaN(abacusProperty.max as number) ){
+        if( typeof abacusProperty.max === 'string' ){
+          this._abacusProperty.max = parseFloat(abacusProperty.max);
+        }
+        else{
+          this._abacusProperty.max = abacusProperty.max;
+        }
+      }
+    }
+
+    //min
+    if( abacusProperty.min !== undefined && abacusProperty.min !== null ){
+      if( !isNaN(abacusProperty.min as number) ){
+        if( typeof abacusProperty.min === 'string' ){
+          this._abacusProperty.min = parseFloat(abacusProperty.min);
+        }
+        else{
+          this._abacusProperty.min = abacusProperty.min;
+        }
+      }
+    }
+
+    if( (this._abacusProperty.max as number) < (this._abacusProperty.min as number) ){
+      let tmpMax = this._abacusProperty.max;
+      this._abacusProperty.max = this._abacusProperty.min;
+      this._abacusProperty.min = tmpMax;
+    }
+
+    //step
+    if( abacusProperty.step !== undefined && abacusProperty.step !== null ){
+      if( !isNaN(abacusProperty.step as number) ){
+        if( typeof abacusProperty.step === 'string' ){
+          this._abacusProperty.step = parseFloat(abacusProperty.step);
+        }
+        else{
+          this._abacusProperty.step = abacusProperty.step;
+        }
+      }
+    }
+
+    //value
+    if( abacusProperty.value !== undefined && abacusProperty.value !== null ){
+      if( !isNaN(abacusProperty.value as number) ){
+        if( typeof abacusProperty.value === 'string' ){
+          abacusProperty.value = parseFloat(abacusProperty.value);
+        }
+        abacusProperty.value = this.roundValuePerStep(abacusProperty.value);
+        this._abacusProperty.value = abacusProperty.value;
+      }
+    }
+
+    //orientation
+    if( abacusProperty.orientation !== undefined ){
+      if( abacusProperty.orientation == 'vertical' )
+      {
+        this._abacusProperty.orientation = 'vertical';
+      }
+      else{
+        this._abacusProperty.orientation = 'horizontal';
+      }
+    }
+
+    //range
+    if( abacusProperty.range !== undefined ){
+      if( abacusProperty.range === false || abacusProperty.range === true){
+        this._abacusProperty.range = abacusProperty.range;
+      }
+      else if( abacusProperty.range == 'max' ){
+        this._abacusProperty.range = 'max';
+      }
+      else if( abacusProperty.range == 'min' ){
+        this._abacusProperty.range = 'min';
+      }
+    }
+
+    //change
+    if( abacusProperty.change !== undefined ){
+      this._abacusProperty.change = abacusProperty.change;
+    }
+
+    //create
+    if( abacusProperty.create !== undefined ){
+      this._abacusProperty.create = abacusProperty.create;
+    }
+
+    //slide
+    if( abacusProperty.slide !== undefined ){
+      this._abacusProperty.slide = abacusProperty.slide;
+    }
+
+    //start
+    if( abacusProperty.start !== undefined ){
+      this._abacusProperty.start = abacusProperty.start;
+    }
+
+    //stop
+    if( abacusProperty.stop !== undefined ){
+      this._abacusProperty.stop = abacusProperty.stop;
+    }
+
+    if( this._eventTarget ){
+      this._eventTarget.dispatchEvent(this._eventUpdateModel);
+    }
   }
 
 
@@ -85,7 +209,9 @@ export class Model{
    */
   public set value(value : number) {
     this._abacusProperty.value = this.roundValuePerStep(value);
-    this._eventTarget.dispatchEvent(this._eventUpdateModel);
+    if( this._eventTarget ){
+      this._eventTarget.dispatchEvent(this._eventUpdateModel);
+    }
   }
 
   /**

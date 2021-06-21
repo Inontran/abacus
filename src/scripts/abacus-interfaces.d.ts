@@ -1,7 +1,7 @@
 interface AbacusClasses{
-  abacus: string;
-  handle: string;
-  range: string;
+  [abacus: string]: string;
+  [handle: string]: string;
+  [range: string]: string;
 }
 
 /**

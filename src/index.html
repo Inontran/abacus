@@ -10,16 +10,106 @@
 </head>
 <body>
   <div class="container">
-    <h1>SLIDER</h1>
-		<input type="text" id="abacus-1_input">
-		<br>
-		<br>
-    <div id="abacus-1"></div>
-    <br>
-		<br>
-    <div id="abacus-test"></div>
+    <h1 class="pb-5">Слайдер Abacus</h1>
 
-    <div id="mocha"></div>
+		<div class="card border-primary mb-5">
+			<h2 class="card-header">Слайдер 1</h2>
+			<div class="card-body">
+				<form action="" method="POST" class="form_modifier-options">
+					<div class="row align-items-center">
+						<div class="col-md">
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Анимация (false, true, fast, slow, кол-во мс)</span>
+								<span class="col-sm d-block">
+									<input type="text" class="form-control" name="animate" value="false" pattern="(false)|(true)|(fast)|(slow)|(\d{1,})" readonly>
+								</span>
+							</label>
+		
+							<label class="form-check mb-3">
+								<input class="form-check-input" type="checkbox" name="disabled" value="true" checked readonly>
+								<span class="form-check-label">
+									Включить
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Максимальное значение</span>
+								<span class="col-sm d-block">
+									<input type="text" class="form-control" name="max" pattern="(-)?\d+(\.\d{1,})?">
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Минимальное значение</span>
+								<span class="col-sm d-block">
+									<input type="text" class="form-control" name="min" pattern="(-)?\d+(\.\d{1,})?">
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Текущие значения</span>
+								<span class="col d-block">
+									<input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?">
+								</span>
+								<span class="col d-block">
+									<input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?" readonly>
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Ориентация</span>
+								<span class="col-sm d-block">
+									<select class="form-select" name="orientation" readonly>
+										<option value="horizontal" selected>Горизонтальный</option>
+										<option value="vertical">Вертикальный</option>
+									</select>
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Индикатор (progress bar)</span>
+								<span class="col-sm d-block">
+									<select class="form-select" name="range">
+										<option value="false" selected>Отключить</option>
+										<option value="true">Включить</option>
+										<option value="min">Включить от мин. до текущего</option>
+										<option value="max">Включить от макс. до текущего</option>
+									</select>
+								</span>
+							</label>
+		
+							<label class="row d-flex mb-3">
+								<span class="form-label col-sm-auto col-form-label">Шаг</span>
+								<span class="col-sm d-block">
+									<input type="text" class="form-control" name="step" pattern="\d+(\.\d{1,})?">
+								</span>
+							</label>
+						</div>
+			
+						<div class="col-md-auto">
+							<button class="btn btn-success px-2">
+								<img src="images/magic-cat-min.jpg" alt="вжух" class="img-fluid" style="max-width: 100px; border-radius: 0.25rem;">
+							</button>
+						</div>
+			
+						<div class="col-md">
+							<input type="text" class="form-control mb-4" id="abacus-1_input">
+							
+							<div id="abacus-1"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+		<div class="card mb-5">
+			<h2 class="card-header">Тесты</h2>
+			<div class="card-body">
+				<div id="abacus-test"></div>
+				<div id="mocha"></div>
+			</div>
+		</div>
   </div>
 </body>
 </html>

@@ -16,8 +16,8 @@ const PATHS = {
 module.exports = {
   mode: 'development',
   entry: {
-    'abacus': [path.join(PATHS.src, '/scripts/abacus.ts'), path.join(PATHS.src, '/scss/abacus.scss')],
-    'abacus-demo': [path.join(PATHS.src, '/scripts/abacus-demo.ts'), path.join(PATHS.src, '/scss/abacus-demo.scss')],
+    'abacus': [path.join(PATHS.src, '/scripts/abacus.ts'), path.join(PATHS.src, '/styles/abacus.scss')],
+    'abacus-demo': [path.join(PATHS.src, '/scripts/abacus-demo.ts'), path.join(PATHS.src, '/styles/abacus-demo.scss')],
 		'abacus-tests': [path.join(PATHS.src, '/scripts/tests.ts')],
   },
   output: {
@@ -80,21 +80,21 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    // new CopyWebpackPlugin({
-    // 	patterns: [
-    // 		{
-    // 			from: PATHS.src + '/index.html',
-    // 			to: PATHS.dist + '/index.html'
-    // 		},
-    // 		{
-    // 			from: PATHS.src + '/assets/**/*',
-    // 			to: PATHS.dist + '/assets',
-    // 			transformPath(targetPath, absolutePath) {
-    // 				return targetPath.replace('src/assets', '');
-    // 			}
-    // 		},
-    // 	]
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: PATHS.src + '/styles/images',
+          to: PATHS.dist + '/images/'
+        },
+        // {
+        //   from: PATHS.src + '/assets/**/*',
+        //   to: PATHS.dist + '/assets',
+        //   transformPath(targetPath, absolutePath) {
+        //     return targetPath.replace('src/assets', '');
+        //   }
+        // },
+      ]
+    }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       minify: {
