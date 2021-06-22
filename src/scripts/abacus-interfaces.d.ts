@@ -38,9 +38,9 @@ interface AbacusFunction {
    * @param options Options to use for this application of the abacus plugin.
    * @returns jQuery result.
    */
-  // (options?: AbacusOptions): JQuery;
-  // (fucnName: string, option?: string, value?: any): JQuery;
-  (options ? : AbacusOptions | string, option ? : any, value ? : any): JQuery;
+  // (options ? : AbacusOptions | string, option ? : any, value ? : any): JQuery;
+  (options ? : AbacusOptions): JQuery;
+  (options: string, option ? : any, value ? : any): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | object;
 }
 
 /**

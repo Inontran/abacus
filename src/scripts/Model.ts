@@ -8,7 +8,7 @@ export class Model{
    * @private
    */
   private _abacusProperty: AbacusOptions = {
-    animate: true,
+    animate: false,
     classes: {
       abacus: 'abacus',
       handle: 'abacus__handle',
