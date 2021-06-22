@@ -13,6 +13,7 @@ export class Model{
       abacus: 'abacus',
       handle: 'abacus__handle',
       range: 'abacus__range',
+      disabled: 'abacus_disabled',
     },
     disabled: false,
     max: 100,
@@ -81,7 +82,7 @@ export class Model{
 
     // classes
     if( typeof abacusProperty.classes === 'object' ){
-      const arrClassName: string[] = ['abacus', 'range', 'handle'];
+      const arrClassName: string[] = ['abacus', 'range', 'handle', 'disabled'];
 
       for (let i = 0; i < arrClassName.length; i++) {
         if( typeof abacusProperty.classes[arrClassName[i]] === 'string' && this._abacusProperty.classes ){

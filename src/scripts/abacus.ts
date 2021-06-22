@@ -34,10 +34,12 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
 
 
         case 'disable':
+          view.option('disabled', true);
           break;
 
 
         case 'enable':
+          view.option('disabled', false);
           break;
 
           

@@ -24,6 +24,13 @@ export class WidgetContainer{
    */
   private _className: string;
 
+  /**
+   * Название класса HTML-элемента.
+   * @type {string}
+   * @private
+   */
+  private _classNameDisabled: string;
+
 
   /**
    * @constructor
@@ -34,6 +41,7 @@ export class WidgetContainer{
   constructor(htmlElement: HTMLAbacusElement, className?: string){
     this._htmlElement = htmlElement;
     this._className = className ? className : 'abacus';
+    this._classNameDisabled = 'abacus_disabled';
     this._htmlElement.classList.add(this._className);
   }
 
@@ -78,5 +86,29 @@ export class WidgetContainer{
     this._htmlElement.classList.remove(this._className);
     this._htmlElement.classList.add(name);
     this._className = name;
+  }
+
+
+  /**
+   * Геттер названия класса HTML-элемента в состоянии "выключен".
+   */
+  public get classNameDisabled() : string {
+    return this._classNameDisabled;
+  }
+  
+  
+  /**
+   * Сеттер названия класса HTML-элемента в состоянии "выключен". 
+   * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+   * @param {string} name - Название класса.
+   */
+  public set classNameDisabled(name : string) {
+    if( this._classNameDisabled ){
+      this._htmlElement.classList.remove(this._classNameDisabled);
+    }
+    if( name ){
+      this._htmlElement.classList.add(name);
+    }
+    this._classNameDisabled = name;
   }
 }

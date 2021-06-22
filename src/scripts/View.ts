@@ -72,6 +72,13 @@ export class View{
    * @private
    */
   private _customEventStop: CustomEvent;
+  
+  /**
+   * Включен или выключен слайдер. Если равен false, то включен.
+   * @type {boolean}
+   * @private
+   */
+  private _isDisabled: boolean = false;
 
 
   /**
@@ -125,6 +132,9 @@ export class View{
 
     this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
+      if( viewInstance._isDisabled ){
+        return;
+      }
       let left: number = this.getPosLeftPercent(event.clientX);
       let newAbacusValue: number = this.getValFromPosPercent(left);
       this._presenter.setAbacusValue(newAbacusValue);
@@ -366,6 +376,27 @@ export class View{
     }
     if( abacusProperty.classes?.range ){
       this._range.className = abacusProperty.classes?.range;
+    }
+
+    // Включаем или отключаем слайдер
+    this.toggleDisable(abacusProperty.disabled);
+  }
+
+
+  toggleDisable(off?: boolean){
+    if( off === undefined || off === null ){
+      this._isDisabled = !this._isDisabled;
+    }
+    else{
+      this._isDisabled = !!off;
+    }
+
+    let abacusPropertyClasses = this._presenter.getModelAbacusProperty().classes;
+    if( this._isDisabled ){
+      this._widgetContainer.classNameDisabled = abacusPropertyClasses?.disabled ? abacusPropertyClasses.disabled : 'abacus_disabled';
+    }
+    else{
+      this._widgetContainer.classNameDisabled = '';
     }
   }
 
