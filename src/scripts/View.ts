@@ -80,6 +80,13 @@ export class View{
    */
   private _isDisabled: boolean = false;
 
+  /**
+   * Перемещается ли бегунок в данный момент с помощью мыши.
+   * @type {boolean}
+   * @private
+   */
+  private _isDragHandle: boolean = false;
+
 
   /**
    * @constructor
@@ -130,17 +137,54 @@ export class View{
       cancelable: true,
     });
 
+    // обработчики ------
     this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
+      event.preventDefault();
+      if( viewInstance._isDisabled || event.target === this._handleItem.htmlElement ){
+        return;
+      }
+      viewInstance._mouseHandler(event);
+    });
+
+
+    this._handleItem.htmlElement.addEventListener('mousedown', (event: MouseEvent) => {
       event.preventDefault();
       if( viewInstance._isDisabled ){
         return;
       }
-      let left: number = this.getPosLeftPercent(event.clientX);
-      let newAbacusValue: number = this.getValFromPosPercent(left);
-      this._presenter.setAbacusValue(newAbacusValue);
-      viewInstance.updateView();
-      this._eventChangeWrapper(event);
-    });
+      viewInstance._isDragHandle = true;
+      viewInstance._eventStartWrapper(event);
+    }, {passive: true});
+
+
+    let handleMovingTimer: null | NodeJS.Timeout = null;
+
+    document.addEventListener('mousemove', (event: MouseEvent) => {
+      event.preventDefault();
+      if( viewInstance._isDisabled ){
+        return;
+      }
+
+      if(handleMovingTimer !== null) {
+				clearTimeout(handleMovingTimer);        
+			}
+			handleMovingTimer = setTimeout(function() {
+				if( viewInstance._isDragHandle ){
+          viewInstance._mouseHandler(event);
+          viewInstance._eventSlideWrapper(event);
+        }
+			}, 15);
+    }, {passive: true});
+
+
+    document.addEventListener('mouseup', (event: MouseEvent) => {
+      event.preventDefault();
+      if( viewInstance._isDragHandle ){
+        viewInstance._eventStopWrapper(event);
+      }
+      viewInstance._isDragHandle = false;
+    }, {passive: true});
+    // ------
 
     this.updateView();
 
@@ -457,5 +501,86 @@ export class View{
     }
 
     return dispatchEventResult;
+  }
+
+
+  /**
+   * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
+   * @private
+   * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   */
+  private _eventSlideWrapper(event?: Event): boolean{
+    if( ! event ){
+      event = this._customEventSlide;
+    }
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
+    const viewInstance = this;
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    if( typeof abacusProperty?.slide === 'function' ){
+      abacusProperty.slide(event, viewInstance._getEventUIData());
+    }
+
+    return dispatchEventResult;
+  }
+
+
+  /**
+   * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
+   * @private
+   * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   */
+  private _eventStartWrapper(event?: Event): boolean{
+    if( ! event ){
+      event = this._customEventStart;
+    }
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
+    const viewInstance = this;
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    if( typeof abacusProperty?.start === 'function' ){
+      abacusProperty.start(event, viewInstance._getEventUIData());
+    }
+
+    return dispatchEventResult;
+  }
+
+
+  /**
+   * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
+   * @private
+   * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   */
+  private _eventStopWrapper(event?: Event): boolean{
+    if( ! event ){
+      event = this._customEventStop;
+    }
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
+    const viewInstance = this;
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
+    if( typeof abacusProperty?.stop === 'function' ){
+      abacusProperty.stop(event, viewInstance._getEventUIData());
+    }
+
+    return dispatchEventResult;
+  }
+
+
+  /**
+   * Функция, обрабатывающая позицию мыши.
+   * @param {MouseEvent} event - Объект события мыши.
+   */
+  private _mouseHandler(event: MouseEvent): void{
+    let viewInstance = this;
+    let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    let oldValue = abacusProperty.value;
+    let left: number = this.getPosLeftPercent(event.clientX);
+    let newAbacusValue: number = this.getValFromPosPercent(left);
+    viewInstance._presenter.setAbacusValue(newAbacusValue);
+    if( oldValue !== abacusProperty.value ){
+      viewInstance.updateView();
+      viewInstance._eventChangeWrapper(event);
+    }
   }
 }
