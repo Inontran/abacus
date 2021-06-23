@@ -28,6 +28,8 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
     }
 
     if( typeof paramOptions === 'string' ){
+      let resultOption: any;
+
       switch (paramOptions) {
         case 'destroy':
           break;
@@ -44,11 +46,11 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
 
           
         case 'instance':
+          returnResult = view;
           break;
 
 
         case 'option':
-          let resultOption: any;
           if( typeof option === 'object'){
             resultOption = view.option(undefined, option);
           }
@@ -63,6 +65,11 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
 
 
         case 'value':
+          resultOption = view.option('value', optionValue);
+
+          if( typeof resultOption !== undefined ){
+            returnResult = resultOption;
+          }
           break;
 
           
