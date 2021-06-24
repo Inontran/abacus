@@ -9,6 +9,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
 const PATHS = {
+	root: __dirname,
   src: path.resolve(__dirname, './src'),
   dist: path.resolve(__dirname, './dist'),
 };
@@ -85,6 +86,18 @@ module.exports = {
         {
           from: PATHS.src + '/styles/images',
           to: PATHS.dist + '/images/'
+        },
+				{
+          from: PATHS.root + '/node_modules/jquery/dist/jquery.min.js',
+          to: PATHS.dist
+        },
+				{
+          from: PATHS.root + '/node_modules/mocha/mocha.js',
+          to: PATHS.dist
+        },
+				{
+          from: PATHS.root + '/node_modules/mocha/mocha.css',
+          to: PATHS.dist
         },
         // {
         //   from: PATHS.src + '/assets/**/*',
