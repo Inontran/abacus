@@ -75,6 +75,12 @@ export declare class View {
      */
     private _isDragHandle;
     /**
+     * Таймер перемещения мыши или пальца на экране.
+     * @type {null | NodeJS.Timeout}
+     * @private
+     */
+    private _handleMovingTimer;
+    /**
      * @constructor
      * @this   {View}
      * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент, в котором будет находиться инициализированный плагин.
@@ -187,4 +193,12 @@ export declare class View {
      * @param {MouseEvent} event - Объект события мыши.
      */
     private _mouseHandler;
+    /**
+     * Установка обработчиков событий.
+     */
+    private _bindEventListeners;
+    private _handlerWidgetContainerClick;
+    private _handlerHandleItemClickStart;
+    private _handlerHandleItemClickMove;
+    private _handlerHandleItemClickStop;
 }

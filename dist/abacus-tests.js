@@ -11588,7 +11588,6 @@ var View = /** @class */ (function () {
      * @param  {object} data - Другие данные.
      */
     function View(abacusHtmlContainer, options, data) {
-        var _this = this;
         var _a, _b, _c;
         /**
          * Включен или выключен слайдер. Если равен false, то включен.
@@ -11602,6 +11601,12 @@ var View = /** @class */ (function () {
          * @private
          */
         this._isDragHandle = false;
+        /**
+         * Таймер перемещения мыши или пальца на экране.
+         * @type {null | NodeJS.Timeout}
+         * @private
+         */
+        this._handleMovingTimer = null;
         var viewInstance = this;
         this._presenter = new Presenter_1.Presenter(options);
         this._presenter.eventTarget.addEventListener('update-model', function (event) {
@@ -11633,46 +11638,7 @@ var View = /** @class */ (function () {
             bubbles: true,
             cancelable: true,
         });
-        // обработчики ------
-        this._widgetContainer.htmlElement.addEventListener('click', function (event) {
-            event.preventDefault();
-            if (viewInstance._isDisabled || event.target === _this._handleItem.htmlElement) {
-                return;
-            }
-            viewInstance._mouseHandler(event);
-        });
-        this._handleItem.htmlElement.addEventListener('mousedown', function (event) {
-            event.preventDefault();
-            if (viewInstance._isDisabled) {
-                return;
-            }
-            viewInstance._isDragHandle = true;
-            viewInstance._eventStartWrapper(event);
-        }, { passive: true });
-        var handleMovingTimer = null;
-        document.addEventListener('mousemove', function (event) {
-            event.preventDefault();
-            if (viewInstance._isDisabled) {
-                return;
-            }
-            if (handleMovingTimer !== null) {
-                clearTimeout(handleMovingTimer);
-            }
-            handleMovingTimer = setTimeout(function () {
-                if (viewInstance._isDragHandle) {
-                    viewInstance._mouseHandler(event);
-                    viewInstance._eventSlideWrapper(event);
-                }
-            }, 15);
-        }, { passive: true });
-        document.addEventListener('mouseup', function (event) {
-            event.preventDefault();
-            if (viewInstance._isDragHandle) {
-                viewInstance._eventStopWrapper(event);
-            }
-            viewInstance._isDragHandle = false;
-        }, { passive: true });
-        // ------
+        this._bindEventListeners();
         this.updateView();
         this._eventCreateWrapper();
     }
@@ -12019,13 +11985,81 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         var oldValue = abacusProperty.value;
-        var left = this.getPosLeftPercent(event.clientX);
+        var left = 0;
+        if (event instanceof MouseEvent) {
+            left = this.getPosLeftPercent(event.clientX);
+        }
+        else if (event instanceof TouchEvent) {
+            if (event.touches[0]) {
+                left = event.touches[0].screenX;
+            }
+            else {
+                left = event.changedTouches[0].screenX;
+                console.log(left);
+            }
+        }
         var newAbacusValue = this.getValFromPosPercent(left);
         viewInstance._presenter.setAbacusValue(newAbacusValue);
         if (oldValue !== abacusProperty.value) {
             viewInstance.updateView();
             viewInstance._eventChangeWrapper(event);
         }
+    };
+    /**
+     * Установка обработчиков событий.
+     */
+    View.prototype._bindEventListeners = function () {
+        var viewInstance = this;
+        viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+        viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+        viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
+        viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
+        document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
+        document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
+        document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+        document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+        document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+    };
+    View.prototype._handlerWidgetContainerClick = function (event) {
+        event.preventDefault();
+        var viewInstance = this;
+        if (viewInstance._isDisabled || event.target === this._handleItem.htmlElement) {
+            return;
+        }
+        viewInstance._mouseHandler(event);
+    };
+    View.prototype._handlerHandleItemClickStart = function (event) {
+        event.preventDefault();
+        var viewInstance = this;
+        if (viewInstance._isDisabled) {
+            return;
+        }
+        viewInstance._isDragHandle = true;
+        viewInstance._eventStartWrapper(event);
+    };
+    View.prototype._handlerHandleItemClickMove = function (event) {
+        event.preventDefault();
+        var viewInstance = this;
+        if (viewInstance._isDisabled) {
+            return;
+        }
+        if (viewInstance._handleMovingTimer !== null) {
+            clearTimeout(viewInstance._handleMovingTimer);
+        }
+        viewInstance._handleMovingTimer = setTimeout(function () {
+            if (viewInstance._isDragHandle) {
+                viewInstance._mouseHandler(event);
+                viewInstance._eventSlideWrapper(event);
+            }
+        }, 15);
+    };
+    View.prototype._handlerHandleItemClickStop = function (event) {
+        event.preventDefault();
+        var viewInstance = this;
+        if (viewInstance._isDragHandle) {
+            viewInstance._eventStopWrapper(event);
+        }
+        viewInstance._isDragHandle = false;
     };
     return View;
 }());
@@ -12760,4 +12794,4 @@ return typeDetect;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=08e5ec63118ef49e8eac
+//# sourceMappingURL=abacus-tests.js.map?v=9f24b0c55857a5658ee8

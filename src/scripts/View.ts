@@ -89,6 +89,14 @@ export class View{
 
 
   /**
+   * Таймер перемещения мыши или пальца на экране.
+   * @type {null | NodeJS.Timeout}
+   * @private
+   */
+  private _handleMovingTimer: null | NodeJS.Timeout = null;
+
+
+  /**
    * @constructor
    * @this   {View}
    * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент, в котором будет находиться инициализированный плагин.
@@ -137,54 +145,7 @@ export class View{
       cancelable: true,
     });
 
-    // обработчики ------
-    this._widgetContainer.htmlElement.addEventListener('click', (event: MouseEvent) => {
-      event.preventDefault();
-      if( viewInstance._isDisabled || event.target === this._handleItem.htmlElement ){
-        return;
-      }
-      viewInstance._mouseHandler(event);
-    });
-
-
-    this._handleItem.htmlElement.addEventListener('mousedown', (event: MouseEvent) => {
-      event.preventDefault();
-      if( viewInstance._isDisabled ){
-        return;
-      }
-      viewInstance._isDragHandle = true;
-      viewInstance._eventStartWrapper(event);
-    }, {passive: true});
-
-
-    let handleMovingTimer: null | NodeJS.Timeout = null;
-
-    document.addEventListener('mousemove', (event: MouseEvent) => {
-      event.preventDefault();
-      if( viewInstance._isDisabled ){
-        return;
-      }
-
-      if(handleMovingTimer !== null) {
-				clearTimeout(handleMovingTimer);        
-			}
-			handleMovingTimer = setTimeout(function() {
-				if( viewInstance._isDragHandle ){
-          viewInstance._mouseHandler(event);
-          viewInstance._eventSlideWrapper(event);
-        }
-			}, 15);
-    }, {passive: true});
-
-
-    document.addEventListener('mouseup', (event: MouseEvent) => {
-      event.preventDefault();
-      if( viewInstance._isDragHandle ){
-        viewInstance._eventStopWrapper(event);
-      }
-      viewInstance._isDragHandle = false;
-    }, {passive: true});
-    // ------
+    this._bindEventListeners();
 
     this.updateView();
 
@@ -571,16 +532,98 @@ export class View{
    * Функция, обрабатывающая позицию мыши.
    * @param {MouseEvent} event - Объект события мыши.
    */
-  private _mouseHandler(event: MouseEvent): void{
+  private _mouseHandler(event: MouseEvent | TouchEvent): void{
     let viewInstance = this;
     let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
     let oldValue = abacusProperty.value;
-    let left: number = this.getPosLeftPercent(event.clientX);
+
+    let left: number = 0;
+    if( event instanceof MouseEvent ){
+      left = this.getPosLeftPercent(event.clientX);
+    } else if(event instanceof TouchEvent){
+      if( event.touches[0] ){
+        left = event.touches[0].screenX;
+      } else{
+        left = event.changedTouches[0].screenX;
+      }
+    }
+
     let newAbacusValue: number = this.getValFromPosPercent(left);
     viewInstance._presenter.setAbacusValue(newAbacusValue);
     if( oldValue !== abacusProperty.value ){
       viewInstance.updateView();
       viewInstance._eventChangeWrapper(event);
     }
+  }
+
+
+  /**
+   * Установка обработчиков событий.
+   */
+  private _bindEventListeners(): void{
+    const viewInstance = this;
+
+    viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+    viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+
+    viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
+    viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), {passive: true});
+
+    document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), {passive: true});
+    document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), {passive: true});
+
+    document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+    document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+    document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+  }
+
+
+  private _handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void{
+    event.preventDefault();
+    const viewInstance = this;
+    if( viewInstance._isDisabled || event.target === this._handleItem.htmlElement ){
+      return;
+    }
+    viewInstance._mouseHandler(event);
+  }
+
+
+  private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
+    event.preventDefault();
+    const viewInstance = this;
+    if( viewInstance._isDisabled ){
+      return;
+    }
+    viewInstance._isDragHandle = true;
+    viewInstance._eventStartWrapper(event);
+  }
+
+
+  private _handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void{
+    event.preventDefault();
+    const viewInstance = this;
+    if( viewInstance._isDisabled ){
+      return;
+    }
+
+    if(viewInstance._handleMovingTimer !== null) {
+      clearTimeout(viewInstance._handleMovingTimer);        
+    }
+    viewInstance._handleMovingTimer = setTimeout(function() {
+      if( viewInstance._isDragHandle ){
+        viewInstance._mouseHandler(event);
+        viewInstance._eventSlideWrapper(event);
+      }
+    }, 15);
+  }
+
+
+  private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
+    event.preventDefault();
+    const viewInstance = this;
+    if( viewInstance._isDragHandle ){
+      viewInstance._eventStopWrapper(event);
+    }
+    viewInstance._isDragHandle = false;
   }
 }
