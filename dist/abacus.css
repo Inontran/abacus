@@ -1,0 +1,40 @@
+.abacus {
+  position: relative;
+  display: block;
+  height: 10px;
+  background-color: gold;
+  border: 2px solid brown; }
+  .abacus,
+  .abacus * {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
+  .abacus .abacus__handle {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    background-color: silver; }
+  .abacus .abacus__range {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    height: 6px;
+    width: auto;
+    background-color: brown; }
+  .abacus:not(.abacus_disabled),
+  .abacus:not(.abacus_disabled) .abacus__handle {
+    cursor: pointer; }
+  .abacus.abacus_disabled {
+    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feColorMatrix type="matrix" color-interpolation-filters="sRGB" values="0.6063000000000001 0.3576 0.0361 0 0 0.1063 0.8575999999999999 0.0361 0 0 0.1063 0.3576 0.5361 0 0 0 0 0 1 0" /></filter></svg>#filter');
+    -webkit-filter: grayscale(0.5);
+            filter: grayscale(0.5); }
+
+
+/*# sourceMappingURL=abacus.css.map?v=d3c3ca00e1b91ffd111b*/
