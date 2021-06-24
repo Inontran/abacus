@@ -1,6 +1,88 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@ungap/event-target/cjs/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@ungap/event-target/cjs/index.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+/*! (c) Andrea Giammarchi - ISC */
+var self = {};
+try {
+  self.EventTarget = (new EventTarget).constructor;
+} catch(EventTarget) {
+  (function (Object, wm) {
+    var create = Object.create;
+    var defineProperty = Object.defineProperty;
+    var proto = EventTarget.prototype;
+    define(proto, 'addEventListener', function (type, listener, options) {
+      for (var
+        secret = wm.get(this),
+        listeners = secret[type] || (secret[type] = []),
+        i = 0, length = listeners.length; i < length; i++
+      ) {
+        if (listeners[i].listener === listener)
+          return;
+      }
+      listeners.push({target: this, listener: listener, options: options});
+    });
+    define(proto, 'dispatchEvent', function (event) {
+      var secret = wm.get(this);
+      var listeners = secret[event.type];
+      if (listeners) {
+        define(event, 'target', this);
+        define(event, 'currentTarget', this);
+        listeners.slice(0).forEach(dispatch, event);
+        delete event.currentTarget;
+        delete event.target;
+      }
+      return true;
+    });
+    define(proto, 'removeEventListener', function (type, listener) {
+      for (var
+        secret = wm.get(this),
+        /* istanbul ignore next */
+        listeners = secret[type] || (secret[type] = []),
+        i = 0, length = listeners.length; i < length; i++
+      ) {
+        if (listeners[i].listener === listener) {
+          listeners.splice(i, 1);
+          return;
+        }
+      }
+    });
+    self.EventTarget = EventTarget;
+    function EventTarget() {'use strict';
+      wm.set(this, create(null));
+    }
+    function define(target, name, value) {
+      defineProperty(
+        target,
+        name,
+        {
+          configurable: true,
+          writable: true,
+          value: value
+        }
+      );
+    }
+    function dispatch(info) {
+      var options = info.options;
+      if (options && options.once)
+        info.target.removeEventListener(this.type, info.listener);
+      if (typeof info.listener === 'function')
+        info.listener.call(info.target, this);
+      else
+        info.listener.handleEvent(this);
+    }
+  }(Object, new WeakMap));
+}
+module.exports = self.EventTarget;
+
+
+/***/ }),
+
 /***/ "./node_modules/assertion-error/index.js":
 /*!***********************************************!*\
   !*** ./node_modules/assertion-error/index.js ***!
@@ -11025,12 +11107,16 @@ exports.Handle = Handle;
 /*!******************************!*\
   !*** ./src/scripts/Model.ts ***!
   \******************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Model = void 0;
+var event_target_1 = __importDefault(__webpack_require__(/*! @ungap/event-target */ "./node_modules/@ungap/event-target/cjs/index.js"));
 /**
  * Класс Model реализует "Модель" паттерна проектирования MVP.
  * В этом классе хранится данные слайдера, а также бизнес логика работы с этими данными.
@@ -11065,7 +11151,7 @@ var Model = /** @class */ (function () {
         if (data) {
             this.abacusProperty = data;
         }
-        this._eventTarget = new EventTarget();
+        this._eventTarget = new event_target_1.default();
         this._eventUpdateModel = new CustomEvent('update-model');
     }
     Object.defineProperty(Model.prototype, "abacusProperty", {
@@ -11287,12 +11373,16 @@ exports.Model = Model;
 /*!**********************************!*\
   !*** ./src/scripts/Presenter.ts ***!
   \**********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Presenter = void 0;
+var event_target_1 = __importDefault(__webpack_require__(/*! @ungap/event-target */ "./node_modules/@ungap/event-target/cjs/index.js"));
 var Model_1 = __webpack_require__(/*! ./Model */ "./src/scripts/Model.ts");
 /**
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
@@ -11306,7 +11396,7 @@ var Presenter = /** @class */ (function () {
     function Presenter(options) {
         var presenterInstance = this;
         this._model = new Model_1.Model(options);
-        this._eventTarget = new EventTarget();
+        this._eventTarget = new event_target_1.default();
         this._eventUpdateModel = new CustomEvent('update-model');
         this._model.eventTarget.addEventListener('update-model', function (event) {
             presenterInstance._eventTarget.dispatchEvent(presenterInstance._eventUpdateModel);
@@ -12670,4 +12760,4 @@ return typeDetect;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=7abd40fe1b8719981382
+//# sourceMappingURL=abacus-tests.js.map?v=08e5ec63118ef49e8eac
