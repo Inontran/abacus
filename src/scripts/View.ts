@@ -537,15 +537,16 @@ export class View{
     let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
     let oldValue = abacusProperty.value;
 
+    console.log(event);
+
     let left: number = 0;
     if( event instanceof MouseEvent ){
       left = this.getPosLeftPercent(event.clientX);
-    } else if(event instanceof TouchEvent){
-      if( event.touches[0] ){
-        left = event.touches[0].screenX;
-      } else{
-        left = event.changedTouches[0].screenX;
-      }
+      console.log( event.clientX );
+    } 
+    else if(event instanceof TouchEvent){
+      left = this.getPosLeftPercent(event.changedTouches[0].screenX);
+      console.log( event.changedTouches[0].screenX );
     }
 
     let newAbacusValue: number = this.getValFromPosPercent(left);
@@ -565,6 +566,27 @@ export class View{
 
     viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
     viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+    // viewInstance._widgetContainer.htmlElement.addEventListener('click', function(event: MouseEvent | TouchEvent) {
+    //   let x: number = 0;
+    //   if( event instanceof MouseEvent ){
+    //     x = event.clientX;
+    //   } 
+    //   else if(event instanceof TouchEvent){
+    //     x = event.changedTouches[0].screenX;
+    //   }
+    //   console.log('x == ' + x);
+    // });
+    // viewInstance._widgetContainer.htmlElement.addEventListener('touchend', function(event: MouseEvent | TouchEvent) {
+    //   let x: number = 0;
+    //   if( event instanceof MouseEvent ){
+    //     x = event.clientX;
+    //   } 
+    //   else if(event instanceof TouchEvent){
+    //     x = event.changedTouches[0].screenX;
+    //   }
+    //   console.log('x == ' + x);
+    // });
+
 
     viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
     viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), {passive: true});

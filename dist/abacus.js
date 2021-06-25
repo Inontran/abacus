@@ -1093,18 +1093,15 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         var oldValue = abacusProperty.value;
+        console.log(event);
         var left = 0;
         if (event instanceof MouseEvent) {
             left = this.getPosLeftPercent(event.clientX);
+            console.log(event.clientX);
         }
         else if (event instanceof TouchEvent) {
-            if (event.touches[0]) {
-                left = event.touches[0].screenX;
-            }
-            else {
-                left = event.changedTouches[0].screenX;
-                console.log(left);
-            }
+            left = this.getPosLeftPercent(event.changedTouches[0].screenX);
+            console.log(event.changedTouches[0].screenX);
         }
         var newAbacusValue = this.getValFromPosPercent(left);
         viewInstance._presenter.setAbacusValue(newAbacusValue);
@@ -1120,6 +1117,26 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+        // viewInstance._widgetContainer.htmlElement.addEventListener('click', function(event: MouseEvent | TouchEvent) {
+        //   let x: number = 0;
+        //   if( event instanceof MouseEvent ){
+        //     x = event.clientX;
+        //   } 
+        //   else if(event instanceof TouchEvent){
+        //     x = event.changedTouches[0].screenX;
+        //   }
+        //   console.log('x == ' + x);
+        // });
+        // viewInstance._widgetContainer.htmlElement.addEventListener('touchend', function(event: MouseEvent | TouchEvent) {
+        //   let x: number = 0;
+        //   if( event instanceof MouseEvent ){
+        //     x = event.clientX;
+        //   } 
+        //   else if(event instanceof TouchEvent){
+        //     x = event.changedTouches[0].screenX;
+        //   }
+        //   console.log('x == ' + x);
+        // });
         viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
         viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
@@ -1426,4 +1443,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=9f24b0c55857a5658ee8
+//# sourceMappingURL=abacus.js.map?v=26087b99ce1d966cde73
