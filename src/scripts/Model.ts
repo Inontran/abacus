@@ -36,7 +36,7 @@ export class Model{
 
   /**
    * Событие изменения данных в Модели.
-   * @private 
+   * @private
    */
   private _eventUpdateModel: CustomEvent;
 
@@ -48,7 +48,7 @@ export class Model{
     if( data ){
       this.abacusProperty = data;
     }
-    
+
     this._eventTarget = new EventTarget();
     this._eventUpdateModel = new CustomEvent('update-model');
   }
@@ -69,9 +69,9 @@ export class Model{
   public set abacusProperty(abacusProperty: AbacusOptions) {
     // animate
     if( abacusProperty.animate !== undefined ){
-      if (abacusProperty.animate == 'fast' 
-      || abacusProperty.animate == 'slow' 
-      || typeof abacusProperty.animate === 'boolean') 
+      if (abacusProperty.animate === 'fast'
+      || abacusProperty.animate === 'slow'
+      || typeof abacusProperty.animate === 'boolean')
       {
         this._abacusProperty.animate = abacusProperty.animate;
       }
@@ -87,9 +87,9 @@ export class Model{
     if( typeof abacusProperty.classes === 'object' ){
       const arrClassName: string[] = ['abacus', 'range', 'handle', 'disabled'];
 
-      for (let i = 0; i < arrClassName.length; i++) {
-        if( typeof abacusProperty.classes[arrClassName[i]] === 'string' && this._abacusProperty.classes ){
-          this._abacusProperty.classes[arrClassName[i]] = abacusProperty.classes[arrClassName[i]];
+      for (const arrItem of arrClassName) {
+        if( typeof abacusProperty.classes[arrItem] === 'string' && this._abacusProperty.classes ){
+          this._abacusProperty.classes[arrItem] = abacusProperty.classes[arrItem];
         }
       }
     }
@@ -99,7 +99,7 @@ export class Model{
       this._abacusProperty.disabled = !!abacusProperty.disabled;
     }
 
-    //max
+    // max
     if( abacusProperty.max !== undefined && abacusProperty.max !== null ){
       if( !isNaN(abacusProperty.max as number) ){
         if( typeof abacusProperty.max === 'string' ){
@@ -111,7 +111,7 @@ export class Model{
       }
     }
 
-    //min
+    // min
     if( abacusProperty.min !== undefined && abacusProperty.min !== null ){
       if( !isNaN(abacusProperty.min as number) ){
         if( typeof abacusProperty.min === 'string' ){
@@ -124,12 +124,12 @@ export class Model{
     }
 
     if( (this._abacusProperty.max as number) < (this._abacusProperty.min as number) ){
-      let tmpMax = this._abacusProperty.max;
+      const tmpMax = this._abacusProperty.max;
       this._abacusProperty.max = this._abacusProperty.min;
       this._abacusProperty.min = tmpMax;
     }
 
-    //step
+    // step
     if( abacusProperty.step !== undefined && abacusProperty.step !== null ){
       if( !isNaN(abacusProperty.step as number) ){
         if( typeof abacusProperty.step === 'string' ){
@@ -141,7 +141,7 @@ export class Model{
       }
     }
 
-    //value
+    // value
     if( abacusProperty.value !== undefined && abacusProperty.value !== null ){
       if( !isNaN(abacusProperty.value as number) ){
         if( typeof abacusProperty.value === 'string' ){
@@ -152,9 +152,9 @@ export class Model{
       }
     }
 
-    //orientation
+    // orientation
     if( abacusProperty.orientation !== undefined ){
-      if( abacusProperty.orientation == 'vertical' )
+      if( abacusProperty.orientation === 'vertical' )
       {
         this._abacusProperty.orientation = 'vertical';
       }
@@ -163,40 +163,40 @@ export class Model{
       }
     }
 
-    //range
+    // range
     if( abacusProperty.range !== undefined ){
       if( abacusProperty.range === false || abacusProperty.range === true){
         this._abacusProperty.range = abacusProperty.range;
       }
-      else if( abacusProperty.range == 'max' ){
+      else if( abacusProperty.range === 'max' ){
         this._abacusProperty.range = 'max';
       }
-      else if( abacusProperty.range == 'min' ){
+      else if( abacusProperty.range === 'min' ){
         this._abacusProperty.range = 'min';
       }
     }
 
-    //change
+    // change
     if( abacusProperty.change !== undefined ){
       this._abacusProperty.change = abacusProperty.change;
     }
 
-    //create
+    // create
     if( abacusProperty.create !== undefined ){
       this._abacusProperty.create = abacusProperty.create;
     }
 
-    //slide
+    // slide
     if( abacusProperty.slide !== undefined ){
       this._abacusProperty.slide = abacusProperty.slide;
     }
 
-    //start
+    // start
     if( abacusProperty.start !== undefined ){
       this._abacusProperty.start = abacusProperty.start;
     }
 
-    //stop
+    // stop
     if( abacusProperty.stop !== undefined ){
       this._abacusProperty.stop = abacusProperty.stop;
     }
@@ -233,9 +233,9 @@ export class Model{
    */
   roundValuePerStep(value: number): number{
     let result: number = value;
-    let minVal: number = this._abacusProperty.min as number;
-    let maxVal: number = this._abacusProperty.max as number;
-    let step: number = this._abacusProperty.step as number;
+    const minVal: number = this._abacusProperty.min as number;
+    const maxVal: number = this._abacusProperty.max as number;
+    const step: number = this._abacusProperty.step as number;
 
     if( value >= maxVal ){
       return maxVal;
@@ -250,12 +250,12 @@ export class Model{
           result = maxVal;
           break;
         }
-        
-        let prevVal: number = valByStep;
-        let	positivePrevVal: number = prevVal < 0 ? prevVal * -1 : prevVal;// берем предыдущее значение по модулю
-        let nextVal: number = valByStep + step;
-        let	positiveNextVal: number = nextVal < 0 ? nextVal * -1 : nextVal;// берем следующее значение по модулю
-        let positiveValue: number = value < 0 ? value * -1 : value;// берем переданное значение по модулю
+
+        const prevVal: number = valByStep;
+        const	positivePrevVal: number = prevVal < 0 ? prevVal * -1 : prevVal;// берем предыдущее значение по модулю
+        const nextVal: number = valByStep + step;
+        const	positiveNextVal: number = nextVal < 0 ? nextVal * -1 : nextVal;// берем следующее значение по модулю
+        const positiveValue: number = value < 0 ? value * -1 : value;// берем переданное значение по модулю
 
         let deltaPrevValue: number;
         let deltaNextValue: number;
@@ -277,7 +277,7 @@ export class Model{
         break;
       }
     }
-    
+
     return result;
   }
 

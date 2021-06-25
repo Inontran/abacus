@@ -6,18 +6,21 @@ import EventTarget from '@ungap/event-target';
 export declare class Presenter {
     /**
      * Ссылка на Модель, которая содержит данные слайдера.
+     * @type {Model}
      * @private
      */
     private _model;
     /**
      * Объект, который может генерировать события и может иметь подписчиков на эти события.
+     * @type {EventTarget}
      * @private
      */
     private _eventTarget;
     /**
-    * Событие изменения данных в Модели.
-    * @private
-    */
+     * Событие изменения данных в Модели.
+     * @type {CustomEvent}
+     * @private
+     */
     private _eventUpdateModel;
     /**
      * @this Presenter
@@ -41,6 +44,6 @@ export declare class Presenter {
     setAbacusValue(value: number): void;
     /**
      * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
-    */
+     */
     get eventTarget(): EventTarget;
 }

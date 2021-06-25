@@ -10,7 +10,7 @@ import {Range} from './Range';
  */
 export class View{
   /**
-   * Ссылка на Представителя, который связывает объект класса View с объектом класса Model 
+   * Ссылка на Представителя, который связывает объект класса View с объектом класса Model
    * по паттерну проектирования MVP.
    * @type  {Presenter}
    * @private
@@ -39,7 +39,7 @@ export class View{
   private _handleItem: Handle;
 
   /**
-   * Объект события изменения значения слайдера, как у браузерных полей ввода "input". 
+   * Объект события изменения значения слайдера, как у браузерных полей ввода "input".
    * @type {CustomEvent}
    * @private
    */
@@ -72,7 +72,7 @@ export class View{
    * @private
    */
   private _customEventStop: CustomEvent;
-  
+
   /**
    * Включен или выключен слайдер. Если равен false, то включен.
    * @type {boolean}
@@ -99,21 +99,22 @@ export class View{
   /**
    * @constructor
    * @this   {View}
-   * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент, в котором будет находиться инициализированный плагин.
+   * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
+   * в котором будет находиться инициализированный плагин.
    * @param  {AbacusOptions} options - Параметры настройки плагина.
    * @param  {object} data - Другие данные.
    */
   constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object){
-    let viewInstance = this;
+    const viewInstance = this;
 
     this._presenter = new Presenter(options);
-    this._presenter.eventTarget.addEventListener('update-model', function(event: Event){
+    this._presenter.eventTarget.addEventListener('update-model', (event: Event) => {
       // console.log('Модель обновилась!');
       viewInstance.updateView();
     });
-    
-    let abacusProperty = this._presenter.getModelAbacusProperty();
-    
+
+    const abacusProperty = this._presenter.getModelAbacusProperty();
+
     this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes?.abacus);
     this._widgetContainer.htmlElement.innerHTML = '';
     this._handleItem = new Handle(abacusProperty.classes?.handle);
@@ -134,7 +135,7 @@ export class View{
       bubbles: true,
       cancelable: true,
     });
-    
+
     this._customEventStart = new CustomEvent('abacus-start', {
       bubbles: true,
       cancelable: true,
@@ -161,8 +162,8 @@ export class View{
 	public get widgetContainer() : WidgetContainer {
 		return this._widgetContainer;
 	}
-	
-	
+
+
   /**
    * Геттер (функция получения) ссылки объекта-обертки HTML-элемента индикатора (progress bar).
    * @public
@@ -171,8 +172,8 @@ export class View{
 	public get range() : Range {
 		return this._range;
 	}
-	
-	
+
+
   /**
    * Геттер (функция получения) ссылки объекта-обертки HTML-элемента бегунка.
    * @public
@@ -181,19 +182,19 @@ export class View{
 	public get handleItem() : Handle {
 		return this._handleItem;
 	}
-	
+
 
   /**
-   * Функция, которая получает на входе координату клика по оси Х относительно окна браузера, 
+   * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
    * а возвращает количество процентов от начала (левого края) слайдера.
    * @param {number} clientX - Координата клика по оси Х относительно окна браузера.
    * @returns {number} - Количество процентов от начала (левого края) слайдера.
    */
   getPosLeftPercent(clientX: number): number{
     let result: number = 0;
-    let posLeftWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().left;
-    let widthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().width;
-    let leftPx: number = clientX - posLeftWidget;
+    const posLeftWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().left;
+    const widthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().width;
+    const leftPx: number = clientX - posLeftWidget;
     result = (leftPx / widthWidget) * 100;
     if( result < 0 ){
       result = 0;
@@ -206,7 +207,7 @@ export class View{
 
 
   /**
-   * Функция, которая получает на вход процент от начала слайдера, 
+   * Функция, которая получает на вход процент от начала слайдера,
    * а возвращает соответствующее значение кратно заданному шагу.
    * @deprecated
    * @param {number} percent - Позиция бегунка в процентах от начала слайдера.
@@ -214,11 +215,11 @@ export class View{
    */
   getPosPerStep(percent: number): number{
     let result: number = 0;
-    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
-    let minVal: number = options.min as number;
-    let maxVal: number = options.max as number;
-    let step: number = options.step as number;
-    let sizeStepPercent: number = (step / (maxVal - minVal)) * 100;
+    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const minVal: number = options.min as number;
+    const maxVal: number = options.max as number;
+    const step: number = options.step as number;
+    const sizeStepPercent: number = (step / (maxVal - minVal)) * 100;
     result = percent / sizeStepPercent;
     result = Math.round(result);
     result = result * sizeStepPercent;
@@ -233,12 +234,13 @@ export class View{
    */
   getPosFromValue(value: number): number{
     let result: number = 0;
-    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
-    let minVal: number = options.min as number;
+    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
-    // если минимальное значение меньше ноля, то 
-    // "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+    // если минимальное значение меньше ноля, то
+    // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
+    // на минимальное значение (minVal) по модулю
     if( minVal < 0 ){
       maxVal += (minVal * -1);
       value += (minVal * -1);
@@ -251,25 +253,26 @@ export class View{
     if( result > 100 ){
       return 100;
     }
-    
+
     return result;
   }
 
 
   /**
-   * Функция, которая получает на вход процент от начала слайдера, 
+   * Функция, которая получает на вход процент от начала слайдера,
    * а возвращает соответствующее значение.
    * @param {number} posPercent - Позиция бегунка в процентах от начала слайдера.
    * @returns {number} - Значение слайдера.
    */
   getValFromPosPercent(posPercent: number): number{
     let abacusValue: number = 0;
-    let options: AbacusOptions = this._presenter.getModelAbacusProperty();
-    let minVal: number = options.min as number;
+    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
-    // если минимальное значение меньше ноля, то 
-    // "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+    // если минимальное значение меньше ноля, то
+    // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
+    // на минимальное значение (minVal) по модулю
     if( minVal < 0 ){
       maxVal += (minVal * -1);
     }
@@ -282,15 +285,15 @@ export class View{
 
   /**
    * Функция получения и установки свойств слайдера.
-   * @param {AbacusOptions | string} optionName - 
-   * @param {any} value - 
+   * @param {AbacusOptions | string} optionName -
+   * @param {any} value -
    * @returns {}
    */
   option(optionName?: string, value?: AbacusOptions | any): any{
     if( typeof optionName === 'string' ){
       switch (optionName) {
         case 'animate':
-        case 'classes': 
+        case 'classes':
         case 'disabled':
         case 'max':
         case 'min':
@@ -301,7 +304,7 @@ export class View{
         case 'values':
           if( value !== undefined ){
             // это условие для установки конкретного свойства слайдера
-            let newProperty = new Object as AbacusOptions;
+            const newProperty = {} as AbacusOptions;
             newProperty[optionName] = value;
             this._presenter.setModelAbacusProperty(newProperty);
           }
@@ -325,20 +328,20 @@ export class View{
 
   /**
    * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
-   * @returns 
+   * @returns
    */
   updateView(): void{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
 
     // Добавляем или удалаем элементы инерфейса
     this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
-    
+
     if( abacusProperty.range ){
       switch (abacusProperty.range) {
         case 'max':
           this._range.rangeType = 'max';
           break;
-      
+
         default:
           this._range.rangeType = 'min';
           break;
@@ -351,8 +354,8 @@ export class View{
     }
 
     // Обновляем положение бегунка и индикатора
-    let currentValue: number = abacusProperty.value as number;
-    let posHandle: number = this.getPosFromValue(currentValue);
+    const currentValue: number = abacusProperty.value as number;
+    const posHandle: number = this.getPosFromValue(currentValue);
     this._handleItem.posLeft = posHandle;
     switch (this._range.rangeType) {
       case 'min':
@@ -365,10 +368,6 @@ export class View{
         this._range.htmlElement.style.left = 'auto';
         this._range.htmlElement.style.right = '0';
         this._range.width = 100 - posHandle;
-        break;
-    
-      default:
-        
         break;
     }
 
@@ -396,7 +395,7 @@ export class View{
       this._isDisabled = !!off;
     }
 
-    let abacusPropertyClasses = this._presenter.getModelAbacusProperty().classes;
+    const abacusPropertyClasses = this._presenter.getModelAbacusProperty().classes;
     if( this._isDisabled ){
       this._widgetContainer.classNameDisabled = abacusPropertyClasses?.disabled ? abacusPropertyClasses.disabled : 'abacus_disabled';
     }
@@ -412,11 +411,11 @@ export class View{
    * @returns {EventUIData} - Объект класса EventUIData.
    */
   private _getEventUIData(): EventUIData{
-    let uiData: EventUIData = {} as EventUIData;
+    const uiData: EventUIData = {} as EventUIData;
     uiData.handle = this._handleItem.htmlElement;
     uiData.handleIndex = this._handleItem.handleIndex;
 
-    let modelData = this._presenter.getModelAbacusProperty();
+    const modelData = this._presenter.getModelAbacusProperty();
     uiData.value = modelData.value as number;
     uiData.values = modelData.values;
     return uiData;
@@ -427,7 +426,9 @@ export class View{
    * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
    * @private
    * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
-   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+   * этого события вызвал Event.preventDefault(). В ином случае — true.
+   * (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventChangeWrapper(event?: Event): boolean{
     if( ! event ){
@@ -448,7 +449,9 @@ export class View{
    * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
    * @private
    * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
-   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+   * этого события вызвал Event.preventDefault().
+   * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventCreateWrapper(event?: Event): boolean{
     if( ! event ){
@@ -469,7 +472,9 @@ export class View{
    * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
    * @private
    * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
-   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+   * этого события вызвал Event.preventDefault().
+   * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventSlideWrapper(event?: Event): boolean{
     if( ! event ){
@@ -490,7 +495,9 @@ export class View{
    * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
    * @private
    * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
-   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+   * этого события вызвал Event.preventDefault().
+   * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventStartWrapper(event?: Event): boolean{
     if( ! event ){
@@ -511,7 +518,9 @@ export class View{
    * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
    * @private
    * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
-   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+   * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+   * этого события вызвал Event.preventDefault().
+   * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventStopWrapper(event?: Event): boolean{
     if( ! event ){
@@ -533,23 +542,19 @@ export class View{
    * @param {MouseEvent} event - Объект события мыши.
    */
   private _mouseHandler(event: MouseEvent | TouchEvent): void{
-    let viewInstance = this;
-    let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-    let oldValue = abacusProperty.value;
-
-    console.log(event);
+    const viewInstance = this;
+    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    const oldValue = abacusProperty.value;
 
     let left: number = 0;
     if( event instanceof MouseEvent ){
       left = this.getPosLeftPercent(event.clientX);
-      console.log( event.clientX );
-    } 
+    }
     else if(event instanceof TouchEvent){
       left = this.getPosLeftPercent(event.changedTouches[0].screenX);
-      console.log( event.changedTouches[0].screenX );
     }
 
-    let newAbacusValue: number = this.getValFromPosPercent(left);
+    const newAbacusValue: number = this.getValFromPosPercent(left);
     viewInstance._presenter.setAbacusValue(newAbacusValue);
     if( oldValue !== abacusProperty.value ){
       viewInstance.updateView();
@@ -564,39 +569,48 @@ export class View{
   private _bindEventListeners(): void{
     const viewInstance = this;
 
-    viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-    viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-    // viewInstance._widgetContainer.htmlElement.addEventListener('click', function(event: MouseEvent | TouchEvent) {
-    //   let x: number = 0;
-    //   if( event instanceof MouseEvent ){
-    //     x = event.clientX;
-    //   } 
-    //   else if(event instanceof TouchEvent){
-    //     x = event.changedTouches[0].screenX;
-    //   }
-    //   console.log('x == ' + x);
-    // });
-    // viewInstance._widgetContainer.htmlElement.addEventListener('touchend', function(event: MouseEvent | TouchEvent) {
-    //   let x: number = 0;
-    //   if( event instanceof MouseEvent ){
-    //     x = event.clientX;
-    //   } 
-    //   else if(event instanceof TouchEvent){
-    //     x = event.changedTouches[0].screenX;
-    //   }
-    //   console.log('x == ' + x);
-    // });
+    viewInstance._widgetContainer.htmlElement.addEventListener(
+      'click',
+      viewInstance._handlerWidgetContainerClick.bind(viewInstance)
+    );
+    viewInstance._widgetContainer.htmlElement.addEventListener(
+      'touchend',
+      viewInstance._handlerWidgetContainerClick.bind(viewInstance)
+    );
 
+    viewInstance._handleItem.htmlElement.addEventListener(
+      'mousedown',
+      viewInstance._handlerHandleItemClickStart.bind(viewInstance)
+    );
+    viewInstance._handleItem.htmlElement.addEventListener(
+      'touchstart',
+      viewInstance._handlerHandleItemClickStart.bind(viewInstance),
+      {passive: true}
+    );
 
-    viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
-    viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), {passive: true});
+    document.addEventListener(
+      'mousemove',
+      viewInstance._handlerHandleItemClickMove.bind(viewInstance),
+      {passive: true}
+    );
+    document.addEventListener(
+      'touchmove',
+      viewInstance._handlerHandleItemClickMove.bind(viewInstance),
+      {passive: true}
+    );
 
-    document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), {passive: true});
-    document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), {passive: true});
-
-    document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
-    document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
-    document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+    document.addEventListener(
+      'mouseup',
+      viewInstance._handlerHandleItemClickStop.bind(viewInstance)
+    );
+    document.addEventListener(
+      'touchend',
+      viewInstance._handlerHandleItemClickStop.bind(viewInstance)
+    );
+    document.addEventListener(
+      'touchcancel',
+      viewInstance._handlerHandleItemClickStop.bind(viewInstance)
+    );
   }
 
 
@@ -629,9 +643,9 @@ export class View{
     }
 
     if(viewInstance._handleMovingTimer !== null) {
-      clearTimeout(viewInstance._handleMovingTimer);        
+      clearTimeout(viewInstance._handleMovingTimer);
     }
-    viewInstance._handleMovingTimer = setTimeout(function() {
+    viewInstance._handleMovingTimer = setTimeout(() => {
       if( viewInstance._isDragHandle ){
         viewInstance._mouseHandler(event);
         viewInstance._eventSlideWrapper(event);

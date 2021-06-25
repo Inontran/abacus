@@ -95,10 +95,10 @@ export class WidgetContainer{
   public get classNameDisabled() : string {
     return this._classNameDisabled;
   }
-  
-  
+
+
   /**
-   * Сеттер названия класса HTML-элемента в состоянии "выключен". 
+   * Сеттер названия класса HTML-элемента в состоянии "выключен".
    * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
    * @param {string} name - Название класса.
    */

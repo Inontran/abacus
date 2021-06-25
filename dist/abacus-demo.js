@@ -76,10 +76,10 @@ $(function () {
         // } as AbacusOptions);
     }, 5000);
     $('body .abacus').each(function () {
-        var $abacus = $(this);
-        var $form = $abacus.closest('.card').find('form');
-        if ($form.length && $abacus[0].jqueryAbacusInstance) {
-            parsePropertyToForm($abacus.abacus('option'), $form);
+        var $abacusItem = $(this);
+        var $form = $abacusItem.closest('.card').find('form');
+        if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
+            parsePropertyToForm($abacusItem.abacus('option'), $form);
         }
     });
     $('body').on('submit', '.form_modifier-options', function (event) {
@@ -228,4 +228,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=26087b99ce1d966cde73
+//# sourceMappingURL=abacus-demo.js.map?v=b76c5af2cbd081e76ef3

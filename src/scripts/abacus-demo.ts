@@ -22,7 +22,7 @@ $(() => {
     console.log('abacus-stop');
   });
 
-  let $abacus = $('#abacus-1').abacus({
+  const $abacus = $('#abacus-1').abacus({
     min: -10,
     max: 9,
     step: 2,
@@ -60,21 +60,21 @@ $(() => {
 
 
   $('body .abacus').each(function(){
-    let $abacus = $(this as HTMLAbacusElement);
-    let $form = $abacus.closest('.card').find('form');
-    if( $form.length && $abacus[0].jqueryAbacusInstance ){
-      parsePropertyToForm($abacus.abacus('option') as AbacusOptions, $form);
+    const $abacusItem = $(this as HTMLAbacusElement);
+    const $form = $abacusItem.closest('.card').find('form');
+    if( $form.length && $abacusItem[0].jqueryAbacusInstance ){
+      parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
     }
   });
 
 
-  $('body').on('submit', '.form_modifier-options', function(event: Event){
+  $('body').on('submit', '.form_modifier-options', (event: Event) =>{
     event.preventDefault();
     if( ! event.currentTarget ){
       return null;
     }
-    let $form = $(event.currentTarget) as JQuery<HTMLElement>;
-    let abacusOptions = parseFormToProperty($form);
+    const $form = $(event.currentTarget) as JQuery<HTMLElement>;
+    const abacusOptions = parseFormToProperty($form);
     $abacus?.abacus('option', abacusOptions);
   });
 });
@@ -89,7 +89,7 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
   else{
     $('[name="animate"]', $form).val('false');
   }
-  
+
   $('[name="disabled"]', $form).prop('checked', !abacusProperty.disabled);
 
   if( abacusProperty.max !== undefined ){
@@ -120,7 +120,7 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
 
 
 function parseFormToProperty($form: JQuery): AbacusOptions{
-  let abacusProperty = {} as AbacusOptions;
+  const abacusProperty = {} as AbacusOptions;
 
   if( ! ($form instanceof jQuery) ){
     return abacusProperty;
@@ -129,7 +129,7 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
   if( $('[name="animate"]', $form).length ){
     abacusProperty.animate = $('[name="animate"]', $form).val() as string;
   }
-  
+
   if( $('[name="disabled"]', $form).length ){
     abacusProperty.disabled = ! $('[name="disabled"]', $form).prop('checked');
   }
@@ -151,7 +151,7 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
   }
 
   if( $('[name="range"]', $form).length ){
-    let valRange = $('[name="range"]', $form).val() as string;
+    const valRange = $('[name="range"]', $form).val() as string;
     switch (valRange) {
       case 'true':
         abacusProperty.range = true;
@@ -168,7 +168,7 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
       case 'min':
         abacusProperty.range = 'min';
         break;
-    
+
       default:
         abacusProperty.range = valRange;
         break;

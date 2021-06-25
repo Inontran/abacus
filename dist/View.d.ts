@@ -83,7 +83,8 @@ export declare class View {
     /**
      * @constructor
      * @this   {View}
-     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент, в котором будет находиться инициализированный плагин.
+     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
+     * в котором будет находиться инициализированный плагин.
      * @param  {AbacusOptions} options - Параметры настройки плагина.
      * @param  {object} data - Другие данные.
      */
@@ -157,35 +158,45 @@ export declare class View {
      * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault(). В ином случае — true.
+     * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventChangeWrapper;
     /**
      * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventCreateWrapper;
     /**
      * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventSlideWrapper;
     /**
      * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventStartWrapper;
     /**
      * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventStopWrapper;
     /**

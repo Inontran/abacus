@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
   mocha.setup('bdd');
 
   describe('getPosFromValue', () => {
-    let abacusHtmlContainer: HTMLAbacusElement = document.querySelectorAll('#abacus-test')[0] as HTMLAbacusElement;
-    let view = new View(abacusHtmlContainer, {
+    const abacusHtmlContainer: HTMLAbacusElement = document.querySelectorAll('#abacus-test')[0] as HTMLAbacusElement;
+    const view = new View(abacusHtmlContainer, {
       min: -10,
       max: 10,
       step: 2,
       value: -8,
     });
-    let arrAbacusSetValues: number[] = [-12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12];
-    let arrPercent: number[] = [0, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 100]
+    const arrAbacusSetValues: number[] = [-12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12];
+    const arrPercent: number[] = [0, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 100]
 
     for (let i = 0; i < arrAbacusSetValues.length; i++) {
       it(`значение ${arrAbacusSetValues[i]} в процентах получается ${arrPercent[i]}%`, ()=>{
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('roundValuePerStep', () => {
-    let model: Model = new Model({
+    const model: Model = new Model({
       min: -10,
       max: 11,
       step: 2,
       value: 0,
     });
-    let arrSetValues: number[] = [-10, -9.7, -9.5, -9, -8.5, -7, -4, -1, -0.5, 0, 1, 2, 5, 7, 9.5, 10, 10.2];
-    let arrRightValues: number[] = [-10, -10, -10, -8, -8, -6, -4, 0, 0, 0, 2, 2, 6, 8, 10, 10, 11]
+    const arrSetValues: number[] = [-10, -9.7, -9.5, -9, -8.5, -7, -4, -1, -0.5, 0, 1, 2, 5, 7, 9.5, 10, 10.2];
+    const arrRightValues: number[] = [-10, -10, -10, -8, -8, -6, -4, 0, 0, 0, 2, 2, 6, 8, 10, 10, 11]
 
     for (let i = 0; i < arrSetValues.length; i++) {
       it(`значение ${arrSetValues[i]} окргуляется до ${arrRightValues[i]}`, ()=>{
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set animate property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = [false, true, null, 'qwe', 'fast', 'slow', '1', 1, 0, '0', 0.1];
     const arrRightValues: any[] = [false, true, false, false, 'fast', 'slow', 1, 1, 0, 0, 0];
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set classes property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['abacus', true, null, 'qwe', 'fast', 'slow', '1', 1, 0, '0'];
     const arrRightValues: any[] = ['abacus', 'abacus', 'abacus', 'qwe', 'fast', 'slow', '1', '1', '1', '0',];
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set max property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
     const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
 
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set min property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
     const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set step property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 0.1, '0.2'];
     const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.2];
 
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set orientation property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 'vertical', 'horizontal'];
     const arrRightValues: any[] = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical', 'horizontal'];
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
   describe('set range property', () => {
-    let model: Model = new Model();
+    const model: Model = new Model();
     const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 'max', 'min'];
     const arrRightValues: any[] = [false, true, true, true, true, true, 'max', 'min'];
 

@@ -8,20 +8,23 @@ import {Model} from './Model';
 export class Presenter{
   /**
    * Ссылка на Модель, которая содержит данные слайдера.
+   * @type {Model}
    * @private
    */
   private _model: Model;
 
   /**
    * Объект, который может генерировать события и может иметь подписчиков на эти события.
+   * @type {EventTarget}
    * @private
    */
   private _eventTarget: EventTarget;
 
   /**
-  * Событие изменения данных в Модели.
-  * @private 
-  */
+   * Событие изменения данных в Модели.
+   * @type {CustomEvent}
+   * @private
+   */
   private _eventUpdateModel: CustomEvent;
 
   /**
@@ -35,7 +38,7 @@ export class Presenter{
     this._eventTarget = new EventTarget();
     this._eventUpdateModel = new CustomEvent('update-model');
 
-    this._model.eventTarget.addEventListener('update-model', function(event: Event){
+    this._model.eventTarget.addEventListener('update-model', (event: Event) => {
       presenterInstance._eventTarget.dispatchEvent(presenterInstance._eventUpdateModel);
     });
   }
@@ -70,7 +73,7 @@ export class Presenter{
 
   /**
    * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
-  */
+   */
   public get eventTarget(): EventTarget{
     return this._eventTarget;
   }

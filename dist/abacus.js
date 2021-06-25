@@ -277,8 +277,8 @@ var Model = /** @class */ (function () {
         set: function (abacusProperty) {
             // animate
             if (abacusProperty.animate !== undefined) {
-                if (abacusProperty.animate == 'fast'
-                    || abacusProperty.animate == 'slow'
+                if (abacusProperty.animate === 'fast'
+                    || abacusProperty.animate === 'slow'
                     || typeof abacusProperty.animate === 'boolean') {
                     this._abacusProperty.animate = abacusProperty.animate;
                 }
@@ -292,9 +292,10 @@ var Model = /** @class */ (function () {
             // classes
             if (typeof abacusProperty.classes === 'object') {
                 var arrClassName = ['abacus', 'range', 'handle', 'disabled'];
-                for (var i = 0; i < arrClassName.length; i++) {
-                    if (typeof abacusProperty.classes[arrClassName[i]] === 'string' && this._abacusProperty.classes) {
-                        this._abacusProperty.classes[arrClassName[i]] = abacusProperty.classes[arrClassName[i]];
+                for (var _i = 0, arrClassName_1 = arrClassName; _i < arrClassName_1.length; _i++) {
+                    var arrItem = arrClassName_1[_i];
+                    if (typeof abacusProperty.classes[arrItem] === 'string' && this._abacusProperty.classes) {
+                        this._abacusProperty.classes[arrItem] = abacusProperty.classes[arrItem];
                     }
                 }
             }
@@ -302,7 +303,7 @@ var Model = /** @class */ (function () {
             if (abacusProperty.disabled !== undefined) {
                 this._abacusProperty.disabled = !!abacusProperty.disabled;
             }
-            //max
+            // max
             if (abacusProperty.max !== undefined && abacusProperty.max !== null) {
                 if (!isNaN(abacusProperty.max)) {
                     if (typeof abacusProperty.max === 'string') {
@@ -313,7 +314,7 @@ var Model = /** @class */ (function () {
                     }
                 }
             }
-            //min
+            // min
             if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
                 if (!isNaN(abacusProperty.min)) {
                     if (typeof abacusProperty.min === 'string') {
@@ -329,7 +330,7 @@ var Model = /** @class */ (function () {
                 this._abacusProperty.max = this._abacusProperty.min;
                 this._abacusProperty.min = tmpMax;
             }
-            //step
+            // step
             if (abacusProperty.step !== undefined && abacusProperty.step !== null) {
                 if (!isNaN(abacusProperty.step)) {
                     if (typeof abacusProperty.step === 'string') {
@@ -340,7 +341,7 @@ var Model = /** @class */ (function () {
                     }
                 }
             }
-            //value
+            // value
             if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
                 if (!isNaN(abacusProperty.value)) {
                     if (typeof abacusProperty.value === 'string') {
@@ -350,44 +351,44 @@ var Model = /** @class */ (function () {
                     this._abacusProperty.value = abacusProperty.value;
                 }
             }
-            //orientation
+            // orientation
             if (abacusProperty.orientation !== undefined) {
-                if (abacusProperty.orientation == 'vertical') {
+                if (abacusProperty.orientation === 'vertical') {
                     this._abacusProperty.orientation = 'vertical';
                 }
                 else {
                     this._abacusProperty.orientation = 'horizontal';
                 }
             }
-            //range
+            // range
             if (abacusProperty.range !== undefined) {
                 if (abacusProperty.range === false || abacusProperty.range === true) {
                     this._abacusProperty.range = abacusProperty.range;
                 }
-                else if (abacusProperty.range == 'max') {
+                else if (abacusProperty.range === 'max') {
                     this._abacusProperty.range = 'max';
                 }
-                else if (abacusProperty.range == 'min') {
+                else if (abacusProperty.range === 'min') {
                     this._abacusProperty.range = 'min';
                 }
             }
-            //change
+            // change
             if (abacusProperty.change !== undefined) {
                 this._abacusProperty.change = abacusProperty.change;
             }
-            //create
+            // create
             if (abacusProperty.create !== undefined) {
                 this._abacusProperty.create = abacusProperty.create;
             }
-            //slide
+            // slide
             if (abacusProperty.slide !== undefined) {
                 this._abacusProperty.slide = abacusProperty.slide;
             }
-            //start
+            // start
             if (abacusProperty.start !== undefined) {
                 this._abacusProperty.start = abacusProperty.start;
             }
-            //stop
+            // stop
             if (abacusProperty.stop !== undefined) {
                 this._abacusProperty.stop = abacusProperty.stop;
             }
@@ -534,7 +535,7 @@ var Presenter = /** @class */ (function () {
     Object.defineProperty(Presenter.prototype, "eventTarget", {
         /**
          * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
-        */
+         */
         get: function () {
             return this._eventTarget;
         },
@@ -691,7 +692,8 @@ var View = /** @class */ (function () {
     /**
      * @constructor
      * @this   {View}
-     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент, в котором будет находиться инициализированный плагин.
+     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
+     * в котором будет находиться инициализированный плагин.
      * @param  {AbacusOptions} options - Параметры настройки плагина.
      * @param  {object} data - Другие данные.
      */
@@ -835,8 +837,9 @@ var View = /** @class */ (function () {
         var options = this._presenter.getModelAbacusProperty();
         var minVal = options.min;
         var maxVal = options.max;
-        // если минимальное значение меньше ноля, то 
-        // "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+        // если минимальное значение меньше ноля, то
+        // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
+        // на минимальное значение (minVal) по модулю
         if (minVal < 0) {
             maxVal += (minVal * -1);
             value += (minVal * -1);
@@ -861,8 +864,9 @@ var View = /** @class */ (function () {
         var options = this._presenter.getModelAbacusProperty();
         var minVal = options.min;
         var maxVal = options.max;
-        // если минимальное значение меньше ноля, то 
-        // "сдвигаем" переданное значение (value) и максимальное значение (maxVal) на минимальное значение (minVal) по модулю
+        // если минимальное значение меньше ноля, то
+        // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
+        // на минимальное значение (minVal) по модулю
         if (minVal < 0) {
             maxVal += (minVal * -1);
         }
@@ -891,7 +895,7 @@ var View = /** @class */ (function () {
                 case 'values':
                     if (value !== undefined) {
                         // это условие для установки конкретного свойства слайдера
-                        var newProperty = new Object;
+                        var newProperty = {};
                         newProperty[optionName] = value;
                         this._presenter.setModelAbacusProperty(newProperty);
                     }
@@ -950,8 +954,6 @@ var View = /** @class */ (function () {
                 this._range.htmlElement.style.right = '0';
                 this._range.width = 100 - posHandle;
                 break;
-            default:
-                break;
         }
         // Обновляем названия классов
         if ((_a = abacusProperty.classes) === null || _a === void 0 ? void 0 : _a.abacus) {
@@ -999,7 +1001,9 @@ var View = /** @class */ (function () {
      * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault(). В ином случае — true.
+     * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventChangeWrapper = function (event) {
         if (!event) {
@@ -1017,7 +1021,9 @@ var View = /** @class */ (function () {
      * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventCreateWrapper = function (event) {
         if (!event) {
@@ -1035,7 +1041,9 @@ var View = /** @class */ (function () {
      * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventSlideWrapper = function (event) {
         if (!event) {
@@ -1053,7 +1061,9 @@ var View = /** @class */ (function () {
      * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStartWrapper = function (event) {
         if (!event) {
@@ -1071,7 +1081,9 @@ var View = /** @class */ (function () {
      * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
      * @private
      * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков этого события вызвал Event.preventDefault(). В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
+     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * этого события вызвал Event.preventDefault().
+     * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStopWrapper = function (event) {
         if (!event) {
@@ -1093,15 +1105,12 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         var oldValue = abacusProperty.value;
-        console.log(event);
         var left = 0;
         if (event instanceof MouseEvent) {
             left = this.getPosLeftPercent(event.clientX);
-            console.log(event.clientX);
         }
         else if (event instanceof TouchEvent) {
             left = this.getPosLeftPercent(event.changedTouches[0].screenX);
-            console.log(event.changedTouches[0].screenX);
         }
         var newAbacusValue = this.getValFromPosPercent(left);
         viewInstance._presenter.setAbacusValue(newAbacusValue);
@@ -1117,26 +1126,6 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-        // viewInstance._widgetContainer.htmlElement.addEventListener('click', function(event: MouseEvent | TouchEvent) {
-        //   let x: number = 0;
-        //   if( event instanceof MouseEvent ){
-        //     x = event.clientX;
-        //   } 
-        //   else if(event instanceof TouchEvent){
-        //     x = event.changedTouches[0].screenX;
-        //   }
-        //   console.log('x == ' + x);
-        // });
-        // viewInstance._widgetContainer.htmlElement.addEventListener('touchend', function(event: MouseEvent | TouchEvent) {
-        //   let x: number = 0;
-        //   if( event instanceof MouseEvent ){
-        //     x = event.clientX;
-        //   } 
-        //   else if(event instanceof TouchEvent){
-        //     x = event.changedTouches[0].screenX;
-        //   }
-        //   console.log('x == ' + x);
-        // });
         viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
         viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
@@ -1443,4 +1432,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=26087b99ce1d966cde73
+//# sourceMappingURL=abacus.js.map?v=b76c5af2cbd081e76ef3

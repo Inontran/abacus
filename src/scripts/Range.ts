@@ -25,8 +25,8 @@ export class Range{
   private _className: string;
 
   /**
-   * 
-   * @param className 
+   *
+   * @param className
    */
   private _rangeType: RangeType = RangeType.HIDDEN;
 
@@ -90,14 +90,14 @@ export class Range{
 
 
   /**
-   * 
+   *
    */
   public get rangeType() : string {
     return this._rangeType;
   }
-  
+
   /**
-   * 
+   *
    */
   public set rangeType(value : string) {
     if( value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between' ){
@@ -105,7 +105,7 @@ export class Range{
     }
     this._rangeType = value as RangeType;
   }
-  
+
 }
 
 enum RangeType {

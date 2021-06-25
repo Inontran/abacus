@@ -9,7 +9,7 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
   let returnResult: any = this;
 
   this.each(function () {
-    let instanceHTMLAbacus: HTMLAbacusElement = this;
+    const instanceHTMLAbacus: HTMLAbacusElement = this;
     let view: View;
 
     // получение или инициализация плагина
@@ -44,7 +44,7 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
           view.option('disabled', false);
           break;
 
-          
+
         case 'instance':
           returnResult = view;
           break;
@@ -72,7 +72,7 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
           }
           break;
 
-          
+
         case 'values':
           break;
 
