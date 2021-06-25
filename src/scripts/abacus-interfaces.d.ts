@@ -1,14 +1,37 @@
+/**
+ * Список классов элементов и их состояний слайдера.
+ */
 interface AbacusClasses{
-  [abacus: string]: string;
-  [handle: string]: string;
-  [range: string]: string;
-	[disabled: string]: string;
+  /**
+   * Класс HTML-элемента контейнера слайдера.
+   * @type {string}
+   */
+  abacus: string;
+
+  /**
+   * Класс HTML-элемента ручек слайдера.
+   */
+  handle: string;
+
+  /**
+   * Класс HTML-элемента индикатора (progress bar) слайдера.
+   */
+  range: string;
+
+  /**
+   * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
+   */
+	disabled: string;
 }
 
 /**
- * Options for the abacus plugin.
+ * Свойства слайдера.
  */
 interface AbacusOptions {
+  /**
+   * Следует ли плавно перемещать ручку, когда пользователь нажимает на дорожку ползунка.
+   * Также принимает любую допустимую продолжительность анимации. 
+   */
   animate?: boolean | string | number;
   classes?: AbacusClasses;
   disabled?: boolean;

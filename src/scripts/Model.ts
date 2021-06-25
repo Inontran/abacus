@@ -85,12 +85,21 @@ export class Model{
 
     // classes
     if( typeof abacusProperty.classes === 'object' ){
-      const arrClassName: string[] = ['abacus', 'range', 'handle', 'disabled'];
+      if( ! this._abacusProperty.classes ){
+        this._abacusProperty.classes = {} as AbacusClasses;
+      }
 
-      for (const arrItem of arrClassName) {
-        if( typeof abacusProperty.classes[arrItem] === 'string' && this._abacusProperty.classes ){
-          this._abacusProperty.classes[arrItem] = abacusProperty.classes[arrItem];
-        }
+      if( typeof abacusProperty.classes['abacus'] === 'string' ){
+        this._abacusProperty.classes['abacus'] = abacusProperty.classes['abacus'];
+      }
+      if( typeof abacusProperty.classes['range'] === 'string' ){
+        this._abacusProperty.classes['range'] = abacusProperty.classes['range'];
+      }
+      if( typeof abacusProperty.classes['handle'] === 'string' ){
+        this._abacusProperty.classes['handle'] = abacusProperty.classes['handle'];
+      }
+      if( typeof abacusProperty.classes['disabled'] === 'string' ){
+        this._abacusProperty.classes['disabled'] = abacusProperty.classes['disabled'];
       }
     }
 

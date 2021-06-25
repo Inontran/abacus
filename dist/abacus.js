@@ -291,12 +291,20 @@ var Model = /** @class */ (function () {
             }
             // classes
             if (typeof abacusProperty.classes === 'object') {
-                var arrClassName = ['abacus', 'range', 'handle', 'disabled'];
-                for (var _i = 0, arrClassName_1 = arrClassName; _i < arrClassName_1.length; _i++) {
-                    var arrItem = arrClassName_1[_i];
-                    if (typeof abacusProperty.classes[arrItem] === 'string' && this._abacusProperty.classes) {
-                        this._abacusProperty.classes[arrItem] = abacusProperty.classes[arrItem];
-                    }
+                if (!this._abacusProperty.classes) {
+                    this._abacusProperty.classes = {};
+                }
+                if (typeof abacusProperty.classes['abacus'] === 'string') {
+                    this._abacusProperty.classes['abacus'] = abacusProperty.classes['abacus'];
+                }
+                if (typeof abacusProperty.classes['range'] === 'string') {
+                    this._abacusProperty.classes['range'] = abacusProperty.classes['range'];
+                }
+                if (typeof abacusProperty.classes['handle'] === 'string') {
+                    this._abacusProperty.classes['handle'] = abacusProperty.classes['handle'];
+                }
+                if (typeof abacusProperty.classes['disabled'] === 'string') {
+                    this._abacusProperty.classes['disabled'] = abacusProperty.classes['disabled'];
                 }
             }
             // disabled
@@ -1432,4 +1440,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=b76c5af2cbd081e76ef3
+//# sourceMappingURL=abacus.js.map?v=572753768e81f8cc03d6
