@@ -28,24 +28,25 @@ $(() => {
     step: 2,
     value: 0,
     range: true,
+    markup: true,
     change: (event, ui) =>{
       $('#abacus-1_input').val(ui.value);
     },
     create: (event, ui) =>{
       console.log('create');
-      console.log( event );
+      // console.log( event );
     },
     slide: (event, ui) =>{
       console.log('slide');
-      console.log( ui );
+      // console.log( ui );
     },
     start: (event, ui) =>{
       console.log('start');
-      console.log( ui );
+      // console.log( ui );
     },
     stop: (event, ui) =>{
       console.log('stop');
-      console.log( ui );
+      // console.log( ui );
     },
   });
 
@@ -113,6 +114,8 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
     $('[name="range"]', $form).val(stringValRange);
   }
 
+  $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
+
   if( abacusProperty.step !== undefined ){
     $('[name="step"]', $form).val(abacusProperty.step);
   }
@@ -173,6 +176,10 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
         abacusProperty.range = valRange;
         break;
     }
+  }
+
+  if( $('[name="markup"]', $form).length ){
+    abacusProperty.markup = !! $('[name="markup"]', $form).prop('checked');
   }
 
   if( $('[name="step"]', $form).length ){

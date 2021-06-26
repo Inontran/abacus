@@ -211,6 +211,214 @@ exports.Handle = Handle;
 
 /***/ }),
 
+/***/ "./src/scripts/Mark.ts":
+/*!*****************************!*\
+  !*** ./src/scripts/Mark.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Mark = void 0;
+/**
+ * Класс "Mark" является оберткой для HTML-элемента метки шкалы значений слайдера.
+ * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
+ */
+var Mark = /** @class */ (function () {
+    /**
+     * @constructor
+     * @this   {Mark}
+     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__mark".
+     */
+    function Mark(classes) {
+        /**
+         * Если параметр равен "true", то это значит, что метка находится в диапозоне.
+         * @type {boolean}
+         * @private
+         */
+        this._isInrange = false;
+        /**
+         * Название класса HTML-элемента метки, которая соответствует текущему значению слайдера.
+         * @type {string}
+         * @private
+         */
+        this._classNameSelected = '';
+        /**
+         * Если параметр равен "true", то это значит, что метка соответствует текущему значению слайдера.
+         * @type {boolean}
+         * @private
+         */
+        this._isSelected = false;
+        /**
+         * Позиция метки в процентах от 0 до 100 по горизонтали от левого края.
+         * @type {number}
+         * @private
+         */
+        this._posLeft = 0;
+        /**
+          * Позиция метки в процентах от 0 до 100 по вертикали от нижнего края.
+          * @type {number}
+          * @private
+          */
+        this._posBottom = 0;
+        this._htmlElement = document.createElement('span');
+        this._className = (classes === null || classes === void 0 ? void 0 : classes.mark) ? classes.mark : 'abacus__mark';
+        this._classNameInrange = (classes === null || classes === void 0 ? void 0 : classes.markInrange) ? classes.markInrange : 'abacus__mark_inrange';
+        this._classNameSelected = (classes === null || classes === void 0 ? void 0 : classes.markSelected) ? classes.markSelected : 'abacus__mark_selected';
+        this._htmlElement.classList.add(this._className);
+    }
+    Object.defineProperty(Mark.prototype, "htmlElement", {
+        /**
+         * Геттер ссылки на HTML-элемент.
+         */
+        get: function () {
+            return this._htmlElement;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Mark.prototype, "className", {
+        /**
+         * Геттер названия класса HTML-элемента.
+         */
+        get: function () {
+            return this._className;
+        },
+        /**
+         * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+         * @param {string} name - Название класса.
+         */
+        set: function (name) {
+            if (this._className) {
+                this._htmlElement.classList.remove(this._className);
+            }
+            if (name) {
+                this._htmlElement.classList.add(name);
+            }
+            this._className = name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Mark.prototype, "classNameInrange", {
+        /**
+         * Геттер названия класса HTML-элемента метки, которая находится в диапозоне.
+         */
+        get: function () {
+            return this._classNameInrange;
+        },
+        /**
+         * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
+         * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+         * @param {string} name - Название класса.
+         */
+        set: function (name) {
+            if (!name || typeof name !== 'string') {
+                return;
+            }
+            if (this._htmlElement.classList.contains(this._classNameInrange)) {
+                this._htmlElement.classList.add(name);
+            }
+            if (this._classNameInrange) {
+                this._htmlElement.classList.remove(this._classNameInrange);
+            }
+            this._classNameInrange = name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Mark.prototype, "classNameSelected", {
+        /**
+         * Геттер названия класса HTML-элемента метки, которая соответствует текущему значению слайдера.
+         */
+        get: function () {
+            return this._classNameSelected;
+        },
+        /**
+         * Сеттер названия класса HTML-элемента метки, которая соответствует текущему значению слайдера.
+         * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+         * @param {string} name - Название класса.
+         */
+        set: function (name) {
+            if (!name || typeof name !== 'string') {
+                return;
+            }
+            if (this._htmlElement.classList.contains(this._classNameSelected)) {
+                this._htmlElement.classList.add(name);
+            }
+            if (this._classNameSelected) {
+                this._htmlElement.classList.remove(this._classNameSelected);
+            }
+            this._classNameSelected = name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Mark.prototype, "posLeft", {
+        /**
+         * Геттер позиции метки в процентах от левого края.
+         * @returns {number} - Позиция метки в процентах от 0 до 100.
+         */
+        get: function () {
+            return this._posLeft;
+        },
+        /**
+         * Сеттер позиции метки в процентах от левого края.
+         * @param {number} - Позиция метки в процентах от 0 до 100.
+         */
+        set: function (left) {
+            if (left < 0)
+                left = 0;
+            if (left > 100)
+                left = 100;
+            this._posLeft = left;
+            this._htmlElement.style.left = left + '%';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param value
+     * @returns
+     */
+    Mark.prototype.isInrange = function (value) {
+        if (value !== undefined && this._classNameInrange) {
+            this._isInrange = !!value;
+            if (this._isInrange) {
+                this._htmlElement.classList.add(this._classNameInrange);
+            }
+            else {
+                this._htmlElement.classList.remove(this._classNameInrange);
+            }
+        }
+        return this._isInrange;
+    };
+    /**
+     *
+     * @param value
+     * @returns
+     */
+    Mark.prototype.isSelected = function (value) {
+        if (value !== undefined && this._classNameSelected) {
+            this._isSelected = !!value;
+            if (this._isSelected) {
+                this._htmlElement.classList.add(this._classNameSelected);
+            }
+            else {
+                this._htmlElement.classList.remove(this._classNameSelected);
+            }
+        }
+        return this._isSelected;
+    };
+    return Mark;
+}());
+exports.Mark = Mark;
+
+
+/***/ }),
+
 /***/ "./src/scripts/Model.ts":
 /*!******************************!*\
   !*** ./src/scripts/Model.ts ***!
@@ -246,9 +454,13 @@ var Model = /** @class */ (function () {
                 handle: 'abacus__handle',
                 range: 'abacus__range',
                 disabled: 'abacus_disabled',
+                mark: 'abacus__mark',
+                markSelected: 'abacus__mark_selected',
+                markInrange: 'abacus__mark_inrange',
             },
             disabled: false,
             max: 100,
+            markup: false,
             min: 0,
             orientation: 'horizontal',
             range: false,
@@ -294,17 +506,26 @@ var Model = /** @class */ (function () {
                 if (!this._abacusProperty.classes) {
                     this._abacusProperty.classes = {};
                 }
-                if (typeof abacusProperty.classes['abacus'] === 'string') {
-                    this._abacusProperty.classes['abacus'] = abacusProperty.classes['abacus'];
+                if (typeof abacusProperty.classes.abacus === 'string' && abacusProperty.classes.abacus) {
+                    this._abacusProperty.classes.abacus = abacusProperty.classes.abacus;
                 }
-                if (typeof abacusProperty.classes['range'] === 'string') {
-                    this._abacusProperty.classes['range'] = abacusProperty.classes['range'];
+                if (typeof abacusProperty.classes.range === 'string' && abacusProperty.classes.range) {
+                    this._abacusProperty.classes.range = abacusProperty.classes.range;
                 }
-                if (typeof abacusProperty.classes['handle'] === 'string') {
-                    this._abacusProperty.classes['handle'] = abacusProperty.classes['handle'];
+                if (typeof abacusProperty.classes.handle === 'string' && abacusProperty.classes.handle) {
+                    this._abacusProperty.classes.handle = abacusProperty.classes.handle;
                 }
-                if (typeof abacusProperty.classes['disabled'] === 'string') {
-                    this._abacusProperty.classes['disabled'] = abacusProperty.classes['disabled'];
+                if (typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled) {
+                    this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
+                }
+                if (typeof abacusProperty.classes.mark === 'string' && abacusProperty.classes.mark) {
+                    this._abacusProperty.classes.mark = abacusProperty.classes.mark;
+                }
+                if (typeof abacusProperty.classes.markSelected === 'string' && abacusProperty.classes.markSelected) {
+                    this._abacusProperty.classes.markSelected = abacusProperty.classes.markSelected;
+                }
+                if (typeof abacusProperty.classes.markInrange === 'string' && abacusProperty.classes.markInrange) {
+                    this._abacusProperty.classes.markInrange = abacusProperty.classes.markInrange;
                 }
             }
             // disabled
@@ -321,6 +542,10 @@ var Model = /** @class */ (function () {
                         this._abacusProperty.max = abacusProperty.max;
                     }
                 }
+            }
+            // markup
+            if (abacusProperty.markup !== undefined) {
+                this._abacusProperty.markup = !!abacusProperty.markup;
             }
             // min
             if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
@@ -681,16 +906,28 @@ var RangeType;
 /*!*****************************!*\
   !*** ./src/scripts/View.ts ***!
   \*****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.View = void 0;
 var Presenter_1 = __webpack_require__(/*! ./Presenter */ "./src/scripts/Presenter.ts");
 var WidgetContainer_1 = __webpack_require__(/*! ./WidgetContainer */ "./src/scripts/WidgetContainer.ts");
 var Handle_1 = __webpack_require__(/*! ./Handle */ "./src/scripts/Handle.ts");
 var Range_1 = __webpack_require__(/*! ./Range */ "./src/scripts/Range.ts");
+var Mark_1 = __webpack_require__(/*! ./Mark */ "./src/scripts/Mark.ts");
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
  * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
@@ -725,6 +962,10 @@ var View = /** @class */ (function () {
          * @private
          */
         this._handleMovingTimer = null;
+        /**
+         * Коллекция меток разметки слайдера.
+         */
+        this._mapMarkup = new Map();
         var viewInstance = this;
         this._presenter = new Presenter_1.Presenter(options);
         this._presenter.eventTarget.addEventListener('update-model', function (event) {
@@ -975,6 +1216,18 @@ var View = /** @class */ (function () {
         }
         // Включаем или отключаем слайдер
         this.toggleDisable(abacusProperty.disabled);
+        // Создаем шкалу значений
+        if (abacusProperty.markup) {
+            if (!this._mapMarkup.size) {
+                this._createMarkup();
+            }
+        }
+        else {
+            this._removeMarkup();
+        }
+        if (this._mapMarkup.size) {
+            this._highlightMarks();
+        }
     };
     View.prototype.toggleDisable = function (off) {
         if (off === undefined || off === null) {
@@ -1182,6 +1435,92 @@ var View = /** @class */ (function () {
             viewInstance._eventStopWrapper(event);
         }
         viewInstance._isDragHandle = false;
+    };
+    View.prototype._createMarkup = function () {
+        var e_1, _a;
+        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined) {
+            var value = abacusProperty.min;
+            for (; value <= abacusProperty.max; value += abacusProperty.step) {
+                var mark = new Mark_1.Mark(abacusProperty.classes);
+                var left = this.getPosFromValue(value);
+                mark.posLeft = left;
+                this._mapMarkup.set(value, mark);
+            }
+            if (value !== abacusProperty.max) {
+                var mark = new Mark_1.Mark(abacusProperty.classes);
+                var left = this.getPosFromValue(value);
+                mark.posLeft = left;
+                this._mapMarkup.set(value, mark);
+            }
+        }
+        try {
+            for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var mark = _c.value;
+                this._widgetContainer.htmlElement.append(mark.htmlElement);
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    };
+    View.prototype._removeMarkup = function () {
+        var e_2, _a;
+        try {
+            for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var mark = _c.value;
+                mark.htmlElement.remove();
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+        this._mapMarkup.clear();
+    };
+    View.prototype._highlightMarks = function () {
+        var e_3, _a;
+        var abacusProperty = this._presenter.getModelAbacusProperty();
+        var rangeType = abacusProperty.range;
+        if (abacusProperty.min !== undefined
+            && abacusProperty.max !== undefined
+            && abacusProperty.step !== undefined
+            && abacusProperty.value !== undefined) {
+            try {
+                for (var _b = __values(this._mapMarkup), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var markItem = _c.value;
+                    if ((rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value) {
+                        markItem[1].isInrange(true);
+                    }
+                    else if (rangeType === 'max' && markItem[0] >= abacusProperty.value) {
+                        markItem[1].isInrange(true);
+                    }
+                    else {
+                        markItem[1].isInrange(false);
+                    }
+                    if (markItem[0] === abacusProperty.value) {
+                        markItem[1].isSelected(true);
+                    }
+                    else {
+                        markItem[1].isSelected(false);
+                    }
+                }
+            }
+            catch (e_3_1) { e_3 = { error: e_3_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_3) throw e_3.error; }
+            }
+        }
     };
     return View;
 }());
@@ -1440,4 +1779,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=572753768e81f8cc03d6
+//# sourceMappingURL=abacus.js.map?v=9930717fa65bb8f1d462

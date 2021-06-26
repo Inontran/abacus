@@ -17,9 +17,13 @@ export class Model{
       handle: 'abacus__handle',
       range: 'abacus__range',
       disabled: 'abacus_disabled',
+      mark: 'abacus__mark',
+      markSelected: 'abacus__mark_selected',
+      markInrange: 'abacus__mark_inrange',
     },
     disabled: false,
     max: 100,
+    markup: false,
     min: 0,
     orientation: 'horizontal',
     range: false,
@@ -89,17 +93,26 @@ export class Model{
         this._abacusProperty.classes = {} as AbacusClasses;
       }
 
-      if( typeof abacusProperty.classes['abacus'] === 'string' ){
-        this._abacusProperty.classes['abacus'] = abacusProperty.classes['abacus'];
+      if( typeof abacusProperty.classes.abacus === 'string' && abacusProperty.classes.abacus){
+        this._abacusProperty.classes.abacus = abacusProperty.classes.abacus;
       }
-      if( typeof abacusProperty.classes['range'] === 'string' ){
-        this._abacusProperty.classes['range'] = abacusProperty.classes['range'];
+      if( typeof abacusProperty.classes.range === 'string' && abacusProperty.classes.range){
+        this._abacusProperty.classes.range = abacusProperty.classes.range;
       }
-      if( typeof abacusProperty.classes['handle'] === 'string' ){
-        this._abacusProperty.classes['handle'] = abacusProperty.classes['handle'];
+      if( typeof abacusProperty.classes.handle === 'string' && abacusProperty.classes.handle){
+        this._abacusProperty.classes.handle = abacusProperty.classes.handle;
       }
-      if( typeof abacusProperty.classes['disabled'] === 'string' ){
-        this._abacusProperty.classes['disabled'] = abacusProperty.classes['disabled'];
+      if( typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled){
+        this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
+      }
+      if( typeof abacusProperty.classes.mark === 'string' && abacusProperty.classes.mark){
+        this._abacusProperty.classes.mark = abacusProperty.classes.mark;
+      }
+      if( typeof abacusProperty.classes.markSelected === 'string' && abacusProperty.classes.markSelected){
+        this._abacusProperty.classes.markSelected = abacusProperty.classes.markSelected;
+      }
+      if( typeof abacusProperty.classes.markInrange === 'string' && abacusProperty.classes.markInrange){
+        this._abacusProperty.classes.markInrange = abacusProperty.classes.markInrange;
       }
     }
 
@@ -118,6 +131,11 @@ export class Model{
           this._abacusProperty.max = abacusProperty.max;
         }
       }
+    }
+
+    // markup
+    if( abacusProperty.markup !== undefined ){
+      this._abacusProperty.markup = !!abacusProperty.markup;
     }
 
     // min

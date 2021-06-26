@@ -81,6 +81,10 @@ export declare class View {
      */
     private _handleMovingTimer;
     /**
+     * Коллекция меток разметки слайдера.
+     */
+    private _mapMarkup;
+    /**
      * @constructor
      * @this   {View}
      * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
@@ -212,4 +216,7 @@ export declare class View {
     private _handlerHandleItemClickStart;
     private _handlerHandleItemClickMove;
     private _handlerHandleItemClickStop;
+    private _createMarkup;
+    private _removeMarkup;
+    private _highlightMarks;
 }

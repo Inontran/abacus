@@ -10,7 +10,7 @@
             box-sizing: border-box; }
   .abacus .abacus__handle {
     display: inline-block;
-    width: 10px;
+    width: 9px;
     height: 20px;
     position: absolute;
     top: 50%;
@@ -28,6 +28,21 @@
     height: 6px;
     width: auto;
     background-color: brown; }
+  .abacus .abacus__mark {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    width: 3px;
+    height: 20px;
+    background-color: cadetblue;
+    left: 0;
+    -webkit-transition: .5s;
+    transition: .5s; }
+  .abacus .abacus__mark.abacus__mark_inrange {
+      background-color: brown; }
+  .abacus .abacus__mark.abacus__mark_selected {
+      height: 30px; }
   .abacus:not(.abacus_disabled),
   .abacus:not(.abacus_disabled) .abacus__handle {
     cursor: pointer; }
@@ -37,4 +52,4 @@
             filter: grayscale(0.5); }
 
 
-/*# sourceMappingURL=abacus.css.map?v=572753768e81f8cc03d6*/
+/*# sourceMappingURL=abacus.css.map?v=9930717fa65bb8f1d462*/

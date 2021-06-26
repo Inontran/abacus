@@ -2,6 +2,7 @@ import {Presenter} from './Presenter';
 import {WidgetContainer} from './WidgetContainer';
 import {Handle} from './Handle';
 import {Range} from './Range';
+import {Mark} from "./Mark";
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
@@ -94,6 +95,12 @@ export class View{
    * @private
    */
   private _handleMovingTimer: null | NodeJS.Timeout = null;
+
+
+  /**
+   * Коллекция меток разметки слайдера.
+   */
+  private _mapMarkup: Map<number, Mark> = new Map();
 
 
   /**
@@ -384,6 +391,19 @@ export class View{
 
     // Включаем или отключаем слайдер
     this.toggleDisable(abacusProperty.disabled);
+
+    // Создаем шкалу значений
+    if( abacusProperty.markup ){
+      if( ! this._mapMarkup.size ){
+        this._createMarkup();
+      }
+    }
+    else{
+      this._removeMarkup();
+    }
+    if( this._mapMarkup.size ){
+      this._highlightMarks();
+    }
   }
 
 
@@ -661,5 +681,68 @@ export class View{
       viewInstance._eventStopWrapper(event);
     }
     viewInstance._isDragHandle = false;
+  }
+
+
+  private _createMarkup(): void{
+    const abacusProperty = this._presenter.getModelAbacusProperty();
+    if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
+      let value = abacusProperty.min;
+      for (; value <= abacusProperty.max; value += abacusProperty.step) {
+        const mark = new Mark(abacusProperty.classes);
+        const left = this.getPosFromValue(value);
+        mark.posLeft = left;
+        this._mapMarkup.set(value, mark);
+      }
+      if( value !== abacusProperty.max ){
+        const mark = new Mark(abacusProperty.classes);
+        const left = this.getPosFromValue(value);
+        mark.posLeft = left;
+        this._mapMarkup.set(value, mark);
+      }
+    }
+
+    for(let mark of this._mapMarkup.values()){
+      this._widgetContainer.htmlElement.append(mark.htmlElement);
+    }
+  }
+
+
+  private _removeMarkup(): void{
+    for(let mark of this._mapMarkup.values()){
+      mark.htmlElement.remove();
+    }
+    this._mapMarkup.clear();
+  }
+
+
+  private _highlightMarks(): void{
+    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const rangeType = abacusProperty.range;
+
+    if( abacusProperty.min !== undefined
+      && abacusProperty.max !== undefined
+      && abacusProperty.step !== undefined
+      && abacusProperty.value !== undefined )
+    {
+      for (const markItem of this._mapMarkup) {
+        if( (rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value){
+          markItem[1].isInrange(true);
+        }
+        else if( rangeType === 'max' && markItem[0] >= abacusProperty.value){
+          markItem[1].isInrange(true);
+        }
+        else{
+          markItem[1].isInrange(false);
+        }
+
+        if( markItem[0] === abacusProperty.value){
+          markItem[1].isSelected(true);
+        }
+        else{
+          markItem[1].isSelected(false);
+        }
+      }
+    }
   }
 }

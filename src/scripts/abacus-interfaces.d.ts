@@ -22,6 +22,21 @@ interface AbacusClasses{
    * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
    */
 	disabled: string;
+
+  /**
+   * Класс HTML-элемента метки слайдера.
+   */
+  mark: string;
+
+  /**
+   * Класс HTML-элемента метки слайдера, которая соответствует текущему значению.
+   */
+  markSelected: string;
+
+  /**
+   * Класс HTML-элемента метки слайдера, которая находиться в диапозоне (напротив индикатор Range).
+   */
+  markInrange: string;
 }
 
 /**
@@ -36,6 +51,7 @@ interface AbacusOptions {
   classes?: AbacusClasses;
   disabled?: boolean;
   max?: number;
+  markup?: boolean;
   min?: number;
   orientation?: string;
   range?: boolean | string;
@@ -61,7 +77,6 @@ interface AbacusFunction {
    * @param options Options to use for this application of the abacus plugin.
    * @returns jQuery result.
    */
-  // (options ? : AbacusOptions | string, option ? : any, value ? : any): JQuery;
   (options ? : AbacusOptions): JQuery;
   (options: string, option ? : any, value ? : any): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | object;
 }

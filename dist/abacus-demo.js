@@ -48,24 +48,25 @@ $(function () {
         step: 2,
         value: 0,
         range: true,
+        markup: true,
         change: function (event, ui) {
             $('#abacus-1_input').val(ui.value);
         },
         create: function (event, ui) {
             console.log('create');
-            console.log(event);
+            // console.log( event );
         },
         slide: function (event, ui) {
             console.log('slide');
-            console.log(ui);
+            // console.log( ui );
         },
         start: function (event, ui) {
             console.log('start');
-            console.log(ui);
+            // console.log( ui );
         },
         stop: function (event, ui) {
             console.log('stop');
-            console.log(ui);
+            // console.log( ui );
         },
     });
     setTimeout(function () {
@@ -117,6 +118,7 @@ function parsePropertyToForm(abacusProperty, $form) {
         var stringValRange = abacusProperty.range.toString();
         $('[name="range"]', $form).val(stringValRange);
     }
+    $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
     if (abacusProperty.step !== undefined) {
         $('[name="step"]', $form).val(abacusProperty.step);
     }
@@ -163,6 +165,9 @@ function parseFormToProperty($form) {
                 abacusProperty.range = valRange;
                 break;
         }
+    }
+    if ($('[name="markup"]', $form).length) {
+        abacusProperty.markup = !!$('[name="markup"]', $form).prop('checked');
     }
     if ($('[name="step"]', $form).length) {
         abacusProperty.step = $('[name="step"]', $form).val();
@@ -228,4 +233,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=572753768e81f8cc03d6
+//# sourceMappingURL=abacus-demo.js.map?v=9930717fa65bb8f1d462
