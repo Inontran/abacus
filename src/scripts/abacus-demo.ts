@@ -129,8 +129,21 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
     return abacusProperty;
   }
 
-  if( $('[name="animate"]', $form).length ){
-    abacusProperty.animate = $('[name="animate"]', $form).val() as string;
+  const inputAnimate: JQuery<HTMLInputElement> = $('[name="animate"]', $form);
+  if( inputAnimate.length ){
+    switch (inputAnimate.val()) {
+      case 'false':
+        abacusProperty.animate = false;
+        break;
+
+      case 'true':
+        abacusProperty.animate = true;
+        break;
+    
+      default:
+        abacusProperty.animate = inputAnimate.val() as string;
+        break;
+    }
   }
 
   if( $('[name="disabled"]', $form).length ){

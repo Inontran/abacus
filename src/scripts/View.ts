@@ -372,6 +372,10 @@ export class View{
       }
     }
 
+    if( this._cachedAbacusProperty?.animate !== abacusProperty.animate ){
+      this._setTransition();
+    }
+
     // Обновляем положение бегунка и индикатора
     if( this._cachedAbacusProperty?.value !== abacusProperty.value ){
       const currentValue: number = abacusProperty.value as number;
@@ -776,6 +780,33 @@ export class View{
         else{
           markItem[1].isSelected(false);
         }
+      }
+    }
+  }
+
+
+  private _setTransition(): void{
+    let duration: string = '';
+    const animate = this._presenter.getModelAbacusProperty().animate;
+    if( typeof animate === 'number' && animate > 0 ){
+      duration = animate.toString();
+    } 
+    else if( animate === true ){
+      duration = '400';
+    } 
+    else if( animate === 'slow' ){
+      duration = '600';
+    }
+    else if( animate === 'fast' ){
+      duration = '200';
+    }
+
+    duration = duration ? duration + 'ms' : '';
+    this._handleItem.htmlElement.style.transition = duration;
+    this._range.htmlElement.style.transition = duration;
+    if( this._mapMarkup ){
+      for (const markItem of this._mapMarkup) {
+        markItem[1].htmlElement.style.transition = duration;
       }
     }
   }

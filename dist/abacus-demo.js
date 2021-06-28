@@ -128,8 +128,19 @@ function parseFormToProperty($form) {
     if (!($form instanceof jQuery)) {
         return abacusProperty;
     }
-    if ($('[name="animate"]', $form).length) {
-        abacusProperty.animate = $('[name="animate"]', $form).val();
+    var inputAnimate = $('[name="animate"]', $form);
+    if (inputAnimate.length) {
+        switch (inputAnimate.val()) {
+            case 'false':
+                abacusProperty.animate = false;
+                break;
+            case 'true':
+                abacusProperty.animate = true;
+                break;
+            default:
+                abacusProperty.animate = inputAnimate.val();
+                break;
+        }
     }
     if ($('[name="disabled"]', $form).length) {
         abacusProperty.disabled = !$('[name="disabled"]', $form).prop('checked');
@@ -233,4 +244,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=28d6b8ced6bfc2b663a0
+//# sourceMappingURL=abacus-demo.js.map?v=7cdac21f27014f551ebd

@@ -36,9 +36,7 @@
     width: 3px;
     height: 20px;
     background-color: cadetblue;
-    left: 0;
-    -webkit-transition: .5s;
-    transition: .5s; }
+    left: 0; }
   .abacus .abacus__mark.abacus__mark_inrange {
       background-color: brown; }
   .abacus .abacus__mark.abacus__mark_selected {
@@ -52,4 +50,4 @@
             filter: grayscale(0.5); }
 
 
-/*# sourceMappingURL=abacus.css.map?v=28d6b8ced6bfc2b663a0*/
+/*# sourceMappingURL=abacus.css.map?v=7cdac21f27014f551ebd*/

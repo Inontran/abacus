@@ -223,4 +223,5 @@ export declare class View {
     private _createMarkup;
     private _removeMarkup;
     private _highlightMarks;
+    private _setTransition;
 }
