@@ -155,6 +155,10 @@ export declare class View {
      * @returns
      */
     updateView(): void;
+    /**
+     * Функция переключает состояние слайдера с активного на неактивный и обратно.
+     * @param {boolean} off - "true" значит отключить. "false" значит активировать.
+     */
     toggleDisable(off?: boolean): void;
     /**
      * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
@@ -216,12 +220,39 @@ export declare class View {
      * Установка обработчиков событий.
      */
     private _bindEventListeners;
+    /**
+     * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+     */
     private _handlerWidgetContainerClick;
+    /**
+     * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+     */
     private _handlerHandleItemClickStart;
+    /**
+     * Обработчик пересещения курсора или пальца по экрану.
+     * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+     */
     private _handlerHandleItemClickMove;
+    /**
+     * Обработчик окончание пересещения курсора или пальца по экрану.
+     * Генерирует событие "stop".
+     */
     private _handlerHandleItemClickStop;
+    /**
+     * Создает шкалу значений и добавляет ее в слайдер.
+     */
     private _createMarkup;
+    /**
+     * Удаляет шкалу значений.
+     */
     private _removeMarkup;
+    /**
+     * Функция меняет состояния меток в шкале значений.
+     */
     private _highlightMarks;
+    /**
+     * Установка css-свойства "transition" элементам интерфейса слайдера.
+     * Первоначальное значение береться из model.abacusProperty.aniamte.
+     */
     private _setTransition;
 }

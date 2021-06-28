@@ -11271,9 +11271,14 @@ var Mark = /** @class */ (function () {
         configurable: true
     });
     /**
-     *
-     * @param value
-     * @returns
+     * Функция получения и установки состояния "в диапозоне".
+     * Если функция получила параметр false, то у метки удалаяется класс,
+     * записанный в _classNameInrange.
+     * Если функция получила параметр true, то метке добавляется класс,
+     * записанный в _classNameInrange.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
+     * то возвращается текущее состояние.
+     * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
      */
     Mark.prototype.isInrange = function (value) {
         if (value !== undefined && this._classNameInrange) {
@@ -11288,9 +11293,15 @@ var Mark = /** @class */ (function () {
         return this._isInrange;
     };
     /**
-     *
-     * @param value
-     * @returns
+     * Функция получения и установки состояния "выбранная".
+     * Это значит, что напротив этой метки установлена одна из ручек слайдера.
+     * Если функция получила параметр false, то у метки удалаяется класс,
+     * записанный в _classNameSelected.
+     * Если функция получила параметр true, то метке добавляется класс,
+     * записанный в _classNameSelected.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
+     * то возвращается текущее состояние.
+     * @returns {boolean} - Текущее состояние метки.
      */
     Mark.prototype.isSelected = function (value) {
         if (value !== undefined && this._classNameSelected) {
@@ -11896,7 +11907,6 @@ var View = /** @class */ (function () {
         });
         this._bindEventListeners();
         this.updateView();
-        $.extend(this._cachedAbacusProperty, abacusProperty);
         this._eventCreateWrapper();
     }
     Object.defineProperty(View.prototype, "widgetContainer", {
@@ -12143,6 +12153,10 @@ var View = /** @class */ (function () {
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
     };
+    /**
+     * Функция переключает состояние слайдера с активного на неактивный и обратно.
+     * @param {boolean} off - "true" значит отключить. "false" значит активировать.
+     */
     View.prototype.toggleDisable = function (off) {
         if (off === undefined || off === null) {
             this._isDisabled = !this._isDisabled;
@@ -12150,13 +12164,7 @@ var View = /** @class */ (function () {
         else {
             this._isDisabled = !!off;
         }
-        var abacusPropertyClasses = this._presenter.getModelAbacusProperty().classes;
-        if (this._isDisabled) {
-            this._widgetContainer.classNameDisabled = (abacusPropertyClasses === null || abacusPropertyClasses === void 0 ? void 0 : abacusPropertyClasses.disabled) ? abacusPropertyClasses.disabled : 'abacus_disabled';
-        }
-        else {
-            this._widgetContainer.classNameDisabled = '';
-        }
+        this._widgetContainer.isDisabled(this._isDisabled);
     };
     /**
      * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
@@ -12309,6 +12317,9 @@ var View = /** @class */ (function () {
         document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
         document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
     };
+    /**
+     * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+     */
     View.prototype._handlerWidgetContainerClick = function (event) {
         event.preventDefault();
         var viewInstance = this;
@@ -12317,6 +12328,9 @@ var View = /** @class */ (function () {
         }
         viewInstance._mouseHandler(event);
     };
+    /**
+     * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+     */
     View.prototype._handlerHandleItemClickStart = function (event) {
         event.preventDefault();
         var viewInstance = this;
@@ -12326,6 +12340,10 @@ var View = /** @class */ (function () {
         viewInstance._isDragHandle = true;
         viewInstance._eventStartWrapper(event);
     };
+    /**
+     * Обработчик пересещения курсора или пальца по экрану.
+     * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+     */
     View.prototype._handlerHandleItemClickMove = function (event) {
         event.preventDefault();
         var viewInstance = this;
@@ -12342,6 +12360,10 @@ var View = /** @class */ (function () {
             }
         }, 15);
     };
+    /**
+     * Обработчик окончание пересещения курсора или пальца по экрану.
+     * Генерирует событие "stop".
+     */
     View.prototype._handlerHandleItemClickStop = function (event) {
         event.preventDefault();
         var viewInstance = this;
@@ -12350,6 +12372,9 @@ var View = /** @class */ (function () {
         }
         viewInstance._isDragHandle = false;
     };
+    /**
+     * Создает шкалу значений и добавляет ее в слайдер.
+     */
     View.prototype._createMarkup = function () {
         var e_1, _a;
         if (this._mapMarkup.size) {
@@ -12390,6 +12415,9 @@ var View = /** @class */ (function () {
             finally { if (e_1) throw e_1.error; }
         }
     };
+    /**
+     * Удаляет шкалу значений.
+     */
     View.prototype._removeMarkup = function () {
         var e_2, _a;
         try {
@@ -12407,6 +12435,9 @@ var View = /** @class */ (function () {
         }
         this._mapMarkup.clear();
     };
+    /**
+     * Функция меняет состояния меток в шкале значений.
+     */
     View.prototype._highlightMarks = function () {
         var e_3, _a;
         var abacusProperty = this._presenter.getModelAbacusProperty();
@@ -12444,6 +12475,10 @@ var View = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Установка css-свойства "transition" элементам интерфейса слайдера.
+     * Первоначальное значение береться из model.abacusProperty.aniamte.
+     */
     View.prototype._setTransition = function () {
         var e_4, _a;
         var duration = '';
@@ -12578,17 +12613,38 @@ var WidgetContainer = /** @class */ (function () {
          * @param {string} name - Название класса.
          */
         set: function (name) {
+            if (!name || typeof name !== 'string') {
+                return;
+            }
+            if (this._htmlElement.classList.contains(this._classNameDisabled)) {
+                this._htmlElement.classList.add(name);
+            }
             if (this._classNameDisabled) {
                 this._htmlElement.classList.remove(this._classNameDisabled);
-            }
-            if (name) {
-                this._htmlElement.classList.add(name);
             }
             this._classNameDisabled = name;
         },
         enumerable: false,
         configurable: true
     });
+    /**
+     * Функция получения и установки активного/неактивного состояния.
+     * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
+     * записанный в _classNameDisabled.
+     * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
+     * записанный в _classNameDisabled.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     */
+    WidgetContainer.prototype.isDisabled = function (value) {
+        if (value !== undefined && this._classNameDisabled) {
+            if (!!value) {
+                this._htmlElement.classList.add(this._classNameDisabled);
+            }
+            else {
+                this._htmlElement.classList.remove(this._classNameDisabled);
+            }
+        }
+    };
     return WidgetContainer;
 }());
 exports.WidgetContainer = WidgetContainer;
@@ -13239,4 +13295,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=7cdac21f27014f551ebd
+//# sourceMappingURL=abacus-tests.js.map?v=dd607977dcc13d28abe9

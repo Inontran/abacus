@@ -435,6 +435,10 @@ export class View{
   }
 
 
+  /**
+   * Функция переключает состояние слайдера с активного на неактивный и обратно.
+   * @param {boolean} off - "true" значит отключить. "false" значит активировать.
+   */
   toggleDisable(off?: boolean){
     if( off === undefined || off === null ){
       this._isDisabled = !this._isDisabled;
@@ -443,13 +447,7 @@ export class View{
       this._isDisabled = !!off;
     }
 
-    const abacusPropertyClasses = this._presenter.getModelAbacusProperty().classes;
-    if( this._isDisabled ){
-      this._widgetContainer.classNameDisabled = abacusPropertyClasses?.disabled ? abacusPropertyClasses.disabled : 'abacus_disabled';
-    }
-    else{
-      this._widgetContainer.classNameDisabled = '';
-    }
+    this._widgetContainer.isDisabled(this._isDisabled);
   }
 
 

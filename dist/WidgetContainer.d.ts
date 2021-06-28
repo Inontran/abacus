@@ -66,4 +66,13 @@ export declare class WidgetContainer {
      * @param {string} name - Название класса.
      */
     set classNameDisabled(name: string);
+    /**
+     * Функция получения и установки активного/неактивного состояния.
+     * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
+     * записанный в _classNameDisabled.
+     * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
+     * записанный в _classNameDisabled.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     */
+    isDisabled(value: boolean): void;
 }

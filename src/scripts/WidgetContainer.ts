@@ -103,12 +103,38 @@ export class WidgetContainer{
    * @param {string} name - Название класса.
    */
   public set classNameDisabled(name : string) {
+    if( !name || typeof name !== 'string' ){
+      return;
+    }
+
+    if( this._htmlElement.classList.contains(this._classNameDisabled) ){
+      this._htmlElement.classList.add(name);
+    }
     if( this._classNameDisabled ){
       this._htmlElement.classList.remove(this._classNameDisabled);
     }
-    if( name ){
-      this._htmlElement.classList.add(name);
-    }
+
     this._classNameDisabled = name;
+  }
+
+
+  /**
+   * Функция получения и установки активного/неактивного состояния. 
+   * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
+   * записанный в _classNameDisabled.
+   * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
+   * записанный в _classNameDisabled.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   */
+  isDisabled(value: boolean): void{
+    if( value !== undefined && this._classNameDisabled){
+
+      if( !!value ){
+        this._htmlElement.classList.add(this._classNameDisabled);
+      }
+      else{
+        this._htmlElement.classList.remove(this._classNameDisabled);
+      }
+    }
   }
 }
