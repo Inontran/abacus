@@ -2,7 +2,7 @@ import {Presenter} from './Presenter';
 import {WidgetContainer} from './WidgetContainer';
 import {Handle} from './Handle';
 import {Range} from './Range';
-import {Mark} from "./Mark";
+import {Mark} from './Mark';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
@@ -104,6 +104,12 @@ export class View{
 
 
   /**
+   * Кэш свойств сладйера из Модели.
+   */
+  private _cachedAbacusProperty: AbacusOptions = {};
+
+
+  /**
    * @constructor
    * @this   {View}
    * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
@@ -156,6 +162,7 @@ export class View{
     this._bindEventListeners();
 
     this.updateView();
+    $.extend(this._cachedAbacusProperty, abacusProperty);
 
     this._eventCreateWrapper();
   }
@@ -341,41 +348,53 @@ export class View{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
 
     // Добавляем или удалаем элементы инерфейса
-    this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+    if( ! this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
+      this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+    }
 
-    if( abacusProperty.range ){
+    if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
       switch (abacusProperty.range) {
         case 'max':
           this._range.rangeType = 'max';
+          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+          break;
+
+        case true:
+        case 'min':
+          this._range.rangeType = 'min';
+          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
 
         default:
-          this._range.rangeType = 'min';
+          this._range.rangeType = 'hidden';
+          this._range.htmlElement.remove();
           break;
       }
-      this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-    }
-    else{
-      this._range.rangeType = 'hidden';
-      this._range.htmlElement.remove();
     }
 
     // Обновляем положение бегунка и индикатора
-    const currentValue: number = abacusProperty.value as number;
-    const posHandle: number = this.getPosFromValue(currentValue);
-    this._handleItem.posLeft = posHandle;
-    switch (this._range.rangeType) {
-      case 'min':
-        this._range.htmlElement.style.left = '0';
-        this._range.htmlElement.style.right = 'auto';
-        this._range.width = posHandle;
-        break;
+    if( this._cachedAbacusProperty?.value !== abacusProperty.value ){
+      const currentValue: number = abacusProperty.value as number;
+      const posHandle: number = this.getPosFromValue(currentValue);
+      this._handleItem.posLeft = posHandle;
 
-      case 'max':
-        this._range.htmlElement.style.left = 'auto';
-        this._range.htmlElement.style.right = '0';
-        this._range.width = 100 - posHandle;
-        break;
+      switch (this._range.rangeType) {
+        case 'min':
+          this._range.htmlElement.style.left = '0';
+          this._range.htmlElement.style.right = 'auto';
+          this._range.width = posHandle;
+          break;
+
+        case 'max':
+          this._range.htmlElement.style.left = 'auto';
+          this._range.htmlElement.style.right = '0';
+          this._range.width = 100 - posHandle;
+          break;
+      }
+
+      if( this._mapMarkup.size ){
+        this._highlightMarks();
+      }
     }
 
     // Обновляем названия классов
@@ -390,20 +409,26 @@ export class View{
     }
 
     // Включаем или отключаем слайдер
-    this.toggleDisable(abacusProperty.disabled);
+    if( this._cachedAbacusProperty?.disabled !== abacusProperty.disabled ){
+      this.toggleDisable(abacusProperty.disabled);
+    }
 
     // Создаем шкалу значений
-    if( abacusProperty.markup ){
-      if( ! this._mapMarkup.size ){
+    if( (this._cachedAbacusProperty?.markup !== abacusProperty.markup)
+    || (this._cachedAbacusProperty?.step !== abacusProperty.step) ){
+      if( abacusProperty.markup ){
         this._createMarkup();
       }
+      else{
+        this._removeMarkup();
+      }
+
+      if( this._mapMarkup.size ){
+        this._highlightMarks();
+      }
     }
-    else{
-      this._removeMarkup();
-    }
-    if( this._mapMarkup.size ){
-      this._highlightMarks();
-    }
+
+    $.extend(this._cachedAbacusProperty, abacusProperty);
   }
 
 
@@ -685,6 +710,10 @@ export class View{
 
 
   private _createMarkup(): void{
+    if( this._mapMarkup.size ){
+      this._removeMarkup();
+    }
+
     const abacusProperty = this._presenter.getModelAbacusProperty();
     if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
       let value = abacusProperty.min;
@@ -703,7 +732,12 @@ export class View{
     }
 
     for(let mark of this._mapMarkup.values()){
-      this._widgetContainer.htmlElement.append(mark.htmlElement);
+      if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
+        this._handleItem.htmlElement.before(mark.htmlElement);
+      }
+      else{
+        this._widgetContainer.htmlElement.append(mark.htmlElement);
+      }
     }
   }
 

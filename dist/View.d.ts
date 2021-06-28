@@ -85,6 +85,10 @@ export declare class View {
      */
     private _mapMarkup;
     /**
+     * Кэш свойств сладйера из Модели.
+     */
+    private _cachedAbacusProperty;
+    /**
      * @constructor
      * @this   {View}
      * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,

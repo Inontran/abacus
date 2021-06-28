@@ -909,6 +909,7 @@ var RangeType;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "jquery");
 
 var __values = (this && this.__values) || function(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
@@ -966,6 +967,10 @@ var View = /** @class */ (function () {
          * Коллекция меток разметки слайдера.
          */
         this._mapMarkup = new Map();
+        /**
+         * Кэш свойств сладйера из Модели.
+         */
+        this._cachedAbacusProperty = {};
         var viewInstance = this;
         this._presenter = new Presenter_1.Presenter(options);
         this._presenter.eventTarget.addEventListener('update-model', function (event) {
@@ -999,6 +1004,7 @@ var View = /** @class */ (function () {
         });
         this._bindEventListeners();
         this.updateView();
+        $.extend(this._cachedAbacusProperty, abacusProperty);
         this._eventCreateWrapper();
     }
     Object.defineProperty(View.prototype, "widgetContainer", {
@@ -1169,65 +1175,78 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
-        this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
-        if (abacusProperty.range) {
+        if (!this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
+            this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+        }
+        if (((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range) {
             switch (abacusProperty.range) {
                 case 'max':
                     this._range.rangeType = 'max';
+                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+                    break;
+                case true:
+                case 'min':
+                    this._range.rangeType = 'min';
+                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
                     break;
                 default:
-                    this._range.rangeType = 'min';
+                    this._range.rangeType = 'hidden';
+                    this._range.htmlElement.remove();
                     break;
             }
-            this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-        }
-        else {
-            this._range.rangeType = 'hidden';
-            this._range.htmlElement.remove();
         }
         // Обновляем положение бегунка и индикатора
-        var currentValue = abacusProperty.value;
-        var posHandle = this.getPosFromValue(currentValue);
-        this._handleItem.posLeft = posHandle;
-        switch (this._range.rangeType) {
-            case 'min':
-                this._range.htmlElement.style.left = '0';
-                this._range.htmlElement.style.right = 'auto';
-                this._range.width = posHandle;
-                break;
-            case 'max':
-                this._range.htmlElement.style.left = 'auto';
-                this._range.htmlElement.style.right = '0';
-                this._range.width = 100 - posHandle;
-                break;
-        }
-        // Обновляем названия классов
-        if ((_a = abacusProperty.classes) === null || _a === void 0 ? void 0 : _a.abacus) {
-            this._widgetContainer.className = (_b = abacusProperty.classes) === null || _b === void 0 ? void 0 : _b.abacus;
-        }
-        if ((_c = abacusProperty.classes) === null || _c === void 0 ? void 0 : _c.handle) {
-            this._handleItem.className = (_d = abacusProperty.classes) === null || _d === void 0 ? void 0 : _d.handle;
-        }
-        if ((_e = abacusProperty.classes) === null || _e === void 0 ? void 0 : _e.range) {
-            this._range.className = (_f = abacusProperty.classes) === null || _f === void 0 ? void 0 : _f.range;
-        }
-        // Включаем или отключаем слайдер
-        this.toggleDisable(abacusProperty.disabled);
-        // Создаем шкалу значений
-        if (abacusProperty.markup) {
-            if (!this._mapMarkup.size) {
-                this._createMarkup();
+        if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.value) !== abacusProperty.value) {
+            var currentValue = abacusProperty.value;
+            var posHandle = this.getPosFromValue(currentValue);
+            this._handleItem.posLeft = posHandle;
+            switch (this._range.rangeType) {
+                case 'min':
+                    this._range.htmlElement.style.left = '0';
+                    this._range.htmlElement.style.right = 'auto';
+                    this._range.width = posHandle;
+                    break;
+                case 'max':
+                    this._range.htmlElement.style.left = 'auto';
+                    this._range.htmlElement.style.right = '0';
+                    this._range.width = 100 - posHandle;
+                    break;
+            }
+            if (this._mapMarkup.size) {
+                this._highlightMarks();
             }
         }
-        else {
-            this._removeMarkup();
+        // Обновляем названия классов
+        if ((_c = abacusProperty.classes) === null || _c === void 0 ? void 0 : _c.abacus) {
+            this._widgetContainer.className = (_d = abacusProperty.classes) === null || _d === void 0 ? void 0 : _d.abacus;
         }
-        if (this._mapMarkup.size) {
-            this._highlightMarks();
+        if ((_e = abacusProperty.classes) === null || _e === void 0 ? void 0 : _e.handle) {
+            this._handleItem.className = (_f = abacusProperty.classes) === null || _f === void 0 ? void 0 : _f.handle;
         }
+        if ((_g = abacusProperty.classes) === null || _g === void 0 ? void 0 : _g.range) {
+            this._range.className = (_h = abacusProperty.classes) === null || _h === void 0 ? void 0 : _h.range;
+        }
+        // Включаем или отключаем слайдер
+        if (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.disabled) !== abacusProperty.disabled) {
+            this.toggleDisable(abacusProperty.disabled);
+        }
+        // Создаем шкалу значений
+        if ((((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.markup) !== abacusProperty.markup)
+            || (((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.step) !== abacusProperty.step)) {
+            if (abacusProperty.markup) {
+                this._createMarkup();
+            }
+            else {
+                this._removeMarkup();
+            }
+            if (this._mapMarkup.size) {
+                this._highlightMarks();
+            }
+        }
+        $.extend(this._cachedAbacusProperty, abacusProperty);
     };
     View.prototype.toggleDisable = function (off) {
         if (off === undefined || off === null) {
@@ -1438,6 +1457,9 @@ var View = /** @class */ (function () {
     };
     View.prototype._createMarkup = function () {
         var e_1, _a;
+        if (this._mapMarkup.size) {
+            this._removeMarkup();
+        }
         var abacusProperty = this._presenter.getModelAbacusProperty();
         if (abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined) {
             var value = abacusProperty.min;
@@ -1457,7 +1479,12 @@ var View = /** @class */ (function () {
         try {
             for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var mark = _c.value;
-                this._widgetContainer.htmlElement.append(mark.htmlElement);
+                if (this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
+                    this._handleItem.htmlElement.before(mark.htmlElement);
+                }
+                else {
+                    this._widgetContainer.htmlElement.append(mark.htmlElement);
+                }
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -1779,4 +1806,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=9930717fa65bb8f1d462
+//# sourceMappingURL=abacus.js.map?v=28d6b8ced6bfc2b663a0
