@@ -162,7 +162,6 @@ export class View{
     this._bindEventListeners();
 
     this.updateView();
-    $.extend(this._cachedAbacusProperty, abacusProperty);
 
     this._eventCreateWrapper();
   }
@@ -663,6 +662,9 @@ export class View{
   }
 
 
+  /**
+   * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+   */
   private _handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
     const viewInstance = this;
@@ -673,6 +675,9 @@ export class View{
   }
 
 
+  /**
+   * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+   */
   private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
     const viewInstance = this;
@@ -684,6 +689,10 @@ export class View{
   }
 
 
+  /**
+   * Обработчик пересещения курсора или пальца по экрану.
+   * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+   */
   private _handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
     const viewInstance = this;
@@ -703,6 +712,10 @@ export class View{
   }
 
 
+  /**
+   * Обработчик окончание пересещения курсора или пальца по экрану. 
+   * Генерирует событие "stop".
+   */
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
     const viewInstance = this;
@@ -713,6 +726,9 @@ export class View{
   }
 
 
+  /**
+   * Создает шкалу значений и добавляет ее в слайдер.
+   */
   private _createMarkup(): void{
     if( this._mapMarkup.size ){
       this._removeMarkup();
@@ -746,6 +762,9 @@ export class View{
   }
 
 
+  /**
+   * Удаляет шкалу значений.
+   */
   private _removeMarkup(): void{
     for(let mark of this._mapMarkup.values()){
       mark.htmlElement.remove();
@@ -754,6 +773,9 @@ export class View{
   }
 
 
+  /**
+   * Функция меняет состояния меток в шкале значений.
+   */
   private _highlightMarks(): void{
     const abacusProperty = this._presenter.getModelAbacusProperty();
     const rangeType = abacusProperty.range;
@@ -785,6 +807,10 @@ export class View{
   }
 
 
+  /**
+   * Установка css-свойства "transition" элементам интерфейса слайдера.
+   * Первоначальное значение береться из model.abacusProperty.aniamte.
+   */
   private _setTransition(): void{
     let duration: string = '';
     const animate = this._presenter.getModelAbacusProperty().animate;

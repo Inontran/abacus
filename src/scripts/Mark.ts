@@ -190,9 +190,14 @@ export class Mark{
 
 
   /**
-   * 
-   * @param value 
-   * @returns 
+   * Функция получения и установки состояния "в диапозоне". 
+   * Если функция получила параметр false, то у метки удалаяется класс,
+   * записанный в model.abacusProperty.classes.markInrange.
+   * Если функция получила параметр true, то метке добавляется класс,
+   * записанный в model.abacusProperty.classes.markInrange.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
+   * то возвращается текущее состояние.
+   * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
    */
   isInrange(value?: boolean): boolean{
     if( value !== undefined && this._classNameInrange){
@@ -211,9 +216,15 @@ export class Mark{
 
 
   /**
-   * 
-   * @param value 
-   * @returns 
+   * Функция получения и установки состояния "выбранная". 
+   * Это значит, что напротив этой метки установлена одна из ручек слайдера.
+   * Если функция получила параметр false, то у метки удалаяется класс,
+   * записанный в model.abacusProperty.classes.markSelected.
+   * Если функция получила параметр true, то метке добавляется класс,
+   * записанный в model.abacusProperty.classes.markSelected.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
+   * то возвращается текущее состояние.
+   * @returns {boolean} - Текущее состояние метки.
    */
   isSelected(value?: boolean): boolean{
     if( value !== undefined && this._classNameSelected){
