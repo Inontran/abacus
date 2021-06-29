@@ -3,23 +3,23 @@
  */
 $(() => {
   $('#abacus-1').on('abacus-change', ()=>{
-    console.log('abacus-change');
+    // console.log('abacus-change');
   });
 
   $('#abacus-1').on('abacus-create', ()=>{
-    console.log('abacus-create');
+    // console.log('abacus-create');
   });
 
   $('#abacus-1').on('abacus-slide', ()=>{
-    console.log('abacus-slide');
+    // console.log('abacus-slide');
   });
 
   $('#abacus-1').on('abacus-start', ()=>{
-    console.log('abacus-start');
+    // console.log('abacus-start');
   });
 
   $('#abacus-1').on('abacus-stop', ()=>{
-    console.log('abacus-stop');
+    // console.log('abacus-stop');
   });
 
   const $abacus = $('#abacus-1').abacus({
@@ -30,22 +30,22 @@ $(() => {
     range: true,
     markup: true,
     change: (event, ui) =>{
-      $('#abacus-1_input').val(ui.value);
+      // console.log('change');
     },
     create: (event, ui) =>{
-      console.log('create');
+      // console.log('create');
       // console.log( event );
     },
     slide: (event, ui) =>{
-      console.log('slide');
+      // console.log('slide');
       // console.log( ui );
     },
     start: (event, ui) =>{
-      console.log('start');
+      // console.log('start');
       // console.log( ui );
     },
     stop: (event, ui) =>{
-      console.log('stop');
+      // console.log('stop');
       // console.log( ui );
     },
   });
@@ -58,6 +58,13 @@ $(() => {
     //   },
     // } as AbacusOptions);
   }, 5000);
+
+  $('body').on('abacus-change', '.abacus', (event)=>{
+    const $abacus = $(event?.currentTarget);
+    const value = $abacus.abacus('value')?.toString();
+    const $inputTarget = $abacus.closest('.card').find('input[name="value[]"]:first');
+    $inputTarget.val(value as string);
+  });
 
 
   $('body .abacus').each(function(){

@@ -28,19 +28,19 @@ __webpack_require__.r(__webpack_exports__);
  */
 $(function () {
     $('#abacus-1').on('abacus-change', function () {
-        console.log('abacus-change');
+        // console.log('abacus-change');
     });
     $('#abacus-1').on('abacus-create', function () {
-        console.log('abacus-create');
+        // console.log('abacus-create');
     });
     $('#abacus-1').on('abacus-slide', function () {
-        console.log('abacus-slide');
+        // console.log('abacus-slide');
     });
     $('#abacus-1').on('abacus-start', function () {
-        console.log('abacus-start');
+        // console.log('abacus-start');
     });
     $('#abacus-1').on('abacus-stop', function () {
-        console.log('abacus-stop');
+        // console.log('abacus-stop');
     });
     var $abacus = $('#abacus-1').abacus({
         min: -10,
@@ -50,22 +50,22 @@ $(function () {
         range: true,
         markup: true,
         change: function (event, ui) {
-            $('#abacus-1_input').val(ui.value);
+            // console.log('change');
         },
         create: function (event, ui) {
-            console.log('create');
+            // console.log('create');
             // console.log( event );
         },
         slide: function (event, ui) {
-            console.log('slide');
+            // console.log('slide');
             // console.log( ui );
         },
         start: function (event, ui) {
-            console.log('start');
+            // console.log('start');
             // console.log( ui );
         },
         stop: function (event, ui) {
-            console.log('stop');
+            // console.log('stop');
             // console.log( ui );
         },
     });
@@ -76,6 +76,13 @@ $(function () {
         //   },
         // } as AbacusOptions);
     }, 5000);
+    $('body').on('abacus-change', '.abacus', function (event) {
+        var _a;
+        var $abacus = $(event === null || event === void 0 ? void 0 : event.currentTarget);
+        var value = (_a = $abacus.abacus('value')) === null || _a === void 0 ? void 0 : _a.toString();
+        var $inputTarget = $abacus.closest('.card').find('input[name="value[]"]:first');
+        $inputTarget.val(value);
+    });
     $('body .abacus').each(function () {
         var $abacusItem = $(this);
         var $form = $abacusItem.closest('.card').find('form');
@@ -244,4 +251,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=dd607977dcc13d28abe9
+//# sourceMappingURL=abacus-demo.js.map?v=428b81f59af895588aa8

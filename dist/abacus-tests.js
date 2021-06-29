@@ -12077,7 +12077,7 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
@@ -12099,12 +12099,16 @@ var View = /** @class */ (function () {
                     this._range.htmlElement.remove();
                     break;
             }
+            this._highlightMarks();
         }
         if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.animate) !== abacusProperty.animate) {
             this._setTransition();
         }
         // Обновляем положение бегунка и индикатора
-        if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.value) !== abacusProperty.value) {
+        if ((((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.value) !== abacusProperty.value)
+            || (((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range)
+            || (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.max) !== abacusProperty.max)
+            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.min) !== abacusProperty.min)) {
             var currentValue = abacusProperty.value;
             var posHandle = this.getPosFromValue(currentValue);
             this._handleItem.posLeft = posHandle;
@@ -12120,36 +12124,34 @@ var View = /** @class */ (function () {
                     this._range.width = 100 - posHandle;
                     break;
             }
-            if (this._mapMarkup.size) {
-                this._highlightMarks();
-            }
+            this._highlightMarks();
         }
         // Обновляем названия классов
-        if ((_d = abacusProperty.classes) === null || _d === void 0 ? void 0 : _d.abacus) {
-            this._widgetContainer.className = (_e = abacusProperty.classes) === null || _e === void 0 ? void 0 : _e.abacus;
+        if ((_g = abacusProperty.classes) === null || _g === void 0 ? void 0 : _g.abacus) {
+            this._widgetContainer.className = (_h = abacusProperty.classes) === null || _h === void 0 ? void 0 : _h.abacus;
         }
-        if ((_f = abacusProperty.classes) === null || _f === void 0 ? void 0 : _f.handle) {
-            this._handleItem.className = (_g = abacusProperty.classes) === null || _g === void 0 ? void 0 : _g.handle;
+        if ((_j = abacusProperty.classes) === null || _j === void 0 ? void 0 : _j.handle) {
+            this._handleItem.className = (_k = abacusProperty.classes) === null || _k === void 0 ? void 0 : _k.handle;
         }
-        if ((_h = abacusProperty.classes) === null || _h === void 0 ? void 0 : _h.range) {
-            this._range.className = (_j = abacusProperty.classes) === null || _j === void 0 ? void 0 : _j.range;
+        if ((_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.range) {
+            this._range.className = (_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.range;
         }
         // Включаем или отключаем слайдер
-        if (((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.disabled) !== abacusProperty.disabled) {
+        if (((_o = this._cachedAbacusProperty) === null || _o === void 0 ? void 0 : _o.disabled) !== abacusProperty.disabled) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.markup) !== abacusProperty.markup)
-            || (((_m = this._cachedAbacusProperty) === null || _m === void 0 ? void 0 : _m.step) !== abacusProperty.step)) {
+        if ((((_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.markup) !== abacusProperty.markup)
+            || (((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.step) !== abacusProperty.step)
+            || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.max) !== abacusProperty.max)
+            || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.min) !== abacusProperty.min)) {
             if (abacusProperty.markup) {
                 this._createMarkup();
             }
             else {
                 this._removeMarkup();
             }
-            if (this._mapMarkup.size) {
-                this._highlightMarks();
-            }
+            this._highlightMarks();
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
     };
@@ -12376,7 +12378,7 @@ var View = /** @class */ (function () {
      * Создает шкалу значений и добавляет ее в слайдер.
      */
     View.prototype._createMarkup = function () {
-        var e_1, _a;
+        var e_1, _a, e_2, _b;
         if (this._mapMarkup.size) {
             this._removeMarkup();
         }
@@ -12387,51 +12389,65 @@ var View = /** @class */ (function () {
                 var mark = new Mark_1.Mark(abacusProperty.classes);
                 var left = this.getPosFromValue(value);
                 mark.posLeft = left;
+                mark.htmlElement.innerText = value.toString();
                 this._mapMarkup.set(value, mark);
             }
             if (value !== abacusProperty.max) {
                 var mark = new Mark_1.Mark(abacusProperty.classes);
-                var left = this.getPosFromValue(value);
+                var left = this.getPosFromValue(abacusProperty.max);
                 mark.posLeft = left;
+                mark.htmlElement.innerText = abacusProperty.max.toString();
                 this._mapMarkup.set(value, mark);
             }
         }
-        try {
-            for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var mark = _c.value;
-                if (this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
+        if (this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
+            try {
+                for (var _c = __values(this._mapMarkup.values()), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var mark = _d.value;
                     this._handleItem.htmlElement.before(mark.htmlElement);
                 }
-                else {
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+        }
+        else {
+            try {
+                for (var _e = __values(this._mapMarkup.values()), _f = _e.next(); !_f.done; _f = _e.next()) {
+                    var mark = _f.value;
                     this._widgetContainer.htmlElement.append(mark.htmlElement);
                 }
             }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+                }
+                finally { if (e_2) throw e_2.error; }
             }
-            finally { if (e_1) throw e_1.error; }
         }
     };
     /**
      * Удаляет шкалу значений.
      */
     View.prototype._removeMarkup = function () {
-        var e_2, _a;
+        var e_3, _a;
         try {
             for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var mark = _c.value;
                 mark.htmlElement.remove();
             }
         }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        catch (e_3_1) { e_3 = { error: e_3_1 }; }
         finally {
             try {
                 if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
-            finally { if (e_2) throw e_2.error; }
+            finally { if (e_3) throw e_3.error; }
         }
         this._mapMarkup.clear();
     };
@@ -12439,7 +12455,10 @@ var View = /** @class */ (function () {
      * Функция меняет состояния меток в шкале значений.
      */
     View.prototype._highlightMarks = function () {
-        var e_3, _a;
+        var e_4, _a;
+        if (!this._mapMarkup.size) {
+            return;
+        }
         var abacusProperty = this._presenter.getModelAbacusProperty();
         var rangeType = abacusProperty.range;
         if (abacusProperty.min !== undefined
@@ -12466,12 +12485,12 @@ var View = /** @class */ (function () {
                     }
                 }
             }
-            catch (e_3_1) { e_3 = { error: e_3_1 }; }
+            catch (e_4_1) { e_4 = { error: e_4_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_3) throw e_3.error; }
+                finally { if (e_4) throw e_4.error; }
             }
         }
     };
@@ -12480,7 +12499,7 @@ var View = /** @class */ (function () {
      * Первоначальное значение береться из model.abacusProperty.aniamte.
      */
     View.prototype._setTransition = function () {
-        var e_4, _a;
+        var e_5, _a;
         var duration = '';
         var animate = this._presenter.getModelAbacusProperty().animate;
         if (typeof animate === 'number' && animate > 0) {
@@ -12505,12 +12524,12 @@ var View = /** @class */ (function () {
                     markItem[1].htmlElement.style.transition = duration;
                 }
             }
-            catch (e_4_1) { e_4 = { error: e_4_1 }; }
+            catch (e_5_1) { e_5 = { error: e_5_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_4) throw e_4.error; }
+                finally { if (e_5) throw e_5.error; }
             }
         }
     };
@@ -13295,4 +13314,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=dd607977dcc13d28abe9
+//# sourceMappingURL=abacus-tests.js.map?v=428b81f59af895588aa8

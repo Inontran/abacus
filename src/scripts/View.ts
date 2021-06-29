@@ -369,14 +369,22 @@ export class View{
           this._range.htmlElement.remove();
           break;
       }
+
+      this._highlightMarks();
     }
+
 
     if( this._cachedAbacusProperty?.animate !== abacusProperty.animate ){
       this._setTransition();
     }
 
+
     // Обновляем положение бегунка и индикатора
-    if( this._cachedAbacusProperty?.value !== abacusProperty.value ){
+    if( (this._cachedAbacusProperty?.value !== abacusProperty.value)
+      || (this._cachedAbacusProperty?.range !== abacusProperty.range)
+      || (this._cachedAbacusProperty?.max !== abacusProperty.max)
+      || (this._cachedAbacusProperty?.min !== abacusProperty.min) )
+    {
       const currentValue: number = abacusProperty.value as number;
       const posHandle: number = this.getPosFromValue(currentValue);
       this._handleItem.posLeft = posHandle;
@@ -395,10 +403,9 @@ export class View{
           break;
       }
 
-      if( this._mapMarkup.size ){
-        this._highlightMarks();
-      }
+      this._highlightMarks();
     }
+
 
     // Обновляем названия классов
     if( abacusProperty.classes?.abacus ){
@@ -411,14 +418,19 @@ export class View{
       this._range.className = abacusProperty.classes?.range;
     }
 
+
     // Включаем или отключаем слайдер
     if( this._cachedAbacusProperty?.disabled !== abacusProperty.disabled ){
       this.toggleDisable(abacusProperty.disabled);
     }
 
+
     // Создаем шкалу значений
     if( (this._cachedAbacusProperty?.markup !== abacusProperty.markup)
-    || (this._cachedAbacusProperty?.step !== abacusProperty.step) ){
+      || (this._cachedAbacusProperty?.step !== abacusProperty.step)
+      || (this._cachedAbacusProperty?.max !== abacusProperty.max)
+      || (this._cachedAbacusProperty?.min !== abacusProperty.min) )
+    {
       if( abacusProperty.markup ){
         this._createMarkup();
       }
@@ -426,10 +438,9 @@ export class View{
         this._removeMarkup();
       }
 
-      if( this._mapMarkup.size ){
-        this._highlightMarks();
-      }
+      this._highlightMarks();
     }
+
 
     $.extend(this._cachedAbacusProperty, abacusProperty);
   }
@@ -739,21 +750,25 @@ export class View{
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(value);
         mark.posLeft = left;
+        mark.htmlElement.innerText = value.toString();
         this._mapMarkup.set(value, mark);
       }
       if( value !== abacusProperty.max ){
         const mark = new Mark(abacusProperty.classes);
-        const left = this.getPosFromValue(value);
+        const left = this.getPosFromValue(abacusProperty.max);
         mark.posLeft = left;
+        mark.htmlElement.innerText = abacusProperty.max.toString();
         this._mapMarkup.set(value, mark);
       }
     }
 
-    for(let mark of this._mapMarkup.values()){
-      if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
+    if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
+      for(let mark of this._mapMarkup.values()){
         this._handleItem.htmlElement.before(mark.htmlElement);
       }
-      else{
+    }
+    else{
+      for(let mark of this._mapMarkup.values()){
         this._widgetContainer.htmlElement.append(mark.htmlElement);
       }
     }
@@ -775,6 +790,10 @@ export class View{
    * Функция меняет состояния меток в шкале значений.
    */
   private _highlightMarks(): void{
+    if( ! this._mapMarkup.size ){
+      return;
+    }
+
     const abacusProperty = this._presenter.getModelAbacusProperty();
     const rangeType = abacusProperty.range;
 

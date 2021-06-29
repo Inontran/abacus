@@ -33,20 +33,31 @@
 	}
 
 	.abacus__mark{
+		display: inline-block;
 		position: absolute;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		width: 3px;
-		height: 20px;
-		background-color: cadetblue;
+		top: 12px;
+		transform: translateX(-50%);
 		left: 0;
 
+		&:after{
+			content: '';
+			position: absolute;
+			top: -9px;
+			transform: translate(-50%, -50%);
+			width: 3px;
+			height: 20px;
+			background-color: cadetblue;
+			left: 50%;
+		}
+
 		&.abacus__mark_inrange{
-			background-color: brown;
+			&:after{
+				background-color: brown;
+			}
 		}
 
 		&.abacus__mark_selected{
-			height: 30px;
+			color: brown;
 		}
 	}
 
