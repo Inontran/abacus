@@ -103,7 +103,7 @@ export class View{
   /**
    * Коллекция меток разметки слайдера.
    */
-  private _mapMarkup: Map<number, Mark> = new Map();
+  private _mapScale: Map<number, Mark> = new Map();
 
 
   /**
@@ -313,7 +313,7 @@ export class View{
         case 'classes':
         case 'disabled':
         case 'max':
-        case 'markup':
+        case 'scale':
         case 'min':
         case 'orientation':
         case 'range':
@@ -448,16 +448,16 @@ export class View{
 
 
     // Создаем шкалу значений
-    if( (this._cachedAbacusProperty?.markup !== abacusProperty.markup)
+    if( (this._cachedAbacusProperty?.scale !== abacusProperty.scale)
       || (this._cachedAbacusProperty?.step !== abacusProperty.step)
       || (this._cachedAbacusProperty?.max !== abacusProperty.max)
       || (this._cachedAbacusProperty?.min !== abacusProperty.min) )
     {
-      if( abacusProperty.markup ){
-        this._createMarkup();
+      if( abacusProperty.scale ){
+        this._createScale();
       }
       else{
-        this._removeMarkup();
+        this._removeScale();
       }
 
       this._highlightMarks();
@@ -760,9 +760,9 @@ export class View{
   /**
    * Создает шкалу значений и добавляет ее в слайдер.
    */
-  private _createMarkup(): void{
-    if( this._mapMarkup.size ){
-      this._removeMarkup();
+  private _createScale(): void{
+    if( this._mapScale.size ){
+      this._removeScale();
     }
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
@@ -773,24 +773,24 @@ export class View{
         const left = this.getPosFromValue(value);
         mark.posLeft = left;
         mark.htmlElement.innerText = value.toString();
-        this._mapMarkup.set(value, mark);
+        this._mapScale.set(value, mark);
       }
       if( value !== abacusProperty.max ){
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(abacusProperty.max);
         mark.posLeft = left;
         mark.htmlElement.innerText = abacusProperty.max.toString();
-        this._mapMarkup.set(value, mark);
+        this._mapScale.set(value, mark);
       }
     }
 
     if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
-      for(let mark of this._mapMarkup.values()){
+      for(let mark of this._mapScale.values()){
         this._handleItem.htmlElement.before(mark.htmlElement);
       }
     }
     else{
-      for(let mark of this._mapMarkup.values()){
+      for(let mark of this._mapScale.values()){
         this._widgetContainer.htmlElement.append(mark.htmlElement);
       }
     }
@@ -800,11 +800,11 @@ export class View{
   /**
    * Удаляет шкалу значений.
    */
-  private _removeMarkup(): void{
-    for(let mark of this._mapMarkup.values()){
+  private _removeScale(): void{
+    for(let mark of this._mapScale.values()){
       mark.htmlElement.remove();
     }
-    this._mapMarkup.clear();
+    this._mapScale.clear();
   }
 
 
@@ -812,7 +812,7 @@ export class View{
    * Функция меняет состояния меток в шкале значений.
    */
   private _highlightMarks(): void{
-    if( ! this._mapMarkup.size ){
+    if( ! this._mapScale.size ){
       return;
     }
 
@@ -824,7 +824,7 @@ export class View{
       && abacusProperty.step !== undefined
       && abacusProperty.value !== undefined )
     {
-      for (const markItem of this._mapMarkup) {
+      for (const markItem of this._mapScale) {
         if( (rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value){
           markItem[1].isInrange(true);
         }
@@ -868,9 +868,10 @@ export class View{
 
     duration = duration ? duration + 'ms' : '';
     this._handleItem.htmlElement.style.transition = duration;
+    this._tooltipItem.htmlElement.style.transition = duration;
     this._range.htmlElement.style.transition = duration;
-    if( this._mapMarkup ){
-      for (const markItem of this._mapMarkup) {
+    if( this._mapScale ){
+      for (const markItem of this._mapScale) {
         markItem[1].htmlElement.style.transition = duration;
       }
     }

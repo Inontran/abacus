@@ -61,10 +61,10 @@ interface AbacusOptions {
   classes?: AbacusClasses;
   disabled?: boolean;
   max?: number;
-  markup?: boolean;
   min?: number;
   orientation?: string;
   range?: boolean | string;
+  scale?: boolean;
   step?: number;
   tooltip?: boolean;
   value?: number;

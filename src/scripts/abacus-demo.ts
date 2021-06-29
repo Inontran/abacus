@@ -28,7 +28,7 @@ $(() => {
     step: 2,
     value: 0,
     range: true,
-    markup: true,
+    scale: true,
     change: (event, ui) =>{
       // console.log('change');
     },
@@ -121,7 +121,7 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
     $('[name="range"]', $form).val(stringValRange);
   }
 
-  $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
+  $('[name="scale"]', $form).prop('checked', !!abacusProperty.scale);
 
   $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
 
@@ -200,8 +200,8 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
     }
   }
 
-  if( $('[name="markup"]', $form).length ){
-    abacusProperty.markup = !! $('[name="markup"]', $form).prop('checked');
+  if( $('[name="scale"]', $form).length ){
+    abacusProperty.scale = !! $('[name="scale"]', $form).prop('checked');
   }
 
   if( $('[name="tooltip"]', $form).length ){

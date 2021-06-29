@@ -25,10 +25,10 @@ export class Model{
     },
     disabled: false,
     max: 100,
-    markup: false,
     min: 0,
     orientation: 'horizontal',
     range: false,
+    scale: false,
     step: 1,
     tooltip: false,
     value: 0,
@@ -142,9 +142,9 @@ export class Model{
       }
     }
 
-    // markup
-    if( abacusProperty.markup !== undefined ){
-      this._abacusProperty.markup = !!abacusProperty.markup;
+    // scale
+    if( abacusProperty.scale !== undefined ){
+      this._abacusProperty.scale = !!abacusProperty.scale;
     }
 
     // min

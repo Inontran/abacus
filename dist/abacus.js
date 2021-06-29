@@ -1824,6 +1824,7 @@ var View = /** @class */ (function () {
         }
         duration = duration ? duration + 'ms' : '';
         this._handleItem.htmlElement.style.transition = duration;
+        this._tooltipItem.htmlElement.style.transition = duration;
         this._range.htmlElement.style.transition = duration;
         if (this._mapMarkup) {
             try {
@@ -2123,4 +2124,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=54c570f7ed41b746b329
+//# sourceMappingURL=abacus.js.map?v=941055774bdc3f3ddc3e
