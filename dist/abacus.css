@@ -49,6 +49,16 @@
       background-color: brown; }
   .abacus .abacus__mark.abacus__mark_selected {
       color: brown; }
+  .abacus .abacus__tooltip {
+    display: inline-block;
+    position: absolute;
+    top: -32px;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    background-color: sandybrown;
+    padding: 3px 5px;
+    border-radius: 100vh;
+    line-height: 1; }
   .abacus:not(.abacus_disabled),
   .abacus:not(.abacus_disabled) .abacus__handle {
     cursor: pointer; }
@@ -58,4 +68,4 @@
             filter: grayscale(0.5); }
 
 
-/*# sourceMappingURL=abacus.css.map?v=428b81f59af895588aa8*/
+/*# sourceMappingURL=abacus.css.map?v=54c570f7ed41b746b329*/

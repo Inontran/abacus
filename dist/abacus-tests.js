@@ -11006,9 +11006,12 @@ var Handle = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Handle}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__handle".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Handle({
+     *  handle: 'abacus__handle'
+     * });
      */
-    function Handle(className, handleIndex) {
+    function Handle(classes, handleIndex) {
         /**
          * Позиция бегунка в процентах от 0 до 100 по горизонтали от левого края.
          * @type {number}
@@ -11028,7 +11031,7 @@ var Handle = /** @class */ (function () {
          */
         this._handleIndex = 0;
         this._htmlElement = document.createElement('span');
-        this._className = className ? className : 'abacus__handle';
+        this._className = (classes === null || classes === void 0 ? void 0 : classes.handle) ? classes.handle : 'abacus__handle';
         this._htmlElement.classList.add(this._className);
         if (handleIndex != null) {
             this._handleIndex = handleIndex;
@@ -11121,7 +11124,12 @@ var Mark = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Mark}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__mark".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Mark({
+       * 	mark: 'abacus__mark',
+       * 	markInrange: 'abacus__mark_inrange',
+       * 	markSelected: 'abacus__mark_selected'
+       * });
      */
     function Mark(classes) {
         /**
@@ -11354,12 +11362,14 @@ var Model = /** @class */ (function () {
             animate: false,
             classes: {
                 abacus: 'abacus',
+                disabled: 'abacus_disabled',
                 handle: 'abacus__handle',
                 range: 'abacus__range',
-                disabled: 'abacus_disabled',
                 mark: 'abacus__mark',
                 markSelected: 'abacus__mark_selected',
                 markInrange: 'abacus__mark_inrange',
+                tooltip: 'abacus__tooltip',
+                tooltipVisible: 'abacus__tooltip_visible',
             },
             disabled: false,
             max: 100,
@@ -11368,6 +11378,7 @@ var Model = /** @class */ (function () {
             orientation: 'horizontal',
             range: false,
             step: 1,
+            tooltip: false,
             value: 0,
             values: null,
         };
@@ -11412,14 +11423,14 @@ var Model = /** @class */ (function () {
                 if (typeof abacusProperty.classes.abacus === 'string' && abacusProperty.classes.abacus) {
                     this._abacusProperty.classes.abacus = abacusProperty.classes.abacus;
                 }
+                if (typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled) {
+                    this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
+                }
                 if (typeof abacusProperty.classes.range === 'string' && abacusProperty.classes.range) {
                     this._abacusProperty.classes.range = abacusProperty.classes.range;
                 }
                 if (typeof abacusProperty.classes.handle === 'string' && abacusProperty.classes.handle) {
                     this._abacusProperty.classes.handle = abacusProperty.classes.handle;
-                }
-                if (typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled) {
-                    this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
                 }
                 if (typeof abacusProperty.classes.mark === 'string' && abacusProperty.classes.mark) {
                     this._abacusProperty.classes.mark = abacusProperty.classes.mark;
@@ -11429,6 +11440,12 @@ var Model = /** @class */ (function () {
                 }
                 if (typeof abacusProperty.classes.markInrange === 'string' && abacusProperty.classes.markInrange) {
                     this._abacusProperty.classes.markInrange = abacusProperty.classes.markInrange;
+                }
+                if (typeof abacusProperty.classes.tooltip === 'string' && abacusProperty.classes.tooltip) {
+                    this._abacusProperty.classes.tooltip = abacusProperty.classes.tooltip;
+                }
+                if (typeof abacusProperty.classes.tooltipVisible === 'string' && abacusProperty.classes.tooltipVisible) {
+                    this._abacusProperty.classes.tooltipVisible = abacusProperty.classes.tooltipVisible;
                 }
             }
             // disabled
@@ -11476,6 +11493,10 @@ var Model = /** @class */ (function () {
                         this._abacusProperty.step = abacusProperty.step;
                     }
                 }
+            }
+            // tooltip
+            if (abacusProperty.tooltip !== undefined) {
+                this._abacusProperty.tooltip = !!abacusProperty.tooltip;
             }
             // value
             if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
@@ -11703,9 +11724,12 @@ var Range = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Range}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__range".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Handle({
+     *  range: 'abacus__range'
+     * });
      */
-    function Range(className) {
+    function Range(classes) {
         /**
          * Ширина HTML-элемента от 0 до 100 в процентах.
          * @type {number}
@@ -11718,7 +11742,7 @@ var Range = /** @class */ (function () {
          */
         this._rangeType = RangeType.HIDDEN;
         this._htmlElement = document.createElement('span');
-        this._className = className ? className : 'abacus__range';
+        this._className = (classes === null || classes === void 0 ? void 0 : classes.range) ? classes.range : 'abacus__range';
         this._htmlElement.classList.add(this._className);
     }
     Object.defineProperty(Range.prototype, "width", {
@@ -11805,6 +11829,166 @@ var RangeType;
 
 /***/ }),
 
+/***/ "./src/scripts/Tooltip.ts":
+/*!********************************!*\
+  !*** ./src/scripts/Tooltip.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Tooltip = void 0;
+/**
+ * Класс "Tooltip" является оберткой для HTML-элемента подсказки со значением ручки слайдера.
+ * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
+ */
+var Tooltip = /** @class */ (function () {
+    /**
+     * @constructor
+     * @this   {Tooltip}
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Tooltip({
+     *  tooltip: 'abacus__tooltip',
+     *  tooltipVisible: 'abacus__tooltip_visible'
+     * });
+     */
+    function Tooltip(classes) {
+        /**
+         * Если параметр равен "true", то это значит, что подсказка отображается.
+         * @type {boolean}
+         * @private
+         */
+        this._isVisible = false;
+        /**
+         * Позиция подсказки в процентах от 0 до 100 по горизонтали от левого края.
+         * @type {number}
+         * @private
+         */
+        this._posLeft = 0;
+        /**
+          * Позиция подсказки в процентах от 0 до 100 по вертикали от нижнего края.
+          * @type {number}
+          * @private
+          */
+        this._posBottom = 0;
+        this._htmlElement = document.createElement('span');
+        this._className = (classes === null || classes === void 0 ? void 0 : classes.tooltip) ? classes.tooltip : 'abacus__tooltip';
+        this._classNameVisible = (classes === null || classes === void 0 ? void 0 : classes.tooltipVisible) ? classes.tooltipVisible : 'abacus__tooltip_visible';
+        this._htmlElement.classList.add(this._className);
+    }
+    Object.defineProperty(Tooltip.prototype, "htmlElement", {
+        /**
+         * Геттер ссылки на HTML-элемент.
+         */
+        get: function () {
+            return this._htmlElement;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Tooltip.prototype, "className", {
+        /**
+         * Геттер названия класса HTML-элемента.
+         */
+        get: function () {
+            return this._className;
+        },
+        /**
+         * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+         * @param {string} name - Название класса.
+         */
+        set: function (name) {
+            if (this._className) {
+                this._htmlElement.classList.remove(this._className);
+            }
+            if (name) {
+                this._htmlElement.classList.add(name);
+            }
+            this._className = name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Tooltip.prototype, "classNameVisible", {
+        /**
+         * Геттер названия класса HTML-элемента метки, которая находится в диапозоне.
+         */
+        get: function () {
+            return this._classNameVisible;
+        },
+        /**
+         * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
+         * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+         * @param {string} name - Название класса.
+         */
+        set: function (name) {
+            if (!name || typeof name !== 'string') {
+                return;
+            }
+            if (this._htmlElement.classList.contains(this._classNameVisible)) {
+                this._htmlElement.classList.add(name);
+            }
+            if (this._classNameVisible) {
+                this._htmlElement.classList.remove(this._classNameVisible);
+            }
+            this._classNameVisible = name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Tooltip.prototype, "posLeft", {
+        /**
+         * Геттер позиции метки в процентах от левого края.
+         * @returns {number} - Позиция метки в процентах от 0 до 100.
+         */
+        get: function () {
+            return this._posLeft;
+        },
+        /**
+         * Сеттер позиции метки в процентах от левого края.
+         * @param {number} - Позиция метки в процентах от 0 до 100.
+         */
+        set: function (left) {
+            if (left < 0)
+                left = 0;
+            if (left > 100)
+                left = 100;
+            this._posLeft = left;
+            this._htmlElement.style.left = left + '%';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * Функция получения и установки состояния видимости подсказки.
+     * Если функция получила параметр false, то у метки удалаяется класс,
+     * записанный в _classNameVisible.
+     * Если функция получила параметр true, то метке добавляется класс,
+     * записанный в _classNameVisible.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
+     * то возвращается текущее состояние.
+     * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
+     */
+    Tooltip.prototype.isVisible = function (value) {
+        if (value !== undefined && this._classNameVisible) {
+            this._isVisible = !!value;
+            if (this._isVisible) {
+                this._htmlElement.classList.add(this._classNameVisible);
+            }
+            else {
+                this._htmlElement.classList.remove(this._classNameVisible);
+            }
+        }
+        return this._isVisible;
+    };
+    return Tooltip;
+}());
+exports.Tooltip = Tooltip;
+
+
+/***/ }),
+
 /***/ "./src/scripts/View.ts":
 /*!*****************************!*\
   !*** ./src/scripts/View.ts ***!
@@ -11832,6 +12016,7 @@ var WidgetContainer_1 = __webpack_require__(/*! ./WidgetContainer */ "./src/scri
 var Handle_1 = __webpack_require__(/*! ./Handle */ "./src/scripts/Handle.ts");
 var Range_1 = __webpack_require__(/*! ./Range */ "./src/scripts/Range.ts");
 var Mark_1 = __webpack_require__(/*! ./Mark */ "./src/scripts/Mark.ts");
+var Tooltip_1 = __webpack_require__(/*! ./Tooltip */ "./src/scripts/Tooltip.ts");
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
  * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
@@ -11847,7 +12032,6 @@ var View = /** @class */ (function () {
      * @param  {object} data - Другие данные.
      */
     function View(abacusHtmlContainer, options, data) {
-        var _a, _b, _c;
         /**
          * Включен или выключен слайдер. Если равен false, то включен.
          * @type {boolean}
@@ -11881,10 +12065,11 @@ var View = /** @class */ (function () {
             viewInstance.updateView();
         });
         var abacusProperty = this._presenter.getModelAbacusProperty();
-        this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, (_a = abacusProperty.classes) === null || _a === void 0 ? void 0 : _a.abacus);
+        this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
         this._widgetContainer.htmlElement.innerHTML = '';
-        this._handleItem = new Handle_1.Handle((_b = abacusProperty.classes) === null || _b === void 0 ? void 0 : _b.handle);
-        this._range = new Range_1.Range((_c = abacusProperty.classes) === null || _c === void 0 ? void 0 : _c.range);
+        this._handleItem = new Handle_1.Handle(abacusProperty.classes);
+        this._range = new Range_1.Range(abacusProperty.classes);
+        this._tooltipItem = new Tooltip_1.Tooltip(abacusProperty.classes);
         this._customEventChange = new CustomEvent('abacus-change', {
             bubbles: true,
             cancelable: true,
@@ -12044,10 +12229,12 @@ var View = /** @class */ (function () {
                 case 'classes':
                 case 'disabled':
                 case 'max':
+                case 'markup':
                 case 'min':
                 case 'orientation':
                 case 'range':
                 case 'step':
+                case 'tooltip':
                 case 'value':
                 case 'values':
                     if (value !== undefined) {
@@ -12077,7 +12264,7 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
@@ -12101,17 +12288,30 @@ var View = /** @class */ (function () {
             }
             this._highlightMarks();
         }
-        if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.animate) !== abacusProperty.animate) {
+        if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.tooltip) !== abacusProperty.tooltip) {
+            if (abacusProperty.tooltip) {
+                this._widgetContainer.htmlElement.append(this._tooltipItem.htmlElement);
+                this._tooltipItem.isVisible(true);
+            }
+            else {
+                this._tooltipItem.htmlElement.remove();
+            }
+        }
+        if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.animate) !== abacusProperty.animate) {
             this._setTransition();
         }
         // Обновляем положение бегунка и индикатора
-        if ((((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.value) !== abacusProperty.value)
-            || (((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range)
-            || (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.max) !== abacusProperty.max)
-            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.min) !== abacusProperty.min)) {
+        if ((((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.value) !== abacusProperty.value)
+            || (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.range) !== abacusProperty.range)
+            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.max) !== abacusProperty.max)
+            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.min) !== abacusProperty.min)) {
             var currentValue = abacusProperty.value;
             var posHandle = this.getPosFromValue(currentValue);
             this._handleItem.posLeft = posHandle;
+            this._tooltipItem.posLeft = posHandle;
+            if (abacusProperty.value !== undefined) {
+                this._tooltipItem.htmlElement.innerText = abacusProperty.value.toString();
+            }
             switch (this._range.rangeType) {
                 case 'min':
                     this._range.htmlElement.style.left = '0';
@@ -12127,24 +12327,24 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         // Обновляем названия классов
-        if ((_g = abacusProperty.classes) === null || _g === void 0 ? void 0 : _g.abacus) {
-            this._widgetContainer.className = (_h = abacusProperty.classes) === null || _h === void 0 ? void 0 : _h.abacus;
+        if ((_h = abacusProperty.classes) === null || _h === void 0 ? void 0 : _h.abacus) {
+            this._widgetContainer.className = (_j = abacusProperty.classes) === null || _j === void 0 ? void 0 : _j.abacus;
         }
-        if ((_j = abacusProperty.classes) === null || _j === void 0 ? void 0 : _j.handle) {
-            this._handleItem.className = (_k = abacusProperty.classes) === null || _k === void 0 ? void 0 : _k.handle;
+        if ((_k = abacusProperty.classes) === null || _k === void 0 ? void 0 : _k.handle) {
+            this._handleItem.className = (_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.handle;
         }
-        if ((_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.range) {
-            this._range.className = (_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.range;
+        if ((_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.range) {
+            this._range.className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.range;
         }
         // Включаем или отключаем слайдер
-        if (((_o = this._cachedAbacusProperty) === null || _o === void 0 ? void 0 : _o.disabled) !== abacusProperty.disabled) {
+        if (((_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.disabled) !== abacusProperty.disabled) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.markup) !== abacusProperty.markup)
-            || (((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.step) !== abacusProperty.step)
-            || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.max) !== abacusProperty.max)
-            || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.min) !== abacusProperty.min)) {
+        if ((((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.markup) !== abacusProperty.markup)
+            || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.step) !== abacusProperty.step)
+            || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.max) !== abacusProperty.max)
+            || (((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.min) !== abacusProperty.min)) {
             if (abacusProperty.markup) {
                 this._createMarkup();
             }
@@ -12559,9 +12759,13 @@ var WidgetContainer = /** @class */ (function () {
      * @constructor
      * @this   {WidgetContainer}
      * @param  {HTMLAbacusElement} htmlElement - HTML-элемент, в котором будут элементы слайдера.
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new WidgetContainer({
+     *  abacus: 'abacus',
+     *  disabled: 'abacus_disabled'
+     * });
      */
-    function WidgetContainer(htmlElement, className) {
+    function WidgetContainer(htmlElement, classes) {
         /**
          * Ширина HTML-элемента от 0 до 100 в процентах.
          * @type {number}
@@ -12569,8 +12773,8 @@ var WidgetContainer = /** @class */ (function () {
          */
         this._width = 100;
         this._htmlElement = htmlElement;
-        this._className = className ? className : 'abacus';
-        this._classNameDisabled = 'abacus_disabled';
+        this._className = (classes === null || classes === void 0 ? void 0 : classes.abacus) ? classes.abacus : 'abacus';
+        this._classNameDisabled = (classes === null || classes === void 0 ? void 0 : classes.disabled) ? classes.disabled : 'abacus_disabled';
         this._htmlElement.classList.add(this._className);
     }
     Object.defineProperty(WidgetContainer.prototype, "width", {
@@ -13314,4 +13518,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=428b81f59af895588aa8
+//# sourceMappingURL=abacus-tests.js.map?v=54c570f7ed41b746b329

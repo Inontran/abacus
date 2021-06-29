@@ -31,9 +31,13 @@ export declare class WidgetContainer {
      * @constructor
      * @this   {WidgetContainer}
      * @param  {HTMLAbacusElement} htmlElement - HTML-элемент, в котором будут элементы слайдера.
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new WidgetContainer({
+     *  abacus: 'abacus',
+     *  disabled: 'abacus_disabled'
+     * });
      */
-    constructor(htmlElement: HTMLAbacusElement, className?: string);
+    constructor(htmlElement: HTMLAbacusElement, classes?: AbacusClasses);
     /**
      * Геттер ширины HTML-элемента (_htmlElement).
      */

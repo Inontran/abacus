@@ -126,6 +126,7 @@ function parsePropertyToForm(abacusProperty, $form) {
         $('[name="range"]', $form).val(stringValRange);
     }
     $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
+    $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
     if (abacusProperty.step !== undefined) {
         $('[name="step"]', $form).val(abacusProperty.step);
     }
@@ -186,6 +187,9 @@ function parseFormToProperty($form) {
     }
     if ($('[name="markup"]', $form).length) {
         abacusProperty.markup = !!$('[name="markup"]', $form).prop('checked');
+    }
+    if ($('[name="tooltip"]', $form).length) {
+        abacusProperty.tooltip = !!$('[name="tooltip"]', $form).prop('checked');
     }
     if ($('[name="step"]', $form).length) {
         abacusProperty.step = $('[name="step"]', $form).val();
@@ -251,4 +255,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=428b81f59af895588aa8
+//# sourceMappingURL=abacus-demo.js.map?v=54c570f7ed41b746b329

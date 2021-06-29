@@ -36,9 +36,12 @@ export declare class Handle {
     /**
      * @constructor
      * @this   {Handle}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__handle".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Handle({
+     *  handle: 'abacus__handle'
+     * });
      */
-    constructor(className?: string, handleIndex?: number);
+    constructor(classes?: AbacusClasses, handleIndex?: number);
     /**
      * Геттер позиции бегунка в процентах от левого края.
      * @returns {number} - Позиция бегунка в процентах от 0 до 100.

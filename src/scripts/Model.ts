@@ -30,6 +30,7 @@ export class Model{
     orientation: 'horizontal',
     range: false,
     step: 1,
+    tooltip: false,
     value: 0,
     values: null,
   }
@@ -98,14 +99,14 @@ export class Model{
       if( typeof abacusProperty.classes.abacus === 'string' && abacusProperty.classes.abacus){
         this._abacusProperty.classes.abacus = abacusProperty.classes.abacus;
       }
+      if( typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled){
+        this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
+      }
       if( typeof abacusProperty.classes.range === 'string' && abacusProperty.classes.range){
         this._abacusProperty.classes.range = abacusProperty.classes.range;
       }
       if( typeof abacusProperty.classes.handle === 'string' && abacusProperty.classes.handle){
         this._abacusProperty.classes.handle = abacusProperty.classes.handle;
-      }
-      if( typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled){
-        this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
       }
       if( typeof abacusProperty.classes.mark === 'string' && abacusProperty.classes.mark){
         this._abacusProperty.classes.mark = abacusProperty.classes.mark;
@@ -115,6 +116,12 @@ export class Model{
       }
       if( typeof abacusProperty.classes.markInrange === 'string' && abacusProperty.classes.markInrange){
         this._abacusProperty.classes.markInrange = abacusProperty.classes.markInrange;
+      }
+      if( typeof abacusProperty.classes.tooltip === 'string' && abacusProperty.classes.tooltip){
+        this._abacusProperty.classes.tooltip = abacusProperty.classes.tooltip;
+      }
+      if( typeof abacusProperty.classes.tooltipVisible === 'string' && abacusProperty.classes.tooltipVisible){
+        this._abacusProperty.classes.tooltipVisible = abacusProperty.classes.tooltipVisible;
       }
     }
 
@@ -168,6 +175,11 @@ export class Model{
           this._abacusProperty.step = abacusProperty.step;
         }
       }
+    }
+
+    // tooltip
+    if( abacusProperty.tooltip !== undefined ){
+      this._abacusProperty.tooltip = !!abacusProperty.tooltip;
     }
 
     // value

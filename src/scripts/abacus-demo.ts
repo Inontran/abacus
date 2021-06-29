@@ -123,6 +123,8 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
 
   $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
 
+  $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
+
   if( abacusProperty.step !== undefined ){
     $('[name="step"]', $form).val(abacusProperty.step);
   }
@@ -200,6 +202,10 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
 
   if( $('[name="markup"]', $form).length ){
     abacusProperty.markup = !! $('[name="markup"]', $form).prop('checked');
+  }
+
+  if( $('[name="tooltip"]', $form).length ){
+    abacusProperty.tooltip = !! $('[name="tooltip"]', $form).prop('checked');
   }
 
   if( $('[name="step"]', $form).length ){

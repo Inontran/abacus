@@ -1,8 +1,9 @@
-import {Presenter} from './Presenter';
-import {WidgetContainer} from './WidgetContainer';
-import {Handle} from './Handle';
-import {Range} from './Range';
-import {Mark} from './Mark';
+import { Presenter } from './Presenter';
+import { WidgetContainer } from './WidgetContainer';
+import { Handle } from './Handle';
+import { Range } from './Range';
+import { Mark } from './Mark';
+import { Tooltip } from './Tooltip';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
@@ -38,6 +39,8 @@ export class View{
    * @private
    */
   private _handleItem: Handle;
+
+  private _tooltipItem: Tooltip;
 
   /**
    * Объект события изменения значения слайдера, как у браузерных полей ввода "input".
@@ -132,6 +135,7 @@ export class View{
     this._widgetContainer.htmlElement.innerHTML = '';
     this._handleItem = new Handle(abacusProperty.classes);
     this._range = new Range(abacusProperty.classes);
+    this._tooltipItem = new Tooltip(abacusProperty.classes);
 
 
     this._customEventChange = new CustomEvent('abacus-change', {
@@ -309,10 +313,12 @@ export class View{
         case 'classes':
         case 'disabled':
         case 'max':
+        case 'markup':
         case 'min':
         case 'orientation':
         case 'range':
         case 'step':
+        case 'tooltip':
         case 'value':
         case 'values':
           if( value !== undefined ){
@@ -374,6 +380,17 @@ export class View{
     }
 
 
+    if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip ){
+      if( abacusProperty.tooltip ){
+        this._widgetContainer.htmlElement.append(this._tooltipItem.htmlElement);
+        this._tooltipItem.isVisible(true);
+      }
+      else{
+        this._tooltipItem.htmlElement.remove();
+      }
+    }
+
+
     if( this._cachedAbacusProperty?.animate !== abacusProperty.animate ){
       this._setTransition();
     }
@@ -388,6 +405,11 @@ export class View{
       const currentValue: number = abacusProperty.value as number;
       const posHandle: number = this.getPosFromValue(currentValue);
       this._handleItem.posLeft = posHandle;
+      this._tooltipItem.posLeft = posHandle;
+
+      if( abacusProperty.value !== undefined ){
+        this._tooltipItem.htmlElement.innerText = abacusProperty.value.toString();
+      }
 
       switch (this._range.rangeType) {
         case 'min':

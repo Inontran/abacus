@@ -29,9 +29,12 @@ export declare class Range {
     /**
      * @constructor
      * @this   {Range}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__range".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Handle({
+     *  range: 'abacus__range'
+     * });
      */
-    constructor(className?: string);
+    constructor(classes?: AbacusClasses);
     /**
      * Геттер ширины HTML-элемента (_htmlElement).
      */

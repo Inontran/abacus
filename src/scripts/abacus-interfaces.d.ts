@@ -66,6 +66,7 @@ interface AbacusOptions {
   orientation?: string;
   range?: boolean | string;
   step?: number;
+  tooltip?: boolean;
   value?: number;
   values?: Array<number> | null;
 

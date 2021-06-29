@@ -61,12 +61,25 @@
 		}
 	}
 
+	.abacus__tooltip{
+		display: inline-block;
+		position: absolute;
+		top: -32px;
+		transform: translateX(-50%);
+		background-color: sandybrown;
+		padding: 3px 5px;
+		border-radius: 100vh;
+		line-height: 1;
+	}
+
+
 	&:not(.abacus_disabled){
 		&,
 		.abacus__handle{
 			cursor: pointer;
 		}
 	}
+
 
 	&.abacus_disabled{
 		filter: grayscale(0.5);

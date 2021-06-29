@@ -54,7 +54,12 @@ export declare class Mark {
     /**
      * @constructor
      * @this   {Mark}
-     * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__mark".
+     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @example new Mark({
+       * 	mark: 'abacus__mark',
+       * 	markInrange: 'abacus__mark_inrange',
+       * 	markSelected: 'abacus__mark_selected'
+       * });
      */
     constructor(classes?: AbacusClasses);
     /**

@@ -16,8 +16,8 @@
       <h2 class="card-header">Слайдер 1</h2>
       <div class="card-body">
         <form action="" method="POST" class="form_modifier-options">
-          <div class="row align-items-center">
-            <div class="col-md">
+          <div class="row">
+            <div class="col-md my-auto">
               <label class="row d-flex mb-3">
                 <span class="form-label col-sm-auto col-form-label">Анимация (false, true, fast, slow, кол-во мс)</span>
                 <span class="col-sm d-block">
@@ -25,7 +25,7 @@
                 </span>
               </label>
     
-              <label class="form-check d-inline-block mb-3">
+              <label class="form-check d-block mb-3">
                 <input class="form-check-input" type="checkbox" name="disabled" value="true">
                 <span class="form-check-label">
                   Включить слайдер
@@ -78,10 +78,17 @@
                 </span>
               </label>
 
-              <label class="form-check d-inline-block mb-3">
+              <label class="form-check d-block mb-3">
                 <input class="form-check-input" type="checkbox" name="markup" value="true">
                 <span class="form-check-label">
                   Включить шкалу значений
+                </span>
+              </label>
+
+							<label class="form-check d-block mb-3">
+                <input class="form-check-input" type="checkbox" name="tooltip" value="true">
+                <span class="form-check-label">
+                  Включить подсказку
                 </span>
               </label>
     
@@ -93,13 +100,13 @@
               </label>
             </div>
       
-            <div class="col-md-auto">
+            <div class="col-md-auto my-auto">
               <button class="btn btn-success px-2">
                 <img src="images/magic-cat-min.jpg" alt="вжух" class="img-fluid" style="max-width: 100px; border-radius: 0.25rem;">
               </button>
             </div>
       
-            <div class="col-md">
+            <div class="col-md my-auto">
               <div id="abacus-1"></div>
             </div>
           </div>

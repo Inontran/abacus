@@ -32,6 +32,7 @@ export declare class View {
      * @private
      */
     private _handleItem;
+    private _tooltipItem;
     /**
      * Объект события изменения значения слайдера, как у браузерных полей ввода "input".
      * @type {CustomEvent}
