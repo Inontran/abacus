@@ -9,6 +9,11 @@ interface AbacusClasses{
   abacus: string;
 
   /**
+   * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
+   */
+	disabled: string;
+
+  /**
    * Класс HTML-элемента ручек слайдера.
    */
   handle: string;
@@ -17,11 +22,6 @@ interface AbacusClasses{
    * Класс HTML-элемента индикатора (progress bar) слайдера.
    */
   range: string;
-
-  /**
-   * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
-   */
-	disabled: string;
 
   /**
    * Класс HTML-элемента метки слайдера.
@@ -37,6 +37,16 @@ interface AbacusClasses{
    * Класс HTML-элемента метки слайдера, которая находиться в диапозоне (напротив индикатор Range).
    */
   markInrange: string;
+
+  /**
+   * Класс HTML-элемента подсказки со значением.
+   */
+  tooltip: string;
+
+  /**
+   * Класс HTML-элемента подсказки со значением в видимом состоянии.
+   */
+  tooltipVisible: string;
 }
 
 /**

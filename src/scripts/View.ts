@@ -128,10 +128,10 @@ export class View{
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
 
-    this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes?.abacus);
+    this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
     this._widgetContainer.htmlElement.innerHTML = '';
-    this._handleItem = new Handle(abacusProperty.classes?.handle);
-    this._range = new Range(abacusProperty.classes?.range);
+    this._handleItem = new Handle(abacusProperty.classes);
+    this._range = new Range(abacusProperty.classes);
 
 
     this._customEventChange = new CustomEvent('abacus-change', {

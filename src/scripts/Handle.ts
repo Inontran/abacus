@@ -41,11 +41,14 @@ export class Handle{
   /**
    * @constructor
    * @this   {Handle}
-   * @param  {string} className - Название класса HTML-элемента. По умолчанию равно "abacus__handle".
+   * @param  {AbacusClasses} classes - Объект с названиями классов.
+   * @example new Handle({
+   *  handle: 'abacus__handle'
+   * });
    */
-  constructor(className?: string, handleIndex?: number){
+  constructor(classes?: AbacusClasses, handleIndex?: number){
     this._htmlElement = document.createElement('span');
-    this._className = className ? className : 'abacus__handle';
+    this._className = classes?.handle ? classes.handle : 'abacus__handle';
     this._htmlElement.classList.add(this._className);
 
     if( handleIndex != null ){
