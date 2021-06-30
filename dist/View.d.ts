@@ -84,7 +84,7 @@ export declare class View {
     /**
      * Коллекция меток разметки слайдера.
      */
-    private _mapMarkup;
+    private _mapScale;
     /**
      * Кэш свойств сладйера из Модели.
      */
@@ -242,11 +242,12 @@ export declare class View {
     /**
      * Создает шкалу значений и добавляет ее в слайдер.
      */
-    private _createMarkup;
+    private _createScale;
     /**
      * Удаляет шкалу значений.
      */
-    private _removeMarkup;
+    private _removeScale;
+    private _thinOutScale;
     /**
      * Функция меняет состояния меток в шкале значений.
      */
@@ -256,4 +257,17 @@ export declare class View {
      * Первоначальное значение береться из model.abacusProperty.aniamte.
      */
     private _setTransition;
+    /**
+     * Функция получения количества знаков после запятой.
+     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Количество знаков после запятой.
+     */
+    static countNumAfterPoint(x: number): number;
+    /**
+     * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @param {number} value - Число, которое надо округлить.
+     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Округленное число.
+     */
+    static round(value: number, fractionalNum: number): number;
 }

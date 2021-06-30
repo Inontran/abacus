@@ -481,10 +481,10 @@ var Model = /** @class */ (function () {
             },
             disabled: false,
             max: 100,
-            markup: false,
             min: 0,
             orientation: 'horizontal',
             range: false,
+            scale: false,
             step: 1,
             tooltip: false,
             value: 0,
@@ -571,9 +571,9 @@ var Model = /** @class */ (function () {
                     }
                 }
             }
-            // markup
-            if (abacusProperty.markup !== undefined) {
-                this._abacusProperty.markup = !!abacusProperty.markup;
+            // scale
+            if (abacusProperty.scale !== undefined) {
+                this._abacusProperty.scale = !!abacusProperty.scale;
             }
             // min
             if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
@@ -734,7 +734,32 @@ var Model = /** @class */ (function () {
                 break;
             }
         }
+        result = Model.round(result, step);
         return result;
+    };
+    /**
+     * Функция получения количества знаков после запятой.
+     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Количество знаков после запятой.
+     */
+    Model.countNumAfterPoint = function (x) {
+        return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+    };
+    /**
+     * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @param {number} value - Число, которое надо округлить.
+     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Округленное число.
+     */
+    Model.round = function (value, fractionalNum) {
+        var numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);
+        if (numbersAfterPoint > 0) {
+            value = parseFloat(value.toFixed(numbersAfterPoint));
+        }
+        else {
+            value = Math.round(value);
+        }
+        return value;
     };
     return Model;
 }());
@@ -1161,7 +1186,7 @@ var View = /** @class */ (function () {
         /**
          * Коллекция меток разметки слайдера.
          */
-        this._mapMarkup = new Map();
+        this._mapScale = new Map();
         /**
          * Кэш свойств сладйера из Модели.
          */
@@ -1337,7 +1362,7 @@ var View = /** @class */ (function () {
                 case 'classes':
                 case 'disabled':
                 case 'max':
-                case 'markup':
+                case 'scale':
                 case 'min':
                 case 'orientation':
                 case 'range':
@@ -1449,15 +1474,15 @@ var View = /** @class */ (function () {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.markup) !== abacusProperty.markup)
+        if ((((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.scale) !== abacusProperty.scale)
             || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.step) !== abacusProperty.step)
             || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.max) !== abacusProperty.max)
             || (((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.min) !== abacusProperty.min)) {
-            if (abacusProperty.markup) {
-                this._createMarkup();
+            if (abacusProperty.scale) {
+                this._createScale();
             }
             else {
-                this._removeMarkup();
+                this._removeScale();
             }
             this._highlightMarks();
         }
@@ -1685,32 +1710,33 @@ var View = /** @class */ (function () {
     /**
      * Создает шкалу значений и добавляет ее в слайдер.
      */
-    View.prototype._createMarkup = function () {
+    View.prototype._createScale = function () {
         var e_1, _a, e_2, _b;
-        if (this._mapMarkup.size) {
-            this._removeMarkup();
+        if (this._mapScale.size) {
+            this._removeScale();
         }
         var abacusProperty = this._presenter.getModelAbacusProperty();
         if (abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined) {
             var value = abacusProperty.min;
             for (; value <= abacusProperty.max; value += abacusProperty.step) {
+                value = View.round(value, abacusProperty.step);
                 var mark = new Mark_1.Mark(abacusProperty.classes);
                 var left = this.getPosFromValue(value);
                 mark.posLeft = left;
                 mark.htmlElement.innerText = value.toString();
-                this._mapMarkup.set(value, mark);
+                this._mapScale.set(value, mark);
             }
             if (value !== abacusProperty.max) {
                 var mark = new Mark_1.Mark(abacusProperty.classes);
                 var left = this.getPosFromValue(abacusProperty.max);
                 mark.posLeft = left;
                 mark.htmlElement.innerText = abacusProperty.max.toString();
-                this._mapMarkup.set(value, mark);
+                this._mapScale.set(value, mark);
             }
         }
         if (this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
             try {
-                for (var _c = __values(this._mapMarkup.values()), _d = _c.next(); !_d.done; _d = _c.next()) {
+                for (var _c = __values(this._mapScale.values()), _d = _c.next(); !_d.done; _d = _c.next()) {
                     var mark = _d.value;
                     this._handleItem.htmlElement.before(mark.htmlElement);
                 }
@@ -1725,7 +1751,7 @@ var View = /** @class */ (function () {
         }
         else {
             try {
-                for (var _e = __values(this._mapMarkup.values()), _f = _e.next(); !_f.done; _f = _e.next()) {
+                for (var _e = __values(this._mapScale.values()), _f = _e.next(); !_f.done; _f = _e.next()) {
                     var mark = _f.value;
                     this._widgetContainer.htmlElement.append(mark.htmlElement);
                 }
@@ -1738,14 +1764,15 @@ var View = /** @class */ (function () {
                 finally { if (e_2) throw e_2.error; }
             }
         }
+        this._thinOutScale();
     };
     /**
      * Удаляет шкалу значений.
      */
-    View.prototype._removeMarkup = function () {
+    View.prototype._removeScale = function () {
         var e_3, _a;
         try {
-            for (var _b = __values(this._mapMarkup.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
+            for (var _b = __values(this._mapScale.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var mark = _c.value;
                 mark.htmlElement.remove();
             }
@@ -1757,14 +1784,76 @@ var View = /** @class */ (function () {
             }
             finally { if (e_3) throw e_3.error; }
         }
-        this._mapMarkup.clear();
+        this._mapScale.clear();
+    };
+    View.prototype._thinOutScale = function () {
+        var e_4, _a, e_5, _b, e_6, _c;
+        var _d;
+        var widthWidget = this._widgetContainer.htmlElement.offsetWidth;
+        var k = 7; // Минимальное расстояние между метка шкалы.
+        var widthMarks = 0;
+        try {
+            for (var _e = __values(this._mapScale.values()), _f = _e.next(); !_f.done; _f = _e.next()) {
+                var mark = _f.value;
+                widthMarks += mark.htmlElement.offsetWidth + k;
+            }
+        }
+        catch (e_4_1) { e_4 = { error: e_4_1 }; }
+        finally {
+            try {
+                if (_f && !_f.done && (_a = _e.return)) _a.call(_e);
+            }
+            finally { if (e_4) throw e_4.error; }
+        }
+        if (widthWidget < widthMarks) {
+            var abacusProperty = this._presenter.getModelAbacusProperty();
+            if (abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined) {
+                var isDelete = false;
+                try {
+                    for (var _g = __values(this._mapScale), _h = _g.next(); !_h.done; _h = _g.next()) {
+                        var mark = _h.value;
+                        if (mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete) {
+                            isDelete = false;
+                            continue;
+                        }
+                        (_d = mark[1]) === null || _d === void 0 ? void 0 : _d.htmlElement.remove();
+                        this._mapScale.delete(mark[0]);
+                        isDelete = true;
+                    }
+                }
+                catch (e_5_1) { e_5 = { error: e_5_1 }; }
+                finally {
+                    try {
+                        if (_h && !_h.done && (_b = _g.return)) _b.call(_g);
+                    }
+                    finally { if (e_5) throw e_5.error; }
+                }
+            }
+        }
+        widthMarks = 0;
+        try {
+            for (var _j = __values(this._mapScale.values()), _k = _j.next(); !_k.done; _k = _j.next()) {
+                var mark = _k.value;
+                widthMarks += mark.htmlElement.offsetWidth + k;
+            }
+        }
+        catch (e_6_1) { e_6 = { error: e_6_1 }; }
+        finally {
+            try {
+                if (_k && !_k.done && (_c = _j.return)) _c.call(_j);
+            }
+            finally { if (e_6) throw e_6.error; }
+        }
+        if (widthWidget < widthMarks) {
+            this._thinOutScale();
+        }
     };
     /**
      * Функция меняет состояния меток в шкале значений.
      */
     View.prototype._highlightMarks = function () {
-        var e_4, _a;
-        if (!this._mapMarkup.size) {
+        var e_7, _a;
+        if (!this._mapScale.size) {
             return;
         }
         var abacusProperty = this._presenter.getModelAbacusProperty();
@@ -1774,7 +1863,7 @@ var View = /** @class */ (function () {
             && abacusProperty.step !== undefined
             && abacusProperty.value !== undefined) {
             try {
-                for (var _b = __values(this._mapMarkup), _c = _b.next(); !_c.done; _c = _b.next()) {
+                for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var markItem = _c.value;
                     if ((rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value) {
                         markItem[1].isInrange(true);
@@ -1793,12 +1882,12 @@ var View = /** @class */ (function () {
                     }
                 }
             }
-            catch (e_4_1) { e_4 = { error: e_4_1 }; }
+            catch (e_7_1) { e_7 = { error: e_7_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_4) throw e_4.error; }
+                finally { if (e_7) throw e_7.error; }
             }
         }
     };
@@ -1807,7 +1896,7 @@ var View = /** @class */ (function () {
      * Первоначальное значение береться из model.abacusProperty.aniamte.
      */
     View.prototype._setTransition = function () {
-        var e_5, _a;
+        var e_8, _a;
         var duration = '';
         var animate = this._presenter.getModelAbacusProperty().animate;
         if (typeof animate === 'number' && animate > 0) {
@@ -1826,21 +1915,45 @@ var View = /** @class */ (function () {
         this._handleItem.htmlElement.style.transition = duration;
         this._tooltipItem.htmlElement.style.transition = duration;
         this._range.htmlElement.style.transition = duration;
-        if (this._mapMarkup) {
+        if (this._mapScale) {
             try {
-                for (var _b = __values(this._mapMarkup), _c = _b.next(); !_c.done; _c = _b.next()) {
+                for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var markItem = _c.value;
                     markItem[1].htmlElement.style.transition = duration;
                 }
             }
-            catch (e_5_1) { e_5 = { error: e_5_1 }; }
+            catch (e_8_1) { e_8 = { error: e_8_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_5) throw e_5.error; }
+                finally { if (e_8) throw e_8.error; }
             }
         }
+    };
+    /**
+     * Функция получения количества знаков после запятой.
+     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Количество знаков после запятой.
+     */
+    View.countNumAfterPoint = function (x) {
+        return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+    };
+    /**
+     * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @param {number} value - Число, которое надо округлить.
+     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Округленное число.
+     */
+    View.round = function (value, fractionalNum) {
+        var numbersAfterPoint = View.countNumAfterPoint(fractionalNum);
+        if (numbersAfterPoint > 0) {
+            value = parseFloat(value.toFixed(numbersAfterPoint));
+        }
+        else {
+            value = Math.round(value);
+        }
+        return value;
     };
     return View;
 }());
@@ -2124,4 +2237,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=941055774bdc3f3ddc3e
+//# sourceMappingURL=abacus.js.map?v=2fca48eb04dcf4cd9bcb

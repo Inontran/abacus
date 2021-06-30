@@ -769,6 +769,8 @@ export class View{
     if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
       let value = abacusProperty.min;
       for (; value <= abacusProperty.max; value += abacusProperty.step) {
+        value = View.round(value, abacusProperty.step);
+
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(value);
         mark.posLeft = left;
@@ -794,6 +796,8 @@ export class View{
         this._widgetContainer.htmlElement.append(mark.htmlElement);
       }
     }
+
+    this._thinOutScale();
   }
 
 
@@ -805,6 +809,44 @@ export class View{
       mark.htmlElement.remove();
     }
     this._mapScale.clear();
+  }
+
+
+  /**
+   * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+   */
+  private _thinOutScale(): void{
+    const widthWidget: number = this._widgetContainer.htmlElement.offsetWidth;
+    const k = 7; // Минимальное расстояние между метка шкалы.
+    let widthMarks: number = 0;
+    for(let mark of this._mapScale.values()){
+      widthMarks += mark.htmlElement.offsetWidth + k;
+    }
+
+    if( widthWidget < widthMarks ){
+      const abacusProperty = this._presenter.getModelAbacusProperty();
+      if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
+        let isDelete: boolean = false;
+        for (const mark of this._mapScale) {
+          if( mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete ){
+            isDelete = false;
+            continue;
+          }
+
+          mark[1]?.htmlElement.remove();
+          this._mapScale.delete(mark[0]);
+          isDelete = true;
+        }
+      }
+    }
+
+    widthMarks = 0;
+    for(let mark of this._mapScale.values()){
+      widthMarks += mark.htmlElement.offsetWidth + k;
+    }
+    if( widthWidget < widthMarks ){
+      this._thinOutScale();
+    }
   }
 
 
@@ -875,5 +917,34 @@ export class View{
         markItem[1].htmlElement.style.transition = duration;
       }
     }
+  }
+
+
+  /**
+   * Функция получения количества знаков после запятой.
+   * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} - Количество знаков после запятой.
+   */
+  static countNumAfterPoint(x: number): number{
+    return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+  }
+
+
+  /**
+   * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+   * @param {number} value - Число, которое надо округлить.
+   * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} - Округленное число.
+   */
+  static round(value: number, fractionalNum: number): number{
+    const numbersAfterPoint = View.countNumAfterPoint(fractionalNum);
+    if( numbersAfterPoint > 0 ){
+      value = parseFloat(value.toFixed(numbersAfterPoint));
+    }
+    else{
+      value = Math.round(value);
+    }
+
+    return value;
   }
 }

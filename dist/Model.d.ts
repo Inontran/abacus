@@ -49,4 +49,17 @@ export declare class Model {
      * @returns {number} - Значение слайдера, округленное до ближайшего шага.
      */
     roundValuePerStep(value: number): number;
+    /**
+     * Функция получения количества знаков после запятой.
+     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Количество знаков после запятой.
+     */
+    static countNumAfterPoint(x: number): number;
+    /**
+     * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @param {number} value - Число, которое надо округлить.
+     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} - Округленное число.
+     */
+    static round(value: number, fractionalNum: number): number;
 }

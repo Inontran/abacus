@@ -48,7 +48,7 @@ $(function () {
         step: 2,
         value: 0,
         range: true,
-        markup: true,
+        scale: true,
         change: function (event, ui) {
             // console.log('change');
         },
@@ -125,7 +125,7 @@ function parsePropertyToForm(abacusProperty, $form) {
         var stringValRange = abacusProperty.range.toString();
         $('[name="range"]', $form).val(stringValRange);
     }
-    $('[name="markup"]', $form).prop('checked', !!abacusProperty.markup);
+    $('[name="scale"]', $form).prop('checked', !!abacusProperty.scale);
     $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
     if (abacusProperty.step !== undefined) {
         $('[name="step"]', $form).val(abacusProperty.step);
@@ -185,8 +185,8 @@ function parseFormToProperty($form) {
                 break;
         }
     }
-    if ($('[name="markup"]', $form).length) {
-        abacusProperty.markup = !!$('[name="markup"]', $form).prop('checked');
+    if ($('[name="scale"]', $form).length) {
+        abacusProperty.scale = !!$('[name="scale"]', $form).prop('checked');
     }
     if ($('[name="tooltip"]', $form).length) {
         abacusProperty.tooltip = !!$('[name="tooltip"]', $form).prop('checked');
@@ -255,4 +255,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=941055774bdc3f3ddc3e
+//# sourceMappingURL=abacus-demo.js.map?v=2fca48eb04dcf4cd9bcb

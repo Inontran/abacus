@@ -319,7 +319,36 @@ export class Model{
       }
     }
 
+    result = Model.round(result, step);
     return result;
   }
 
+
+  /**
+   * Функция получения количества знаков после запятой.
+   * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} - Количество знаков после запятой.
+   */
+  static countNumAfterPoint(x: number): number{
+    return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+  }
+
+
+  /**
+   * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+   * @param {number} value - Число, которое надо округлить.
+   * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} - Округленное число.
+   */
+  static round(value: number, fractionalNum: number): number{
+    const numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);
+    if( numbersAfterPoint > 0 ){
+      value = parseFloat(value.toFixed(numbersAfterPoint));
+    }
+    else{
+      value = Math.round(value);
+    }
+
+    return value;
+  }
 }
