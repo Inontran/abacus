@@ -1687,7 +1687,6 @@ var View = /** @class */ (function () {
      * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
      */
     View.prototype._handlerHandleItemClickMove = function (event) {
-        event.preventDefault();
         var viewInstance = this;
         if (viewInstance._isDisabled) {
             return;
@@ -1707,7 +1706,6 @@ var View = /** @class */ (function () {
      * Генерирует событие "stop".
      */
     View.prototype._handlerHandleItemClickStop = function (event) {
-        event.preventDefault();
         var viewInstance = this;
         if (viewInstance._isDragHandle) {
             viewInstance._eventStopWrapper(event);
@@ -1902,6 +1900,9 @@ var View = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Функция установки обработчиков на метки шкалы значений.
+     */
     View.prototype._bindEventListenersOnMarks = function () {
         var e_8, _a;
         var _this = this;
@@ -2287,4 +2288,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=d24cea345fb9b9563410
+//# sourceMappingURL=abacus.js.map?v=2994b14bf6664ef09e74

@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 $(function () {
     $('#abacus-1').on('abacus-change', function () {
-        console.log('abacus-change');
+        // console.log('abacus-change');
     });
     $('#abacus-1').on('abacus-create', function () {
         // console.log('abacus-create');
@@ -255,4 +255,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=d24cea345fb9b9563410
+//# sourceMappingURL=abacus-demo.js.map?v=2994b14bf6664ef09e74

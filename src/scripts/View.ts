@@ -734,7 +734,6 @@ export class View{
    * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
    */
   private _handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void{
-    event.preventDefault();
     const viewInstance = this;
     if( viewInstance._isDisabled ){
       return;
@@ -757,7 +756,6 @@ export class View{
    * Генерирует событие "stop".
    */
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
-    event.preventDefault();
     const viewInstance = this;
     if( viewInstance._isDragHandle ){
       viewInstance._eventStopWrapper(event);

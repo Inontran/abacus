@@ -255,6 +255,9 @@ export declare class View {
      * Функция меняет состояния меток в шкале значений.
      */
     private _highlightMarks;
+    /**
+     * Функция установки обработчиков на метки шкалы значений.
+     */
     private _bindEventListenersOnMarks;
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
