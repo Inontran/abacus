@@ -15,14 +15,14 @@ export class Handle{
    * @type {number}
    * @private
    */
-  private _posLeft: number = 0;
+  private _posLeft: number | null = null;
 
   /**
    * Позиция бегунка в процентах от 0 до 100 по вертикали от нижнего края.
    * @type {number}
    * @private
    */
-  private _posBottom: number = 0;
+  private _posBottom: number | null = null;
 
   /**
    * Номер (индекс) бегунка. Может принимать значение 0 или 1.
@@ -60,20 +60,55 @@ export class Handle{
    * Геттер позиции бегунка в процентах от левого края.
    * @returns {number} - Позиция бегунка в процентах от 0 до 100.
    */
-  public get posLeft() : number {
+  public get posLeft() : number | null {
     return this._posLeft;
   }
 
   /**
    * Сеттер позиции бегунка в процентах от левого края.
-   * @param {number} - Позиция бегунка в процентах от 0 до 100.
+   * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+   * Или null, если координты по горизонтиле быть не должно.
    */
-  public set posLeft(left : number) {
-    if( left < 0 ) left = 0;
-    if( left > 100 ) left = 100;
+  public set posLeft(left : number | null) {
+    if( left === null ){
+      this._posLeft = left;
+      this._htmlElement.style.left = '';
+    }
+    else{
+      if( left < 0 ) left = 0;
+      if( left > 100 ) left = 100;
 
-    this._posLeft = left;
-    this._htmlElement.style.left = left + '%';
+      this._posLeft = left;
+      this._htmlElement.style.left = left + '%';
+    }
+  }
+
+
+  /**
+   * Геттер позиции бегунка в процентах от нижнего края.
+   * @returns {number | null} - Позиция бегунка в процентах от 0 до 100.
+   */
+	public get posBottom() : number | null {
+    return this._posBottom;
+  }
+
+  /**
+   * Сеттер позиции бегунка в процентах от нижнего края.
+   * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+   * Или null, если координты по вертикале быть не должно.
+   */
+  public set posBottom(bottom : number | null) {
+    if( bottom === null ){
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = '';
+    }
+    else{
+      if( bottom < 0 ) bottom = 0;
+      if( bottom > 100 ) bottom = 100;
+
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = bottom + '%';
+    }
   }
 
 

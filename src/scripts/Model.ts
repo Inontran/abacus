@@ -14,6 +14,7 @@ export class Model{
     animate: false,
     classes: {
       abacus: 'abacus',
+      vertical: 'abacus_vertical',
       disabled: 'abacus_disabled',
       handle: 'abacus__handle',
       range: 'abacus__range',

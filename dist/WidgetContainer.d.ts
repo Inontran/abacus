@@ -22,11 +22,17 @@ export declare class WidgetContainer {
      */
     private _className;
     /**
-     * Название класса HTML-элемента.
+     * Название класса HTML-элемента в заблокированном (неактивном) состоянии.
      * @type {string}
      * @private
      */
     private _classNameDisabled;
+    /**
+     * Название класса HTML-элемента в заблокированном (неактивном) состоянии.
+     * @type {string}
+     * @private
+     */
+    private _classNameVertical;
     /**
      * @constructor
      * @this   {WidgetContainer}
@@ -71,6 +77,16 @@ export declare class WidgetContainer {
      */
     set classNameDisabled(name: string);
     /**
+     * Геттер названия класса HTML-элемента в состоянии "выключен".
+     */
+    get classNameVertical(): string;
+    /**
+     * Сеттер названия класса HTML-элемента в состоянии "выключен".
+     * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+     * @param {string} name - Название класса.
+     */
+    set classNameVertical(name: string);
+    /**
      * Функция получения и установки активного/неактивного состояния.
      * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
      * записанный в _classNameDisabled.
@@ -79,4 +95,13 @@ export declare class WidgetContainer {
      * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
      */
     isDisabled(value: boolean): void;
+    /**
+     * Функция получения и установки активного/неактивного состояния.
+     * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
+     * записанный в _classNameDisabled.
+     * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
+     * записанный в _classNameDisabled.
+     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     */
+    isVertical(value: boolean): void;
 }

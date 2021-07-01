@@ -39,14 +39,14 @@ export class Tooltip{
    * @type {number}
    * @private
    */
-  private _posLeft: number = 0;
+  private _posLeft: number | null = null;
 
   /**
     * Позиция подсказки в процентах от 0 до 100 по вертикали от нижнего края.
     * @type {number}
     * @private
     */
-  private _posBottom: number = 0;
+  private _posBottom: number | null = null;
 
 
   /**
@@ -127,34 +127,69 @@ export class Tooltip{
 
 
   /**
-   * Геттер позиции метки в процентах от левого края.
-   * @returns {number} - Позиция метки в процентах от 0 до 100.
+   * Геттер позиции подсказки в процентах от левого края.
+   * @returns {number} - Позиция подсказки в процентах от 0 до 100.
    */
-  public get posLeft() : number {
+  public get posLeft() : number | null {
     return this._posLeft;
   }
-  
-  /**
-   * Сеттер позиции метки в процентах от левого края.
-   * @param {number} - Позиция метки в процентах от 0 до 100.
-   */
-  public set posLeft(left : number) {
-    if( left < 0 ) left = 0;
-    if( left > 100 ) left = 100;
 
-    this._posLeft = left;
-    this._htmlElement.style.left = left + '%';
+  /**
+   * Сеттер позиции подсказки в процентах от левого края.
+   * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+   * Или null, если координты по горизонтиле быть не должно.
+   */
+  public set posLeft(left : number | null) {
+    if( left === null ){
+      this._posLeft = left;
+      this._htmlElement.style.left = '';
+    }
+    else{
+      if( left < 0 ) left = 0;
+      if( left > 100 ) left = 100;
+
+      this._posLeft = left;
+      this._htmlElement.style.left = left + '%';
+    }
   }
 
 
   /**
-   * Функция получения и установки состояния видимости подсказки. 
+   * Геттер позиции подсказки в процентах от нижнего края.
+   * @returns {number | null} - Позиция подсказки в процентах от 0 до 100.
+   */
+	public get posBottom() : number | null {
+    return this._posBottom;
+  }
+
+  /**
+   * Сеттер позиции подсказки в процентах от нижнего края.
+   * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+   * Или null, если координты по вертикале быть не должно.
+   */
+  public set posBottom(bottom : number | null) {
+    if( bottom === null ){
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = '';
+    }
+    else{
+      if( bottom < 0 ) bottom = 0;
+      if( bottom > 100 ) bottom = 100;
+
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = bottom + '%';
+    }
+  }
+
+
+  /**
+   * Функция получения и установки состояния видимости подсказки.
    * Если функция получила параметр false, то у метки удалаяется класс,
    * записанный в _classNameVisible.
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameVisible.
-   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
-   * то возвращается текущее состояние.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+	 * Если ничего не передать, то возвращается текущее состояние.
    * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
    */
   isVisible(value?: boolean): boolean{

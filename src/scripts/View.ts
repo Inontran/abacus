@@ -113,6 +113,12 @@ export class View{
 
 
   /**
+   * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
+   */
+  private _isVertical: boolean = false;
+
+
+  /**
    * @constructor
    * @this   {View}
    * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
@@ -204,15 +210,24 @@ export class View{
   /**
    * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
    * а возвращает количество процентов от начала (левого края) слайдера.
-   * @param {number} clientX - Координата клика по оси Х относительно окна браузера.
+   * @param {number} coordXY - Координата клика по оси Х относительно окна браузера.
    * @returns {number} - Количество процентов от начала (левого края) слайдера.
    */
-  getPosLeftPercent(clientX: number): number{
+  getPosPercent(coordXY: number): number{
     let result: number = 0;
-    const posLeftWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().left;
-    const widthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().width;
-    const leftPx: number = clientX - posLeftWidget;
-    result = (leftPx / widthWidget) * 100;
+    if( this._isVertical ){
+      const posTopWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().top;
+      const heigthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().height;
+      const topPx: number = coordXY - posTopWidget;
+      result = (topPx / heigthWidget) * 100;
+      result = 100 - result;
+    }
+    else{
+      const posLeftWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().left;
+      const widthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().width;
+      const leftPx: number = coordXY - posLeftWidget;
+      result = (leftPx / widthWidget) * 100;
+    }
     if( result < 0 ){
       result = 0;
     }
@@ -380,6 +395,18 @@ export class View{
     }
 
 
+    if( this._cachedAbacusProperty?.orientation !== abacusProperty.orientation ){
+      if( abacusProperty.orientation === 'vertical' ){
+        this._isVertical = true;
+        this._widgetContainer.isVertical(true);
+      }
+      else{
+        this._isVertical = false;
+        this._widgetContainer.isVertical(false);
+      }
+    }
+
+
     if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip ){
       if( abacusProperty.tooltip ){
         this._widgetContainer.htmlElement.append(this._tooltipItem.htmlElement);
@@ -400,29 +427,65 @@ export class View{
     if( (this._cachedAbacusProperty?.value !== abacusProperty.value)
       || (this._cachedAbacusProperty?.range !== abacusProperty.range)
       || (this._cachedAbacusProperty?.max !== abacusProperty.max)
-      || (this._cachedAbacusProperty?.min !== abacusProperty.min) )
+      || (this._cachedAbacusProperty?.min !== abacusProperty.min)
+      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation) )
     {
       const currentValue: number = abacusProperty.value as number;
       const posHandle: number = this.getPosFromValue(currentValue);
-      this._handleItem.posLeft = posHandle;
-      this._tooltipItem.posLeft = posHandle;
+      if( this._isVertical ){
+        this._handleItem.posLeft = null;
+        this._tooltipItem.posLeft = null;
+        this._handleItem.posBottom = posHandle;
+        this._tooltipItem.posBottom = posHandle;
+      }
+      else{
+        this._handleItem.posBottom = null;
+        this._tooltipItem.posBottom = null;
+        this._handleItem.posLeft = posHandle;
+        this._tooltipItem.posLeft = posHandle;
+      }
 
       if( abacusProperty.value !== undefined ){
         this._tooltipItem.htmlElement.innerText = abacusProperty.value.toString();
       }
 
-      switch (this._range.rangeType) {
-        case 'min':
-          this._range.htmlElement.style.left = '0';
-          this._range.htmlElement.style.right = 'auto';
-          this._range.width = posHandle;
-          break;
+      if( this._isVertical ){
+        this._range.htmlElement.style.left = '';
+        this._range.htmlElement.style.right = '';
+        this._range.width = null;
 
-        case 'max':
-          this._range.htmlElement.style.left = 'auto';
-          this._range.htmlElement.style.right = '0';
-          this._range.width = 100 - posHandle;
-          break;
+        switch (this._range.rangeType){
+          case 'min':
+            this._range.htmlElement.style.top = 'auto';
+            this._range.htmlElement.style.bottom = '0';
+            this._range.height = posHandle;
+            break;
+
+          case 'max':
+            this._range.htmlElement.style.top = '0';
+            this._range.htmlElement.style.bottom = 'auto';
+            this._range.height = 100 - posHandle;
+            break;
+        }
+      }
+      else{
+        this._range.htmlElement.style.top = '';
+        this._range.htmlElement.style.bottom = '';
+        this._range.height = null;
+
+        switch (this._range.rangeType){
+          case 'min':
+            this._range.htmlElement.style.left = '0';
+            this._range.htmlElement.style.right = 'auto';
+            this._range.width = posHandle;
+            break;
+
+          case 'max':
+            this._range.htmlElement.style.left = 'auto';
+            this._range.htmlElement.style.right = '0';
+            this._range.width = 100 - posHandle;
+            break;
+        }
       }
 
       this._highlightMarks();
@@ -451,7 +514,8 @@ export class View{
     if( (this._cachedAbacusProperty?.scale !== abacusProperty.scale)
       || (this._cachedAbacusProperty?.step !== abacusProperty.step)
       || (this._cachedAbacusProperty?.max !== abacusProperty.max)
-      || (this._cachedAbacusProperty?.min !== abacusProperty.min) )
+      || (this._cachedAbacusProperty?.min !== abacusProperty.min)
+      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation) )
     {
       if( abacusProperty.scale ){
         this._createScale();
@@ -625,15 +689,17 @@ export class View{
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
     const oldValue = abacusProperty.value;
 
-    let left: number = 0;
+    let coordinate: number = 0;
     if( event instanceof MouseEvent ){
-      left = this.getPosLeftPercent(event.clientX);
+      coordinate = this._isVertical ? event.clientY : event.clientX;
     }
     else if(event instanceof TouchEvent){
-      left = this.getPosLeftPercent(event.changedTouches[0].screenX);
+      coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
     }
 
-    const newAbacusValue: number = this.getValFromPosPercent(left);
+    const percent = this.getPosPercent(coordinate);
+
+    const newAbacusValue: number = this.getValFromPosPercent(percent);
     viewInstance._presenter.setAbacusValue(newAbacusValue);
     if( oldValue !== abacusProperty.value ){
       viewInstance.updateView();
@@ -706,7 +772,7 @@ export class View{
 
     if( viewInstance._isDisabled
       || eventTarget.classList.contains(handleClass)
-      || eventTarget.classList.contains(markClass) 
+      || eventTarget.classList.contains(markClass)
     ){
       return;
     }
@@ -752,7 +818,7 @@ export class View{
 
 
   /**
-   * Обработчик окончание пересещения курсора или пальца по экрану. 
+   * Обработчик окончание пересещения курсора или пальца по экрану.
    * Генерирует событие "stop".
    */
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
@@ -779,7 +845,10 @@ export class View{
         value = View.round(value, abacusProperty.step);
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(value);
-        mark.posLeft = left;
+
+        if( this._isVertical ) mark.posBottom = left;
+        else mark.posLeft = left;
+
         mark.htmlElement.innerText = value.toString();
         this._mapScale.set(value, mark);
       }
@@ -787,19 +856,22 @@ export class View{
       if( value !== abacusProperty.max ){
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(abacusProperty.max);
-        mark.posLeft = left;
+
+        if( this._isVertical ) mark.posBottom = left;
+        else mark.posLeft = left;
+
         mark.htmlElement.innerText = abacusProperty.max.toString();
         this._mapScale.set(value, mark);
       }
     }
 
     if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
-      for(let mark of this._mapScale.values()){
+      for(const mark of this._mapScale.values()){
         this._handleItem.htmlElement.before(mark.htmlElement);
       }
     }
     else{
-      for(let mark of this._mapScale.values()){
+      for(const mark of this._mapScale.values()){
         this._widgetContainer.htmlElement.append(mark.htmlElement);
       }
     }
@@ -813,7 +885,7 @@ export class View{
    * Удаляет шкалу значений.
    */
   private _removeScale(): void{
-    for(let mark of this._mapScale.values()){
+    for(const mark of this._mapScale.values()){
       mark.htmlElement.remove();
     }
     this._mapScale.clear();
@@ -824,14 +896,28 @@ export class View{
    * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
    */
   private _thinOutScale(): void{
-    const widthWidget: number = this._widgetContainer.htmlElement.offsetWidth;
-    const k = 7; // Минимальное расстояние между метка шкалы.
-    let widthMarks: number = 0;
-    for(let mark of this._mapScale.values()){
-      widthMarks += mark.htmlElement.offsetWidth + k;
+    let sizeWidget: number;
+    if( this._isVertical ){
+      sizeWidget = this._widgetContainer.htmlElement.offsetHeight;
+    }
+    else{
+      sizeWidget = this._widgetContainer.htmlElement.offsetWidth;
     }
 
-    if( widthWidget < widthMarks ){
+    const k = 7; // Минимальное расстояние между метка шкалы.
+    let sizeMarks: number = 0;
+    if( this._isVertical ){
+      for(const mark of this._mapScale.values()){
+        sizeMarks += mark.htmlElement.offsetHeight + k;
+      }
+    }
+    else{
+      for(const mark of this._mapScale.values()){
+        sizeMarks += mark.htmlElement.offsetWidth + k;
+      }
+    }
+
+    if( sizeWidget < sizeMarks ){
       const abacusProperty = this._presenter.getModelAbacusProperty();
       if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
         let isDelete: boolean = false;
@@ -848,11 +934,20 @@ export class View{
       }
     }
 
-    widthMarks = 0;
-    for(let mark of this._mapScale.values()){
-      widthMarks += mark.htmlElement.offsetWidth + k;
+    sizeMarks = 0;
+
+    if( this._isVertical ){
+      for(const mark of this._mapScale.values()){
+        sizeMarks += mark.htmlElement.offsetHeight + k;
+      }
     }
-    if( widthWidget < widthMarks ){
+    else{
+      for(const mark of this._mapScale.values()){
+        sizeMarks += mark.htmlElement.offsetWidth + k;
+      }
+    }
+
+    if( sizeWidget < sizeMarks ){
       this._thinOutScale();
     }
   }
@@ -933,10 +1028,10 @@ export class View{
     const animate = this._presenter.getModelAbacusProperty().animate;
     if( typeof animate === 'number' && animate > 0 ){
       duration = animate.toString();
-    } 
+    }
     else if( animate === true ){
       duration = '400';
-    } 
+    }
     else if( animate === 'slow' ){
       duration = '600';
     }

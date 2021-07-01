@@ -12,10 +12,17 @@ export class Range{
 
   /**
    * Ширина HTML-элемента от 0 до 100 в процентах.
-   * @type {number}
+   * @type {number | null}
    * @private
    */
-  private _width: number = 100;
+  private _width: number | null = 100;
+
+  /**
+   * Ширина HTML-элемента от 0 до 100 в процентах.
+   * @type {number | null }
+   * @private
+   */
+  private _height: number | null = 100;
 
   /**
    * Название класса HTML-элемента.
@@ -48,20 +55,52 @@ export class Range{
   /**
    * Геттер ширины HTML-элемента (_htmlElement).
    */
-  public get width() : number {
+  public get width() : number | null {
     return this._width;
   }
 
   /**
    * Сеттер ширины HTML-элемента (_htmlElement).
-   * @param {number} width - ширина в процентах от 0 до 100.
+   * @param {number | null} width - ширина в процентах от 0 до 100.
    */
-  public set width(width : number) {
-    if( width < 0 ) width = 0;
-    if( width > 100 ) width = 100;
+  public set width(width : number | null) {
+    if( width === null ){
+      this._width = width;
+      this._htmlElement.style.width = '';
+    }
+    else{
+      if( width < 0 ) width = 0;
+      if( width > 100 ) width = 100;
 
-    this._width = width;
-    this._htmlElement.style.width = width + '%';
+      this._width = width;
+      this._htmlElement.style.width = width + '%';
+    }
+  }
+
+
+  /**
+   * Геттер высоты HTML-элемента (_htmlElement).
+   */
+  public get height() : number | null {
+    return this._height;
+  }
+
+  /**
+   * Сеттер высоты HTML-элемента (_htmlElement).
+   * @param {number | null} height - высота в процентах от 0 до 100.
+   */
+  public set height(height : number | null) {
+    if( height === null ){
+      this._height = height;
+      this._htmlElement.style.height = '';
+    }
+    else{
+      if( height < 0 ) height = 0;
+      if( height > 100 ) height = 100;
+
+      this._height = height;
+      this._htmlElement.style.height = height + '%';
+    }
   }
 
 

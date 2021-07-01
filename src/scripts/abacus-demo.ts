@@ -148,7 +148,7 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
       case 'true':
         abacusProperty.animate = true;
         break;
-    
+
       default:
         abacusProperty.animate = inputAnimate.val() as string;
         break;

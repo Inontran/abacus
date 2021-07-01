@@ -90,6 +90,10 @@ export declare class View {
      */
     private _cachedAbacusProperty;
     /**
+     * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
+     */
+    private _isVertical;
+    /**
      * @constructor
      * @this   {View}
      * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
@@ -119,10 +123,10 @@ export declare class View {
     /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
-     * @param {number} clientX - Координата клика по оси Х относительно окна браузера.
+     * @param {number} coordXY - Координата клика по оси Х относительно окна браузера.
      * @returns {number} - Количество процентов от начала (левого края) слайдера.
      */
-    getPosLeftPercent(clientX: number): number;
+    getPosPercent(coordXY: number): number;
     /**
      * Функция, которая получает на вход процент от начала слайдера,
      * а возвращает соответствующее значение кратно заданному шагу.

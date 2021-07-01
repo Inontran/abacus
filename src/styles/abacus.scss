@@ -64,7 +64,7 @@
 	.abacus__tooltip{
 		display: inline-block;
 		position: absolute;
-		top: -32px;
+		bottom: 16px;
 		transform: translateX(-50%);
 		background-color: sandybrown;
 		padding: 3px 5px;
@@ -77,6 +77,51 @@
 		&,
 		.abacus__handle{
 			cursor: pointer;
+		}
+	}
+
+
+	&.abacus_vertical{
+		height: 300px;
+		width: 10px;
+
+		.abacus__handle{
+			width: 20px;
+			height: 9px;
+			top: auto;
+			bottom: 0;
+			left: 50%;
+			transform: translate(-50%, 50%);
+		}
+
+		.abacus__range{
+			top: auto;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 6px;
+			height: auto;
+		}
+
+		.abacus__mark{
+			top: auto;
+			right: 17px;
+			left:  auto;
+			transform: translateY(50%);
+	
+			&:after{
+				left: auto;
+				right: -34px;
+				transform: translate(-50%, -50%);
+				height: 3px;
+				width: 20px;
+				top: 50%;
+			}
+		}
+
+		.abacus__tooltip{
+			top: auto;
+			left: 16px;
+			transform: translateY(50%);
 		}
 	}
 

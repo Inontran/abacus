@@ -52,17 +52,17 @@ export class Mark{
 
   /**
    * Позиция метки в процентах от 0 до 100 по горизонтали от левого края.
-   * @type {number}
+   * @type {number | null}
    * @private
    */
-  private _posLeft: number = 0;
+  private _posLeft: number | null = null;
 
   /**
-    * Позиция метки в процентах от 0 до 100 по вертикали от нижнего края.
-    * @type {number}
-    * @private
-    */
-  private _posBottom: number = 0;
+   * Позиция метки в процентах от 0 до 100 по вертикали от нижнего края.
+   * @type {number | null}
+   * @private
+   */
+  private _posBottom: number | null = null;
 
 
   /**
@@ -175,33 +175,70 @@ export class Mark{
 
   /**
    * Геттер позиции метки в процентах от левого края.
-   * @returns {number} - Позиция метки в процентах от 0 до 100.
+   * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+   * Или null, если координты по вертикале быть не должно.
    */
-  public get posLeft() : number {
+  public get posLeft() : number | null {
     return this._posLeft;
   }
-  
+
+
   /**
    * Сеттер позиции метки в процентах от левого края.
-   * @param {number} - Позиция метки в процентах от 0 до 100.
+   * @param {number | null} - Позиция метки в процентах от 0 до 100.
    */
-  public set posLeft(left : number) {
-    if( left < 0 ) left = 0;
-    if( left > 100 ) left = 100;
+  public set posLeft(left : number | null) {
+    if( left === null ){
+      this._posLeft = left;
+      this._htmlElement.style.left = '';
+    }
+    else{
+      if( left < 0 ) left = 0;
+      if( left > 100 ) left = 100;
 
-    this._posLeft = left;
-    this._htmlElement.style.left = left + '%';
+      this._posLeft = left;
+      this._htmlElement.style.left = left + '%';
+    }
   }
 
 
   /**
-   * Функция получения и установки состояния "в диапозоне". 
+   * Геттер позиции метки в процентах от нижнего края.
+   * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+   */
+  public get posBottom() : number | null {
+    return this._posBottom;
+  }
+
+
+  /**
+   * Сеттер позиции метки в процентах от нижнего края.
+   * @param {number | null} - Позиция метки в процентах от 0 до 100.
+   * Или null, если координты по вертикале быть не должно.
+   */
+  public set posBottom(bottom : number | null) {
+    if( bottom === null ){
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = '';
+    }
+    else{
+      if( bottom < 0 ) bottom = 0;
+      if( bottom > 100 ) bottom = 100;
+
+      this._posBottom = bottom;
+      this._htmlElement.style.bottom = bottom + '%';
+    }
+  }
+
+
+  /**
+   * Функция получения и установки состояния "в диапозоне".
    * Если функция получила параметр false, то у метки удалаяется класс,
    * записанный в _classNameInrange.
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameInrange.
-   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
-   * то возвращается текущее состояние.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   * Если ничего не передать, то возвращается текущее состояние.
    * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
    */
   isInrange(value?: boolean): boolean{
@@ -221,14 +258,14 @@ export class Mark{
 
 
   /**
-   * Функция получения и установки состояния "выбранная". 
+   * Функция получения и установки состояния "выбранная".
    * Это значит, что напротив этой метки установлена одна из ручек слайдера.
    * Если функция получила параметр false, то у метки удалаяется класс,
    * записанный в _classNameSelected.
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameSelected.
-   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс. Если ничего не передать,
-   * то возвращается текущее состояние.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   * Если ничего не передать, то возвращается текущее состояние.
    * @returns {boolean} - Текущее состояние метки.
    */
   isSelected(value?: boolean): boolean{

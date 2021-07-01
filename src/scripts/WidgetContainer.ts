@@ -25,11 +25,19 @@ export class WidgetContainer{
   private _className: string;
 
   /**
-   * Название класса HTML-элемента.
+   * Название класса HTML-элемента в заблокированном (неактивном) состоянии.
    * @type {string}
    * @private
    */
   private _classNameDisabled: string;
+
+
+  /**
+   * Название класса HTML-элемента в заблокированном (неактивном) состоянии.
+   * @type {string}
+   * @private
+   */
+  private _classNameVertical: string;
 
 
   /**
@@ -46,6 +54,7 @@ export class WidgetContainer{
     this._htmlElement = htmlElement;
 		this._className = classes?.abacus ? classes.abacus : 'abacus';
 		this._classNameDisabled = classes?.disabled ? classes.disabled : 'abacus_disabled';
+    this._classNameVertical = classes?.vertical ? classes.vertical : 'abacus_vertical';
     this._htmlElement.classList.add(this._className);
   }
 
@@ -123,7 +132,36 @@ export class WidgetContainer{
 
 
   /**
-   * Функция получения и установки активного/неактивного состояния. 
+   * Геттер названия класса HTML-элемента в состоянии "выключен".
+   */
+  public get classNameVertical() : string {
+    return this._classNameVertical;
+  }
+
+
+  /**
+   * Сеттер названия класса HTML-элемента в состоянии "выключен".
+   * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
+   * @param {string} name - Название класса.
+   */
+  public set classNameVertical(name : string) {
+    if( !name || typeof name !== 'string' ){
+      return;
+    }
+
+    if( this._htmlElement.classList.contains(this._classNameVertical) ){
+      this._htmlElement.classList.add(name);
+    }
+    if( this._classNameVertical ){
+      this._htmlElement.classList.remove(this._classNameVertical);
+    }
+
+    this._classNameVertical = name;
+  }
+
+
+  /**
+   * Функция получения и установки активного/неактивного состояния.
    * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
    * записанный в _classNameDisabled.
    * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
@@ -138,6 +176,27 @@ export class WidgetContainer{
       }
       else{
         this._htmlElement.classList.remove(this._classNameDisabled);
+      }
+    }
+  }
+
+
+  /**
+   * Функция получения и установки активного/неактивного состояния.
+   * Если функция получила параметр false, то у HTML-элемента слайдера удалаяется класс,
+   * записанный в _classNameDisabled.
+   * Если функция получила параметр true, то HTML-элементу слайдера добавляется класс,
+   * записанный в _classNameDisabled.
+   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   */
+  isVertical(value: boolean): void{
+    if( value !== undefined && this._classNameVertical){
+
+      if( !!value ){
+        this._htmlElement.classList.add(this._classNameVertical);
+      }
+      else{
+        this._htmlElement.classList.remove(this._classNameVertical);
       }
     }
   }

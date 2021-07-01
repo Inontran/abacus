@@ -9,6 +9,12 @@ interface AbacusClasses{
   abacus: string;
 
   /**
+   * Класс HTML-элемента контейнера слайдера в вертикальном состоянии.
+   * @type {string}
+   */
+  vertical: string;
+
+  /**
    * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
    */
 	disabled: string;
