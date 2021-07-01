@@ -1656,9 +1656,16 @@ var View = /** @class */ (function () {
      * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
      */
     View.prototype._handlerWidgetContainerClick = function (event) {
+        var _a, _b, _c, _d;
         event.preventDefault();
         var viewInstance = this;
-        if (viewInstance._isDisabled || event.target === this._handleItem.htmlElement) {
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var eventTarget = event.target;
+        var handleClass = ((_a = abacusProperty.classes) === null || _a === void 0 ? void 0 : _a.handle) ? (_b = abacusProperty.classes) === null || _b === void 0 ? void 0 : _b.handle : '';
+        var markClass = ((_c = abacusProperty.classes) === null || _c === void 0 ? void 0 : _c.mark) ? (_d = abacusProperty.classes) === null || _d === void 0 ? void 0 : _d.mark : '';
+        if (viewInstance._isDisabled
+            || eventTarget.classList.contains(handleClass)
+            || eventTarget.classList.contains(markClass)) {
             return;
         }
         viewInstance._mouseHandler(event);
@@ -1765,6 +1772,7 @@ var View = /** @class */ (function () {
             }
         }
         this._thinOutScale();
+        this._bindEventListenersOnMarks();
     };
     /**
      * Удаляет шкалу значений.
@@ -1786,6 +1794,9 @@ var View = /** @class */ (function () {
         }
         this._mapScale.clear();
     };
+    /**
+     * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+     */
     View.prototype._thinOutScale = function () {
         var e_4, _a, e_5, _b, e_6, _c;
         var _d;
@@ -1891,12 +1902,51 @@ var View = /** @class */ (function () {
             }
         }
     };
+    View.prototype._bindEventListenersOnMarks = function () {
+        var e_8, _a;
+        var _this = this;
+        var _loop_1 = function (mark) {
+            // я оставил эти обработчики в таком виде,
+            // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
+            mark[1].htmlElement.addEventListener('click', function (event) {
+                var _a;
+                var value = mark[0];
+                if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
+                    _this._presenter.setAbacusValue(value);
+                    _this._eventChangeWrapper(event);
+                    _this.updateView();
+                }
+            });
+            mark[1].htmlElement.addEventListener('touchend', function (event) {
+                var _a;
+                var value = mark[0];
+                if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
+                    _this._presenter.setAbacusValue(value);
+                    _this._eventChangeWrapper(event);
+                    _this.updateView();
+                }
+            });
+        };
+        try {
+            for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var mark = _c.value;
+                _loop_1(mark);
+            }
+        }
+        catch (e_8_1) { e_8 = { error: e_8_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_8) throw e_8.error; }
+        }
+    };
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
      * Первоначальное значение береться из model.abacusProperty.aniamte.
      */
     View.prototype._setTransition = function () {
-        var e_8, _a;
+        var e_9, _a;
         var duration = '';
         var animate = this._presenter.getModelAbacusProperty().animate;
         if (typeof animate === 'number' && animate > 0) {
@@ -1922,12 +1972,12 @@ var View = /** @class */ (function () {
                     markItem[1].htmlElement.style.transition = duration;
                 }
             }
-            catch (e_8_1) { e_8 = { error: e_8_1 }; }
+            catch (e_9_1) { e_9 = { error: e_9_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_8) throw e_8.error; }
+                finally { if (e_9) throw e_9.error; }
             }
         }
     };
@@ -2237,4 +2287,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=2fca48eb04dcf4cd9bcb
+//# sourceMappingURL=abacus.js.map?v=d24cea345fb9b9563410

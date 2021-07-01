@@ -699,9 +699,18 @@ export class View{
   private _handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
     const viewInstance = this;
-    if( viewInstance._isDisabled || event.target === this._handleItem.htmlElement ){
+    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    const eventTarget = event.target as HTMLElement;
+    const handleClass = abacusProperty.classes?.handle ? abacusProperty.classes?.handle : '';
+    const markClass = abacusProperty.classes?.mark ? abacusProperty.classes?.mark : '';
+
+    if( viewInstance._isDisabled
+      || eventTarget.classList.contains(handleClass)
+      || eventTarget.classList.contains(markClass) 
+    ){
       return;
     }
+
     viewInstance._mouseHandler(event);
   }
 
@@ -770,13 +779,13 @@ export class View{
       let value = abacusProperty.min;
       for (; value <= abacusProperty.max; value += abacusProperty.step) {
         value = View.round(value, abacusProperty.step);
-
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(value);
         mark.posLeft = left;
         mark.htmlElement.innerText = value.toString();
         this._mapScale.set(value, mark);
       }
+
       if( value !== abacusProperty.max ){
         const mark = new Mark(abacusProperty.classes);
         const left = this.getPosFromValue(abacusProperty.max);
@@ -798,6 +807,7 @@ export class View{
     }
 
     this._thinOutScale();
+    this._bindEventListenersOnMarks();
   }
 
 
@@ -884,6 +894,34 @@ export class View{
           markItem[1].isSelected(false);
         }
       }
+    }
+  }
+
+
+  /**
+   * Функция установки обработчиков на метки шкалы значений.
+   */
+  private _bindEventListenersOnMarks(): void{
+    for (const mark of this._mapScale) {
+      // я оставил эти обработчики в таком виде,
+      // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
+      mark[1].htmlElement.addEventListener('click', (event: MouseEvent) => {
+        const value = mark[0];
+        if( this._cachedAbacusProperty?.value !== value ){
+          this._presenter.setAbacusValue(value);
+          this._eventChangeWrapper(event);
+          this.updateView();
+        }
+      });
+
+      mark[1].htmlElement.addEventListener('touchend', (event: TouchEvent) => {
+        const value = mark[0];
+        if( this._cachedAbacusProperty?.value !== value ){
+          this._presenter.setAbacusValue(value);
+          this._eventChangeWrapper(event);
+          this.updateView();
+        }
+      });
     }
   }
 

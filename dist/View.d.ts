@@ -247,11 +247,15 @@ export declare class View {
      * Удаляет шкалу значений.
      */
     private _removeScale;
+    /**
+     * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+     */
     private _thinOutScale;
     /**
      * Функция меняет состояния меток в шкале значений.
      */
     private _highlightMarks;
+    private _bindEventListenersOnMarks;
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
      * Первоначальное значение береться из model.abacusProperty.aniamte.
