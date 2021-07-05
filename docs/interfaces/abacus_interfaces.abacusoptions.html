@@ -93,15 +93,16 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#classes" class="tsd-kind-icon">classes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#disabled" class="tsd-kind-icon">disabled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#markup" class="tsd-kind-icon">markup</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#max" class="tsd-kind-icon">max</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#min" class="tsd-kind-icon">min</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#orientation" class="tsd-kind-icon">orientation</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#range" class="tsd-kind-icon">range</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#scale" class="tsd-kind-icon">scale</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#start" class="tsd-kind-icon">start</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#step" class="tsd-kind-icon">step</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#tooltip" class="tsd-kind-icon">tooltip</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#value" class="tsd-kind-icon">value</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#values" class="tsd-kind-icon">values</a></li>
 							</ul>
@@ -117,7 +118,7 @@
 					<div class="tsd-signature tsd-kind-icon">animate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L60">abacus-interfaces.d.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L67">abacus-interfaces.d.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -133,9 +134,16 @@
 					<div class="tsd-signature tsd-kind-icon">change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L73">abacus-interfaces.d.ts:73</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L149">abacus-interfaces.d.ts:149</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Запускается после того, как пользователь переместит ручку слайдера, если значение изменилось.
+								Также если значение изменяется программно с помощью метода &quot;value&quot; или &quot;values&quot;.
+							Тип события - &quot;change&quot;.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -167,9 +175,14 @@
 					<div class="tsd-signature tsd-kind-icon">classes<span class="tsd-signature-symbol">:</span> <a href="abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L61">abacus-interfaces.d.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L73">abacus-interfaces.d.ts:73</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Классы элементов виджета.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="create" class="tsd-anchor"></a>
@@ -177,9 +190,15 @@
 					<div class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L74">abacus-interfaces.d.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L156">abacus-interfaces.d.ts:156</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Срабатывает после создания слайдера.
+							Тип события - &quot;create&quot;.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -211,19 +230,14 @@
 					<div class="tsd-signature tsd-kind-icon">disabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L62">abacus-interfaces.d.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L79">abacus-interfaces.d.ts:79</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="markup" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> markup</h3>
-					<div class="tsd-signature tsd-kind-icon">markup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L64">abacus-interfaces.d.ts:64</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Отключает ползунок, если установлено значение &quot;true&quot;.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="max" class="tsd-anchor"></a>
@@ -231,9 +245,14 @@
 					<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L63">abacus-interfaces.d.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L85">abacus-interfaces.d.ts:85</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Максимальное значение ползунка.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="min" class="tsd-anchor"></a>
@@ -241,9 +260,14 @@
 					<div class="tsd-signature tsd-kind-icon">min<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L65">abacus-interfaces.d.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L91">abacus-interfaces.d.ts:91</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Минимальное значение ползунка.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="orientation" class="tsd-anchor"></a>
@@ -251,9 +275,16 @@
 					<div class="tsd-signature tsd-kind-icon">orientation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L66">abacus-interfaces.d.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L99">abacus-interfaces.d.ts:99</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа)
+								или вертикально (минимум внизу, максимум вверху).
+							Возможные значения: &quot;horizontal&quot; (по горизонтали), &quot;vertical&quot; (по вертикали).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="range" class="tsd-anchor"></a>
@@ -261,9 +292,34 @@
 					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L67">abacus-interfaces.d.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L110">abacus-interfaces.d.ts:110</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Включение или отключение элемента диапазона.
+								Если установлено значение false, то элемент отключен.
+								Если установлено значение true, ползунок определит, есть ли у вас две ручки,
+								и создаст между ними стилизуемый элемент диапазона.
+								Если установлено значение &quot;min&quot;, диапазон идет от минимального значения ползунка до ручки.
+							Если установлено значение &quot;max&quot;, диапазон идет от максимального значения ползунка до ручки.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="scale" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scale</h3>
+					<div class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L116">abacus-interfaces.d.ts:116</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Включение или отключение шкалы значений.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="slide" class="tsd-anchor"></a>
@@ -271,9 +327,17 @@
 					<div class="tsd-signature tsd-kind-icon">slide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L75">abacus-interfaces.d.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L165">abacus-interfaces.d.ts:165</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
+								Значение, указанное в событии как ui.value, представляет значение,
+								которое ручка будет иметь в результате текущего движения.
+							Тип события - &quot;slide&quot;.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -305,9 +369,15 @@
 					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L76">abacus-interfaces.d.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L172">abacus-interfaces.d.ts:172</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.
+							Тип события - &quot;start&quot;.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -339,9 +409,14 @@
 					<div class="tsd-signature tsd-kind-icon">step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L68">abacus-interfaces.d.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L122">abacus-interfaces.d.ts:122</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Число, на которое увеличивается значение слайдера.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="stop" class="tsd-anchor"></a>
@@ -349,9 +424,15 @@
 					<div class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L77">abacus-interfaces.d.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L179">abacus-interfaces.d.ts:179</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.
+							Тип события - &quot;stop&quot;.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -378,14 +459,35 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tooltip" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tooltip</h3>
+					<div class="tsd-signature tsd-kind-icon">tooltip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L128">abacus-interfaces.d.ts:128</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Включение или отключение подсказки с текущем значением, которое отображется над ручкой слайдера.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="value" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> value</h3>
 					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L69">abacus-interfaces.d.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L135">abacus-interfaces.d.ts:135</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Значение ползунка, если у слайдера только одна ручка и нет интервала.
+							Если у слайдера две ручки, тогда в свойстве храниться значение первой ручки.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="values" class="tsd-anchor"></a>
@@ -393,9 +495,15 @@
 					<div class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/d229e16/src/scripts/abacus-interfaces.d.ts#L70">abacus-interfaces.d.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7b3763a/src/scripts/abacus-interfaces.d.ts#L142">abacus-interfaces.d.ts:142</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Этот параметр можно использовать для указания значений двух ручек слайдера.
+							Если для параметра диапазона установлено значение true, длина массива со значениями должна быть 2.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -475,9 +583,6 @@
 								<a href="abacus_interfaces.abacusoptions.html#disabled" class="tsd-kind-icon">disabled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#markup" class="tsd-kind-icon">markup</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#max" class="tsd-kind-icon">max</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -490,6 +595,9 @@
 								<a href="abacus_interfaces.abacusoptions.html#range" class="tsd-kind-icon">range</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#scale" class="tsd-kind-icon">scale</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -500,6 +608,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#tooltip" class="tsd-kind-icon">tooltip</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#value" class="tsd-kind-icon">value</a>

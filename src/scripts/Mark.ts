@@ -68,7 +68,7 @@ export class Mark{
   /**
    * @constructor
    * @this   {Mark}
-   * @param  {AbacusClasses} classes - Объект с названиями классов.
+   * @param  {AbacusClasses} classes Объект с названиями классов.
    * @example new Mark({
 	 * 	mark: 'abacus__mark',
 	 * 	markInrange: 'abacus__mark_inrange',
@@ -102,7 +102,7 @@ export class Mark{
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name - Название класса.
+   * @param {string} name Название класса.
    */
   public set className(name : string) {
     if( this._className ){
@@ -126,7 +126,7 @@ export class Mark{
   /**
    * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
    * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name - Название класса.
+   * @param {string} name Название класса.
    */
   public set classNameInrange(name : string) {
     if( !name || typeof name !== 'string' ){
@@ -155,7 +155,7 @@ export class Mark{
   /**
    * Сеттер названия класса HTML-элемента метки, которая соответствует текущему значению слайдера.
    * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name - Название класса.
+   * @param {string} name Название класса.
    */
   public set classNameSelected(name : string) {
     if( !name || typeof name !== 'string' ){
@@ -175,7 +175,7 @@ export class Mark{
 
   /**
    * Геттер позиции метки в процентах от левого края.
-   * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+   * @returns {number | null} Позиция метки в процентах от 0 до 100.
    * Или null, если координты по вертикале быть не должно.
    */
   public get posLeft() : number | null {
@@ -185,7 +185,7 @@ export class Mark{
 
   /**
    * Сеттер позиции метки в процентах от левого края.
-   * @param {number | null} - Позиция метки в процентах от 0 до 100.
+   * @param {number | null} left Позиция метки в процентах от 0 до 100.
    */
   public set posLeft(left : number | null) {
     if( left === null ){
@@ -204,7 +204,7 @@ export class Mark{
 
   /**
    * Геттер позиции метки в процентах от нижнего края.
-   * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+   * @returns {number | null} Позиция метки в процентах от 0 до 100.
    */
   public get posBottom() : number | null {
     return this._posBottom;
@@ -213,7 +213,7 @@ export class Mark{
 
   /**
    * Сеттер позиции метки в процентах от нижнего края.
-   * @param {number | null} - Позиция метки в процентах от 0 до 100.
+   * @param {number | null} bottom Позиция метки в процентах от 0 до 100.
    * Или null, если координты по вертикале быть не должно.
    */
   public set posBottom(bottom : number | null) {
@@ -237,9 +237,9 @@ export class Mark{
    * записанный в _classNameInrange.
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameInrange.
-   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
    * Если ничего не передать, то возвращается текущее состояние.
-   * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
+   * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
    */
   isInrange(value?: boolean): boolean{
     if( value !== undefined && this._classNameInrange){
@@ -264,9 +264,9 @@ export class Mark{
    * записанный в _classNameSelected.
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameSelected.
-   * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+   * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
    * Если ничего не передать, то возвращается текущее состояние.
-   * @returns {boolean} - Текущее состояние метки.
+   * @returns {boolean} Текущее состояние метки.
    */
   isSelected(value?: boolean): boolean{
     if( value !== undefined && this._classNameSelected){

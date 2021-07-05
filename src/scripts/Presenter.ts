@@ -29,7 +29,7 @@ export class Presenter{
 
   /**
    * @this Presenter
-   * @param {AbacusOptions} options - Свойства слайдера. Например, минимальное, максимальное и текущее значения.
+   * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
    */
   constructor(options?: AbacusOptions){
     const presenterInstance = this;
@@ -46,7 +46,7 @@ export class Presenter{
 
   /**
    * Функция получения свойств слайдера, полученные из Модели.
-   * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+   * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
    */
   getModelAbacusProperty(): AbacusOptions{
     return this._model.abacusProperty;
@@ -55,7 +55,7 @@ export class Presenter{
 
   /**
    * Функция получения свойств слайдера, полученные из Модели.
-   * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+   * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
    */
   setModelAbacusProperty(abacusProperty: AbacusOptions): void{
     this._model.abacusProperty = abacusProperty;
@@ -64,7 +64,7 @@ export class Presenter{
 
   /**
    * Функция установки текущего значения слайдера.
-   * @param {number} value - Текущее значение слайдера.
+   * @param {number} value Текущее значение слайдера.
    */
   setAbacusValue(value: number): void{
     this._model.value = value;

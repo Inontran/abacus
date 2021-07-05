@@ -50,7 +50,7 @@ export class Model{
 
   /**
    * @this Model
-   * @param {AbacusOptions} data - Свойства слайдера.
+   * @param {AbacusOptions} data Свойства слайдера.
    */
   constructor(data?: AbacusOptions){
     if( data ){
@@ -64,7 +64,7 @@ export class Model{
 
   /**
    * Геттер свойств слайдера.
-   * @returns {AbacusOptions} - Свойства слайдера, хранящиеся в Модели.
+   * @returns {AbacusOptions} Свойства слайдера, хранящиеся в Модели.
    */
   public get abacusProperty() : AbacusOptions {
     return this._abacusProperty;
@@ -72,7 +72,7 @@ export class Model{
 
   /**
    * Сеттер свойств слайдера.
-   * @param {AbacusOptions} abacusProperty - Свойства слайдера, которые нужно добавить в Модель.
+   * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
    */
   public set abacusProperty(abacusProperty: AbacusOptions) {
     // animate
@@ -251,7 +251,7 @@ export class Model{
 
   /**
    * Сеттер текущего значения слайдера.
-   * @param {number} value - Текущее значение слайдера.
+   * @param {number} value Текущее значение слайдера.
    */
   public set value(value : number) {
     this._abacusProperty.value = this.roundValuePerStep(value);
@@ -270,8 +270,8 @@ export class Model{
 
   /**
    * Функция, округляющее переданное значение до ближайшего шага.
-   * @param {number} value - Текущее значение слайдера.
-   * @returns {number} - Значение слайдера, округленное до ближайшего шага.
+   * @param {number} value Текущее значение слайдера.
+   * @returns {number} Значение слайдера, округленное до ближайшего шага.
    */
   roundValuePerStep(value: number): number{
     let result: number = value;
@@ -327,8 +327,8 @@ export class Model{
 
   /**
    * Функция получения количества знаков после запятой.
-   * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} - Количество знаков после запятой.
+   * @param {number} x Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} Количество знаков после запятой.
    */
   static countNumAfterPoint(x: number): number{
     return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
@@ -337,9 +337,9 @@ export class Model{
 
   /**
    * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-   * @param {number} value - Число, которое надо округлить.
-   * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} - Округленное число.
+   * @param {number} value Число, которое надо округлить.
+   * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
+   * @returns {number} Округленное число.
    */
   static round(value: number, fractionalNum: number): number{
     const numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);

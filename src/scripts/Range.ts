@@ -40,7 +40,7 @@ export class Range{
   /**
    * @constructor
    * @this   {Range}
-   * @param  {AbacusClasses} classes - Объект с названиями классов.
+   * @param  {AbacusClasses} classes Объект с названиями классов.
    * @example new Handle({
    *  range: 'abacus__range'
    * });
@@ -61,7 +61,7 @@ export class Range{
 
   /**
    * Сеттер ширины HTML-элемента (_htmlElement).
-   * @param {number | null} width - ширина в процентах от 0 до 100.
+   * @param {number | null} width ширина в процентах от 0 до 100.
    */
   public set width(width : number | null) {
     if( width === null ){
@@ -87,7 +87,7 @@ export class Range{
 
   /**
    * Сеттер высоты HTML-элемента (_htmlElement).
-   * @param {number | null} height - высота в процентах от 0 до 100.
+   * @param {number | null} height высота в процентах от 0 до 100.
    */
   public set height(height : number | null) {
     if( height === null ){
@@ -122,7 +122,7 @@ export class Range{
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name - Название класса.
+   * @param {string} value Название класса.
    */
   public set className(value : string) {
     this._htmlElement.classList.remove(this._className);

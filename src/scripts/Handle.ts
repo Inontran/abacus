@@ -41,7 +41,7 @@ export class Handle{
   /**
    * @constructor
    * @this   {Handle}
-   * @param  {AbacusClasses} classes - Объект с названиями классов.
+   * @param  {AbacusClasses} classes Объект с названиями классов.
    * @example new Handle({
    *  handle: 'abacus__handle'
    * });
@@ -58,7 +58,7 @@ export class Handle{
 
   /**
    * Геттер позиции бегунка в процентах от левого края.
-   * @returns {number} - Позиция бегунка в процентах от 0 до 100.
+   * @returns {number} Позиция бегунка в процентах от 0 до 100.
    */
   public get posLeft() : number | null {
     return this._posLeft;
@@ -66,7 +66,7 @@ export class Handle{
 
   /**
    * Сеттер позиции бегунка в процентах от левого края.
-   * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+   * @param {number | null} left Позиция бегунка в процентах от 0 до 100.
    * Или null, если координты по горизонтиле быть не должно.
    */
   public set posLeft(left : number | null) {
@@ -86,7 +86,7 @@ export class Handle{
 
   /**
    * Геттер позиции бегунка в процентах от нижнего края.
-   * @returns {number | null} - Позиция бегунка в процентах от 0 до 100.
+   * @returns {number | null} Позиция бегунка в процентах от 0 до 100.
    */
 	public get posBottom() : number | null {
     return this._posBottom;
@@ -94,7 +94,7 @@ export class Handle{
 
   /**
    * Сеттер позиции бегунка в процентах от нижнего края.
-   * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+   * @param {number | null} bottom Позиция бегунка в процентах от 0 до 100.
    * Или null, если координты по вертикале быть не должно.
    */
   public set posBottom(bottom : number | null) {
@@ -138,7 +138,7 @@ export class Handle{
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name - Название класса.
+   * @param {string} value Название класса.
    */
   public set className(value : string) {
     this._htmlElement.classList.remove(this._className);

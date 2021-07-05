@@ -5,7 +5,11 @@
 import $ from 'jquery';
 import {View} from './View';
 
-$.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any, optionValue ? : any): JQuery {
+$.fn.abacus = function (
+  paramOptions ? : AbacusOptions | string, 
+  param1 ? : AbacusOptions | number | string | number[], 
+  param2 ? : number | string | boolean | null | AbacusClasses
+): JQuery {
   let returnResult: any = this;
 
   this.each(function () {
@@ -51,11 +55,11 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
 
 
         case 'option':
-          if( typeof option === 'object'){
-            resultOption = view.option(undefined, option);
+          if( typeof param1 === 'object'){
+            resultOption = view.option(undefined, param1);
           }
-          else{
-            resultOption = view.option(option, optionValue);
+          else if( typeof param1 === 'string' ){
+            resultOption = view.option(param1, param2);
           }
 
           if( typeof resultOption !== undefined ){
@@ -65,7 +69,7 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions | string, option ? : any,
 
 
         case 'value':
-          resultOption = view.option('value', optionValue);
+          resultOption = view.option('value', param2);
 
           if( typeof resultOption !== undefined ){
             returnResult = resultOption;
