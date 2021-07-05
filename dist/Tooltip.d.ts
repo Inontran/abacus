@@ -42,7 +42,7 @@ export declare class Tooltip {
     /**
      * @constructor
      * @this   {Tooltip}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Tooltip({
      *  tooltip: 'abacus__tooltip',
      *  tooltipVisible: 'abacus__tooltip_visible'
@@ -59,7 +59,7 @@ export declare class Tooltip {
     get className(): string;
     /**
      * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-     * @param {string} name - Название класса.
+     * @param {string} name Название класса.
      */
     set className(name: string);
     /**
@@ -69,28 +69,28 @@ export declare class Tooltip {
     /**
      * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
      * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-     * @param {string} name - Название класса.
+     * @param {string} name Название класса.
      */
     set classNameVisible(name: string);
     /**
      * Геттер позиции подсказки в процентах от левого края.
-     * @returns {number} - Позиция подсказки в процентах от 0 до 100.
+     * @returns {number} Позиция подсказки в процентах от 0 до 100.
      */
     get posLeft(): number | null;
     /**
      * Сеттер позиции подсказки в процентах от левого края.
-     * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+     * @param {number | null} left Позиция подсказки в процентах от 0 до 100.
      * Или null, если координты по горизонтиле быть не должно.
      */
     set posLeft(left: number | null);
     /**
      * Геттер позиции подсказки в процентах от нижнего края.
-     * @returns {number | null} - Позиция подсказки в процентах от 0 до 100.
+     * @returns {number | null} Позиция подсказки в процентах от 0 до 100.
      */
     get posBottom(): number | null;
     /**
      * Сеттер позиции подсказки в процентах от нижнего края.
-     * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+     * @param {number | null} bottom Позиция подсказки в процентах от 0 до 100.
      * Или null, если координты по вертикале быть не должно.
      */
     set posBottom(bottom: number | null);
@@ -100,9 +100,9 @@ export declare class Tooltip {
      * записанный в _classNameVisible.
      * Если функция получила параметр true, то метке добавляется класс,
      * записанный в _classNameVisible.
-     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
        * Если ничего не передать, то возвращается текущее состояние.
-     * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
+     * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
      */
     isVisible(value?: boolean): boolean;
 }

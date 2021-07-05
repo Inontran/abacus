@@ -96,10 +96,10 @@ export declare class View {
     /**
      * @constructor
      * @this   {View}
-     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
+     * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
      * в котором будет находиться инициализированный плагин.
-     * @param  {AbacusOptions} options - Параметры настройки плагина.
-     * @param  {object} data - Другие данные.
+     * @param  {AbacusOptions} options Параметры настройки плагина.
+     * @param  {object} data Другие данные.
      */
     constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object);
     /**
@@ -123,38 +123,38 @@ export declare class View {
     /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
-     * @param {number} coordXY - Координата клика по оси Х относительно окна браузера.
-     * @returns {number} - Количество процентов от начала (левого края) слайдера.
+     * @param {number} coordXY Координата клика по оси Х относительно окна браузера.
+     * @returns {number} Количество процентов от начала (левого края) слайдера.
      */
     getPosPercent(coordXY: number): number;
     /**
      * Функция, которая получает на вход процент от начала слайдера,
      * а возвращает соответствующее значение кратно заданному шагу.
      * @deprecated
-     * @param {number} percent - Позиция бегунка в процентах от начала слайдера.
+     * @param {number} percent Позиция бегунка в процентах от начала слайдера.
      * @returns {number} Значение, соответствующее проценту и кратно шагу.
      */
     getPosPerStep(percent: number): number;
     /**
      * Функция, которая вычисляет позицию бегунка в процентах от начала слайдера.
-     * @param {number} value - Значение слайдера.
+     * @param {number} value Значение слайдера.
      * @returns {number} Позиция бегунка в процентах от начала слайдера.
      */
     getPosFromValue(value: number): number;
     /**
      * Функция, которая получает на вход процент от начала слайдера,
      * а возвращает соответствующее значение.
-     * @param {number} posPercent - Позиция бегунка в процентах от начала слайдера.
-     * @returns {number} - Значение слайдера.
+     * @param {number} posPercent Позиция бегунка в процентах от начала слайдера.
+     * @returns {number} Значение слайдера.
      */
     getValFromPosPercent(posPercent: number): number;
     /**
      * Функция получения и установки свойств слайдера.
-     * @param {AbacusOptions | string} optionName -
-     * @param {any} value -
-     * @returns {}
+     * @param {string} optionName Название свойства, значение которого надо получить или изменить.
+     * @param {any} value Значение свойства.
+     * @returns {AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined}
      */
-    option(optionName?: string, value?: AbacusOptions | any): any;
+    option(optionName?: string, value?: any): AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined;
     /**
      * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
      * @returns
@@ -162,20 +162,20 @@ export declare class View {
     updateView(): void;
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
-     * @param {boolean} off - "true" значит отключить. "false" значит активировать.
+     * @param {boolean} off "true" значит отключить. "false" значит активировать.
      */
     toggleDisable(off?: boolean): void;
     /**
      * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
      * @private
-     * @returns {EventUIData} - Объект класса EventUIData.
+     * @returns {EventUIData} Объект класса EventUIData.
      */
     private _getEventUIData;
     /**
      * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события изменения значения слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault(). В ином случае — true.
      * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -183,8 +183,8 @@ export declare class View {
     /**
      * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события инициализации плагина.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -192,8 +192,8 @@ export declare class View {
     /**
      * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -201,8 +201,8 @@ export declare class View {
     /**
      * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -210,15 +210,15 @@ export declare class View {
     /**
      * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     private _eventStopWrapper;
     /**
      * Функция, обрабатывающая позицию мыши.
-     * @param {MouseEvent} event - Объект события мыши.
+     * @param {MouseEvent} event Объект события мыши.
      */
     private _mouseHandler;
     /**
@@ -270,15 +270,15 @@ export declare class View {
     private _setTransition;
     /**
      * Функция получения количества знаков после запятой.
-     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Количество знаков после запятой.
+     * @param {number} x Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Количество знаков после запятой.
      */
     static countNumAfterPoint(x: number): number;
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-     * @param {number} value - Число, которое надо округлить.
-     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Округленное число.
+     * @param {number} value Число, которое надо округлить.
+     * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Округленное число.
      */
     static round(value: number, fractionalNum: number): number;
 }

@@ -36,7 +36,7 @@ export declare class Handle {
     /**
      * @constructor
      * @this   {Handle}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Handle({
      *  handle: 'abacus__handle'
      * });
@@ -44,23 +44,23 @@ export declare class Handle {
     constructor(classes?: AbacusClasses, handleIndex?: number);
     /**
      * Геттер позиции бегунка в процентах от левого края.
-     * @returns {number} - Позиция бегунка в процентах от 0 до 100.
+     * @returns {number} Позиция бегунка в процентах от 0 до 100.
      */
     get posLeft(): number | null;
     /**
      * Сеттер позиции бегунка в процентах от левого края.
-     * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+     * @param {number | null} left Позиция бегунка в процентах от 0 до 100.
      * Или null, если координты по горизонтиле быть не должно.
      */
     set posLeft(left: number | null);
     /**
      * Геттер позиции бегунка в процентах от нижнего края.
-     * @returns {number | null} - Позиция бегунка в процентах от 0 до 100.
+     * @returns {number | null} Позиция бегунка в процентах от 0 до 100.
      */
     get posBottom(): number | null;
     /**
      * Сеттер позиции бегунка в процентах от нижнего края.
-     * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+     * @param {number | null} bottom Позиция бегунка в процентах от 0 до 100.
      * Или null, если координты по вертикале быть не должно.
      */
     set posBottom(bottom: number | null);
@@ -78,7 +78,7 @@ export declare class Handle {
     get className(): string;
     /**
      * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-     * @param {string} name - Название класса.
+     * @param {string} value Название класса.
      */
     set className(value: string);
 }

@@ -61,6 +61,9 @@ $.fn.abacus = function (
           else if( typeof param1 === 'string' ){
             resultOption = view.option(param1, param2);
           }
+          else{
+            resultOption = view.option();
+          }
 
           if( typeof resultOption !== undefined ){
             returnResult = resultOption;

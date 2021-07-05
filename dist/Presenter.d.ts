@@ -24,22 +24,22 @@ export declare class Presenter {
     private _eventUpdateModel;
     /**
      * @this Presenter
-     * @param {AbacusOptions} options - Свойства слайдера. Например, минимальное, максимальное и текущее значения.
+     * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
      */
     constructor(options?: AbacusOptions);
     /**
      * Функция получения свойств слайдера, полученные из Модели.
-     * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+     * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
      */
     getModelAbacusProperty(): AbacusOptions;
     /**
      * Функция получения свойств слайдера, полученные из Модели.
-     * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+     * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
      */
     setModelAbacusProperty(abacusProperty: AbacusOptions): void;
     /**
      * Функция установки текущего значения слайдера.
-     * @param {number} value - Текущее значение слайдера.
+     * @param {number} value Текущее значение слайдера.
      */
     setAbacusValue(value: number): void;
     /**

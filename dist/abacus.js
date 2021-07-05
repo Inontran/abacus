@@ -114,7 +114,7 @@ var Handle = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Handle}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Handle({
      *  handle: 'abacus__handle'
      * });
@@ -148,14 +148,14 @@ var Handle = /** @class */ (function () {
     Object.defineProperty(Handle.prototype, "posLeft", {
         /**
          * Геттер позиции бегунка в процентах от левого края.
-         * @returns {number} - Позиция бегунка в процентах от 0 до 100.
+         * @returns {number} Позиция бегунка в процентах от 0 до 100.
          */
         get: function () {
             return this._posLeft;
         },
         /**
          * Сеттер позиции бегунка в процентах от левого края.
-         * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+         * @param {number | null} left Позиция бегунка в процентах от 0 до 100.
          * Или null, если координты по горизонтиле быть не должно.
          */
         set: function (left) {
@@ -178,14 +178,14 @@ var Handle = /** @class */ (function () {
     Object.defineProperty(Handle.prototype, "posBottom", {
         /**
          * Геттер позиции бегунка в процентах от нижнего края.
-         * @returns {number | null} - Позиция бегунка в процентах от 0 до 100.
+         * @returns {number | null} Позиция бегунка в процентах от 0 до 100.
          */
         get: function () {
             return this._posBottom;
         },
         /**
          * Сеттер позиции бегунка в процентах от нижнего края.
-         * @param {number | null} - Позиция бегунка в процентах от 0 до 100.
+         * @param {number | null} bottom Позиция бегунка в процентах от 0 до 100.
          * Или null, если координты по вертикале быть не должно.
          */
         set: function (bottom) {
@@ -234,7 +234,7 @@ var Handle = /** @class */ (function () {
         },
         /**
          * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} value Название класса.
          */
         set: function (value) {
             this._htmlElement.classList.remove(this._className);
@@ -269,7 +269,7 @@ var Mark = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Mark}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Mark({
        * 	mark: 'abacus__mark',
        * 	markInrange: 'abacus__mark_inrange',
@@ -332,7 +332,7 @@ var Mark = /** @class */ (function () {
         },
         /**
          * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} name Название класса.
          */
         set: function (name) {
             if (this._className) {
@@ -356,7 +356,7 @@ var Mark = /** @class */ (function () {
         /**
          * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
          * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} name Название класса.
          */
         set: function (name) {
             if (!name || typeof name !== 'string') {
@@ -383,7 +383,7 @@ var Mark = /** @class */ (function () {
         /**
          * Сеттер названия класса HTML-элемента метки, которая соответствует текущему значению слайдера.
          * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} name Название класса.
          */
         set: function (name) {
             if (!name || typeof name !== 'string') {
@@ -403,7 +403,7 @@ var Mark = /** @class */ (function () {
     Object.defineProperty(Mark.prototype, "posLeft", {
         /**
          * Геттер позиции метки в процентах от левого края.
-         * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+         * @returns {number | null} Позиция метки в процентах от 0 до 100.
          * Или null, если координты по вертикале быть не должно.
          */
         get: function () {
@@ -411,7 +411,7 @@ var Mark = /** @class */ (function () {
         },
         /**
          * Сеттер позиции метки в процентах от левого края.
-         * @param {number | null} - Позиция метки в процентах от 0 до 100.
+         * @param {number | null} left Позиция метки в процентах от 0 до 100.
          */
         set: function (left) {
             if (left === null) {
@@ -433,14 +433,14 @@ var Mark = /** @class */ (function () {
     Object.defineProperty(Mark.prototype, "posBottom", {
         /**
          * Геттер позиции метки в процентах от нижнего края.
-         * @returns {number | null} - Позиция метки в процентах от 0 до 100.
+         * @returns {number | null} Позиция метки в процентах от 0 до 100.
          */
         get: function () {
             return this._posBottom;
         },
         /**
          * Сеттер позиции метки в процентах от нижнего края.
-         * @param {number | null} - Позиция метки в процентах от 0 до 100.
+         * @param {number | null} bottom Позиция метки в процентах от 0 до 100.
          * Или null, если координты по вертикале быть не должно.
          */
         set: function (bottom) {
@@ -466,9 +466,9 @@ var Mark = /** @class */ (function () {
      * записанный в _classNameInrange.
      * Если функция получила параметр true, то метке добавляется класс,
      * записанный в _classNameInrange.
-     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
      * Если ничего не передать, то возвращается текущее состояние.
-     * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
+     * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
      */
     Mark.prototype.isInrange = function (value) {
         if (value !== undefined && this._classNameInrange) {
@@ -489,9 +489,9 @@ var Mark = /** @class */ (function () {
      * записанный в _classNameSelected.
      * Если функция получила параметр true, то метке добавляется класс,
      * записанный в _classNameSelected.
-     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
      * Если ничего не передать, то возвращается текущее состояние.
-     * @returns {boolean} - Текущее состояние метки.
+     * @returns {boolean} Текущее состояние метки.
      */
     Mark.prototype.isSelected = function (value) {
         if (value !== undefined && this._classNameSelected) {
@@ -533,7 +533,7 @@ var event_target_1 = __importDefault(__webpack_require__(/*! @ungap/event-target
 var Model = /** @class */ (function () {
     /**
      * @this Model
-     * @param {AbacusOptions} data - Свойства слайдера.
+     * @param {AbacusOptions} data Свойства слайдера.
      */
     function Model(data) {
         /**
@@ -574,14 +574,14 @@ var Model = /** @class */ (function () {
     Object.defineProperty(Model.prototype, "abacusProperty", {
         /**
          * Геттер свойств слайдера.
-         * @returns {AbacusOptions} - Свойства слайдера, хранящиеся в Модели.
+         * @returns {AbacusOptions} Свойства слайдера, хранящиеся в Модели.
          */
         get: function () {
             return this._abacusProperty;
         },
         /**
          * Сеттер свойств слайдера.
-         * @param {AbacusOptions} abacusProperty - Свойства слайдера, которые нужно добавить в Модель.
+         * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
          */
         set: function (abacusProperty) {
             // animate
@@ -742,7 +742,7 @@ var Model = /** @class */ (function () {
     Object.defineProperty(Model.prototype, "value", {
         /**
          * Сеттер текущего значения слайдера.
-         * @param {number} value - Текущее значение слайдера.
+         * @param {number} value Текущее значение слайдера.
          */
         set: function (value) {
             this._abacusProperty.value = this.roundValuePerStep(value);
@@ -765,8 +765,8 @@ var Model = /** @class */ (function () {
     });
     /**
      * Функция, округляющее переданное значение до ближайшего шага.
-     * @param {number} value - Текущее значение слайдера.
-     * @returns {number} - Значение слайдера, округленное до ближайшего шага.
+     * @param {number} value Текущее значение слайдера.
+     * @returns {number} Значение слайдера, округленное до ближайшего шага.
      */
     Model.prototype.roundValuePerStep = function (value) {
         var result = value;
@@ -814,17 +814,17 @@ var Model = /** @class */ (function () {
     };
     /**
      * Функция получения количества знаков после запятой.
-     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Количество знаков после запятой.
+     * @param {number} x Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Количество знаков после запятой.
      */
     Model.countNumAfterPoint = function (x) {
         return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
     };
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-     * @param {number} value - Число, которое надо округлить.
-     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Округленное число.
+     * @param {number} value Число, которое надо округлить.
+     * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Округленное число.
      */
     Model.round = function (value, fractionalNum) {
         var numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);
@@ -865,7 +865,7 @@ var Model_1 = __webpack_require__(/*! ./Model */ "./src/scripts/Model.ts");
 var Presenter = /** @class */ (function () {
     /**
      * @this Presenter
-     * @param {AbacusOptions} options - Свойства слайдера. Например, минимальное, максимальное и текущее значения.
+     * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
      */
     function Presenter(options) {
         var presenterInstance = this;
@@ -878,21 +878,21 @@ var Presenter = /** @class */ (function () {
     }
     /**
      * Функция получения свойств слайдера, полученные из Модели.
-     * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+     * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
      */
     Presenter.prototype.getModelAbacusProperty = function () {
         return this._model.abacusProperty;
     };
     /**
      * Функция получения свойств слайдера, полученные из Модели.
-     * @returns {AbacusOptions} - Свойства слайдера, полученные из Модели.
+     * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
      */
     Presenter.prototype.setModelAbacusProperty = function (abacusProperty) {
         this._model.abacusProperty = abacusProperty;
     };
     /**
      * Функция установки текущего значения слайдера.
-     * @param {number} value - Текущее значение слайдера.
+     * @param {number} value Текущее значение слайдера.
      */
     Presenter.prototype.setAbacusValue = function (value) {
         this._model.value = value;
@@ -932,7 +932,7 @@ var Range = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Range}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Handle({
      *  range: 'abacus__range'
      * });
@@ -968,7 +968,7 @@ var Range = /** @class */ (function () {
         },
         /**
          * Сеттер ширины HTML-элемента (_htmlElement).
-         * @param {number | null} width - ширина в процентах от 0 до 100.
+         * @param {number | null} width ширина в процентах от 0 до 100.
          */
         set: function (width) {
             if (width === null) {
@@ -996,7 +996,7 @@ var Range = /** @class */ (function () {
         },
         /**
          * Сеттер высоты HTML-элемента (_htmlElement).
-         * @param {number | null} height - высота в процентах от 0 до 100.
+         * @param {number | null} height высота в процентах от 0 до 100.
          */
         set: function (height) {
             if (height === null) {
@@ -1034,7 +1034,7 @@ var Range = /** @class */ (function () {
         },
         /**
          * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} value Название класса.
          */
         set: function (value) {
             this._htmlElement.classList.remove(this._className);
@@ -1095,7 +1095,7 @@ var Tooltip = /** @class */ (function () {
     /**
      * @constructor
      * @this   {Tooltip}
-     * @param  {AbacusClasses} classes - Объект с названиями классов.
+     * @param  {AbacusClasses} classes Объект с названиями классов.
      * @example new Tooltip({
      *  tooltip: 'abacus__tooltip',
      *  tooltipVisible: 'abacus__tooltip_visible'
@@ -1144,7 +1144,7 @@ var Tooltip = /** @class */ (function () {
         },
         /**
          * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} name Название класса.
          */
         set: function (name) {
             if (this._className) {
@@ -1168,7 +1168,7 @@ var Tooltip = /** @class */ (function () {
         /**
          * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
          * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-         * @param {string} name - Название класса.
+         * @param {string} name Название класса.
          */
         set: function (name) {
             if (!name || typeof name !== 'string') {
@@ -1188,14 +1188,14 @@ var Tooltip = /** @class */ (function () {
     Object.defineProperty(Tooltip.prototype, "posLeft", {
         /**
          * Геттер позиции подсказки в процентах от левого края.
-         * @returns {number} - Позиция подсказки в процентах от 0 до 100.
+         * @returns {number} Позиция подсказки в процентах от 0 до 100.
          */
         get: function () {
             return this._posLeft;
         },
         /**
          * Сеттер позиции подсказки в процентах от левого края.
-         * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+         * @param {number | null} left Позиция подсказки в процентах от 0 до 100.
          * Или null, если координты по горизонтиле быть не должно.
          */
         set: function (left) {
@@ -1218,14 +1218,14 @@ var Tooltip = /** @class */ (function () {
     Object.defineProperty(Tooltip.prototype, "posBottom", {
         /**
          * Геттер позиции подсказки в процентах от нижнего края.
-         * @returns {number | null} - Позиция подсказки в процентах от 0 до 100.
+         * @returns {number | null} Позиция подсказки в процентах от 0 до 100.
          */
         get: function () {
             return this._posBottom;
         },
         /**
          * Сеттер позиции подсказки в процентах от нижнего края.
-         * @param {number | null} - Позиция подсказки в процентах от 0 до 100.
+         * @param {number | null} bottom Позиция подсказки в процентах от 0 до 100.
          * Или null, если координты по вертикале быть не должно.
          */
         set: function (bottom) {
@@ -1251,9 +1251,9 @@ var Tooltip = /** @class */ (function () {
      * записанный в _classNameVisible.
      * Если функция получила параметр true, то метке добавляется класс,
      * записанный в _classNameVisible.
-     * @param {boolean} value - Если передать "true", то добавляется класс, иначе удалается класс.
+     * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
        * Если ничего не передать, то возвращается текущее состояние.
-     * @returns {boolean} - Текущее состояние метки, а именно, в диапозоне она находится или нет.
+     * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
      */
     Tooltip.prototype.isVisible = function (value) {
         if (value !== undefined && this._classNameVisible) {
@@ -1311,10 +1311,10 @@ var View = /** @class */ (function () {
     /**
      * @constructor
      * @this   {View}
-     * @param  {HTMLAbacusElement} abacusHtmlContainer - HTML-элемент,
+     * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
      * в котором будет находиться инициализированный плагин.
-     * @param  {AbacusOptions} options - Параметры настройки плагина.
-     * @param  {object} data - Другие данные.
+     * @param  {AbacusOptions} options Параметры настройки плагина.
+     * @param  {object} data Другие данные.
      */
     function View(abacusHtmlContainer, options, data) {
         /**
@@ -1422,8 +1422,8 @@ var View = /** @class */ (function () {
     /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
-     * @param {number} coordXY - Координата клика по оси Х относительно окна браузера.
-     * @returns {number} - Количество процентов от начала (левого края) слайдера.
+     * @param {number} coordXY Координата клика по оси Х относительно окна браузера.
+     * @returns {number} Количество процентов от начала (левого края) слайдера.
      */
     View.prototype.getPosPercent = function (coordXY) {
         var result = 0;
@@ -1452,7 +1452,7 @@ var View = /** @class */ (function () {
      * Функция, которая получает на вход процент от начала слайдера,
      * а возвращает соответствующее значение кратно заданному шагу.
      * @deprecated
-     * @param {number} percent - Позиция бегунка в процентах от начала слайдера.
+     * @param {number} percent Позиция бегунка в процентах от начала слайдера.
      * @returns {number} Значение, соответствующее проценту и кратно шагу.
      */
     View.prototype.getPosPerStep = function (percent) {
@@ -1469,7 +1469,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция, которая вычисляет позицию бегунка в процентах от начала слайдера.
-     * @param {number} value - Значение слайдера.
+     * @param {number} value Значение слайдера.
      * @returns {number} Позиция бегунка в процентах от начала слайдера.
      */
     View.prototype.getPosFromValue = function (value) {
@@ -1496,8 +1496,8 @@ var View = /** @class */ (function () {
     /**
      * Функция, которая получает на вход процент от начала слайдера,
      * а возвращает соответствующее значение.
-     * @param {number} posPercent - Позиция бегунка в процентах от начала слайдера.
-     * @returns {number} - Значение слайдера.
+     * @param {number} posPercent Позиция бегунка в процентах от начала слайдера.
+     * @returns {number} Значение слайдера.
      */
     View.prototype.getValFromPosPercent = function (posPercent) {
         var abacusValue = 0;
@@ -1516,9 +1516,9 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция получения и установки свойств слайдера.
-     * @param {AbacusOptions | string} optionName -
-     * @param {any} value -
-     * @returns {}
+     * @param {string} optionName Название свойства, значение которого надо получить или изменить.
+     * @param {any} value Значение свойства.
+     * @returns {AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined}
      */
     View.prototype.option = function (optionName, value) {
         if (typeof optionName === 'string') {
@@ -1538,6 +1538,7 @@ var View = /** @class */ (function () {
                     if (value !== undefined) {
                         // это условие для установки конкретного свойства слайдера
                         var newProperty = {};
+                        // newProperty[optionName] = value;
                         newProperty[optionName] = value;
                         this._presenter.setModelAbacusProperty(newProperty);
                     }
@@ -1699,7 +1700,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
-     * @param {boolean} off - "true" значит отключить. "false" значит активировать.
+     * @param {boolean} off "true" значит отключить. "false" значит активировать.
      */
     View.prototype.toggleDisable = function (off) {
         if (off === undefined || off === null) {
@@ -1713,7 +1714,7 @@ var View = /** @class */ (function () {
     /**
      * Функция упаковывает в объект некоторые данные о слайдере и бегунке для обработчиков событий.
      * @private
-     * @returns {EventUIData} - Объект класса EventUIData.
+     * @returns {EventUIData} Объект класса EventUIData.
      */
     View.prototype._getEventUIData = function () {
         var uiData = {};
@@ -1727,8 +1728,8 @@ var View = /** @class */ (function () {
     /**
      * Функция-обертка события "abacus-change". Генерирует событие "abacus-change" и вызывает callback "change".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события изменения значения слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события изменения значения слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault(). В ином случае — true.
      * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -1747,8 +1748,8 @@ var View = /** @class */ (function () {
     /**
      * Функция-обертка события "abacus-create". Генерирует событие "abacus-create" и вызывает callback "create".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события инициализации плагина.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события инициализации плагина.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -1767,8 +1768,8 @@ var View = /** @class */ (function () {
     /**
      * Функция-обертка события "abacus-slide". Генерирует событие "abacus-slide" и вызывает callback "slide".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -1787,8 +1788,8 @@ var View = /** @class */ (function () {
     /**
      * Функция-обертка события "abacus-start". Генерирует событие "abacus-start" и вызывает callback "start".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события начала перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -1807,8 +1808,8 @@ var View = /** @class */ (function () {
     /**
      * Функция-обертка события "abacus-stop". Генерирует событие "abacus-stop" и вызывает callback "stop".
      * @private
-     * @param {Event} event - Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
-     * @returns {boolean} - Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
+     * @param {Event} event Объект события. По умолчанию равен объекту события окончания перемещения бегунка слайдера.
+     * @returns {boolean} Возвращаемое значение — false, если событие отменяемое и хотя бы один из обработчиков
      * этого события вызвал Event.preventDefault().
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
@@ -1826,7 +1827,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция, обрабатывающая позицию мыши.
-     * @param {MouseEvent} event - Объект события мыши.
+     * @param {MouseEvent} event Объект события мыши.
      */
     View.prototype._mouseHandler = function (event) {
         var viewInstance = this;
@@ -2240,17 +2241,17 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция получения количества знаков после запятой.
-     * @param {number} x - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Количество знаков после запятой.
+     * @param {number} x Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Количество знаков после запятой.
      */
     View.countNumAfterPoint = function (x) {
         return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
     };
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-     * @param {number} value - Число, которое надо округлить.
-     * @param {number} fractionalNum - Число, у которого надо узнать количество знаков после запятой.
-     * @returns {number} - Округленное число.
+     * @param {number} value Число, которое надо округлить.
+     * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
+     * @returns {number} Округленное число.
      */
     View.round = function (value, fractionalNum) {
         var numbersAfterPoint = View.countNumAfterPoint(fractionalNum);
@@ -2467,7 +2468,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "jquery"));
 var View_1 = __webpack_require__(/*! ./View */ "./src/scripts/View.ts");
-jquery_1.default.fn.abacus = function (paramOptions, option, optionValue) {
+jquery_1.default.fn.abacus = function (paramOptions, param1, param2) {
     var returnResult = this;
     this.each(function () {
         var instanceHTMLAbacus = this;
@@ -2500,18 +2501,21 @@ jquery_1.default.fn.abacus = function (paramOptions, option, optionValue) {
                     returnResult = view;
                     break;
                 case 'option':
-                    if (typeof option === 'object') {
-                        resultOption = view.option(undefined, option);
+                    if (typeof param1 === 'object') {
+                        resultOption = view.option(undefined, param1);
+                    }
+                    else if (typeof param1 === 'string') {
+                        resultOption = view.option(param1, param2);
                     }
                     else {
-                        resultOption = view.option(option, optionValue);
+                        resultOption = view.option();
                     }
                     if (typeof resultOption !== undefined) {
                         returnResult = resultOption;
                     }
                     break;
                 case 'value':
-                    resultOption = view.option('value', optionValue);
+                    resultOption = view.option('value', param2);
                     if (typeof resultOption !== undefined) {
                         returnResult = resultOption;
                     }
@@ -2590,4 +2594,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=08c826e5d7de4544cf09
+//# sourceMappingURL=abacus.js.map?v=6c8aa0ffcd2d628235cf
