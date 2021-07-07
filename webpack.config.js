@@ -40,14 +40,11 @@ module.exports = {
   devtool: isDev ? 'source-map' : 'nosources-source-map',
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        enforce: 'pre',
-        loader: 'tslint-loader',
-        options: {
-          configFile: 'tslint.json',
-        }
-      },
+      // {
+      //   test: /\.ts$/,
+      //   enforce: 'pre',
+      //   loader: 'eslint-loader',
+      // },
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',

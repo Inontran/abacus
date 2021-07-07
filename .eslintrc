@@ -1,21 +1,34 @@
 {
-  "extends": ["plugin:prettier/recommended"],
+  "extends": [
+    // Базовый набор правил eslint
+    "eslint:recommended",
+    // Отключаем правила из базового набора
+    "plugin:@typescript-eslint/eslint-recommended",
+    // Базовые правила для TypeScript
+    "plugin:@typescript-eslint/recommended",
+    // Правила TS, требующие инфо о типах
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // Правила FSD
+    "plugin:fsd/all"
+  ],
   "rules": {
     "max-len": [
       "error",
       {
-        "code": 140
+        "code": 120
       }
-    ],
-    "prettier/prettier": "error",
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    ]
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2020
+    "project": "tsconfig.json",
+    "tsconfigRootDir": "."
   },
-  "plugins": ["prettier"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "env": {
+    "browser": true,
     "es6": true
   }
 }
