@@ -11033,7 +11033,7 @@ var Handle = /** @class */ (function () {
         this._htmlElement = document.createElement('span');
         this._className = (classes === null || classes === void 0 ? void 0 : classes.handle) ? classes.handle : 'abacus__handle';
         this._htmlElement.classList.add(this._className);
-        if (handleIndex != null) {
+        if (handleIndex !== undefined && !isNaN(handleIndex)) {
             this._handleIndex = handleIndex;
         }
     }
@@ -11455,7 +11455,7 @@ var Model = /** @class */ (function () {
             step: 1,
             tooltip: false,
             value: 0,
-            values: null,
+            values: [0],
         };
         if (data) {
             this.abacusProperty = data;
@@ -11476,6 +11476,7 @@ var Model = /** @class */ (function () {
          * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
          */
         set: function (abacusProperty) {
+            var _a, _b;
             // animate
             if (abacusProperty.animate !== undefined) {
                 if (abacusProperty.animate === 'fast'
@@ -11581,7 +11582,37 @@ var Model = /** @class */ (function () {
                     }
                     abacusProperty.value = this.roundValuePerStep(abacusProperty.value);
                     this._abacusProperty.value = abacusProperty.value;
+                    if (!((_a = this._abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+                        this._abacusProperty.values = [];
+                    }
+                    this._abacusProperty.values[0] = abacusProperty.value;
                 }
+            }
+            // values
+            if (abacusProperty.values !== undefined) {
+                if (!((_b = this._abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
+                    this._abacusProperty.values = [];
+                }
+                for (var i = 0; i < abacusProperty.values.length; i++) {
+                    if (typeof abacusProperty.values[i] === 'string') {
+                        abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
+                    }
+                    abacusProperty.values[i] = this.roundValuePerStep(abacusProperty.values[i]);
+                    this._abacusProperty.values[i] = abacusProperty.values[i];
+                    if (i === 0) {
+                        this._abacusProperty.value = abacusProperty.values[i];
+                    }
+                    if (i > 1)
+                        break;
+                }
+                this._abacusProperty.values.sort(function (a, b) {
+                    if (a > b)
+                        return 1;
+                    else if (a === b)
+                        return 0;
+                    else
+                        return -1;
+                });
             }
             // orientation
             if (abacusProperty.orientation !== undefined) {
@@ -11637,7 +11668,13 @@ var Model = /** @class */ (function () {
          * @param {number} value Текущее значение слайдера.
          */
         set: function (value) {
-            this._abacusProperty.value = this.roundValuePerStep(value);
+            var _a;
+            value = this.roundValuePerStep(value);
+            this._abacusProperty.value = value;
+            if (!((_a = this._abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+                this._abacusProperty.values = [];
+            }
+            this._abacusProperty.values[0] = value;
             if (this._eventTarget) {
                 this._eventTarget.dispatchEvent(this._eventUpdateModel);
             }
@@ -11783,11 +11820,13 @@ var Presenter = /** @class */ (function () {
         this._model.abacusProperty = abacusProperty;
     };
     /**
-     * Функция установки текущего значения слайдера.
-     * @param {number} value Текущее значение слайдера.
+     * Функция установки текущих значений слайдера.
+     * @param {number[]} values Текущее значения слайдера.
      */
-    Presenter.prototype.setAbacusValue = function (value) {
-        this._model.value = value;
+    Presenter.prototype.setAbacusValue = function (values) {
+        this._model.abacusProperty = {
+            values: [values[0], values[1]]
+        };
     };
     Object.defineProperty(Presenter.prototype, "eventTarget", {
         /**
@@ -11993,7 +12032,13 @@ var Tooltip = /** @class */ (function () {
      *  tooltipVisible: 'abacus__tooltip_visible'
      * });
      */
-    function Tooltip(classes) {
+    function Tooltip(classes, tooltipIndex) {
+        /**
+         * Номер (индекс) подсказки. Может принимать значение 0 или 1.
+         * @type {number}
+         * @private
+         */
+        this._tooltipIndex = 0;
         /**
          * Если параметр равен "true", то это значит, что подсказка отображается.
          * @type {boolean}
@@ -12016,6 +12061,9 @@ var Tooltip = /** @class */ (function () {
         this._className = (classes === null || classes === void 0 ? void 0 : classes.tooltip) ? classes.tooltip : 'abacus__tooltip';
         this._classNameVisible = (classes === null || classes === void 0 ? void 0 : classes.tooltipVisible) ? classes.tooltipVisible : 'abacus__tooltip_visible';
         this._htmlElement.classList.add(this._className);
+        if (tooltipIndex !== undefined && !isNaN(tooltipIndex)) {
+            this._tooltipIndex = tooltipIndex;
+        }
     }
     Object.defineProperty(Tooltip.prototype, "htmlElement", {
         /**
@@ -12210,6 +12258,18 @@ var View = /** @class */ (function () {
      */
     function View(abacusHtmlContainer, options, data) {
         /**
+         * Массив, в котором содержатся объекты ручек (Handle) слайдера.
+         * @type {Handle[]}
+         * @private
+         */
+        this._handles = [];
+        /**
+         * Массив, в котором содержатся объекты подсказок (Tooltip) слайдера.
+         * @type {Tooltip[]}
+         * @private
+         */
+        this._tooltips = [];
+        /**
          * Включен или выключен слайдер. Если равен false, то включен.
          * @type {boolean}
          * @private
@@ -12248,9 +12308,9 @@ var View = /** @class */ (function () {
         var abacusProperty = this._presenter.getModelAbacusProperty();
         this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
         this._widgetContainer.htmlElement.innerHTML = '';
-        this._handleItem = new Handle_1.Handle(abacusProperty.classes);
+        this._handles[0] = new Handle_1.Handle(abacusProperty.classes, 0);
         this._range = new Range_1.Range(abacusProperty.classes);
-        this._tooltipItem = new Tooltip_1.Tooltip(abacusProperty.classes);
+        this._tooltips[0] = new Tooltip_1.Tooltip(abacusProperty.classes, 0);
         this._customEventChange = new CustomEvent('abacus-change', {
             bubbles: true,
             cancelable: true,
@@ -12271,46 +12331,10 @@ var View = /** @class */ (function () {
             bubbles: true,
             cancelable: true,
         });
-        this._bindEventListeners();
         this.updateView();
+        this._bindEventListeners();
         this._eventCreateWrapper();
     }
-    Object.defineProperty(View.prototype, "widgetContainer", {
-        /**
-         * Геттер (функция получения) ссылки объекта-обертки HTML-элемента контейнера плагина.
-         * @public
-         * @returns {WidgetContainer} Возвращает ссылку на объект-обертку HTML-элемента контейнера плагина.
-         */
-        get: function () {
-            return this._widgetContainer;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "range", {
-        /**
-         * Геттер (функция получения) ссылки объекта-обертки HTML-элемента индикатора (progress bar).
-         * @public
-         * @returns {Range} Возвращает ссылку на объект-обертку HTML-элемента индикатора (progress bar).
-         */
-        get: function () {
-            return this._range;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "handleItem", {
-        /**
-         * Геттер (функция получения) ссылки объекта-обертки HTML-элемента бегунка.
-         * @public
-         * @returns {Handle} Возвращает ссылку на объект-обертку HTML-элемента бегунка.
-         */
-        get: function () {
-            return this._handleItem;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
@@ -12455,24 +12479,41 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
-        if (!this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
-            this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+        if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
+            this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
         }
         if (((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range) {
             switch (abacusProperty.range) {
                 case 'max':
+                    if (this._handles[1]) {
+                        this._handles[1].htmlElement.remove();
+                        delete this._handles[1];
+                    }
                     this._range.rangeType = 'max';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
                     break;
                 case true:
+                    this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
+                    this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+                    this._range.rangeType = 'min';
+                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+                    break;
                 case 'min':
+                    if (this._handles[1]) {
+                        this._handles[1].htmlElement.remove();
+                        delete this._handles[1];
+                    }
                     this._range.rangeType = 'min';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
                     break;
                 default:
+                    if (this._handles[1]) {
+                        this._handles[1].htmlElement.remove();
+                        delete this._handles[1];
+                    }
                     this._range.rangeType = 'hidden';
                     this._range.htmlElement.remove();
                     break;
@@ -12491,73 +12532,57 @@ var View = /** @class */ (function () {
         }
         if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip) {
             if (abacusProperty.tooltip) {
-                this._widgetContainer.htmlElement.append(this._tooltipItem.htmlElement);
-                this._tooltipItem.isVisible(true);
+                this._widgetContainer.htmlElement.append(this._tooltips[0].htmlElement);
+                this._tooltips[0].isVisible(true);
             }
             else {
-                this._tooltipItem.htmlElement.remove();
+                this._tooltips[0].htmlElement.remove();
             }
         }
         if (((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.animate) !== abacusProperty.animate) {
             this._setTransition();
         }
         // Обновляем положение бегунка и индикатора
-        if ((((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.value) !== abacusProperty.value)
-            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.range) !== abacusProperty.range)
-            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.max) !== abacusProperty.max)
-            || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.min) !== abacusProperty.min)
-            || (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.orientation) !== abacusProperty.orientation)) {
-            var currentValue = abacusProperty.value;
-            var posHandle = this.getPosFromValue(currentValue);
-            if (this._isVertical) {
-                this._handleItem.posLeft = null;
-                this._tooltipItem.posLeft = null;
-                this._handleItem.posBottom = posHandle;
-                this._tooltipItem.posBottom = posHandle;
-            }
-            else {
-                this._handleItem.posBottom = null;
-                this._tooltipItem.posBottom = null;
-                this._handleItem.posLeft = posHandle;
-                this._tooltipItem.posLeft = posHandle;
-            }
-            if (abacusProperty.value !== undefined) {
-                this._tooltipItem.htmlElement.innerText = abacusProperty.value.toString();
-            }
-            if (this._isVertical) {
-                this._range.htmlElement.style.left = '';
-                this._range.htmlElement.style.right = '';
-                this._range.width = null;
-                switch (this._range.rangeType) {
-                    case 'min':
-                        this._range.htmlElement.style.top = 'auto';
-                        this._range.htmlElement.style.bottom = '0';
-                        this._range.height = posHandle;
-                        break;
-                    case 'max':
-                        this._range.htmlElement.style.top = '0';
-                        this._range.htmlElement.style.bottom = 'auto';
-                        this._range.height = 100 - posHandle;
-                        break;
-                }
-            }
-            else {
-                this._range.htmlElement.style.top = '';
-                this._range.htmlElement.style.bottom = '';
-                this._range.height = null;
-                switch (this._range.rangeType) {
-                    case 'min':
-                        this._range.htmlElement.style.left = '0';
-                        this._range.htmlElement.style.right = 'auto';
-                        this._range.width = posHandle;
-                        break;
-                    case 'max':
-                        this._range.htmlElement.style.left = 'auto';
-                        this._range.htmlElement.style.right = '0';
-                        this._range.width = 100 - posHandle;
-                        break;
-                }
-            }
+        if ((((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.range) !== abacusProperty.range)
+            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.max) !== abacusProperty.max)
+            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.min) !== abacusProperty.min)
+            || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.orientation) !== abacusProperty.orientation)
+            || (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.values) !== abacusProperty.values)) {
+            this._updateViewHT(abacusProperty);
+            // if( this._isVertical ){
+            //   this._range.htmlElement.style.left = '';
+            //   this._range.htmlElement.style.right = '';
+            //   this._range.width = null;
+            //   switch (this._range.rangeType){
+            //     case 'min':
+            //       this._range.htmlElement.style.top = 'auto';
+            //       this._range.htmlElement.style.bottom = '0';
+            //       this._range.height = posHandle;
+            //       break;
+            //     case 'max':
+            //       this._range.htmlElement.style.top = '0';
+            //       this._range.htmlElement.style.bottom = 'auto';
+            //       this._range.height = 100 - posHandle;
+            //       break;
+            //   }
+            // }
+            // else{
+            //   this._range.htmlElement.style.top = '';
+            //   this._range.htmlElement.style.bottom = '';
+            //   this._range.height = null;
+            //   switch (this._range.rangeType){
+            //     case 'min':
+            //       this._range.htmlElement.style.left = '0';
+            //       this._range.htmlElement.style.right = 'auto';
+            //       this._range.width = posHandle;
+            //       break;
+            //     case 'max':
+            //       this._range.htmlElement.style.left = 'auto';
+            //       this._range.htmlElement.style.right = '0';
+            //       this._range.width = 100 - posHandle;
+            //       break;
+            //   }
+            // }
             this._highlightMarks();
         }
         // Обновляем названия классов
@@ -12565,7 +12590,7 @@ var View = /** @class */ (function () {
             this._widgetContainer.className = (_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.abacus;
         }
         if ((_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.handle) {
-            this._handleItem.className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.handle;
+            this._handles[0].className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.handle;
         }
         if ((_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.range) {
             this._range.className = (_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.range;
@@ -12589,6 +12614,35 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
+        this._cachedAbacusProperty.values = (_x = abacusProperty.values) === null || _x === void 0 ? void 0 : _x.slice(0);
+    };
+    View.prototype._updateViewHT = function (abacusProperty) {
+        if (!abacusProperty.values) {
+            return;
+        }
+        for (var i = 0; i < abacusProperty.values.length; i++) {
+            var currentValue = abacusProperty.values[i];
+            var posHandle = this.getPosFromValue(currentValue);
+            if (this._isVertical) {
+                this._handles[i].posLeft = null;
+                this._handles[i].posBottom = posHandle;
+                if (this._tooltips[i]) {
+                    this._tooltips[i].posLeft = null;
+                    this._tooltips[i].posBottom = posHandle;
+                }
+            }
+            else {
+                this._handles[i].posBottom = null;
+                this._handles[i].posLeft = posHandle;
+                if (this._tooltips[i]) {
+                    this._tooltips[i].posBottom = null;
+                    this._tooltips[i].posLeft = posHandle;
+                }
+            }
+            if (this._tooltips[i]) {
+                this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
+            }
+        }
     };
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
@@ -12610,8 +12664,8 @@ var View = /** @class */ (function () {
      */
     View.prototype._getEventUIData = function () {
         var uiData = {};
-        uiData.handle = this._handleItem.htmlElement;
-        uiData.handleIndex = this._handleItem.handleIndex;
+        uiData.handle = this._handles[0].htmlElement;
+        uiData.handleIndex = this._handles[0].handleIndex;
         var modelData = this._presenter.getModelAbacusProperty();
         uiData.value = modelData.value;
         uiData.values = modelData.values;
@@ -12718,13 +12772,16 @@ var View = /** @class */ (function () {
         return dispatchEventResult;
     };
     /**
-     * Функция, обрабатывающая позицию мыши.
-     * @param {MouseEvent} event Объект события мыши.
+     * Функция, обрабатывающая позицию мыши или касания.
+     * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     View.prototype._mouseHandler = function (event) {
+        var _a, _b;
         var viewInstance = this;
         var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-        var oldValue = abacusProperty.value;
+        if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+            return;
+        }
         var coordinate = 0;
         if (event instanceof MouseEvent) {
             coordinate = this._isVertical ? event.clientY : event.clientX;
@@ -12733,9 +12790,63 @@ var View = /** @class */ (function () {
             coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
         }
         var percent = this.getPosPercent(coordinate);
-        var newAbacusValue = this.getValFromPosPercent(percent);
-        viewInstance._presenter.setAbacusValue(newAbacusValue);
-        if (oldValue !== abacusProperty.value) {
+        var valueUnrounded = this.getValFromPosPercent(percent);
+        var newValues = [];
+        if (abacusProperty.values) {
+            newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
+        }
+        if (abacusProperty.range === true && abacusProperty.values) {
+            var deltaMin = abacusProperty.values[0] - valueUnrounded;
+            deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
+            var deltaMax = abacusProperty.values[1] - valueUnrounded;
+            deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
+            if (deltaMax < deltaMin) {
+                newValues[1] = valueUnrounded;
+            }
+            else {
+                newValues[0] = valueUnrounded;
+            }
+        }
+        else {
+            newValues[0] = valueUnrounded;
+        }
+        viewInstance._presenter.setAbacusValue(newValues);
+        if (this._cachedAbacusProperty.values !== abacusProperty.values) {
+            viewInstance.updateView();
+            viewInstance._eventChangeWrapper(event);
+        }
+    };
+    View.prototype._calcHandleValues = function (valueUnrounded) {
+        var _a, _b;
+        if (isNaN(valueUnrounded)) {
+            return;
+        }
+        var viewInstance = this;
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+            return;
+        }
+        var newValues = [];
+        if (abacusProperty.values) {
+            newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
+        }
+        if (abacusProperty.range === true && abacusProperty.values) {
+            var deltaMin = abacusProperty.values[0] - valueUnrounded;
+            deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
+            var deltaMax = abacusProperty.values[1] - valueUnrounded;
+            deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
+            if (deltaMax < deltaMin) {
+                newValues[1] = valueUnrounded;
+            }
+            else {
+                newValues[0] = valueUnrounded;
+            }
+        }
+        else {
+            newValues[0] = valueUnrounded;
+        }
+        viewInstance._presenter.setAbacusValue(newValues);
+        if (this._cachedAbacusProperty.values !== abacusProperty.values) {
             viewInstance.updateView();
             viewInstance._eventChangeWrapper(event);
         }
@@ -12747,8 +12858,10 @@ var View = /** @class */ (function () {
         var viewInstance = this;
         viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-        viewInstance._handleItem.htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
-        viewInstance._handleItem.htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
+        for (var i = 0; i < viewInstance._handles.length; i++) {
+            viewInstance._handles[i].htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
+            viewInstance._handles[i].htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
+        }
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
         document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
         document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
@@ -12771,13 +12884,24 @@ var View = /** @class */ (function () {
             || eventTarget.classList.contains(markClass)) {
             return;
         }
-        viewInstance._mouseHandler(event);
+        // viewInstance._mouseHandler(event);
+        var coordinate = 0;
+        if (event instanceof MouseEvent) {
+            coordinate = this._isVertical ? event.clientY : event.clientX;
+        }
+        else if (event instanceof TouchEvent) {
+            coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+        }
+        var percent = this.getPosPercent(coordinate);
+        var valueUnrounded = this.getValFromPosPercent(percent);
+        viewInstance._calcHandleValues(valueUnrounded);
     };
     /**
      * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
      */
     View.prototype._handlerHandleItemClickStart = function (event) {
         event.preventDefault();
+        // console.log('_handlerHandleItemClickStart');
         var viewInstance = this;
         if (viewInstance._isDisabled) {
             return;
@@ -12790,6 +12914,7 @@ var View = /** @class */ (function () {
      * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
      */
     View.prototype._handlerHandleItemClickMove = function (event) {
+        var _this = this;
         var viewInstance = this;
         if (viewInstance._isDisabled) {
             return;
@@ -12799,7 +12924,18 @@ var View = /** @class */ (function () {
         }
         viewInstance._handleMovingTimer = setTimeout(function () {
             if (viewInstance._isDragHandle) {
-                viewInstance._mouseHandler(event);
+                // console.log('_handlerHandleItemClickMove');
+                // viewInstance._mouseHandler(event);
+                var coordinate = 0;
+                if (event instanceof MouseEvent) {
+                    coordinate = _this._isVertical ? event.clientY : event.clientX;
+                }
+                else if (event instanceof TouchEvent) {
+                    coordinate = _this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+                }
+                var percent = _this.getPosPercent(coordinate);
+                var valueUnrounded = _this.getValFromPosPercent(percent);
+                viewInstance._calcHandleValues(valueUnrounded);
                 viewInstance._eventSlideWrapper(event);
             }
         }, 15);
@@ -12811,6 +12947,7 @@ var View = /** @class */ (function () {
     View.prototype._handlerHandleItemClickStop = function (event) {
         var viewInstance = this;
         if (viewInstance._isDragHandle) {
+            // console.log('_handlerHandleItemClickStop');
             viewInstance._eventStopWrapper(event);
         }
         viewInstance._isDragHandle = false;
@@ -12848,11 +12985,11 @@ var View = /** @class */ (function () {
                 this._mapScale.set(value, mark);
             }
         }
-        if (this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement)) {
+        if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
             try {
                 for (var _c = __values(this._mapScale.values()), _d = _c.next(); !_d.done; _d = _c.next()) {
                     var mark = _d.value;
-                    this._handleItem.htmlElement.before(mark.htmlElement);
+                    this._handles[0].htmlElement.before(mark.htmlElement);
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -13062,18 +13199,20 @@ var View = /** @class */ (function () {
                 var _a;
                 var value = mark[0];
                 if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    _this._presenter.setAbacusValue(value);
-                    _this._eventChangeWrapper(event);
-                    _this.updateView();
+                    // this._presenter.setAbacusValue([value]);
+                    // this._eventChangeWrapper(event);
+                    // this.updateView();
+                    _this._calcHandleValues(value);
                 }
             });
             mark[1].htmlElement.addEventListener('touchend', function (event) {
                 var _a;
                 var value = mark[0];
                 if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    _this._presenter.setAbacusValue(value);
-                    _this._eventChangeWrapper(event);
-                    _this.updateView();
+                    // this._presenter.setAbacusValue([value]);
+                    // this._eventChangeWrapper(event);
+                    // this.updateView();
+                    _this._calcHandleValues(value);
                 }
             });
         };
@@ -13112,8 +13251,11 @@ var View = /** @class */ (function () {
             duration = '200';
         }
         duration = duration ? duration + 'ms' : '';
-        this._handleItem.htmlElement.style.transition = duration;
-        this._tooltipItem.htmlElement.style.transition = duration;
+        for (var i = 0; i < this._handles.length; i++) {
+            this._handles[i].htmlElement.style.transition = duration;
+            if (this._tooltips[i])
+                this._tooltips[i].htmlElement.style.transition = duration;
+        }
         this._range.htmlElement.style.transition = duration;
         if (this._mapScale) {
             try {
@@ -13986,4 +14128,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=6c8aa0ffcd2d628235cf
+//# sourceMappingURL=abacus-tests.js.map?v=530eec5cd6a5d92ef730

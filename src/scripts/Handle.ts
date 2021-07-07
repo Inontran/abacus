@@ -51,7 +51,7 @@ export class Handle{
     this._className = classes?.handle ? classes.handle : 'abacus__handle';
     this._htmlElement.classList.add(this._className);
 
-    if( handleIndex != null ){
+    if( handleIndex !== undefined && !isNaN(handleIndex) ){
       this._handleIndex = handleIndex;
     }
   }

@@ -15,7 +15,7 @@
     <div class="card border-primary mb-5">
       <h2 class="card-header">Слайдер 1</h2>
       <div class="card-body">
-        <form action="" method="POST" class="form_modifier-options">
+        <form action="" method="POST" class="form form_modifier-options">
           <div class="row">
             <div class="col-md my-auto">
               <label class="row d-flex mb-3">
@@ -52,7 +52,7 @@
                   <input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?">
                 </span>
                 <span class="col d-block">
-                  <input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?" readonly>
+                  <input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?">
                 </span>
               </label>
     
@@ -67,13 +67,13 @@
               </label>
     
               <label class="row d-flex mb-3">
-                <span class="form-label col-sm-auto col-form-label">Индикатор (progress bar)</span>
+                <span class="form-label col-sm-auto col-form-label">Интервал</span>
                 <span class="col-sm d-block">
                   <select class="form-select" name="range">
                     <option value="false">Отключить</option>
                     <option value="true">Включить</option>
-                    <option value="min">Включить от мин. до текущего</option>
-                    <option value="max">Включить от макс. до текущего</option>
+                    <option value="min">От мин. до текущего</option>
+                    <option value="max">От макс. до текущего</option>
                   </select>
                 </span>
               </label>
@@ -99,17 +99,15 @@
                 </span>
               </label>
             </div>
-      
-            <div class="col-md-auto my-auto">
+
+            <div class="col-auto my-auto mx-auto">
               <button class="btn btn-success px-2" title='Скажи "Вжжух!" и нажми на кнопку.'>
                 <img src="images/magic-cat-min.jpg" alt="вжух" class="img-fluid" style="max-width: 100px; border-radius: 0.25rem;">
               </button>
             </div>
-      
-            <div class="col-md my-auto">
-							<div class="p-5">
-								<div id="abacus-1"></div>
-							</div>
+
+            <div class="col-md my-auto d-flex justify-content-center">
+              <div id="abacus-1"></div>
             </div>
           </div>
         </form>

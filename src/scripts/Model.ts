@@ -33,7 +33,7 @@ export class Model{
     step: 1,
     tooltip: false,
     value: 0,
-    values: null,
+    values: [0],
   }
 
   /**
@@ -191,7 +191,36 @@ export class Model{
         }
         abacusProperty.value = this.roundValuePerStep(abacusProperty.value);
         this._abacusProperty.value = abacusProperty.value;
+
+        if( ! this._abacusProperty.values?.length ){
+          this._abacusProperty.values = [];
+        }
+        this._abacusProperty.values[0] = abacusProperty.value;
       }
+    }
+
+    // values
+    if( abacusProperty.values !== undefined ){
+      if( ! this._abacusProperty.values?.length ){
+        this._abacusProperty.values = [];
+      }
+      for (let i = 0; i < abacusProperty.values.length; i++) {
+        if( typeof abacusProperty.values[i] === 'string' ){
+          abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
+        }
+        abacusProperty.values[i] = this.roundValuePerStep(abacusProperty.values[i]);
+        this._abacusProperty.values[i] = abacusProperty.values[i];
+        if( i === 0 ){
+          this._abacusProperty.value = abacusProperty.values[i];
+        }
+        if( i > 1 ) break;
+      }
+
+      this._abacusProperty.values.sort((a, b) => {
+        if( a > b ) return 1;
+        else if(a === b) return 0;
+        else return -1;
+      });
     }
 
     // orientation
@@ -254,7 +283,13 @@ export class Model{
    * @param {number} value Текущее значение слайдера.
    */
   public set value(value : number) {
-    this._abacusProperty.value = this.roundValuePerStep(value);
+    value = this.roundValuePerStep(value);
+    this._abacusProperty.value = value;
+    if( ! this._abacusProperty.values?.length ){
+      this._abacusProperty.values = [];
+    }
+    this._abacusProperty.values[0] = value;
+
     if( this._eventTarget ){
       this._eventTarget.dispatchEvent(this._eventUpdateModel);
     }

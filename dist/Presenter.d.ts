@@ -38,10 +38,10 @@ export declare class Presenter {
      */
     setModelAbacusProperty(abacusProperty: AbacusOptions): void;
     /**
-     * Функция установки текущего значения слайдера.
-     * @param {number} value Текущее значение слайдера.
+     * Функция установки текущих значений слайдера.
+     * @param {number[]} values Текущее значения слайдера.
      */
-    setAbacusValue(value: number): void;
+    setAbacusValue(values: number[]): void;
     /**
      * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
      */

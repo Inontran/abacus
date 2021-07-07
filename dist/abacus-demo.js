@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 $(function () {
     $('#abacus-1').on('abacus-change', function () {
-        // console.log('abacus-change');
+        console.log('abacus-change');
     });
     $('#abacus-1').on('abacus-create', function () {
         // console.log('abacus-create');
@@ -46,7 +46,7 @@ $(function () {
         min: -10,
         max: 9,
         step: 2,
-        value: 0,
+        values: [-4, 6],
         range: true,
         scale: true,
         change: function (event, ui) {
@@ -77,11 +77,11 @@ $(function () {
         // } as AbacusOptions);
     }, 5000);
     $('body').on('abacus-change', '.abacus', function (event) {
-        var _a;
-        var $abacus = $(event === null || event === void 0 ? void 0 : event.currentTarget);
-        var value = (_a = $abacus.abacus('value')) === null || _a === void 0 ? void 0 : _a.toString();
-        var $inputTarget = $abacus.closest('.card').find('input[name="value[]"]:first');
-        $inputTarget.val(value);
+        var $abacusItem = $(event.currentTarget);
+        var $form = $abacusItem.closest('.card').find('form');
+        if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
+            parsePropertyToForm($abacusItem.abacus('option'), $form);
+        }
     });
     $('body .abacus').each(function () {
         var $abacusItem = $(this);
@@ -115,8 +115,15 @@ function parsePropertyToForm(abacusProperty, $form) {
     if (abacusProperty.min !== undefined) {
         $('[name="min"]', $form).val(abacusProperty.min);
     }
-    if (abacusProperty.value !== undefined) {
-        $('[name="value[]"]:first', $form).val(abacusProperty.value);
+    if (abacusProperty.values) {
+        for (var i = 0; i < 2; i++) {
+            if (abacusProperty.values[i] !== undefined || abacusProperty.values[i] !== null) {
+                $('[name="value[]"]', $form).eq(i).val(abacusProperty.values[i]);
+            }
+            else {
+                $('[name="value[]"]', $form).eq(i).val('');
+            }
+        }
     }
     if (abacusProperty.orientation) {
         $('[name="orientation"]', $form).val(abacusProperty.orientation);
@@ -159,8 +166,11 @@ function parseFormToProperty($form) {
     if ($('[name="min"]', $form).val()) {
         abacusProperty.min = $('[name="min"]', $form).val();
     }
-    if ($('[name="value[]"]', $form).val()) {
-        abacusProperty.value = $('[name="value[]"]', $form).val();
+    abacusProperty.values = [];
+    for (var i = 0; i < 2; i++) {
+        if ($('[name="value[]"]', $form).eq(i).val()) {
+            abacusProperty.values[i] = $('[name="value[]"]', $form).eq(i).val();
+        }
     }
     if ($('[name="orientation"]', $form).length) {
         abacusProperty.orientation = $('[name="orientation"]', $form).val();
@@ -255,4 +265,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=6c8aa0ffcd2d628235cf
+//# sourceMappingURL=abacus-demo.js.map?v=530eec5cd6a5d92ef730

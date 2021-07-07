@@ -3,7 +3,7 @@
  */
 $(() => {
   $('#abacus-1').on('abacus-change', ()=>{
-    // console.log('abacus-change');
+    console.log('abacus-change');
   });
 
   $('#abacus-1').on('abacus-create', ()=>{
@@ -26,7 +26,7 @@ $(() => {
     min: -10,
     max: 9,
     step: 2,
-    value: 0,
+    values: [-4, 6],
     range: true,
     scale: true,
     change: (event, ui) =>{
@@ -60,10 +60,11 @@ $(() => {
   }, 5000);
 
   $('body').on('abacus-change', '.abacus', (event)=>{
-    const $abacus = $(event?.currentTarget);
-    const value = $abacus.abacus('value')?.toString();
-    const $inputTarget = $abacus.closest('.card').find('input[name="value[]"]:first');
-    $inputTarget.val(value as string);
+    const $abacusItem = $(event.currentTarget);
+    const $form = $abacusItem.closest('.card').find('form');
+    if( $form.length && $abacusItem[0].jqueryAbacusInstance ){
+      parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
+    }
   });
 
 
@@ -108,8 +109,15 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery){
     $('[name="min"]', $form).val(abacusProperty.min);
   }
 
-  if( abacusProperty.value !== undefined ){
-    $('[name="value[]"]:first', $form).val(abacusProperty.value);
+  if( abacusProperty.values ){
+    for (let i = 0; i < 2; i++) {
+      if( abacusProperty.values[i] !== undefined || abacusProperty.values[i] !== null ){
+        $('[name="value[]"]', $form).eq(i).val(abacusProperty.values[i]);
+      } 
+      else{
+        $('[name="value[]"]', $form).eq(i).val('');
+      }
+    }
   }
 
   if( abacusProperty.orientation ){
@@ -167,8 +175,11 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
     abacusProperty.min = $('[name="min"]', $form).val() as number;
   }
 
-  if( $('[name="value[]"]', $form).val() ){
-    abacusProperty.value = $('[name="value[]"]', $form).val() as number;
+  abacusProperty.values = [];
+  for (let i = 0; i < 2; i++) {
+    if( $('[name="value[]"]', $form).eq(i).val() ){
+      abacusProperty.values[i] = $('[name="value[]"]', $form).eq(i).val() as number;
+    }
   }
 
   if( $('[name="orientation"]', $form).length ){

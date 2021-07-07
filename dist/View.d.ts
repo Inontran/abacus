@@ -1,6 +1,3 @@
-import { WidgetContainer } from './WidgetContainer';
-import { Handle } from './Handle';
-import { Range } from './Range';
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
  * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
@@ -27,12 +24,17 @@ export declare class View {
      */
     private _range;
     /**
-     * Объект, в котором содержится ссылка на HTML-элемент бегунка с дополнительными свойствами.
-     * @type {Handle}
+     * Массив, в котором содержатся объекты ручек (Handle) слайдера.
+     * @type {Handle[]}
      * @private
      */
-    private _handleItem;
-    private _tooltipItem;
+    private _handles;
+    /**
+     * Массив, в котором содержатся объекты подсказок (Tooltip) слайдера.
+     * @type {Tooltip[]}
+     * @private
+     */
+    private _tooltips;
     /**
      * Объект события изменения значения слайдера, как у браузерных полей ввода "input".
      * @type {CustomEvent}
@@ -103,24 +105,6 @@ export declare class View {
      */
     constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object);
     /**
-     * Геттер (функция получения) ссылки объекта-обертки HTML-элемента контейнера плагина.
-     * @public
-     * @returns {WidgetContainer} Возвращает ссылку на объект-обертку HTML-элемента контейнера плагина.
-     */
-    get widgetContainer(): WidgetContainer;
-    /**
-     * Геттер (функция получения) ссылки объекта-обертки HTML-элемента индикатора (progress bar).
-     * @public
-     * @returns {Range} Возвращает ссылку на объект-обертку HTML-элемента индикатора (progress bar).
-     */
-    get range(): Range;
-    /**
-     * Геттер (функция получения) ссылки объекта-обертки HTML-элемента бегунка.
-     * @public
-     * @returns {Handle} Возвращает ссылку на объект-обертку HTML-элемента бегунка.
-     */
-    get handleItem(): Handle;
-    /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
      * @param {number} coordXY Координата клика по оси Х относительно окна браузера.
@@ -160,6 +144,7 @@ export declare class View {
      * @returns
      */
     updateView(): void;
+    private _updateViewHT;
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
      * @param {boolean} off "true" значит отключить. "false" значит активировать.
@@ -217,10 +202,11 @@ export declare class View {
      */
     private _eventStopWrapper;
     /**
-     * Функция, обрабатывающая позицию мыши.
-     * @param {MouseEvent} event Объект события мыши.
+     * Функция, обрабатывающая позицию мыши или касания.
+     * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     private _mouseHandler;
+    private _calcHandleValues;
     /**
      * Установка обработчиков событий.
      */

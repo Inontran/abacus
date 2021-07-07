@@ -63,11 +63,13 @@ export class Presenter{
 
 
   /**
-   * Функция установки текущего значения слайдера.
-   * @param {number} value Текущее значение слайдера.
+   * Функция установки текущих значений слайдера.
+   * @param {number[]} values Текущее значения слайдера.
    */
-  setAbacusValue(value: number): void{
-    this._model.value = value;
+  setAbacusValue(values: number[]): void{
+		this._model.abacusProperty = {
+			values: [values[0], values[1]]
+		}
   }
 
 

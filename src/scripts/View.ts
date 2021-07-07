@@ -34,13 +34,18 @@ export class View{
   private _range: Range;
 
   /**
-   * Объект, в котором содержится ссылка на HTML-элемент бегунка с дополнительными свойствами.
-   * @type {Handle}
+   * Массив, в котором содержатся объекты ручек (Handle) слайдера.
+   * @type {Handle[]}
    * @private
    */
-  private _handleItem: Handle;
+  private _handles: Handle[] = [];
 
-  private _tooltipItem: Tooltip;
+  /**
+   * Массив, в котором содержатся объекты подсказок (Tooltip) слайдера.
+   * @type {Tooltip[]}
+   * @private
+   */
+  private _tooltips: Tooltip[] = [];
 
   /**
    * Объект события изменения значения слайдера, как у браузерных полей ввода "input".
@@ -139,9 +144,10 @@ export class View{
 
     this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
     this._widgetContainer.htmlElement.innerHTML = '';
-    this._handleItem = new Handle(abacusProperty.classes);
+
+    this._handles[0] = new Handle(abacusProperty.classes, 0);
     this._range = new Range(abacusProperty.classes);
-    this._tooltipItem = new Tooltip(abacusProperty.classes);
+    this._tooltips[0] = new Tooltip(abacusProperty.classes, 0);
 
 
     this._customEventChange = new CustomEvent('abacus-change', {
@@ -169,42 +175,11 @@ export class View{
       cancelable: true,
     });
 
-    this._bindEventListeners();
-
     this.updateView();
+    this._bindEventListeners();
 
     this._eventCreateWrapper();
   }
-
-
-  /**
-   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента контейнера плагина.
-   * @public
-   * @returns {WidgetContainer} Возвращает ссылку на объект-обертку HTML-элемента контейнера плагина.
-   */
-	public get widgetContainer() : WidgetContainer {
-		return this._widgetContainer;
-	}
-
-
-  /**
-   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента индикатора (progress bar).
-   * @public
-   * @returns {Range} Возвращает ссылку на объект-обертку HTML-элемента индикатора (progress bar).
-   */
-	public get range() : Range {
-		return this._range;
-	}
-
-
-  /**
-   * Геттер (функция получения) ссылки объекта-обертки HTML-элемента бегунка.
-   * @public
-   * @returns {Handle} Возвращает ссылку на объект-обертку HTML-элемента бегунка.
-   */
-	public get handleItem() : Handle {
-		return this._handleItem;
-	}
 
 
   /**
@@ -372,24 +347,42 @@ export class View{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
 
     // Добавляем или удалаем элементы инерфейса
-    if( ! this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
-      this._widgetContainer.htmlElement.append(this._handleItem.htmlElement);
+    if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
+      this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
     }
 
     if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
       switch (abacusProperty.range) {
         case 'max':
+          if( this._handles[1] ){
+            this._handles[1].htmlElement.remove();
+            delete this._handles[1];
+          }
           this._range.rangeType = 'max';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
 
         case true:
+          this._handles[1] = new Handle(abacusProperty.classes, 1);
+          this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+          this._range.rangeType = 'min';
+          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+          break;
+
         case 'min':
+          if( this._handles[1] ){
+            this._handles[1].htmlElement.remove();
+            delete this._handles[1];
+          }
           this._range.rangeType = 'min';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
 
         default:
+          if( this._handles[1] ){
+            this._handles[1].htmlElement.remove();
+            delete this._handles[1];
+          }
           this._range.rangeType = 'hidden';
           this._range.htmlElement.remove();
           break;
@@ -413,11 +406,11 @@ export class View{
 
     if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip ){
       if( abacusProperty.tooltip ){
-        this._widgetContainer.htmlElement.append(this._tooltipItem.htmlElement);
-        this._tooltipItem.isVisible(true);
+        this._widgetContainer.htmlElement.append(this._tooltips[0].htmlElement);
+        this._tooltips[0].isVisible(true);
       }
       else{
-        this._tooltipItem.htmlElement.remove();
+        this._tooltips[0].htmlElement.remove();
       }
     }
 
@@ -428,69 +421,52 @@ export class View{
 
 
     // Обновляем положение бегунка и индикатора
-    if( (this._cachedAbacusProperty?.value !== abacusProperty.value)
-      || (this._cachedAbacusProperty?.range !== abacusProperty.range)
+    if( (this._cachedAbacusProperty?.range !== abacusProperty.range)
       || (this._cachedAbacusProperty?.max !== abacusProperty.max)
       || (this._cachedAbacusProperty?.min !== abacusProperty.min)
-      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation) )
+      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation)
+      || (this._cachedAbacusProperty?.values !== abacusProperty.values) )
     {
-      const currentValue: number = abacusProperty.value as number;
-      const posHandle: number = this.getPosFromValue(currentValue);
-      if( this._isVertical ){
-        this._handleItem.posLeft = null;
-        this._tooltipItem.posLeft = null;
-        this._handleItem.posBottom = posHandle;
-        this._tooltipItem.posBottom = posHandle;
-      }
-      else{
-        this._handleItem.posBottom = null;
-        this._tooltipItem.posBottom = null;
-        this._handleItem.posLeft = posHandle;
-        this._tooltipItem.posLeft = posHandle;
-      }
+      this._updateViewHT(abacusProperty);
 
-      if( abacusProperty.value !== undefined ){
-        this._tooltipItem.htmlElement.innerText = abacusProperty.value.toString();
-      }
+      // if( this._isVertical ){
+      //   this._range.htmlElement.style.left = '';
+      //   this._range.htmlElement.style.right = '';
+      //   this._range.width = null;
 
-      if( this._isVertical ){
-        this._range.htmlElement.style.left = '';
-        this._range.htmlElement.style.right = '';
-        this._range.width = null;
+      //   switch (this._range.rangeType){
+      //     case 'min':
+      //       this._range.htmlElement.style.top = 'auto';
+      //       this._range.htmlElement.style.bottom = '0';
+      //       this._range.height = posHandle;
+      //       break;
 
-        switch (this._range.rangeType){
-          case 'min':
-            this._range.htmlElement.style.top = 'auto';
-            this._range.htmlElement.style.bottom = '0';
-            this._range.height = posHandle;
-            break;
+      //     case 'max':
+      //       this._range.htmlElement.style.top = '0';
+      //       this._range.htmlElement.style.bottom = 'auto';
+      //       this._range.height = 100 - posHandle;
+      //       break;
+      //   }
+      // }
+      // else{
+      //   this._range.htmlElement.style.top = '';
+      //   this._range.htmlElement.style.bottom = '';
+      //   this._range.height = null;
 
-          case 'max':
-            this._range.htmlElement.style.top = '0';
-            this._range.htmlElement.style.bottom = 'auto';
-            this._range.height = 100 - posHandle;
-            break;
-        }
-      }
-      else{
-        this._range.htmlElement.style.top = '';
-        this._range.htmlElement.style.bottom = '';
-        this._range.height = null;
+      //   switch (this._range.rangeType){
+      //     case 'min':
+      //       this._range.htmlElement.style.left = '0';
+      //       this._range.htmlElement.style.right = 'auto';
+      //       this._range.width = posHandle;
+      //       break;
 
-        switch (this._range.rangeType){
-          case 'min':
-            this._range.htmlElement.style.left = '0';
-            this._range.htmlElement.style.right = 'auto';
-            this._range.width = posHandle;
-            break;
-
-          case 'max':
-            this._range.htmlElement.style.left = 'auto';
-            this._range.htmlElement.style.right = '0';
-            this._range.width = 100 - posHandle;
-            break;
-        }
-      }
+      //     case 'max':
+      //       this._range.htmlElement.style.left = 'auto';
+      //       this._range.htmlElement.style.right = '0';
+      //       this._range.width = 100 - posHandle;
+      //       break;
+      //   }
+      // }
 
       this._highlightMarks();
     }
@@ -501,7 +477,7 @@ export class View{
       this._widgetContainer.className = abacusProperty.classes?.abacus;
     }
     if( abacusProperty.classes?.handle ){
-      this._handleItem.className = abacusProperty.classes?.handle;
+      this._handles[0].className = abacusProperty.classes?.handle;
     }
     if( abacusProperty.classes?.range ){
       this._range.className = abacusProperty.classes?.range;
@@ -533,6 +509,40 @@ export class View{
 
 
     $.extend(this._cachedAbacusProperty, abacusProperty);
+    this._cachedAbacusProperty.values = abacusProperty.values?.slice(0);
+  }
+
+
+  private _updateViewHT(abacusProperty: AbacusOptions): void{
+    if( ! abacusProperty.values ){
+      return;
+    }
+
+    for (let i = 0; i < abacusProperty.values.length; i++) {
+      const currentValue: number = abacusProperty.values[i];
+      const posHandle = this.getPosFromValue(currentValue);
+
+      if( this._isVertical ){
+        this._handles[i].posLeft = null;
+        this._handles[i].posBottom = posHandle;
+        if( this._tooltips[i] ) {
+          this._tooltips[i].posLeft = null;
+          this._tooltips[i].posBottom = posHandle;
+        }
+      }
+      else{
+        this._handles[i].posBottom = null;
+        this._handles[i].posLeft = posHandle;
+        if( this._tooltips[i] ){
+          this._tooltips[i].posBottom = null;
+          this._tooltips[i].posLeft = posHandle;
+        }
+      }
+
+      if( this._tooltips[i] ){
+        this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
+      }
+    }
   }
 
 
@@ -559,8 +569,8 @@ export class View{
    */
   private _getEventUIData(): EventUIData{
     const uiData: EventUIData = {} as EventUIData;
-    uiData.handle = this._handleItem.htmlElement;
-    uiData.handleIndex = this._handleItem.handleIndex;
+    uiData.handle = this._handles[0].htmlElement;
+    uiData.handleIndex = this._handles[0].handleIndex;
 
     const modelData = this._presenter.getModelAbacusProperty();
     uiData.value = modelData.value as number;
@@ -685,13 +695,15 @@ export class View{
 
 
   /**
-   * Функция, обрабатывающая позицию мыши.
-   * @param {MouseEvent} event Объект события мыши.
+   * Функция, обрабатывающая позицию мыши или касания.
+   * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
    */
   private _mouseHandler(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-    const oldValue = abacusProperty.value;
+		if( ! abacusProperty.values?.length ){
+			return;
+		}
 
     let coordinate: number = 0;
     if( event instanceof MouseEvent ){
@@ -702,10 +714,73 @@ export class View{
     }
 
     const percent = this.getPosPercent(coordinate);
+    const valueUnrounded: number = this.getValFromPosPercent(percent);
 
-    const newAbacusValue: number = this.getValFromPosPercent(percent);
-    viewInstance._presenter.setAbacusValue(newAbacusValue);
-    if( oldValue !== abacusProperty.value ){
+    let newValues: number[] = [];
+    if( abacusProperty.values ){
+      newValues = abacusProperty.values?.slice(0);
+    }
+
+    if( abacusProperty.range === true && abacusProperty.values ){
+      let deltaMin = abacusProperty.values[0] - valueUnrounded;
+      deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
+      let deltaMax = abacusProperty.values[1] - valueUnrounded;
+      deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
+
+      if( deltaMax < deltaMin ){
+        newValues[1] = valueUnrounded;
+      }
+      else{
+        newValues[0] = valueUnrounded;
+      }
+    }
+    else{
+      newValues[0] = valueUnrounded;
+    }
+
+    viewInstance._presenter.setAbacusValue(newValues);
+    if( this._cachedAbacusProperty.values !== abacusProperty.values ){
+      viewInstance.updateView();
+      viewInstance._eventChangeWrapper(event);
+    }
+  }
+
+
+  private _calcHandleValues(valueUnrounded: number): void{
+    if( isNaN(valueUnrounded) ){
+      return;
+    }
+
+    const viewInstance = this;
+    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+		if( ! abacusProperty.values?.length ){
+			return;
+		}
+
+    let newValues: number[] = [];
+    if( abacusProperty.values ){
+      newValues = abacusProperty.values?.slice(0);
+    }
+
+    if( abacusProperty.range === true && abacusProperty.values ){
+      let deltaMin = abacusProperty.values[0] - valueUnrounded;
+      deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
+      let deltaMax = abacusProperty.values[1] - valueUnrounded;
+      deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
+
+      if( deltaMax < deltaMin ){
+        newValues[1] = valueUnrounded;
+      }
+      else{
+        newValues[0] = valueUnrounded;
+      }
+    }
+    else{
+      newValues[0] = valueUnrounded;
+    }
+
+    viewInstance._presenter.setAbacusValue(newValues);
+    if( this._cachedAbacusProperty.values !== abacusProperty.values ){
       viewInstance.updateView();
       viewInstance._eventChangeWrapper(event);
     }
@@ -727,15 +802,17 @@ export class View{
       viewInstance._handlerWidgetContainerClick.bind(viewInstance)
     );
 
-    viewInstance._handleItem.htmlElement.addEventListener(
-      'mousedown',
-      viewInstance._handlerHandleItemClickStart.bind(viewInstance)
-    );
-    viewInstance._handleItem.htmlElement.addEventListener(
-      'touchstart',
-      viewInstance._handlerHandleItemClickStart.bind(viewInstance),
-      {passive: true}
-    );
+    for (let i = 0; i < viewInstance._handles.length; i++) {
+      viewInstance._handles[i].htmlElement.addEventListener(
+        'mousedown',
+        viewInstance._handlerHandleItemClickStart.bind(viewInstance)
+      );
+      viewInstance._handles[i].htmlElement.addEventListener(
+        'touchstart',
+        viewInstance._handlerHandleItemClickStart.bind(viewInstance),
+        {passive: true}
+      );
+    }
 
     document.addEventListener(
       'mousemove',
@@ -781,7 +858,19 @@ export class View{
       return;
     }
 
-    viewInstance._mouseHandler(event);
+    // viewInstance._mouseHandler(event);
+
+    let coordinate: number = 0;
+    if( event instanceof MouseEvent ){
+      coordinate = this._isVertical ? event.clientY : event.clientX;
+    }
+    else if(event instanceof TouchEvent){
+      coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+    }
+
+    const percent = this.getPosPercent(coordinate);
+    const valueUnrounded: number = this.getValFromPosPercent(percent);
+    viewInstance._calcHandleValues(valueUnrounded);
   }
 
 
@@ -790,6 +879,7 @@ export class View{
    */
   private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
+    // console.log('_handlerHandleItemClickStart');
     const viewInstance = this;
     if( viewInstance._isDisabled ){
       return;
@@ -808,13 +898,26 @@ export class View{
     if( viewInstance._isDisabled ){
       return;
     }
-
+    
     if(viewInstance._handleMovingTimer !== null) {
       clearTimeout(viewInstance._handleMovingTimer);
     }
     viewInstance._handleMovingTimer = setTimeout(() => {
       if( viewInstance._isDragHandle ){
-        viewInstance._mouseHandler(event);
+        // console.log('_handlerHandleItemClickMove');
+        // viewInstance._mouseHandler(event);
+        let coordinate: number = 0;
+        if( event instanceof MouseEvent ){
+          coordinate = this._isVertical ? event.clientY : event.clientX;
+        }
+        else if(event instanceof TouchEvent){
+          coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+        }
+    
+        const percent = this.getPosPercent(coordinate);
+        const valueUnrounded: number = this.getValFromPosPercent(percent);
+        viewInstance._calcHandleValues(valueUnrounded);
+
         viewInstance._eventSlideWrapper(event);
       }
     }, 15);
@@ -828,6 +931,7 @@ export class View{
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
     if( viewInstance._isDragHandle ){
+      // console.log('_handlerHandleItemClickStop');
       viewInstance._eventStopWrapper(event);
     }
     viewInstance._isDragHandle = false;
@@ -869,9 +973,9 @@ export class View{
       }
     }
 
-    if( this._widgetContainer.htmlElement.contains(this._handleItem.htmlElement) ){
+    if( this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
       for(const mark of this._mapScale.values()){
-        this._handleItem.htmlElement.before(mark.htmlElement);
+        this._handles[0].htmlElement.before(mark.htmlElement);
       }
     }
     else{
@@ -1005,18 +1109,20 @@ export class View{
       mark[1].htmlElement.addEventListener('click', (event: MouseEvent) => {
         const value = mark[0];
         if( this._cachedAbacusProperty?.value !== value ){
-          this._presenter.setAbacusValue(value);
-          this._eventChangeWrapper(event);
-          this.updateView();
+          // this._presenter.setAbacusValue([value]);
+          // this._eventChangeWrapper(event);
+          // this.updateView();
+          this._calcHandleValues(value);
         }
       });
 
       mark[1].htmlElement.addEventListener('touchend', (event: TouchEvent) => {
         const value = mark[0];
         if( this._cachedAbacusProperty?.value !== value ){
-          this._presenter.setAbacusValue(value);
-          this._eventChangeWrapper(event);
-          this.updateView();
+          // this._presenter.setAbacusValue([value]);
+          // this._eventChangeWrapper(event);
+          // this.updateView();
+          this._calcHandleValues(value);
         }
       });
     }
@@ -1044,8 +1150,12 @@ export class View{
     }
 
     duration = duration ? duration + 'ms' : '';
-    this._handleItem.htmlElement.style.transition = duration;
-    this._tooltipItem.htmlElement.style.transition = duration;
+
+		for (let i = 0; i < this._handles.length; i++) {
+			this._handles[i].htmlElement.style.transition = duration;
+			if( this._tooltips[i] ) this._tooltips[i].htmlElement.style.transition = duration;
+		}
+
     this._range.htmlElement.style.transition = duration;
     if( this._mapScale ){
       for (const markItem of this._mapScale) {

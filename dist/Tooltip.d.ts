@@ -10,6 +10,12 @@ export declare class Tooltip {
      */
     private _htmlElement;
     /**
+     * Номер (индекс) подсказки. Может принимать значение 0 или 1.
+     * @type {number}
+     * @private
+     */
+    private _tooltipIndex;
+    /**
      * Название класса HTML-элемента.
      * @type {string}
      * @private
@@ -48,7 +54,7 @@ export declare class Tooltip {
      *  tooltipVisible: 'abacus__tooltip_visible'
      * });
      */
-    constructor(classes?: AbacusClasses);
+    constructor(classes?: AbacusClasses, tooltipIndex?: number);
     /**
      * Геттер ссылки на HTML-элемент.
      */

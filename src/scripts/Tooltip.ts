@@ -11,6 +11,13 @@ export class Tooltip{
   private _htmlElement: HTMLElement;
 
   /**
+   * Номер (индекс) подсказки. Может принимать значение 0 или 1.
+   * @type {number}
+   * @private
+   */
+  private _tooltipIndex: number = 0;
+
+  /**
    * Название класса HTML-элемента.
    * @type {string}
    * @private
@@ -58,11 +65,15 @@ export class Tooltip{
    *  tooltipVisible: 'abacus__tooltip_visible'
    * });
    */
-  constructor(classes?: AbacusClasses){
+  constructor(classes?: AbacusClasses, tooltipIndex?: number){
     this._htmlElement = document.createElement('span');
     this._className = classes?.tooltip ? classes.tooltip : 'abacus__tooltip';
     this._classNameVisible = classes?.tooltipVisible ? classes.tooltipVisible : 'abacus__tooltip_visible';
     this._htmlElement.classList.add(this._className);
+
+    if( tooltipIndex !== undefined && !isNaN(tooltipIndex) ){
+      this._tooltipIndex = tooltipIndex;
+    }
   }
 
 
