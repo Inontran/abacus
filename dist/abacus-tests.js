@@ -12479,7 +12479,7 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
@@ -12547,7 +12547,7 @@ var View = /** @class */ (function () {
             || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.max) !== abacusProperty.max)
             || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.min) !== abacusProperty.min)
             || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.orientation) !== abacusProperty.orientation)
-            || (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.values) !== abacusProperty.values)) {
+            || !View.arrayCompare((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.values, abacusProperty.values)) {
             this._updateViewHT(abacusProperty);
             // if( this._isVertical ){
             //   this._range.htmlElement.style.left = '';
@@ -12585,26 +12585,29 @@ var View = /** @class */ (function () {
             // }
             this._highlightMarks();
         }
+        if (!View.arrayCompare((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.values, abacusProperty.values)) {
+            this._eventChangeWrapper(event);
+        }
         // Обновляем названия классов
-        if ((_k = abacusProperty.classes) === null || _k === void 0 ? void 0 : _k.abacus) {
-            this._widgetContainer.className = (_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.abacus;
+        if ((_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.abacus) {
+            this._widgetContainer.className = (_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.abacus;
         }
-        if ((_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.handle) {
-            this._handles[0].className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.handle;
+        if ((_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.handle) {
+            this._handles[0].className = (_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.handle;
         }
-        if ((_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.range) {
-            this._range.className = (_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.range;
+        if ((_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.range) {
+            this._range.className = (_r = abacusProperty.classes) === null || _r === void 0 ? void 0 : _r.range;
         }
         // Включаем или отключаем слайдер
-        if (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.disabled) !== abacusProperty.disabled) {
+        if (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.disabled) !== abacusProperty.disabled) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.scale) !== abacusProperty.scale)
-            || (((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.step) !== abacusProperty.step)
-            || (((_u = this._cachedAbacusProperty) === null || _u === void 0 ? void 0 : _u.max) !== abacusProperty.max)
-            || (((_v = this._cachedAbacusProperty) === null || _v === void 0 ? void 0 : _v.min) !== abacusProperty.min)
-            || (((_w = this._cachedAbacusProperty) === null || _w === void 0 ? void 0 : _w.orientation) !== abacusProperty.orientation)) {
+        if ((((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.scale) !== abacusProperty.scale)
+            || (((_u = this._cachedAbacusProperty) === null || _u === void 0 ? void 0 : _u.step) !== abacusProperty.step)
+            || (((_v = this._cachedAbacusProperty) === null || _v === void 0 ? void 0 : _v.max) !== abacusProperty.max)
+            || (((_w = this._cachedAbacusProperty) === null || _w === void 0 ? void 0 : _w.min) !== abacusProperty.min)
+            || (((_x = this._cachedAbacusProperty) === null || _x === void 0 ? void 0 : _x.orientation) !== abacusProperty.orientation)) {
             if (abacusProperty.scale) {
                 this._createScale();
             }
@@ -12614,7 +12617,7 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
-        this._cachedAbacusProperty.values = (_x = abacusProperty.values) === null || _x === void 0 ? void 0 : _x.slice(0);
+        this._cachedAbacusProperty.values = (_y = abacusProperty.values) === null || _y === void 0 ? void 0 : _y.slice(0);
     };
     View.prototype._updateViewHT = function (abacusProperty) {
         if (!abacusProperty.values) {
@@ -12811,7 +12814,7 @@ var View = /** @class */ (function () {
             newValues[0] = valueUnrounded;
         }
         viewInstance._presenter.setAbacusValue(newValues);
-        if (this._cachedAbacusProperty.values !== abacusProperty.values) {
+        if (!View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values)) {
             viewInstance.updateView();
             viewInstance._eventChangeWrapper(event);
         }
@@ -12845,11 +12848,11 @@ var View = /** @class */ (function () {
         else {
             newValues[0] = valueUnrounded;
         }
+        // if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
+        //   viewInstance.updateView();
+        //   viewInstance._eventChangeWrapper(event);
+        // }
         viewInstance._presenter.setAbacusValue(newValues);
-        if (this._cachedAbacusProperty.values !== abacusProperty.values) {
-            viewInstance.updateView();
-            viewInstance._eventChangeWrapper(event);
-        }
     };
     /**
      * Установка обработчиков событий.
@@ -13296,6 +13299,18 @@ var View = /** @class */ (function () {
             value = Math.round(value);
         }
         return value;
+    };
+    View.arrayCompare = function (a, b) {
+        if (!a || !b)
+            return false;
+        if ((a === null || a === void 0 ? void 0 : a.length) !== (b === null || b === void 0 ? void 0 : b.length))
+            return false;
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+        return true;
     };
     return View;
 }());
@@ -14128,4 +14143,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=70aebc119800772d0a1b
+//# sourceMappingURL=abacus-tests.js.map?v=08d0a9dbc07280004080

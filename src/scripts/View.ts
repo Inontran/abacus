@@ -425,7 +425,7 @@ export class View{
       || (this._cachedAbacusProperty?.max !== abacusProperty.max)
       || (this._cachedAbacusProperty?.min !== abacusProperty.min)
       || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation)
-      || (this._cachedAbacusProperty?.values !== abacusProperty.values) )
+      || !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values) )
     {
       this._updateViewHT(abacusProperty);
 
@@ -469,6 +469,10 @@ export class View{
       // }
 
       this._highlightMarks();
+    }
+
+    if( !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values) ){
+      this._eventChangeWrapper(event);
     }
 
 
@@ -739,7 +743,7 @@ export class View{
     }
 
     viewInstance._presenter.setAbacusValue(newValues);
-    if( this._cachedAbacusProperty.values !== abacusProperty.values ){
+    if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
       viewInstance.updateView();
       viewInstance._eventChangeWrapper(event);
     }
@@ -752,7 +756,7 @@ export class View{
     }
 
     const viewInstance = this;
-    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
 		if( ! abacusProperty.values?.length ){
 			return;
 		}
@@ -779,11 +783,11 @@ export class View{
       newValues[0] = valueUnrounded;
     }
 
+    // if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
+    //   viewInstance.updateView();
+    //   viewInstance._eventChangeWrapper(event);
+    // }
     viewInstance._presenter.setAbacusValue(newValues);
-    if( this._cachedAbacusProperty.values !== abacusProperty.values ){
-      viewInstance.updateView();
-      viewInstance._eventChangeWrapper(event);
-    }
   }
 
 
@@ -1191,5 +1195,22 @@ export class View{
     }
 
     return value;
+  }
+
+
+  static arrayCompare(a?: Array<any>, b?: Array<any>): boolean{
+    if( !a || !b)
+      return false;
+
+    if(a?.length !== b?.length)
+      return false;
+
+    for(let i = 0; i < a.length; i++){
+      if(a[i] !== b[i]){
+        return false;
+      }
+    }
+
+    return true;
   }
 }

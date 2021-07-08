@@ -267,4 +267,5 @@ export declare class View {
      * @returns {number} Округленное число.
      */
     static round(value: number, fractionalNum: number): number;
+    static arrayCompare(a?: Array<any>, b?: Array<any>): boolean;
 }
