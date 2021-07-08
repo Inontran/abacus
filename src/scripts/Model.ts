@@ -183,6 +183,19 @@ export class Model{
       this._abacusProperty.tooltip = !!abacusProperty.tooltip;
     }
 
+    // range
+    if( abacusProperty.range !== undefined ){
+      if( abacusProperty.range === false || abacusProperty.range === true){
+        this._abacusProperty.range = abacusProperty.range;
+      }
+      else if( abacusProperty.range === 'max' ){
+        this._abacusProperty.range = 'max';
+      }
+      else if( abacusProperty.range === 'min' ){
+        this._abacusProperty.range = 'min';
+      }
+    }
+
     // value
     if( abacusProperty.value !== undefined && abacusProperty.value !== null ){
       if( !isNaN(abacusProperty.value as number) ){
@@ -200,19 +213,20 @@ export class Model{
     }
 
     // values
-    if( abacusProperty.values !== undefined ){
-      if( ! this._abacusProperty.values?.length ){
-        this._abacusProperty.values = [];
-      }
+    if( abacusProperty.values?.length ){
+      this._abacusProperty.values = [];
+
       for (let i = 0; i < abacusProperty.values.length; i++) {
         if( typeof abacusProperty.values[i] === 'string' ){
           abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
         }
         abacusProperty.values[i] = this.roundValuePerStep(abacusProperty.values[i]);
         this._abacusProperty.values[i] = abacusProperty.values[i];
+
         if( i === 0 ){
           this._abacusProperty.value = abacusProperty.values[i];
         }
+
         if( i > 1 ) break;
       }
 
@@ -223,17 +237,18 @@ export class Model{
       });
     }
 
-    // проверка values
-    if( abacusProperty.range === true ){
-      if( ! this._abacusProperty.values || ! this._abacusProperty.values.length ){
+    if( this._abacusProperty.range === true ){
+      if( ! this._abacusProperty.values?.length ){
         this._abacusProperty.values = [];
-      }
-      if( ! this._abacusProperty.values[0] ){
         this._abacusProperty.values[0] = this._abacusProperty.min ? this._abacusProperty.min : 0;
-      }
-      if( ! this._abacusProperty.values[1] ){
         this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
       }
+      else if( this._abacusProperty.values?.length === 1 ){
+        this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
+      }
+    }
+    else{
+      this._abacusProperty.values = this._abacusProperty.values?.slice(0, 1);
     }
 
     // orientation
@@ -244,19 +259,6 @@ export class Model{
       }
       else{
         this._abacusProperty.orientation = 'horizontal';
-      }
-    }
-
-    // range
-    if( abacusProperty.range !== undefined ){
-      if( abacusProperty.range === false || abacusProperty.range === true){
-        this._abacusProperty.range = abacusProperty.range;
-      }
-      else if( abacusProperty.range === 'max' ){
-        this._abacusProperty.range = 'max';
-      }
-      else if( abacusProperty.range === 'min' ){
-        this._abacusProperty.range = 'min';
       }
     }
 

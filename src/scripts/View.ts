@@ -356,7 +356,7 @@ export class View{
         case 'max':
           if( this._handles[1] ){
             this._handles[1].htmlElement.remove();
-            delete this._handles[1];
+            this._handles = this._handles.slice(0, 1);
           }
           this._range.rangeType = 'max';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
@@ -372,7 +372,7 @@ export class View{
         case 'min':
           if( this._handles[1] ){
             this._handles[1].htmlElement.remove();
-            delete this._handles[1];
+            this._handles = this._handles.slice(0, 1);
           }
           this._range.rangeType = 'min';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
@@ -404,13 +404,23 @@ export class View{
     }
 
 
-    if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip ){
-      if( abacusProperty.tooltip ){
-        this._widgetContainer.htmlElement.append(this._tooltips[0].htmlElement);
-        this._tooltips[0].isVisible(true);
+    if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip
+      || this._cachedAbacusProperty?.range !== abacusProperty.range 
+    ){
+      for (let i = 0; i < this._tooltips.length; i++){
+        this._tooltips[i].htmlElement.remove();
       }
-      else{
-        this._tooltips[0].htmlElement.remove();
+      this._tooltips = [];
+
+      if( abacusProperty.tooltip ){
+        const countTooltips = abacusProperty.range === true ? 2 : 1;
+        for (let i = 0; i < countTooltips; i++) {
+          this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
+          this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
+          this._tooltips[i].isVisible(true);
+        }
+
+        this._updateViewTooltips(abacusProperty);
       }
     }
 
@@ -427,7 +437,8 @@ export class View{
       || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation)
       || !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values) )
     {
-      this._updateViewHT(abacusProperty);
+      this._updateViewHandles(abacusProperty);
+      this._updateViewTooltips(abacusProperty);
 
       // if( this._isVertical ){
       //   this._range.htmlElement.style.left = '';
@@ -517,7 +528,7 @@ export class View{
   }
 
 
-  private _updateViewHT(abacusProperty: AbacusOptions): void{
+  private _updateViewHandles(abacusProperty: AbacusOptions): void{
     if( ! abacusProperty.values ){
       return;
     }
@@ -526,24 +537,39 @@ export class View{
       const currentValue: number = abacusProperty.values[i];
       const posHandle = this.getPosFromValue(currentValue);
 
-      if( this._isVertical ){
-        this._handles[i].posLeft = null;
-        this._handles[i].posBottom = posHandle;
-        if( this._tooltips[i] ) {
+      if( this._handles[i] ) {
+        if( this._isVertical ){
+          this._handles[i].posLeft = null;
+          this._handles[i].posBottom = posHandle;
+        }
+        else{
+          this._handles[i].posBottom = null;
+          this._handles[i].posLeft = posHandle;
+        }
+      }
+    }
+  }
+
+
+  private _updateViewTooltips(abacusProperty: AbacusOptions): void{
+    if( ! abacusProperty.values ){
+      return;
+    }
+
+    for (let i = 0; i < abacusProperty.values.length; i++) {
+      const currentValue: number = abacusProperty.values[i];
+      const posHandle = this.getPosFromValue(currentValue);
+
+      if( this._tooltips[i] ) {
+        if( this._isVertical ){
           this._tooltips[i].posLeft = null;
           this._tooltips[i].posBottom = posHandle;
         }
-      }
-      else{
-        this._handles[i].posBottom = null;
-        this._handles[i].posLeft = posHandle;
-        if( this._tooltips[i] ){
+        else{
           this._tooltips[i].posBottom = null;
           this._tooltips[i].posLeft = posHandle;
         }
-      }
 
-      if( this._tooltips[i] ){
         this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
       }
     }
@@ -700,6 +726,7 @@ export class View{
 
   /**
    * Функция, обрабатывающая позицию мыши или касания.
+   * @deprecated
    * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
    */
   private _mouseHandler(event: MouseEvent | TouchEvent): void{

@@ -144,7 +144,8 @@ export declare class View {
      * @returns
      */
     updateView(): void;
-    private _updateViewHT;
+    private _updateViewHandles;
+    private _updateViewTooltips;
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
      * @param {boolean} off "true" значит отключить. "false" значит активировать.
@@ -203,6 +204,7 @@ export declare class View {
     private _eventStopWrapper;
     /**
      * Функция, обрабатывающая позицию мыши или касания.
+     * @deprecated
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     private _mouseHandler;

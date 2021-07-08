@@ -11476,7 +11476,7 @@ var Model = /** @class */ (function () {
          * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
          */
         set: function (abacusProperty) {
-            var _a, _b;
+            var _a, _b, _c, _d, _e;
             // animate
             if (abacusProperty.animate !== undefined) {
                 if (abacusProperty.animate === 'fast'
@@ -11574,6 +11574,18 @@ var Model = /** @class */ (function () {
             if (abacusProperty.tooltip !== undefined) {
                 this._abacusProperty.tooltip = !!abacusProperty.tooltip;
             }
+            // range
+            if (abacusProperty.range !== undefined) {
+                if (abacusProperty.range === false || abacusProperty.range === true) {
+                    this._abacusProperty.range = abacusProperty.range;
+                }
+                else if (abacusProperty.range === 'max') {
+                    this._abacusProperty.range = 'max';
+                }
+                else if (abacusProperty.range === 'min') {
+                    this._abacusProperty.range = 'min';
+                }
+            }
             // value
             if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
                 if (!isNaN(abacusProperty.value)) {
@@ -11589,10 +11601,8 @@ var Model = /** @class */ (function () {
                 }
             }
             // values
-            if (abacusProperty.values !== undefined) {
-                if (!((_b = this._abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
-                    this._abacusProperty.values = [];
-                }
+            if ((_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length) {
+                this._abacusProperty.values = [];
                 for (var i = 0; i < abacusProperty.values.length; i++) {
                     if (typeof abacusProperty.values[i] === 'string') {
                         abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
@@ -11614,17 +11624,18 @@ var Model = /** @class */ (function () {
                         return -1;
                 });
             }
-            // проверка values
-            if (abacusProperty.range === true) {
-                if (!this._abacusProperty.values || !this._abacusProperty.values.length) {
+            if (this._abacusProperty.range === true) {
+                if (!((_c = this._abacusProperty.values) === null || _c === void 0 ? void 0 : _c.length)) {
                     this._abacusProperty.values = [];
-                }
-                if (!this._abacusProperty.values[0]) {
                     this._abacusProperty.values[0] = this._abacusProperty.min ? this._abacusProperty.min : 0;
-                }
-                if (!this._abacusProperty.values[1]) {
                     this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
                 }
+                else if (((_d = this._abacusProperty.values) === null || _d === void 0 ? void 0 : _d.length) === 1) {
+                    this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
+                }
+            }
+            else {
+                this._abacusProperty.values = (_e = this._abacusProperty.values) === null || _e === void 0 ? void 0 : _e.slice(0, 1);
             }
             // orientation
             if (abacusProperty.orientation !== undefined) {
@@ -11633,18 +11644,6 @@ var Model = /** @class */ (function () {
                 }
                 else {
                     this._abacusProperty.orientation = 'horizontal';
-                }
-            }
-            // range
-            if (abacusProperty.range !== undefined) {
-                if (abacusProperty.range === false || abacusProperty.range === true) {
-                    this._abacusProperty.range = abacusProperty.range;
-                }
-                else if (abacusProperty.range === 'max') {
-                    this._abacusProperty.range = 'max';
-                }
-                else if (abacusProperty.range === 'min') {
-                    this._abacusProperty.range = 'min';
                 }
             }
             // change
@@ -12491,7 +12490,7 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
@@ -12502,7 +12501,7 @@ var View = /** @class */ (function () {
                 case 'max':
                     if (this._handles[1]) {
                         this._handles[1].htmlElement.remove();
-                        delete this._handles[1];
+                        this._handles = this._handles.slice(0, 1);
                     }
                     this._range.rangeType = 'max';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
@@ -12516,7 +12515,7 @@ var View = /** @class */ (function () {
                 case 'min':
                     if (this._handles[1]) {
                         this._handles[1].htmlElement.remove();
-                        delete this._handles[1];
+                        this._handles = this._handles.slice(0, 1);
                     }
                     this._range.rangeType = 'min';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
@@ -12542,25 +12541,33 @@ var View = /** @class */ (function () {
                 this._widgetContainer.isVertical(false);
             }
         }
-        if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip) {
-            if (abacusProperty.tooltip) {
-                this._widgetContainer.htmlElement.append(this._tooltips[0].htmlElement);
-                this._tooltips[0].isVisible(true);
+        if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip
+            || ((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range) {
+            for (var i = 0; i < this._tooltips.length; i++) {
+                this._tooltips[i].htmlElement.remove();
             }
-            else {
-                this._tooltips[0].htmlElement.remove();
+            this._tooltips = [];
+            if (abacusProperty.tooltip) {
+                var countTooltips = abacusProperty.range === true ? 2 : 1;
+                for (var i = 0; i < countTooltips; i++) {
+                    this._tooltips[i] = new Tooltip_1.Tooltip(abacusProperty.classes, i);
+                    this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
+                    this._tooltips[i].isVisible(true);
+                }
+                this._updateViewTooltips(abacusProperty);
             }
         }
-        if (((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.animate) !== abacusProperty.animate) {
+        if (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.animate) !== abacusProperty.animate) {
             this._setTransition();
         }
         // Обновляем положение бегунка и индикатора
-        if ((((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.range) !== abacusProperty.range)
-            || (((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.max) !== abacusProperty.max)
-            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.min) !== abacusProperty.min)
-            || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.orientation) !== abacusProperty.orientation)
-            || !View.arrayCompare((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.values, abacusProperty.values)) {
-            this._updateViewHT(abacusProperty);
+        if ((((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.range) !== abacusProperty.range)
+            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.max) !== abacusProperty.max)
+            || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.min) !== abacusProperty.min)
+            || (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.orientation) !== abacusProperty.orientation)
+            || !View.arrayCompare((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.values, abacusProperty.values)) {
+            this._updateViewHandles(abacusProperty);
+            this._updateViewTooltips(abacusProperty);
             // if( this._isVertical ){
             //   this._range.htmlElement.style.left = '';
             //   this._range.htmlElement.style.right = '';
@@ -12597,29 +12604,29 @@ var View = /** @class */ (function () {
             // }
             this._highlightMarks();
         }
-        if (!View.arrayCompare((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.values, abacusProperty.values)) {
+        if (!View.arrayCompare((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.values, abacusProperty.values)) {
             this._eventChangeWrapper(event);
         }
         // Обновляем названия классов
-        if ((_l = abacusProperty.classes) === null || _l === void 0 ? void 0 : _l.abacus) {
-            this._widgetContainer.className = (_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.abacus;
+        if ((_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.abacus) {
+            this._widgetContainer.className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.abacus;
         }
-        if ((_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.handle) {
-            this._handles[0].className = (_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.handle;
+        if ((_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.handle) {
+            this._handles[0].className = (_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.handle;
         }
-        if ((_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.range) {
-            this._range.className = (_r = abacusProperty.classes) === null || _r === void 0 ? void 0 : _r.range;
+        if ((_r = abacusProperty.classes) === null || _r === void 0 ? void 0 : _r.range) {
+            this._range.className = (_s = abacusProperty.classes) === null || _s === void 0 ? void 0 : _s.range;
         }
         // Включаем или отключаем слайдер
-        if (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.disabled) !== abacusProperty.disabled) {
+        if (((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.disabled) !== abacusProperty.disabled) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.scale) !== abacusProperty.scale)
-            || (((_u = this._cachedAbacusProperty) === null || _u === void 0 ? void 0 : _u.step) !== abacusProperty.step)
-            || (((_v = this._cachedAbacusProperty) === null || _v === void 0 ? void 0 : _v.max) !== abacusProperty.max)
-            || (((_w = this._cachedAbacusProperty) === null || _w === void 0 ? void 0 : _w.min) !== abacusProperty.min)
-            || (((_x = this._cachedAbacusProperty) === null || _x === void 0 ? void 0 : _x.orientation) !== abacusProperty.orientation)) {
+        if ((((_u = this._cachedAbacusProperty) === null || _u === void 0 ? void 0 : _u.scale) !== abacusProperty.scale)
+            || (((_v = this._cachedAbacusProperty) === null || _v === void 0 ? void 0 : _v.step) !== abacusProperty.step)
+            || (((_w = this._cachedAbacusProperty) === null || _w === void 0 ? void 0 : _w.max) !== abacusProperty.max)
+            || (((_x = this._cachedAbacusProperty) === null || _x === void 0 ? void 0 : _x.min) !== abacusProperty.min)
+            || (((_y = this._cachedAbacusProperty) === null || _y === void 0 ? void 0 : _y.orientation) !== abacusProperty.orientation)) {
             if (abacusProperty.scale) {
                 this._createScale();
             }
@@ -12629,32 +12636,43 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
-        this._cachedAbacusProperty.values = (_y = abacusProperty.values) === null || _y === void 0 ? void 0 : _y.slice(0);
+        this._cachedAbacusProperty.values = (_z = abacusProperty.values) === null || _z === void 0 ? void 0 : _z.slice(0);
     };
-    View.prototype._updateViewHT = function (abacusProperty) {
+    View.prototype._updateViewHandles = function (abacusProperty) {
         if (!abacusProperty.values) {
             return;
         }
         for (var i = 0; i < abacusProperty.values.length; i++) {
             var currentValue = abacusProperty.values[i];
             var posHandle = this.getPosFromValue(currentValue);
-            if (this._isVertical) {
-                this._handles[i].posLeft = null;
-                this._handles[i].posBottom = posHandle;
-                if (this._tooltips[i]) {
+            if (this._handles[i]) {
+                if (this._isVertical) {
+                    this._handles[i].posLeft = null;
+                    this._handles[i].posBottom = posHandle;
+                }
+                else {
+                    this._handles[i].posBottom = null;
+                    this._handles[i].posLeft = posHandle;
+                }
+            }
+        }
+    };
+    View.prototype._updateViewTooltips = function (abacusProperty) {
+        if (!abacusProperty.values) {
+            return;
+        }
+        for (var i = 0; i < abacusProperty.values.length; i++) {
+            var currentValue = abacusProperty.values[i];
+            var posHandle = this.getPosFromValue(currentValue);
+            if (this._tooltips[i]) {
+                if (this._isVertical) {
                     this._tooltips[i].posLeft = null;
                     this._tooltips[i].posBottom = posHandle;
                 }
-            }
-            else {
-                this._handles[i].posBottom = null;
-                this._handles[i].posLeft = posHandle;
-                if (this._tooltips[i]) {
+                else {
                     this._tooltips[i].posBottom = null;
                     this._tooltips[i].posLeft = posHandle;
                 }
-            }
-            if (this._tooltips[i]) {
                 this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
             }
         }
@@ -12788,6 +12806,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция, обрабатывающая позицию мыши или касания.
+     * @deprecated
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     View.prototype._mouseHandler = function (event) {
@@ -14155,4 +14174,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=7765e0a8e670342f878b
+//# sourceMappingURL=abacus-tests.js.map?v=70520a33e37925bf31ad

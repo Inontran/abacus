@@ -46,7 +46,7 @@ $(function () {
         min: -10,
         max: 9,
         step: 2,
-        values: [-11, -4],
+        values: [-4, 6],
         range: true,
         scale: true,
         change: function (event, ui) {
@@ -265,4 +265,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=7765e0a8e670342f878b
+//# sourceMappingURL=abacus-demo.js.map?v=70520a33e37925bf31ad
