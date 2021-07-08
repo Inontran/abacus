@@ -11614,6 +11614,18 @@ var Model = /** @class */ (function () {
                         return -1;
                 });
             }
+            // проверка values
+            if (abacusProperty.range === true) {
+                if (!this._abacusProperty.values || !this._abacusProperty.values.length) {
+                    this._abacusProperty.values = [];
+                }
+                if (!this._abacusProperty.values[0]) {
+                    this._abacusProperty.values[0] = this._abacusProperty.min ? this._abacusProperty.min : 0;
+                }
+                if (!this._abacusProperty.values[1]) {
+                    this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
+                }
+            }
             // orientation
             if (abacusProperty.orientation !== undefined) {
                 if (abacusProperty.orientation === 'vertical') {
@@ -14143,4 +14155,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=08d0a9dbc07280004080
+//# sourceMappingURL=abacus-tests.js.map?v=7765e0a8e670342f878b
