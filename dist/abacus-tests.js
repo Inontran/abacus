@@ -12563,6 +12563,10 @@ var View = /** @class */ (function () {
         $.extend(this._cachedAbacusProperty, abacusProperty);
         this._cachedAbacusProperty.values = (_z = abacusProperty.values) === null || _z === void 0 ? void 0 : _z.slice(0);
     };
+    /**
+     * Функция создания или удаления ручек слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._createViewHandles = function (abacusProperty) {
         switch (abacusProperty.range) {
             case 'max':
@@ -12591,6 +12595,10 @@ var View = /** @class */ (function () {
                 break;
         }
     };
+    /**
+     * Функция обновления ручек слайдера, а именно их местоположение.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._updateViewHandles = function (abacusProperty) {
         if (!abacusProperty.values) {
             return;
@@ -12610,6 +12618,10 @@ var View = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Функция создания или удаления подсказок слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._createViewTooltips = function (abacusProperty) {
         for (var i = 0; i < this._tooltips.length; i++) {
             this._tooltips[i].htmlElement.remove();
@@ -12624,6 +12636,10 @@ var View = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Функция обновления подсказок слайдера, а именно местоположение и текст.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._updateViewTooltips = function (abacusProperty) {
         if (!abacusProperty.values || !abacusProperty.tooltip) {
             return;
@@ -12644,6 +12660,10 @@ var View = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Функция создания или удаления индикатора (progress bar) слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._createViewRange = function (abacusProperty) {
         switch (abacusProperty.range) {
             case 'max':
@@ -12664,6 +12684,10 @@ var View = /** @class */ (function () {
                 break;
         }
     };
+    /**
+     * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     View.prototype._updateViewRange = function (abacusProperty) {
         var _a;
         if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
@@ -12889,6 +12913,10 @@ var View = /** @class */ (function () {
             viewInstance._eventChangeWrapper(event);
         }
     };
+    /**
+     * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+     * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
+     */
     View.prototype._calcHandleValues = function (valueUnrounded) {
         var _a, _b;
         if (isNaN(valueUnrounded)) {
@@ -13370,6 +13398,12 @@ var View = /** @class */ (function () {
         }
         return value;
     };
+    /**
+     * Функция сравнения двух массивов с произвольними примитивными значениями.
+     * @param {Array<any>} a Массив
+     * @param {Array<any>} b Массив
+     * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
+     */
     View.arrayCompare = function (a, b) {
         if (!a || !b)
             return false;
@@ -14213,4 +14247,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=3481c7a2d40ef5b74957
+//# sourceMappingURL=abacus-tests.js.map?v=fdfe52f8022262de500c

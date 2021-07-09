@@ -442,6 +442,10 @@ export class View{
   }
 
 
+  /**
+   * Функция создания или удаления ручек слайдера.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _createViewHandles(abacusProperty: AbacusOptions): void{
     switch (abacusProperty.range) {
       case 'max':
@@ -485,6 +489,10 @@ export class View{
   }
 
 
+  /**
+   * Функция обновления ручек слайдера, а именно их местоположение.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _updateViewHandles(abacusProperty: AbacusOptions): void{
     if( ! abacusProperty.values ){
       return;
@@ -508,6 +516,10 @@ export class View{
   }
 
 
+  /**
+   * Функция создания или удаления подсказок слайдера.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _createViewTooltips(abacusProperty: AbacusOptions): void{
     for (let i = 0; i < this._tooltips.length; i++){
       this._tooltips[i].htmlElement.remove();
@@ -525,6 +537,10 @@ export class View{
   }
 
 
+  /**
+   * Функция обновления подсказок слайдера, а именно местоположение и текст.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _updateViewTooltips(abacusProperty: AbacusOptions): void{
     if( ! abacusProperty.values || ! abacusProperty.tooltip ){
       return;
@@ -550,6 +566,10 @@ export class View{
   }
 
 
+  /**
+   * Функция создания или удаления индикатора (progress bar) слайдера.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _createViewRange(abacusProperty: AbacusOptions): void{
     switch (abacusProperty.range) {
       case 'max':
@@ -578,6 +598,10 @@ export class View{
   }
 
 
+  /**
+   * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
   private _updateViewRange(abacusProperty: AbacusOptions): void{
     if( ! abacusProperty.values?.length ){
       return;
@@ -840,6 +864,10 @@ export class View{
   }
 
 
+  /**
+   * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+   * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
+   */
   private _calcHandleValues(valueUnrounded: number): void{
     if( isNaN(valueUnrounded) ){
       return;
@@ -1288,15 +1316,21 @@ export class View{
   }
 
 
+  /**
+   * Функция сравнения двух массивов с произвольними примитивными значениями.
+   * @param {Array<any>} a Массив
+   * @param {Array<any>} b Массив
+   * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
+   */
   static arrayCompare(a?: Array<any>, b?: Array<any>): boolean{
     if( !a || !b)
       return false;
 
-    if(a?.length !== b?.length)
+    if( a?.length !== b?.length )
       return false;
 
     for(let i = 0; i < a.length; i++){
-      if(a[i] !== b[i]){
+      if( a[i] !== b[i] ){
         return false;
       }
     }

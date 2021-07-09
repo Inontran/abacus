@@ -144,11 +144,35 @@ export declare class View {
      * @returns
      */
     updateView(): void;
+    /**
+     * Функция создания или удаления ручек слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _createViewHandles;
+    /**
+     * Функция обновления ручек слайдера, а именно их местоположение.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _updateViewHandles;
+    /**
+     * Функция создания или удаления подсказок слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _createViewTooltips;
+    /**
+     * Функция обновления подсказок слайдера, а именно местоположение и текст.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _updateViewTooltips;
+    /**
+     * Функция создания или удаления индикатора (progress bar) слайдера.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _createViewRange;
+    /**
+     * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
     private _updateViewRange;
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
@@ -212,6 +236,10 @@ export declare class View {
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     private _mouseHandler;
+    /**
+     * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+     * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
+     */
     private _calcHandleValues;
     /**
      * Установка обработчиков событий.
@@ -273,5 +301,11 @@ export declare class View {
      * @returns {number} Округленное число.
      */
     static round(value: number, fractionalNum: number): number;
+    /**
+     * Функция сравнения двух массивов с произвольними примитивными значениями.
+     * @param {Array<any>} a Массив
+     * @param {Array<any>} b Массив
+     * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
+     */
     static arrayCompare(a?: Array<any>, b?: Array<any>): boolean;
 }
