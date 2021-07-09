@@ -402,14 +402,8 @@ export class View{
 
 
     // Обновляем названия классов
-    if( abacusProperty.classes?.abacus ){
-      this._widgetContainer.className = abacusProperty.classes?.abacus;
-    }
-    if( abacusProperty.classes?.handle ){
-      this._handles[0].className = abacusProperty.classes?.handle;
-    }
-    if( abacusProperty.classes?.range ){
-      this._range.className = abacusProperty.classes?.range;
+    if( abacusProperty.classes ){
+      this._updateClassNames(abacusProperty.classes);
     }
 
 
@@ -439,6 +433,7 @@ export class View{
 
     $.extend(this._cachedAbacusProperty, abacusProperty);
     this._cachedAbacusProperty.values = abacusProperty.values?.slice(0);
+    this._cachedAbacusProperty.classes = JSON.parse(JSON.stringify(abacusProperty.classes));
   }
 
 
@@ -658,6 +653,57 @@ export class View{
           this._range.htmlElement.style.right = '';
           this._range.width = posHandle1 - posHandle0;
           break;
+      }
+    }
+  }
+
+
+  /**
+   * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+   * @param {AbacusOptions} abacusProperty Свойства плагина. 
+   */
+  private _updateClassNames(abacusClasses: AbacusClasses){
+    if( this._cachedAbacusProperty?.classes?.abacus !== abacusClasses?.abacus ){
+      this._widgetContainer.className = abacusClasses?.abacus;
+    }
+    if( this._cachedAbacusProperty?.classes?.vertical !== abacusClasses?.vertical ){
+      this._widgetContainer.classNameVertical = abacusClasses?.vertical;
+    }
+    if( this._cachedAbacusProperty?.classes?.disabled !== abacusClasses?.disabled ){
+      this._widgetContainer.classNameDisabled = abacusClasses?.disabled;
+    }
+
+    if( this._cachedAbacusProperty?.classes?.handle !== abacusClasses?.handle ){
+      for (let i = 0; i < this._handles.length; i++) {
+        this._handles[i].className = abacusClasses?.handle;
+      }
+    }
+
+    if( this._cachedAbacusProperty?.classes?.range !== abacusClasses?.range ){
+      this._range.className = abacusClasses?.range;
+    }
+
+    if( this._cachedAbacusProperty?.classes?.mark !== abacusClasses?.mark ){
+      for (const markItem of this._mapScale) {
+        if(abacusClasses?.mark) {
+          markItem[1].className = abacusClasses.mark;
+        }
+      }
+    }
+
+    if( this._cachedAbacusProperty?.classes?.markSelected !== abacusClasses?.markSelected ){
+      for (const markItem of this._mapScale) {
+        if(abacusClasses?.markSelected) {
+          markItem[1].classNameSelected = abacusClasses.markSelected;
+        }
+      }
+    }
+
+    if( this._cachedAbacusProperty?.classes?.markInrange !== abacusClasses?.markInrange ){
+      for (const markItem of this._mapScale) {
+        if(abacusClasses?.markInrange) {
+          markItem[1].classNameInrange = abacusClasses.markInrange;
+        }
       }
     }
   }

@@ -12490,7 +12490,7 @@ var View = /** @class */ (function () {
      * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
@@ -12533,25 +12533,19 @@ var View = /** @class */ (function () {
             this._eventChangeWrapper(event);
         }
         // Обновляем названия классов
-        if ((_m = abacusProperty.classes) === null || _m === void 0 ? void 0 : _m.abacus) {
-            this._widgetContainer.className = (_o = abacusProperty.classes) === null || _o === void 0 ? void 0 : _o.abacus;
-        }
-        if ((_p = abacusProperty.classes) === null || _p === void 0 ? void 0 : _p.handle) {
-            this._handles[0].className = (_q = abacusProperty.classes) === null || _q === void 0 ? void 0 : _q.handle;
-        }
-        if ((_r = abacusProperty.classes) === null || _r === void 0 ? void 0 : _r.range) {
-            this._range.className = (_s = abacusProperty.classes) === null || _s === void 0 ? void 0 : _s.range;
+        if (abacusProperty.classes) {
+            this._updateClassNames(abacusProperty.classes);
         }
         // Включаем или отключаем слайдер
-        if (((_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.disabled) !== abacusProperty.disabled) {
+        if (((_m = this._cachedAbacusProperty) === null || _m === void 0 ? void 0 : _m.disabled) !== abacusProperty.disabled) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_u = this._cachedAbacusProperty) === null || _u === void 0 ? void 0 : _u.scale) !== abacusProperty.scale)
-            || (((_v = this._cachedAbacusProperty) === null || _v === void 0 ? void 0 : _v.step) !== abacusProperty.step)
-            || (((_w = this._cachedAbacusProperty) === null || _w === void 0 ? void 0 : _w.max) !== abacusProperty.max)
-            || (((_x = this._cachedAbacusProperty) === null || _x === void 0 ? void 0 : _x.min) !== abacusProperty.min)
-            || (((_y = this._cachedAbacusProperty) === null || _y === void 0 ? void 0 : _y.orientation) !== abacusProperty.orientation)) {
+        if ((((_o = this._cachedAbacusProperty) === null || _o === void 0 ? void 0 : _o.scale) !== abacusProperty.scale)
+            || (((_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.step) !== abacusProperty.step)
+            || (((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.max) !== abacusProperty.max)
+            || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.min) !== abacusProperty.min)
+            || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.orientation) !== abacusProperty.orientation)) {
             if (abacusProperty.scale) {
                 this._createScale();
             }
@@ -12561,7 +12555,8 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         $.extend(this._cachedAbacusProperty, abacusProperty);
-        this._cachedAbacusProperty.values = (_z = abacusProperty.values) === null || _z === void 0 ? void 0 : _z.slice(0);
+        this._cachedAbacusProperty.values = (_t = abacusProperty.values) === null || _t === void 0 ? void 0 : _t.slice(0);
+        this._cachedAbacusProperty.classes = JSON.parse(JSON.stringify(abacusProperty.classes));
     };
     /**
      * Функция создания или удаления ручек слайдера.
@@ -12737,6 +12732,82 @@ var View = /** @class */ (function () {
                     this._range.htmlElement.style.right = '';
                     this._range.width = posHandle1 - posHandle0;
                     break;
+            }
+        }
+    };
+    /**
+     * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
+    View.prototype._updateClassNames = function (abacusClasses) {
+        var e_1, _a, e_2, _b, e_3, _c;
+        var _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
+        if (((_e = (_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.classes) === null || _e === void 0 ? void 0 : _e.abacus) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.abacus)) {
+            this._widgetContainer.className = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.abacus;
+        }
+        if (((_g = (_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.classes) === null || _g === void 0 ? void 0 : _g.vertical) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.vertical)) {
+            this._widgetContainer.classNameVertical = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.vertical;
+        }
+        if (((_j = (_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.classes) === null || _j === void 0 ? void 0 : _j.disabled) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.disabled)) {
+            this._widgetContainer.classNameDisabled = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.disabled;
+        }
+        if (((_l = (_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.classes) === null || _l === void 0 ? void 0 : _l.handle) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.handle)) {
+            for (var i = 0; i < this._handles.length; i++) {
+                this._handles[i].className = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.handle;
+            }
+        }
+        if (((_o = (_m = this._cachedAbacusProperty) === null || _m === void 0 ? void 0 : _m.classes) === null || _o === void 0 ? void 0 : _o.range) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.range)) {
+            this._range.className = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.range;
+        }
+        if (((_q = (_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.classes) === null || _q === void 0 ? void 0 : _q.mark) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.mark)) {
+            try {
+                for (var _v = __values(this._mapScale), _w = _v.next(); !_w.done; _w = _v.next()) {
+                    var markItem = _w.value;
+                    if (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.mark) {
+                        markItem[1].className = abacusClasses.mark;
+                    }
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_w && !_w.done && (_a = _v.return)) _a.call(_v);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+        }
+        if (((_s = (_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.classes) === null || _s === void 0 ? void 0 : _s.markSelected) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.markSelected)) {
+            try {
+                for (var _x = __values(this._mapScale), _y = _x.next(); !_y.done; _y = _x.next()) {
+                    var markItem = _y.value;
+                    if (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.markSelected) {
+                        markItem[1].classNameSelected = abacusClasses.markSelected;
+                    }
+                }
+            }
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (_y && !_y.done && (_b = _x.return)) _b.call(_x);
+                }
+                finally { if (e_2) throw e_2.error; }
+            }
+        }
+        if (((_u = (_t = this._cachedAbacusProperty) === null || _t === void 0 ? void 0 : _t.classes) === null || _u === void 0 ? void 0 : _u.markInrange) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.markInrange)) {
+            try {
+                for (var _z = __values(this._mapScale), _0 = _z.next(); !_0.done; _0 = _z.next()) {
+                    var markItem = _0.value;
+                    if (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.markInrange) {
+                        markItem[1].classNameInrange = abacusClasses.markInrange;
+                    }
+                }
+            }
+            catch (e_3_1) { e_3 = { error: e_3_1 }; }
+            finally {
+                try {
+                    if (_0 && !_0.done && (_c = _z.return)) _c.call(_z);
+                }
+                finally { if (e_3) throw e_3.error; }
             }
         }
     };
@@ -13057,7 +13128,7 @@ var View = /** @class */ (function () {
      * Создает шкалу значений и добавляет ее в слайдер.
      */
     View.prototype._createScale = function () {
-        var e_1, _a, e_2, _b;
+        var e_4, _a, e_5, _b;
         if (this._mapScale.size) {
             this._removeScale();
         }
@@ -13093,12 +13164,12 @@ var View = /** @class */ (function () {
                     this._handles[0].htmlElement.before(mark.htmlElement);
                 }
             }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            catch (e_4_1) { e_4 = { error: e_4_1 }; }
             finally {
                 try {
                     if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
                 }
-                finally { if (e_1) throw e_1.error; }
+                finally { if (e_4) throw e_4.error; }
             }
         }
         else {
@@ -13108,12 +13179,12 @@ var View = /** @class */ (function () {
                     this._widgetContainer.htmlElement.append(mark.htmlElement);
                 }
             }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            catch (e_5_1) { e_5 = { error: e_5_1 }; }
             finally {
                 try {
                     if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
                 }
-                finally { if (e_2) throw e_2.error; }
+                finally { if (e_5) throw e_5.error; }
             }
         }
         this._thinOutScale();
@@ -13123,19 +13194,19 @@ var View = /** @class */ (function () {
      * Удаляет шкалу значений.
      */
     View.prototype._removeScale = function () {
-        var e_3, _a;
+        var e_6, _a;
         try {
             for (var _b = __values(this._mapScale.values()), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var mark = _c.value;
                 mark.htmlElement.remove();
             }
         }
-        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+        catch (e_6_1) { e_6 = { error: e_6_1 }; }
         finally {
             try {
                 if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
-            finally { if (e_3) throw e_3.error; }
+            finally { if (e_6) throw e_6.error; }
         }
         this._mapScale.clear();
     };
@@ -13143,7 +13214,7 @@ var View = /** @class */ (function () {
      * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
      */
     View.prototype._thinOutScale = function () {
-        var e_4, _a, e_5, _b, e_6, _c, e_7, _d, e_8, _e;
+        var e_7, _a, e_8, _b, e_9, _c, e_10, _d, e_11, _e;
         var _f;
         var sizeWidget;
         if (this._isVertical) {
@@ -13161,12 +13232,12 @@ var View = /** @class */ (function () {
                     sizeMarks += mark.htmlElement.offsetHeight + k;
                 }
             }
-            catch (e_4_1) { e_4 = { error: e_4_1 }; }
+            catch (e_7_1) { e_7 = { error: e_7_1 }; }
             finally {
                 try {
                     if (_h && !_h.done && (_a = _g.return)) _a.call(_g);
                 }
-                finally { if (e_4) throw e_4.error; }
+                finally { if (e_7) throw e_7.error; }
             }
         }
         else {
@@ -13176,12 +13247,12 @@ var View = /** @class */ (function () {
                     sizeMarks += mark.htmlElement.offsetWidth + k;
                 }
             }
-            catch (e_5_1) { e_5 = { error: e_5_1 }; }
+            catch (e_8_1) { e_8 = { error: e_8_1 }; }
             finally {
                 try {
                     if (_k && !_k.done && (_b = _j.return)) _b.call(_j);
                 }
-                finally { if (e_5) throw e_5.error; }
+                finally { if (e_8) throw e_8.error; }
             }
         }
         if (sizeWidget < sizeMarks) {
@@ -13200,12 +13271,12 @@ var View = /** @class */ (function () {
                         isDelete = true;
                     }
                 }
-                catch (e_6_1) { e_6 = { error: e_6_1 }; }
+                catch (e_9_1) { e_9 = { error: e_9_1 }; }
                 finally {
                     try {
                         if (_m && !_m.done && (_c = _l.return)) _c.call(_l);
                     }
-                    finally { if (e_6) throw e_6.error; }
+                    finally { if (e_9) throw e_9.error; }
                 }
             }
         }
@@ -13217,12 +13288,12 @@ var View = /** @class */ (function () {
                     sizeMarks += mark.htmlElement.offsetHeight + k;
                 }
             }
-            catch (e_7_1) { e_7 = { error: e_7_1 }; }
+            catch (e_10_1) { e_10 = { error: e_10_1 }; }
             finally {
                 try {
                     if (_p && !_p.done && (_d = _o.return)) _d.call(_o);
                 }
-                finally { if (e_7) throw e_7.error; }
+                finally { if (e_10) throw e_10.error; }
             }
         }
         else {
@@ -13232,12 +13303,12 @@ var View = /** @class */ (function () {
                     sizeMarks += mark.htmlElement.offsetWidth + k;
                 }
             }
-            catch (e_8_1) { e_8 = { error: e_8_1 }; }
+            catch (e_11_1) { e_11 = { error: e_11_1 }; }
             finally {
                 try {
                     if (_r && !_r.done && (_e = _q.return)) _e.call(_q);
                 }
-                finally { if (e_8) throw e_8.error; }
+                finally { if (e_11) throw e_11.error; }
             }
         }
         if (sizeWidget < sizeMarks) {
@@ -13248,7 +13319,7 @@ var View = /** @class */ (function () {
      * Функция меняет состояния меток в шкале значений.
      */
     View.prototype._highlightMarks = function () {
-        var e_9, _a;
+        var e_12, _a;
         var _b;
         if (!this._mapScale.size) {
             return;
@@ -13284,12 +13355,12 @@ var View = /** @class */ (function () {
                     }
                 }
             }
-            catch (e_9_1) { e_9 = { error: e_9_1 }; }
+            catch (e_12_1) { e_12 = { error: e_12_1 }; }
             finally {
                 try {
                     if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
                 }
-                finally { if (e_9) throw e_9.error; }
+                finally { if (e_12) throw e_12.error; }
             }
         }
     };
@@ -13297,7 +13368,7 @@ var View = /** @class */ (function () {
      * Функция установки обработчиков на метки шкалы значений.
      */
     View.prototype._bindEventListenersOnMarks = function () {
-        var e_10, _a;
+        var e_13, _a;
         var _this = this;
         var _loop_1 = function (mark) {
             // я оставил эти обработчики в таком виде,
@@ -13331,12 +13402,12 @@ var View = /** @class */ (function () {
                 _loop_1(mark);
             }
         }
-        catch (e_10_1) { e_10 = { error: e_10_1 }; }
+        catch (e_13_1) { e_13 = { error: e_13_1 }; }
         finally {
             try {
                 if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
-            finally { if (e_10) throw e_10.error; }
+            finally { if (e_13) throw e_13.error; }
         }
     };
     /**
@@ -13344,7 +13415,7 @@ var View = /** @class */ (function () {
      * Первоначальное значение береться из model.abacusProperty.aniamte.
      */
     View.prototype._setTransition = function () {
-        var e_11, _a;
+        var e_14, _a;
         var duration = '';
         var animate = this._presenter.getModelAbacusProperty().animate;
         if (typeof animate === 'number' && animate > 0) {
@@ -13373,12 +13444,12 @@ var View = /** @class */ (function () {
                     markItem[1].htmlElement.style.transition = duration;
                 }
             }
-            catch (e_11_1) { e_11 = { error: e_11_1 }; }
+            catch (e_14_1) { e_14 = { error: e_14_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_11) throw e_11.error; }
+                finally { if (e_14) throw e_14.error; }
             }
         }
     };
@@ -14255,4 +14326,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=e4ad723c69b0ad9f3a37
+//# sourceMappingURL=abacus-tests.js.map?v=1edcb0b25fcaa70311c0

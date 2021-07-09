@@ -175,6 +175,11 @@ export declare class View {
      */
     private _updateViewRange;
     /**
+     * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @param {AbacusOptions} abacusProperty Свойства плагина.
+     */
+    private _updateClassNames;
+    /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
      * @param {boolean} off "true" значит отключить. "false" значит активировать.
      */
