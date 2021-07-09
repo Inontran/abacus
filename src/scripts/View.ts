@@ -430,15 +430,13 @@ export class View{
       this._highlightMarks();
     }
 
-
-    $.extend(this._cachedAbacusProperty, abacusProperty);
-    this._cachedAbacusProperty.values = abacusProperty.values?.slice(0);
-    this._cachedAbacusProperty.classes = JSON.parse(JSON.stringify(abacusProperty.classes));
+    this._cachedAbacusProperty = this._getCloneAbacusProperty(abacusProperty);
   }
 
 
   /**
    * Функция создания или удаления ручек слайдера.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _createViewHandles(abacusProperty: AbacusOptions): void{
@@ -486,6 +484,7 @@ export class View{
 
   /**
    * Функция обновления ручек слайдера, а именно их местоположение.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _updateViewHandles(abacusProperty: AbacusOptions): void{
@@ -513,6 +512,7 @@ export class View{
 
   /**
    * Функция создания или удаления подсказок слайдера.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _createViewTooltips(abacusProperty: AbacusOptions): void{
@@ -534,6 +534,7 @@ export class View{
 
   /**
    * Функция обновления подсказок слайдера, а именно местоположение и текст.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _updateViewTooltips(abacusProperty: AbacusOptions): void{
@@ -563,6 +564,7 @@ export class View{
 
   /**
    * Функция создания или удаления индикатора (progress bar) слайдера.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _createViewRange(abacusProperty: AbacusOptions): void{
@@ -595,6 +597,7 @@ export class View{
 
   /**
    * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _updateViewRange(abacusProperty: AbacusOptions): void{
@@ -660,6 +663,7 @@ export class View{
 
   /**
    * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+   * @private
    * @param {AbacusOptions} abacusProperty Свойства плагина. 
    */
   private _updateClassNames(abacusClasses: AbacusClasses){
@@ -736,8 +740,7 @@ export class View{
     uiData.handleIndex = this._handles[0].handleIndex;
 
     const modelData = this._presenter.getModelAbacusProperty();
-    uiData.value = modelData.value as number;
-    uiData.values = modelData.values;
+    uiData.abacusProperty = this._getCloneAbacusProperty(modelData);
     return uiData;
   }
 
@@ -860,6 +863,7 @@ export class View{
   /**
    * Функция, обрабатывающая позицию мыши или касания.
    * @deprecated
+   * @private
    * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
    */
   private _mouseHandler(event: MouseEvent | TouchEvent): void{
@@ -912,6 +916,7 @@ export class View{
 
   /**
    * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+   * @private
    * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
    */
   private _calcHandleValues(valueUnrounded: number): void{
@@ -957,6 +962,7 @@ export class View{
 
   /**
    * Установка обработчиков событий.
+   * @private
    */
   private _bindEventListeners(): void{
     const viewInstance = this;
@@ -1010,6 +1016,7 @@ export class View{
 
   /**
    * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+   * @private
    */
   private _handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
@@ -1044,6 +1051,7 @@ export class View{
 
   /**
    * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+   * @private
    */
   private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
@@ -1060,6 +1068,7 @@ export class View{
   /**
    * Обработчик пересещения курсора или пальца по экрану.
    * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+   * @private
    */
   private _handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
@@ -1095,6 +1104,7 @@ export class View{
   /**
    * Обработчик окончание пересещения курсора или пальца по экрану.
    * Генерирует событие "stop".
+   * @private
    */
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
@@ -1108,6 +1118,7 @@ export class View{
 
   /**
    * Создает шкалу значений и добавляет ее в слайдер.
+   * @private
    */
   private _createScale(): void{
     if( this._mapScale.size ){
@@ -1159,6 +1170,7 @@ export class View{
 
   /**
    * Удаляет шкалу значений.
+   * @private
    */
   private _removeScale(): void{
     for(const mark of this._mapScale.values()){
@@ -1170,6 +1182,7 @@ export class View{
 
   /**
    * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+   * @private
    */
   private _thinOutScale(): void{
     let sizeWidget: number;
@@ -1231,6 +1244,7 @@ export class View{
 
   /**
    * Функция меняет состояния меток в шкале значений.
+   * @private
    */
   private _highlightMarks(): void{
     if( ! this._mapScale.size ){
@@ -1275,6 +1289,7 @@ export class View{
 
   /**
    * Функция установки обработчиков на метки шкалы значений.
+   * @private
    */
   private _bindEventListenersOnMarks(): void{
     for (const mark of this._mapScale) {
@@ -1310,6 +1325,7 @@ export class View{
   /**
    * Установка css-свойства "transition" элементам интерфейса слайдера.
    * Первоначальное значение береться из model.abacusProperty.aniamte.
+   * @private
    */
   private _setTransition(): void{
     let duration: string = '';
@@ -1343,8 +1359,18 @@ export class View{
   }
 
 
+  private _getCloneAbacusProperty(abacusProperty: AbacusOptions): AbacusOptions{
+    const cloneProperty = {} as AbacusOptions;
+    $.extend(cloneProperty, abacusProperty);
+    cloneProperty.values = abacusProperty.values?.slice(0);
+    cloneProperty.classes = Object.assign(cloneProperty, abacusProperty.classes);
+    return cloneProperty;
+  }
+
+
   /**
    * Функция получения количества знаков после запятой.
+   * @static
    * @param {number} x Число, у которого надо узнать количество знаков после запятой.
    * @returns {number} Количество знаков после запятой.
    */
@@ -1355,6 +1381,7 @@ export class View{
 
   /**
    * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+   * @static
    * @param {number} value Число, которое надо округлить.
    * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
    * @returns {number} Округленное число.
@@ -1374,6 +1401,7 @@ export class View{
 
   /**
    * Функция сравнения двух массивов с произвольними примитивными значениями.
+   * @static
    * @param {Array<any>} a Массив
    * @param {Array<any>} b Массив
    * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
