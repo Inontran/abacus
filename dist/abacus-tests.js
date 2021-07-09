@@ -13249,6 +13249,7 @@ var View = /** @class */ (function () {
      */
     View.prototype._highlightMarks = function () {
         var e_9, _a;
+        var _b;
         if (!this._mapScale.size) {
             return;
         }
@@ -13257,20 +13258,25 @@ var View = /** @class */ (function () {
         if (abacusProperty.min !== undefined
             && abacusProperty.max !== undefined
             && abacusProperty.step !== undefined
-            && abacusProperty.value !== undefined) {
+            && ((_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
             try {
-                for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var markItem = _c.value;
-                    if ((rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value) {
+                for (var _c = __values(this._mapScale), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var markItem = _d.value;
+                    if (rangeType === 'min' && markItem[0] <= abacusProperty.values[0]) {
                         markItem[1].isInrange(true);
                     }
-                    else if (rangeType === 'max' && markItem[0] >= abacusProperty.value) {
+                    else if (rangeType === 'max' && markItem[0] >= abacusProperty.values[0]) {
+                        markItem[1].isInrange(true);
+                    }
+                    else if (rangeType === true
+                        && markItem[0] >= abacusProperty.values[0]
+                        && markItem[0] <= abacusProperty.values[1]) {
                         markItem[1].isInrange(true);
                     }
                     else {
                         markItem[1].isInrange(false);
                     }
-                    if (markItem[0] === abacusProperty.value) {
+                    if (markItem[0] === abacusProperty.values[0] || markItem[0] === abacusProperty.values[1]) {
                         markItem[1].isSelected(true);
                     }
                     else {
@@ -13281,7 +13287,7 @@ var View = /** @class */ (function () {
             catch (e_9_1) { e_9 = { error: e_9_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
                 }
                 finally { if (e_9) throw e_9.error; }
             }
@@ -13298,22 +13304,24 @@ var View = /** @class */ (function () {
             // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
             mark[1].htmlElement.addEventListener('click', function (event) {
                 var _a;
+                var viewInstance = _this;
+                if (viewInstance._isDisabled) {
+                    return;
+                }
                 var value = mark[0];
-                if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    // this._presenter.setAbacusValue([value]);
-                    // this._eventChangeWrapper(event);
-                    // this.updateView();
-                    _this._calcHandleValues(value);
+                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
+                    viewInstance._calcHandleValues(value);
                 }
             });
             mark[1].htmlElement.addEventListener('touchend', function (event) {
                 var _a;
+                var viewInstance = _this;
+                if (viewInstance._isDisabled) {
+                    return;
+                }
                 var value = mark[0];
-                if (((_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    // this._presenter.setAbacusValue([value]);
-                    // this._eventChangeWrapper(event);
-                    // this.updateView();
-                    _this._calcHandleValues(value);
+                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
+                    viewInstance._calcHandleValues(value);
                 }
             });
         };
@@ -14247,4 +14255,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=fdfe52f8022262de500c
+//# sourceMappingURL=abacus-tests.js.map?v=e4ad723c69b0ad9f3a37

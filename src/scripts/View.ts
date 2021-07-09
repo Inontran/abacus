@@ -1197,20 +1197,26 @@ export class View{
     if( abacusProperty.min !== undefined
       && abacusProperty.max !== undefined
       && abacusProperty.step !== undefined
-      && abacusProperty.value !== undefined )
-    {
+      && abacusProperty.values?.length 
+    ){
       for (const markItem of this._mapScale) {
-        if( (rangeType === 'min' || rangeType === true) && markItem[0] <= abacusProperty.value){
+        if( rangeType === 'min' && markItem[0] <= abacusProperty.values[0]){
           markItem[1].isInrange(true);
         }
-        else if( rangeType === 'max' && markItem[0] >= abacusProperty.value){
+        else if( rangeType === 'max' && markItem[0] >= abacusProperty.values[0]){
+          markItem[1].isInrange(true);
+        }
+        else if( rangeType === true 
+          && markItem[0] >= abacusProperty.values[0] 
+          && markItem[0] <= abacusProperty.values[1] 
+        ){
           markItem[1].isInrange(true);
         }
         else{
           markItem[1].isInrange(false);
         }
 
-        if( markItem[0] === abacusProperty.value){
+        if( markItem[0] === abacusProperty.values[0] || markItem[0] === abacusProperty.values[1] ){
           markItem[1].isSelected(true);
         }
         else{
@@ -1229,22 +1235,26 @@ export class View{
       // я оставил эти обработчики в таком виде,
       // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
       mark[1].htmlElement.addEventListener('click', (event: MouseEvent) => {
+        const viewInstance = this;
+        if( viewInstance._isDisabled ){
+          return;
+        }
+
         const value = mark[0];
-        if( this._cachedAbacusProperty?.value !== value ){
-          // this._presenter.setAbacusValue([value]);
-          // this._eventChangeWrapper(event);
-          // this.updateView();
-          this._calcHandleValues(value);
+        if( viewInstance._cachedAbacusProperty?.value !== value ){
+          viewInstance._calcHandleValues(value);
         }
       });
 
       mark[1].htmlElement.addEventListener('touchend', (event: TouchEvent) => {
+        const viewInstance = this;
+        if( viewInstance._isDisabled ){
+          return;
+        }
+
         const value = mark[0];
-        if( this._cachedAbacusProperty?.value !== value ){
-          // this._presenter.setAbacusValue([value]);
-          // this._eventChangeWrapper(event);
-          // this.updateView();
-          this._calcHandleValues(value);
+        if( viewInstance._cachedAbacusProperty?.value !== value ){
+          viewInstance._calcHandleValues(value);
         }
       });
     }
