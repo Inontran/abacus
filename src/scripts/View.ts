@@ -353,56 +353,8 @@ export class View{
 
 
     if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
-      switch (abacusProperty.range) {
-        case 'max':
-          if( this._handles[1] ){
-            this._handles[1].htmlElement.remove();
-            this._handles = this._handles.slice(0, 1);
-          }
-          this._range.rangeType = 'max';
-          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-          break;
-
-
-        case true:
-          this._handles[1] = new Handle(abacusProperty.classes, 1);
-          this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
-          this._handles[1].htmlElement.addEventListener(
-            'mousedown',
-            this._handlerHandleItemClickStart.bind(this)
-          );
-          this._handles[1].htmlElement.addEventListener(
-            'touchstart',
-            this._handlerHandleItemClickStart.bind(this),
-            {passive: true}
-          );
-
-          this._range.rangeType = 'min';
-          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-          break;
-
-
-        case 'min':
-          if( this._handles[1] ){
-            this._handles[1].htmlElement.remove();
-            this._handles = this._handles.slice(0, 1);
-          }
-          this._range.rangeType = 'min';
-          this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-          break;
-
-
-        default:
-          if( this._handles[1] ){
-            this._handles[1].htmlElement.remove();
-            delete this._handles[1];
-          }
-          this._range.rangeType = 'hidden';
-          this._range.htmlElement.remove();
-          break;
-      }
-
-      this._highlightMarks();
+      this._createViewHandles(abacusProperty);
+      this._createViewRange(abacusProperty);
     }
 
 
@@ -421,21 +373,8 @@ export class View{
     if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip
       || this._cachedAbacusProperty?.range !== abacusProperty.range 
     ){
-      for (let i = 0; i < this._tooltips.length; i++){
-        this._tooltips[i].htmlElement.remove();
-      }
-      this._tooltips = [];
-
-      if( abacusProperty.tooltip ){
-        const countTooltips = abacusProperty.range === true ? 2 : 1;
-        for (let i = 0; i < countTooltips; i++) {
-          this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
-          this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
-          this._tooltips[i].isVisible(true);
-        }
-
-        this._updateViewTooltips(abacusProperty);
-      }
+      this._createViewTooltips(abacusProperty);
+      this._updateViewTooltips(abacusProperty);
     }
 
 
@@ -453,46 +392,7 @@ export class View{
     {
       this._updateViewHandles(abacusProperty);
       this._updateViewTooltips(abacusProperty);
-
-      // if( this._isVertical ){
-      //   this._range.htmlElement.style.left = '';
-      //   this._range.htmlElement.style.right = '';
-      //   this._range.width = null;
-
-      //   switch (this._range.rangeType){
-      //     case 'min':
-      //       this._range.htmlElement.style.top = 'auto';
-      //       this._range.htmlElement.style.bottom = '0';
-      //       this._range.height = posHandle;
-      //       break;
-
-      //     case 'max':
-      //       this._range.htmlElement.style.top = '0';
-      //       this._range.htmlElement.style.bottom = 'auto';
-      //       this._range.height = 100 - posHandle;
-      //       break;
-      //   }
-      // }
-      // else{
-      //   this._range.htmlElement.style.top = '';
-      //   this._range.htmlElement.style.bottom = '';
-      //   this._range.height = null;
-
-      //   switch (this._range.rangeType){
-      //     case 'min':
-      //       this._range.htmlElement.style.left = '0';
-      //       this._range.htmlElement.style.right = 'auto';
-      //       this._range.width = posHandle;
-      //       break;
-
-      //     case 'max':
-      //       this._range.htmlElement.style.left = 'auto';
-      //       this._range.htmlElement.style.right = '0';
-      //       this._range.width = 100 - posHandle;
-      //       break;
-      //   }
-      // }
-
+      this._updateViewRange(abacusProperty);
       this._highlightMarks();
     }
 
@@ -542,6 +442,49 @@ export class View{
   }
 
 
+  private _createViewHandles(abacusProperty: AbacusOptions): void{
+    switch (abacusProperty.range) {
+      case 'max':
+        if( this._handles[1] ){
+          this._handles[1].htmlElement.remove();
+          this._handles = this._handles.slice(0, 1);
+        }
+        break;
+
+
+      case true:
+        this._handles[1] = new Handle(abacusProperty.classes, 1);
+        this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+        this._handles[1].htmlElement.addEventListener(
+          'mousedown',
+          this._handlerHandleItemClickStart.bind(this)
+        );
+        this._handles[1].htmlElement.addEventListener(
+          'touchstart',
+          this._handlerHandleItemClickStart.bind(this),
+          {passive: true}
+        );
+        break;
+
+
+      case 'min':
+        if( this._handles[1] ){
+          this._handles[1].htmlElement.remove();
+          this._handles = this._handles.slice(0, 1);
+        }
+        break;
+
+
+      default:
+        if( this._handles[1] ){
+          this._handles[1].htmlElement.remove();
+          delete this._handles[1];
+        }
+        break;
+    }
+  }
+
+
   private _updateViewHandles(abacusProperty: AbacusOptions): void{
     if( ! abacusProperty.values ){
       return;
@@ -565,8 +508,25 @@ export class View{
   }
 
 
+  private _createViewTooltips(abacusProperty: AbacusOptions): void{
+    for (let i = 0; i < this._tooltips.length; i++){
+      this._tooltips[i].htmlElement.remove();
+    }
+    this._tooltips = [];
+
+    if( abacusProperty.tooltip ){
+      const countTooltips = abacusProperty.range === true ? 2 : 1;
+      for (let i = 0; i < countTooltips; i++) {
+        this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
+        this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
+        this._tooltips[i].isVisible(true);
+      }
+    }
+  }
+
+
   private _updateViewTooltips(abacusProperty: AbacusOptions): void{
-    if( ! abacusProperty.values ){
+    if( ! abacusProperty.values || ! abacusProperty.tooltip ){
       return;
     }
 
@@ -585,6 +545,95 @@ export class View{
         }
 
         this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
+      }
+    }
+  }
+
+
+  private _createViewRange(abacusProperty: AbacusOptions): void{
+    switch (abacusProperty.range) {
+      case 'max':
+        this._range.rangeType = 'max';
+        this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+        break;
+
+
+      case true:
+        this._range.rangeType = 'between';
+        this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+        break;
+
+
+      case 'min':
+        this._range.rangeType = 'min';
+        this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+        break;
+
+
+      default:
+        this._range.rangeType = 'hidden';
+        this._range.htmlElement.remove();
+        break;
+    }
+  }
+
+
+  private _updateViewRange(abacusProperty: AbacusOptions): void{
+    if( ! abacusProperty.values?.length ){
+      return;
+    }
+
+    const posHandle0 = this.getPosFromValue(abacusProperty.values[0]);
+    const posHandle1 = this.getPosFromValue(abacusProperty.values[1]);
+
+    if( this._isVertical ){
+      this._range.htmlElement.style.left = '';
+      this._range.htmlElement.style.right = '';
+      this._range.width = null;
+
+      switch (this._range.rangeType){
+        case 'min':
+          this._range.htmlElement.style.top = 'auto';
+          this._range.htmlElement.style.bottom = '0';
+          this._range.height = posHandle0;
+          break;
+
+        case 'max':
+          this._range.htmlElement.style.top = '0';
+          this._range.htmlElement.style.bottom = 'auto';
+          this._range.height = 100 - posHandle0;
+          break;
+
+        case 'between':
+          this._range.htmlElement.style.bottom = posHandle0.toString() + '%';
+          this._range.htmlElement.style.top = '';
+          this._range.height = posHandle1 - posHandle0;
+          break;
+      }
+    }
+    else{
+      this._range.htmlElement.style.top = '';
+      this._range.htmlElement.style.bottom = '';
+      this._range.height = null;
+
+      switch (this._range.rangeType){
+        case 'min':
+          this._range.htmlElement.style.left = '0';
+          this._range.htmlElement.style.right = 'auto';
+          this._range.width = posHandle0;
+          break;
+
+        case 'max':
+          this._range.htmlElement.style.left = 'auto';
+          this._range.htmlElement.style.right = '0';
+          this._range.width = 100 - posHandle0;
+          break;
+
+        case 'between':
+          this._range.htmlElement.style.left = posHandle0.toString() + '%';
+          this._range.htmlElement.style.right = '';
+          this._range.width = posHandle1 - posHandle0;
+          break;
       }
     }
   }

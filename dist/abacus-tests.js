@@ -12497,41 +12497,8 @@ var View = /** @class */ (function () {
             this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
         }
         if (((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range) {
-            switch (abacusProperty.range) {
-                case 'max':
-                    if (this._handles[1]) {
-                        this._handles[1].htmlElement.remove();
-                        this._handles = this._handles.slice(0, 1);
-                    }
-                    this._range.rangeType = 'max';
-                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-                    break;
-                case true:
-                    this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
-                    this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
-                    this._handles[1].htmlElement.addEventListener('mousedown', this._handlerHandleItemClickStart.bind(this));
-                    this._handles[1].htmlElement.addEventListener('touchstart', this._handlerHandleItemClickStart.bind(this), { passive: true });
-                    this._range.rangeType = 'min';
-                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-                    break;
-                case 'min':
-                    if (this._handles[1]) {
-                        this._handles[1].htmlElement.remove();
-                        this._handles = this._handles.slice(0, 1);
-                    }
-                    this._range.rangeType = 'min';
-                    this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
-                    break;
-                default:
-                    if (this._handles[1]) {
-                        this._handles[1].htmlElement.remove();
-                        delete this._handles[1];
-                    }
-                    this._range.rangeType = 'hidden';
-                    this._range.htmlElement.remove();
-                    break;
-            }
-            this._highlightMarks();
+            this._createViewHandles(abacusProperty);
+            this._createViewRange(abacusProperty);
         }
         if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.orientation) !== abacusProperty.orientation) {
             if (abacusProperty.orientation === 'vertical') {
@@ -12545,19 +12512,8 @@ var View = /** @class */ (function () {
         }
         if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip
             || ((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range) {
-            for (var i = 0; i < this._tooltips.length; i++) {
-                this._tooltips[i].htmlElement.remove();
-            }
-            this._tooltips = [];
-            if (abacusProperty.tooltip) {
-                var countTooltips = abacusProperty.range === true ? 2 : 1;
-                for (var i = 0; i < countTooltips; i++) {
-                    this._tooltips[i] = new Tooltip_1.Tooltip(abacusProperty.classes, i);
-                    this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
-                    this._tooltips[i].isVisible(true);
-                }
-                this._updateViewTooltips(abacusProperty);
-            }
+            this._createViewTooltips(abacusProperty);
+            this._updateViewTooltips(abacusProperty);
         }
         if (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.animate) !== abacusProperty.animate) {
             this._setTransition();
@@ -12570,40 +12526,7 @@ var View = /** @class */ (function () {
             || !View.arrayCompare((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.values, abacusProperty.values)) {
             this._updateViewHandles(abacusProperty);
             this._updateViewTooltips(abacusProperty);
-            // if( this._isVertical ){
-            //   this._range.htmlElement.style.left = '';
-            //   this._range.htmlElement.style.right = '';
-            //   this._range.width = null;
-            //   switch (this._range.rangeType){
-            //     case 'min':
-            //       this._range.htmlElement.style.top = 'auto';
-            //       this._range.htmlElement.style.bottom = '0';
-            //       this._range.height = posHandle;
-            //       break;
-            //     case 'max':
-            //       this._range.htmlElement.style.top = '0';
-            //       this._range.htmlElement.style.bottom = 'auto';
-            //       this._range.height = 100 - posHandle;
-            //       break;
-            //   }
-            // }
-            // else{
-            //   this._range.htmlElement.style.top = '';
-            //   this._range.htmlElement.style.bottom = '';
-            //   this._range.height = null;
-            //   switch (this._range.rangeType){
-            //     case 'min':
-            //       this._range.htmlElement.style.left = '0';
-            //       this._range.htmlElement.style.right = 'auto';
-            //       this._range.width = posHandle;
-            //       break;
-            //     case 'max':
-            //       this._range.htmlElement.style.left = 'auto';
-            //       this._range.htmlElement.style.right = '0';
-            //       this._range.width = 100 - posHandle;
-            //       break;
-            //   }
-            // }
+            this._updateViewRange(abacusProperty);
             this._highlightMarks();
         }
         if (!View.arrayCompare((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.values, abacusProperty.values)) {
@@ -12640,6 +12563,34 @@ var View = /** @class */ (function () {
         $.extend(this._cachedAbacusProperty, abacusProperty);
         this._cachedAbacusProperty.values = (_z = abacusProperty.values) === null || _z === void 0 ? void 0 : _z.slice(0);
     };
+    View.prototype._createViewHandles = function (abacusProperty) {
+        switch (abacusProperty.range) {
+            case 'max':
+                if (this._handles[1]) {
+                    this._handles[1].htmlElement.remove();
+                    this._handles = this._handles.slice(0, 1);
+                }
+                break;
+            case true:
+                this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
+                this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+                this._handles[1].htmlElement.addEventListener('mousedown', this._handlerHandleItemClickStart.bind(this));
+                this._handles[1].htmlElement.addEventListener('touchstart', this._handlerHandleItemClickStart.bind(this), { passive: true });
+                break;
+            case 'min':
+                if (this._handles[1]) {
+                    this._handles[1].htmlElement.remove();
+                    this._handles = this._handles.slice(0, 1);
+                }
+                break;
+            default:
+                if (this._handles[1]) {
+                    this._handles[1].htmlElement.remove();
+                    delete this._handles[1];
+                }
+                break;
+        }
+    };
     View.prototype._updateViewHandles = function (abacusProperty) {
         if (!abacusProperty.values) {
             return;
@@ -12659,8 +12610,22 @@ var View = /** @class */ (function () {
             }
         }
     };
+    View.prototype._createViewTooltips = function (abacusProperty) {
+        for (var i = 0; i < this._tooltips.length; i++) {
+            this._tooltips[i].htmlElement.remove();
+        }
+        this._tooltips = [];
+        if (abacusProperty.tooltip) {
+            var countTooltips = abacusProperty.range === true ? 2 : 1;
+            for (var i = 0; i < countTooltips; i++) {
+                this._tooltips[i] = new Tooltip_1.Tooltip(abacusProperty.classes, i);
+                this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
+                this._tooltips[i].isVisible(true);
+            }
+        }
+    };
     View.prototype._updateViewTooltips = function (abacusProperty) {
-        if (!abacusProperty.values) {
+        if (!abacusProperty.values || !abacusProperty.tooltip) {
             return;
         }
         for (var i = 0; i < abacusProperty.values.length; i++) {
@@ -12676,6 +12641,78 @@ var View = /** @class */ (function () {
                     this._tooltips[i].posLeft = posHandle;
                 }
                 this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
+            }
+        }
+    };
+    View.prototype._createViewRange = function (abacusProperty) {
+        switch (abacusProperty.range) {
+            case 'max':
+                this._range.rangeType = 'max';
+                this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+                break;
+            case true:
+                this._range.rangeType = 'between';
+                this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+                break;
+            case 'min':
+                this._range.rangeType = 'min';
+                this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
+                break;
+            default:
+                this._range.rangeType = 'hidden';
+                this._range.htmlElement.remove();
+                break;
+        }
+    };
+    View.prototype._updateViewRange = function (abacusProperty) {
+        var _a;
+        if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+            return;
+        }
+        var posHandle0 = this.getPosFromValue(abacusProperty.values[0]);
+        var posHandle1 = this.getPosFromValue(abacusProperty.values[1]);
+        if (this._isVertical) {
+            this._range.htmlElement.style.left = '';
+            this._range.htmlElement.style.right = '';
+            this._range.width = null;
+            switch (this._range.rangeType) {
+                case 'min':
+                    this._range.htmlElement.style.top = 'auto';
+                    this._range.htmlElement.style.bottom = '0';
+                    this._range.height = posHandle0;
+                    break;
+                case 'max':
+                    this._range.htmlElement.style.top = '0';
+                    this._range.htmlElement.style.bottom = 'auto';
+                    this._range.height = 100 - posHandle0;
+                    break;
+                case 'between':
+                    this._range.htmlElement.style.bottom = posHandle0.toString() + '%';
+                    this._range.htmlElement.style.top = '';
+                    this._range.height = posHandle1 - posHandle0;
+                    break;
+            }
+        }
+        else {
+            this._range.htmlElement.style.top = '';
+            this._range.htmlElement.style.bottom = '';
+            this._range.height = null;
+            switch (this._range.rangeType) {
+                case 'min':
+                    this._range.htmlElement.style.left = '0';
+                    this._range.htmlElement.style.right = 'auto';
+                    this._range.width = posHandle0;
+                    break;
+                case 'max':
+                    this._range.htmlElement.style.left = 'auto';
+                    this._range.htmlElement.style.right = '0';
+                    this._range.width = 100 - posHandle0;
+                    break;
+                case 'between':
+                    this._range.htmlElement.style.left = posHandle0.toString() + '%';
+                    this._range.htmlElement.style.right = '';
+                    this._range.width = posHandle1 - posHandle0;
+                    break;
             }
         }
     };
@@ -14176,4 +14213,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=c64352a8177bea72e96a
+//# sourceMappingURL=abacus-tests.js.map?v=3481c7a2d40ef5b74957

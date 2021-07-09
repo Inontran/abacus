@@ -144,8 +144,12 @@ export declare class View {
      * @returns
      */
     updateView(): void;
+    private _createViewHandles;
     private _updateViewHandles;
+    private _createViewTooltips;
     private _updateViewTooltips;
+    private _createViewRange;
+    private _updateViewRange;
     /**
      * Функция переключает состояние слайдера с активного на неактивный и обратно.
      * @param {boolean} off "true" значит отключить. "false" значит активировать.
