@@ -351,6 +351,7 @@ export class View{
       this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
     }
 
+
     if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
       switch (abacusProperty.range) {
         case 'max':
@@ -362,12 +363,24 @@ export class View{
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
 
+
         case true:
           this._handles[1] = new Handle(abacusProperty.classes, 1);
           this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+          this._handles[1].htmlElement.addEventListener(
+            'mousedown',
+            this._handlerHandleItemClickStart.bind(this)
+          );
+          this._handles[1].htmlElement.addEventListener(
+            'touchstart',
+            this._handlerHandleItemClickStart.bind(this),
+            {passive: true}
+          );
+
           this._range.rangeType = 'min';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
+
 
         case 'min':
           if( this._handles[1] ){
@@ -377,6 +390,7 @@ export class View{
           this._range.rangeType = 'min';
           this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
           break;
+
 
         default:
           if( this._handles[1] ){

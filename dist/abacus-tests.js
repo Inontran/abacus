@@ -12509,6 +12509,8 @@ var View = /** @class */ (function () {
                 case true:
                     this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
                     this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+                    this._handles[1].htmlElement.addEventListener('mousedown', this._handlerHandleItemClickStart.bind(this));
+                    this._handles[1].htmlElement.addEventListener('touchstart', this._handlerHandleItemClickStart.bind(this), { passive: true });
                     this._range.rangeType = 'min';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
                     break;
@@ -14174,4 +14176,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=70520a33e37925bf31ad
+//# sourceMappingURL=abacus-tests.js.map?v=c64352a8177bea72e96a

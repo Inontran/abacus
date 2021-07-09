@@ -1617,6 +1617,8 @@ var View = /** @class */ (function () {
                 case true:
                     this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
                     this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
+                    this._handles[1].htmlElement.addEventListener('mousedown', this._handlerHandleItemClickStart.bind(this));
+                    this._handles[1].htmlElement.addEventListener('touchstart', this._handlerHandleItemClickStart.bind(this), { passive: true });
                     this._range.rangeType = 'min';
                     this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
                     break;
@@ -2782,4 +2784,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=70520a33e37925bf31ad
+//# sourceMappingURL=abacus.js.map?v=c64352a8177bea72e96a
