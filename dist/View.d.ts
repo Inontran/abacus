@@ -95,6 +95,7 @@ export declare class View {
      * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
      */
     private _isVertical;
+    private _currentHandle;
     /**
      * @constructor
      * @this   {View}
@@ -141,41 +142,47 @@ export declare class View {
     option(optionName?: string, value?: any): AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined;
     /**
      * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
-     * @returns
      */
     updateView(): void;
     /**
      * Функция создания или удаления ручек слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _createViewHandles;
     /**
      * Функция обновления ручек слайдера, а именно их местоположение.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _updateViewHandles;
     /**
      * Функция создания или удаления подсказок слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _createViewTooltips;
     /**
      * Функция обновления подсказок слайдера, а именно местоположение и текст.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _updateViewTooltips;
     /**
      * Функция создания или удаления индикатора (progress bar) слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _createViewRange;
     /**
      * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _updateViewRange;
     /**
      * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     private _updateClassNames;
@@ -238,69 +245,86 @@ export declare class View {
     /**
      * Функция, обрабатывающая позицию мыши или касания.
      * @deprecated
+     * @private
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     private _mouseHandler;
     /**
      * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+     * @private
      * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
      */
     private _calcHandleValues;
     /**
      * Установка обработчиков событий.
+     * @private
      */
     private _bindEventListeners;
     /**
      * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+     * @private
      */
     private _handlerWidgetContainerClick;
     /**
      * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+     * @private
      */
     private _handlerHandleItemClickStart;
     /**
      * Обработчик пересещения курсора или пальца по экрану.
      * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+     * @private
      */
     private _handlerHandleItemClickMove;
     /**
      * Обработчик окончание пересещения курсора или пальца по экрану.
      * Генерирует событие "stop".
+     * @private
      */
     private _handlerHandleItemClickStop;
     /**
      * Создает шкалу значений и добавляет ее в слайдер.
+     * @private
      */
     private _createScale;
     /**
      * Удаляет шкалу значений.
+     * @private
      */
     private _removeScale;
     /**
      * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+     * @private
      */
     private _thinOutScale;
     /**
      * Функция меняет состояния меток в шкале значений.
+     * @private
      */
     private _highlightMarks;
     /**
      * Функция установки обработчиков на метки шкалы значений.
+     * @private
      */
     private _bindEventListenersOnMarks;
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
      * Первоначальное значение береться из model.abacusProperty.aniamte.
+     * @private
      */
     private _setTransition;
+    private _getCloneAbacusProperty;
+    private _findMovedHandle;
     /**
      * Функция получения количества знаков после запятой.
+     * @static
      * @param {number} x Число, у которого надо узнать количество знаков после запятой.
      * @returns {number} Количество знаков после запятой.
      */
     static countNumAfterPoint(x: number): number;
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @static
      * @param {number} value Число, которое надо округлить.
      * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
      * @returns {number} Округленное число.
@@ -308,6 +332,7 @@ export declare class View {
     static round(value: number, fractionalNum: number): number;
     /**
      * Функция сравнения двух массивов с произвольними примитивными значениями.
+     * @static
      * @param {Array<any>} a Массив
      * @param {Array<any>} b Массив
      * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".

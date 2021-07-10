@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 $(function () {
     $('#abacus-1').on('abacus-change', function () {
-        console.log('abacus-change');
+        // console.log('abacus-change');
     });
     $('#abacus-1').on('abacus-create', function () {
         // console.log('abacus-create');
@@ -50,23 +50,24 @@ $(function () {
         range: true,
         scale: true,
         change: function (event, ui) {
-            // console.log('change');
+            console.log('change');
+            console.log(ui);
         },
         create: function (event, ui) {
-            // console.log('create');
-            // console.log( event );
+            console.log('create');
+            console.log(ui);
         },
         slide: function (event, ui) {
-            // console.log('slide');
-            // console.log( ui );
+            console.log('slide');
+            console.log(ui);
         },
         start: function (event, ui) {
-            // console.log('start');
-            // console.log( ui );
+            console.log('start');
+            console.log(ui);
         },
         stop: function (event, ui) {
-            // console.log('stop');
-            // console.log( ui );
+            console.log('stop');
+            console.log(ui);
         },
     });
     setTimeout(function () {
@@ -265,4 +266,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=1edcb0b25fcaa70311c0
+//# sourceMappingURL=abacus-demo.js.map?v=84438b3ba1693e623ef9

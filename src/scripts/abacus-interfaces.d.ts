@@ -229,7 +229,7 @@ interface HTMLAbacusElement extends HTMLElement{
 
 
 interface EventUIData{
-  handle: Element;
+  handle: HTMLElement;
   handleIndex: number;
   abacusProperty: AbacusOptions;
 }

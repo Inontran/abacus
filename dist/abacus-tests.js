@@ -12232,7 +12232,6 @@ exports.Tooltip = Tooltip;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "jquery");
 
 var __values = (this && this.__values) || function(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
@@ -12320,6 +12319,7 @@ var View = /** @class */ (function () {
         this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
         this._widgetContainer.htmlElement.innerHTML = '';
         this._handles[0] = new Handle_1.Handle(abacusProperty.classes, 0);
+        this._currentHandle = this._handles[0];
         this._range = new Range_1.Range(abacusProperty.classes);
         this._tooltips[0] = new Tooltip_1.Tooltip(abacusProperty.classes, 0);
         this._customEventChange = new CustomEvent('abacus-change', {
@@ -12487,10 +12487,9 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
-     * @returns
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
         if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
@@ -12514,6 +12513,7 @@ var View = /** @class */ (function () {
             || ((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range) {
             this._createViewTooltips(abacusProperty);
             this._updateViewTooltips(abacusProperty);
+            this._setTransition();
         }
         if (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.animate) !== abacusProperty.animate) {
             this._setTransition();
@@ -12530,7 +12530,8 @@ var View = /** @class */ (function () {
             this._highlightMarks();
         }
         if (!View.arrayCompare((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.values, abacusProperty.values)) {
-            this._eventChangeWrapper(event);
+            this._findMovedHandle();
+            this._eventChangeWrapper();
         }
         // Обновляем названия классов
         if (abacusProperty.classes) {
@@ -12548,50 +12549,77 @@ var View = /** @class */ (function () {
             || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.orientation) !== abacusProperty.orientation)) {
             if (abacusProperty.scale) {
                 this._createScale();
+                this._setTransition();
             }
             else {
                 this._removeScale();
             }
             this._highlightMarks();
         }
-        $.extend(this._cachedAbacusProperty, abacusProperty);
-        this._cachedAbacusProperty.values = (_t = abacusProperty.values) === null || _t === void 0 ? void 0 : _t.slice(0);
-        this._cachedAbacusProperty.classes = JSON.parse(JSON.stringify(abacusProperty.classes));
+        this._cachedAbacusProperty = this._getCloneAbacusProperty(abacusProperty);
     };
     /**
      * Функция создания или удаления ручек слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._createViewHandles = function (abacusProperty) {
+        var viewInstance = this;
         switch (abacusProperty.range) {
             case 'max':
-                if (this._handles[1]) {
-                    this._handles[1].htmlElement.remove();
-                    this._handles = this._handles.slice(0, 1);
+                if (viewInstance._handles[1]) {
+                    viewInstance._handles[1].htmlElement.remove();
+                    viewInstance._handles = viewInstance._handles.slice(0, 1);
                 }
                 break;
             case true:
-                this._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
-                this._widgetContainer.htmlElement.append(this._handles[1].htmlElement);
-                this._handles[1].htmlElement.addEventListener('mousedown', this._handlerHandleItemClickStart.bind(this));
-                this._handles[1].htmlElement.addEventListener('touchstart', this._handlerHandleItemClickStart.bind(this), { passive: true });
+                viewInstance._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
+                viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[1].htmlElement);
                 break;
             case 'min':
-                if (this._handles[1]) {
-                    this._handles[1].htmlElement.remove();
-                    this._handles = this._handles.slice(0, 1);
+                if (viewInstance._handles[1]) {
+                    viewInstance._handles[1].htmlElement.remove();
+                    viewInstance._handles = viewInstance._handles.slice(0, 1);
                 }
                 break;
             default:
-                if (this._handles[1]) {
-                    this._handles[1].htmlElement.remove();
-                    delete this._handles[1];
+                if (viewInstance._handles[1]) {
+                    viewInstance._handles[1].htmlElement.remove();
+                    viewInstance._handles = viewInstance._handles.slice(0, 1);
                 }
                 break;
+        }
+        var _loop_1 = function (i) {
+            viewInstance._handles[i].htmlElement.addEventListener('mousedown', 
+            // viewInstance._handlerHandleItemClickStart.bind(viewInstance)
+            function (event) {
+                event.preventDefault();
+                if (viewInstance._isDisabled) {
+                    return;
+                }
+                viewInstance._isDragHandle = true;
+                viewInstance._currentHandle = viewInstance._handles[i];
+                viewInstance._eventStartWrapper(event);
+            });
+            viewInstance._handles[i].htmlElement.addEventListener('touchstart', 
+            // viewInstance._handlerHandleItemClickStart.bind(viewInstance),
+            function (event) {
+                event.preventDefault();
+                if (viewInstance._isDisabled) {
+                    return;
+                }
+                viewInstance._isDragHandle = true;
+                viewInstance._currentHandle = viewInstance._handles[i];
+                viewInstance._eventStartWrapper(event);
+            }, { passive: true });
+        };
+        for (var i = 0; i < viewInstance._handles.length; i++) {
+            _loop_1(i);
         }
     };
     /**
      * Функция обновления ручек слайдера, а именно их местоположение.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._updateViewHandles = function (abacusProperty) {
@@ -12615,6 +12643,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция создания или удаления подсказок слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._createViewTooltips = function (abacusProperty) {
@@ -12633,6 +12662,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция обновления подсказок слайдера, а именно местоположение и текст.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._updateViewTooltips = function (abacusProperty) {
@@ -12657,6 +12687,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция создания или удаления индикатора (progress bar) слайдера.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._createViewRange = function (abacusProperty) {
@@ -12681,6 +12712,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._updateViewRange = function (abacusProperty) {
@@ -12737,6 +12769,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
+     * @private
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._updateClassNames = function (abacusClasses) {
@@ -12831,11 +12864,10 @@ var View = /** @class */ (function () {
      */
     View.prototype._getEventUIData = function () {
         var uiData = {};
-        uiData.handle = this._handles[0].htmlElement;
-        uiData.handleIndex = this._handles[0].handleIndex;
+        uiData.handle = this._currentHandle.htmlElement;
+        uiData.handleIndex = this._currentHandle.handleIndex;
         var modelData = this._presenter.getModelAbacusProperty();
-        uiData.value = modelData.value;
-        uiData.values = modelData.values;
+        uiData.abacusProperty = this._getCloneAbacusProperty(modelData);
         return uiData;
     };
     /**
@@ -12847,12 +12879,12 @@ var View = /** @class */ (function () {
      * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventChangeWrapper = function (event) {
-        if (!event) {
-            event = this._customEventChange;
-        }
-        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
         var viewInstance = this;
-        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!event) {
+            event = viewInstance._customEventChange;
+        }
+        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventChange);
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.change) === 'function') {
             abacusProperty.change(event, viewInstance._getEventUIData());
         }
@@ -12867,12 +12899,12 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventCreateWrapper = function (event) {
-        if (!event) {
-            event = this._customEventCreate;
-        }
-        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
         var viewInstance = this;
-        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!event) {
+            event = viewInstance._customEventCreate;
+        }
+        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventCreate);
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.create) === 'function') {
             abacusProperty.create(event, viewInstance._getEventUIData());
         }
@@ -12887,12 +12919,12 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventSlideWrapper = function (event) {
-        if (!event) {
-            event = this._customEventSlide;
-        }
-        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
         var viewInstance = this;
-        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!event) {
+            event = viewInstance._customEventSlide;
+        }
+        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventSlide);
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.slide) === 'function') {
             abacusProperty.slide(event, viewInstance._getEventUIData());
         }
@@ -12907,12 +12939,12 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStartWrapper = function (event) {
-        if (!event) {
-            event = this._customEventStart;
-        }
-        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
         var viewInstance = this;
-        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!event) {
+            event = viewInstance._customEventStart;
+        }
+        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStart);
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.start) === 'function') {
             abacusProperty.start(event, viewInstance._getEventUIData());
         }
@@ -12927,12 +12959,12 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStopWrapper = function (event) {
-        if (!event) {
-            event = this._customEventStop;
-        }
-        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
         var viewInstance = this;
-        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!event) {
+            event = viewInstance._customEventStop;
+        }
+        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStop);
+        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.stop) === 'function') {
             abacusProperty.stop(event, viewInstance._getEventUIData());
         }
@@ -12941,6 +12973,7 @@ var View = /** @class */ (function () {
     /**
      * Функция, обрабатывающая позицию мыши или касания.
      * @deprecated
+     * @private
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
     View.prototype._mouseHandler = function (event) {
@@ -12986,6 +13019,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
+     * @private
      * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
      */
     View.prototype._calcHandleValues = function (valueUnrounded) {
@@ -13025,15 +13059,12 @@ var View = /** @class */ (function () {
     };
     /**
      * Установка обработчиков событий.
+     * @private
      */
     View.prototype._bindEventListeners = function () {
         var viewInstance = this;
         viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-        for (var i = 0; i < viewInstance._handles.length; i++) {
-            viewInstance._handles[i].htmlElement.addEventListener('mousedown', viewInstance._handlerHandleItemClickStart.bind(viewInstance));
-            viewInstance._handles[i].htmlElement.addEventListener('touchstart', viewInstance._handlerHandleItemClickStart.bind(viewInstance), { passive: true });
-        }
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
         document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
         document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
@@ -13042,6 +13073,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
+     * @private
      */
     View.prototype._handlerWidgetContainerClick = function (event) {
         var _a, _b, _c, _d;
@@ -13070,6 +13102,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
+     * @private
      */
     View.prototype._handlerHandleItemClickStart = function (event) {
         event.preventDefault();
@@ -13084,6 +13117,7 @@ var View = /** @class */ (function () {
     /**
      * Обработчик пересещения курсора или пальца по экрану.
      * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
+     * @private
      */
     View.prototype._handlerHandleItemClickMove = function (event) {
         var _this = this;
@@ -13115,6 +13149,7 @@ var View = /** @class */ (function () {
     /**
      * Обработчик окончание пересещения курсора или пальца по экрану.
      * Генерирует событие "stop".
+     * @private
      */
     View.prototype._handlerHandleItemClickStop = function (event) {
         var viewInstance = this;
@@ -13126,6 +13161,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Создает шкалу значений и добавляет ее в слайдер.
+     * @private
      */
     View.prototype._createScale = function () {
         var e_4, _a, e_5, _b;
@@ -13192,6 +13228,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Удаляет шкалу значений.
+     * @private
      */
     View.prototype._removeScale = function () {
         var e_6, _a;
@@ -13212,6 +13249,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
+     * @private
      */
     View.prototype._thinOutScale = function () {
         var e_7, _a, e_8, _b, e_9, _c, e_10, _d, e_11, _e;
@@ -13317,6 +13355,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция меняет состояния меток в шкале значений.
+     * @private
      */
     View.prototype._highlightMarks = function () {
         var e_12, _a;
@@ -13366,11 +13405,12 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция установки обработчиков на метки шкалы значений.
+     * @private
      */
     View.prototype._bindEventListenersOnMarks = function () {
         var e_13, _a;
         var _this = this;
-        var _loop_1 = function (mark) {
+        var _loop_2 = function (mark) {
             // я оставил эти обработчики в таком виде,
             // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
             mark[1].htmlElement.addEventListener('click', function (event) {
@@ -13399,7 +13439,7 @@ var View = /** @class */ (function () {
         try {
             for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var mark = _c.value;
-                _loop_1(mark);
+                _loop_2(mark);
             }
         }
         catch (e_13_1) { e_13 = { error: e_13_1 }; }
@@ -13413,6 +13453,7 @@ var View = /** @class */ (function () {
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
      * Первоначальное значение береться из model.abacusProperty.aniamte.
+     * @private
      */
     View.prototype._setTransition = function () {
         var e_14, _a;
@@ -13433,8 +13474,9 @@ var View = /** @class */ (function () {
         duration = duration ? duration + 'ms' : '';
         for (var i = 0; i < this._handles.length; i++) {
             this._handles[i].htmlElement.style.transition = duration;
-            if (this._tooltips[i])
+            if (this._tooltips[i]) {
                 this._tooltips[i].htmlElement.style.transition = duration;
+            }
         }
         this._range.htmlElement.style.transition = duration;
         if (this._mapScale) {
@@ -13453,8 +13495,31 @@ var View = /** @class */ (function () {
             }
         }
     };
+    View.prototype._getCloneAbacusProperty = function (abacusProperty) {
+        var _a;
+        var cloneProperty = {};
+        Object.assign(cloneProperty, abacusProperty);
+        cloneProperty.values = (_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.slice(0);
+        Object.assign(cloneProperty.classes, abacusProperty.classes);
+        return cloneProperty;
+    };
+    View.prototype._findMovedHandle = function () {
+        var _a, _b;
+        var abacusProperty = this._presenter.getModelAbacusProperty();
+        if (!((_a = this._cachedAbacusProperty.values) === null || _a === void 0 ? void 0 : _a.length) || !((_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
+            return this._currentHandle;
+        }
+        if (this._cachedAbacusProperty.values[0] !== abacusProperty.values[0]) {
+            this._currentHandle = this._handles[0];
+        }
+        if (this._cachedAbacusProperty.values[1] !== abacusProperty.values[1]) {
+            this._currentHandle = this._handles[1];
+        }
+        return this._currentHandle;
+    };
     /**
      * Функция получения количества знаков после запятой.
+     * @static
      * @param {number} x Число, у которого надо узнать количество знаков после запятой.
      * @returns {number} Количество знаков после запятой.
      */
@@ -13463,6 +13528,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
+     * @static
      * @param {number} value Число, которое надо округлить.
      * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
      * @returns {number} Округленное число.
@@ -13479,6 +13545,7 @@ var View = /** @class */ (function () {
     };
     /**
      * Функция сравнения двух массивов с произвольними примитивными значениями.
+     * @static
      * @param {Array<any>} a Массив
      * @param {Array<any>} b Массив
      * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
@@ -14268,17 +14335,6 @@ return typeDetect;
 })));
 
 
-/***/ }),
-
-/***/ "jquery":
-/*!*************************!*\
-  !*** external "jQuery" ***!
-  \*************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = jQuery;
-
 /***/ })
 
 /******/ 	});
@@ -14326,4 +14382,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=1edcb0b25fcaa70311c0
+//# sourceMappingURL=abacus-tests.js.map?v=84438b3ba1693e623ef9
