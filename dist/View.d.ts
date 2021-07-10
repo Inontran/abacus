@@ -95,7 +95,7 @@ export declare class View {
      * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
      */
     private _isVertical;
-    private _currentHandle;
+    private _currentHandle?;
     /**
      * @constructor
      * @this   {View}

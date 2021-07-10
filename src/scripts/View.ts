@@ -123,7 +123,7 @@ export class View{
   private _isVertical: boolean = false;
 
 
-  private _currentHandle: Handle;
+  private _currentHandle?: Handle;
 
 
   /**
@@ -148,8 +148,6 @@ export class View{
     this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
     this._widgetContainer.htmlElement.innerHTML = '';
 
-    this._handles[0] = new Handle(abacusProperty.classes, 0);
-    this._currentHandle = this._handles[0];
     this._range = new Range(abacusProperty.classes);
     this._tooltips[0] = new Tooltip(abacusProperty.classes, 0);
 
@@ -350,9 +348,9 @@ export class View{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
 
     // Добавляем или удалаем элементы инерфейса
-    if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
-      this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
-    }
+    // if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
+    //   this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
+    // }
 
 
     if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
@@ -447,40 +445,37 @@ export class View{
    */
   private _createViewHandles(abacusProperty: AbacusOptions): void{
     const viewInstance = this;
+    const handleIndexes: number[] = []; // массив с индексами ручек слайдера.
+
+    if( ! viewInstance._handles?.length ){
+      viewInstance._handles = [];
+      viewInstance._handles[0] = new Handle(abacusProperty.classes, 0);
+      viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[0].htmlElement);
+      this._currentHandle = this._handles[0];
+      handleIndexes.push(0);
+    }
 
     switch (abacusProperty.range) {
-      case 'max':
-        if( viewInstance._handles[1] ){
-          viewInstance._handles[1].htmlElement.remove();
-          viewInstance._handles = viewInstance._handles.slice(0, 1);
-        }
-        break;
-
-
       case true:
         viewInstance._handles[1] = new Handle(abacusProperty.classes, 1);
         viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[1].htmlElement);
+        handleIndexes.push(1);
         break;
 
-
+      case 'max':
       case 'min':
-        if( viewInstance._handles[1] ){
-          viewInstance._handles[1].htmlElement.remove();
-          viewInstance._handles = viewInstance._handles.slice(0, 1);
-        }
-        break;
-
-
       default:
         if( viewInstance._handles[1] ){
           viewInstance._handles[1].htmlElement.remove();
           viewInstance._handles = viewInstance._handles.slice(0, 1);
         }
+        viewInstance._currentHandle = viewInstance._handles[0];
         break;
     }
 
-    for (let i = 0; i < viewInstance._handles.length; i++) {
-      viewInstance._handles[i].htmlElement.addEventListener(
+    for (let i = 0; i < handleIndexes.length; i++) {
+      const handleIndex = handleIndexes[i];
+      viewInstance._handles[handleIndex].htmlElement.addEventListener(
         'mousedown',
         // viewInstance._handlerHandleItemClickStart.bind(viewInstance)
         (event: MouseEvent) => {
@@ -489,12 +484,12 @@ export class View{
             return;
           }
           viewInstance._isDragHandle = true;
-          viewInstance._currentHandle = viewInstance._handles[i];
+          viewInstance._currentHandle = viewInstance._handles[handleIndex];
           viewInstance._eventStartWrapper(event);
         }
       );
 
-      viewInstance._handles[i].htmlElement.addEventListener(
+      viewInstance._handles[handleIndex].htmlElement.addEventListener(
         'touchstart',
         // viewInstance._handlerHandleItemClickStart.bind(viewInstance),
         (event: TouchEvent) => {
@@ -503,7 +498,7 @@ export class View{
             return;
           }
           viewInstance._isDragHandle = true;
-          viewInstance._currentHandle = viewInstance._handles[i];
+          viewInstance._currentHandle = viewInstance._handles[handleIndex];
           viewInstance._eventStartWrapper(event);
         },
         {passive: true}
@@ -766,8 +761,10 @@ export class View{
    */
   private _getEventUIData(): EventUIData{
     const uiData: EventUIData = {} as EventUIData;
-    uiData.handle = this._currentHandle.htmlElement;
-    uiData.handleIndex = this._currentHandle.handleIndex;
+    if( this._currentHandle ){
+      uiData.handle = this._currentHandle.htmlElement;
+      uiData.handleIndex = this._currentHandle.handleIndex;
+    }
 
     const modelData = this._presenter.getModelAbacusProperty();
     uiData.abacusProperty = this._getCloneAbacusProperty(modelData);
@@ -1390,16 +1387,13 @@ export class View{
 
   private _findMovedHandle(): Handle{
     const abacusProperty = this._presenter.getModelAbacusProperty();
-    if( ! this._cachedAbacusProperty.values?.length || ! abacusProperty.values?.length ){
-      return this._currentHandle;
-    }
-
-    if( this._cachedAbacusProperty.values[0] !== abacusProperty.values[0] ){
-      this._currentHandle = this._handles[0];
-    }
-
-    if( this._cachedAbacusProperty.values[1] !== abacusProperty.values[1] ){
-      this._currentHandle = this._handles[1];
+    
+    this._currentHandle = this._handles[0];
+    
+    if( this._cachedAbacusProperty.values?.length && abacusProperty.values?.length ){
+      if( this._cachedAbacusProperty.values[1] !== abacusProperty.values[1] ){
+        this._currentHandle = this._handles[1];
+      }
     }
 
     return this._currentHandle;

@@ -30,24 +30,24 @@ $(() => {
     range: true,
     scale: true,
     change: (event, ui) =>{
-      console.log('change');
-      console.log(ui);
+      // console.log('change');
+      // console.log(ui);
     },
     create: (event, ui) =>{
-      console.log('create');
-      console.log( ui );
+      // console.log('create');
+      // console.log( ui );
     },
     slide: (event, ui) =>{
-      console.log('slide');
-      console.log( ui );
+      // console.log('slide');
+      // console.log( ui );
     },
     start: (event, ui) =>{
-      console.log('start');
-      console.log( ui );
+      // console.log('start');
+      // console.log( ui );
     },
     stop: (event, ui) =>{
-      console.log('stop');
-      console.log( ui );
+      // console.log('stop');
+      // console.log( ui );
     },
   });
 

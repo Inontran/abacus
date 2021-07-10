@@ -12318,8 +12318,6 @@ var View = /** @class */ (function () {
         var abacusProperty = this._presenter.getModelAbacusProperty();
         this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
         this._widgetContainer.htmlElement.innerHTML = '';
-        this._handles[0] = new Handle_1.Handle(abacusProperty.classes, 0);
-        this._currentHandle = this._handles[0];
         this._range = new Range_1.Range(abacusProperty.classes);
         this._tooltips[0] = new Tooltip_1.Tooltip(abacusProperty.classes, 0);
         this._customEventChange = new CustomEvent('abacus-change', {
@@ -12492,9 +12490,9 @@ var View = /** @class */ (function () {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         var abacusProperty = this._presenter.getModelAbacusProperty();
         // Добавляем или удалаем элементы инерфейса
-        if (!this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
-            this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
-        }
+        // if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
+        //   this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
+        // }
         if (((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range) {
             this._createViewHandles(abacusProperty);
             this._createViewRange(abacusProperty);
@@ -12564,33 +12562,35 @@ var View = /** @class */ (function () {
      * @param {AbacusOptions} abacusProperty Свойства плагина.
      */
     View.prototype._createViewHandles = function (abacusProperty) {
+        var _a;
         var viewInstance = this;
+        var handleIndexes = []; // массив с индексами ручек слайдера.
+        if (!((_a = viewInstance._handles) === null || _a === void 0 ? void 0 : _a.length)) {
+            viewInstance._handles = [];
+            viewInstance._handles[0] = new Handle_1.Handle(abacusProperty.classes, 0);
+            viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[0].htmlElement);
+            this._currentHandle = this._handles[0];
+            handleIndexes.push(0);
+        }
         switch (abacusProperty.range) {
-            case 'max':
-                if (viewInstance._handles[1]) {
-                    viewInstance._handles[1].htmlElement.remove();
-                    viewInstance._handles = viewInstance._handles.slice(0, 1);
-                }
-                break;
             case true:
                 viewInstance._handles[1] = new Handle_1.Handle(abacusProperty.classes, 1);
                 viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[1].htmlElement);
+                handleIndexes.push(1);
                 break;
+            case 'max':
             case 'min':
-                if (viewInstance._handles[1]) {
-                    viewInstance._handles[1].htmlElement.remove();
-                    viewInstance._handles = viewInstance._handles.slice(0, 1);
-                }
-                break;
             default:
                 if (viewInstance._handles[1]) {
                     viewInstance._handles[1].htmlElement.remove();
                     viewInstance._handles = viewInstance._handles.slice(0, 1);
                 }
+                viewInstance._currentHandle = viewInstance._handles[0];
                 break;
         }
         var _loop_1 = function (i) {
-            viewInstance._handles[i].htmlElement.addEventListener('mousedown', 
+            var handleIndex = handleIndexes[i];
+            viewInstance._handles[handleIndex].htmlElement.addEventListener('mousedown', 
             // viewInstance._handlerHandleItemClickStart.bind(viewInstance)
             function (event) {
                 event.preventDefault();
@@ -12598,10 +12598,10 @@ var View = /** @class */ (function () {
                     return;
                 }
                 viewInstance._isDragHandle = true;
-                viewInstance._currentHandle = viewInstance._handles[i];
+                viewInstance._currentHandle = viewInstance._handles[handleIndex];
                 viewInstance._eventStartWrapper(event);
             });
-            viewInstance._handles[i].htmlElement.addEventListener('touchstart', 
+            viewInstance._handles[handleIndex].htmlElement.addEventListener('touchstart', 
             // viewInstance._handlerHandleItemClickStart.bind(viewInstance),
             function (event) {
                 event.preventDefault();
@@ -12609,11 +12609,11 @@ var View = /** @class */ (function () {
                     return;
                 }
                 viewInstance._isDragHandle = true;
-                viewInstance._currentHandle = viewInstance._handles[i];
+                viewInstance._currentHandle = viewInstance._handles[handleIndex];
                 viewInstance._eventStartWrapper(event);
             }, { passive: true });
         };
-        for (var i = 0; i < viewInstance._handles.length; i++) {
+        for (var i = 0; i < handleIndexes.length; i++) {
             _loop_1(i);
         }
     };
@@ -12864,8 +12864,10 @@ var View = /** @class */ (function () {
      */
     View.prototype._getEventUIData = function () {
         var uiData = {};
-        uiData.handle = this._currentHandle.htmlElement;
-        uiData.handleIndex = this._currentHandle.handleIndex;
+        if (this._currentHandle) {
+            uiData.handle = this._currentHandle.htmlElement;
+            uiData.handleIndex = this._currentHandle.handleIndex;
+        }
         var modelData = this._presenter.getModelAbacusProperty();
         uiData.abacusProperty = this._getCloneAbacusProperty(modelData);
         return uiData;
@@ -13506,14 +13508,11 @@ var View = /** @class */ (function () {
     View.prototype._findMovedHandle = function () {
         var _a, _b;
         var abacusProperty = this._presenter.getModelAbacusProperty();
-        if (!((_a = this._cachedAbacusProperty.values) === null || _a === void 0 ? void 0 : _a.length) || !((_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
-            return this._currentHandle;
-        }
-        if (this._cachedAbacusProperty.values[0] !== abacusProperty.values[0]) {
-            this._currentHandle = this._handles[0];
-        }
-        if (this._cachedAbacusProperty.values[1] !== abacusProperty.values[1]) {
-            this._currentHandle = this._handles[1];
+        this._currentHandle = this._handles[0];
+        if (((_a = this._cachedAbacusProperty.values) === null || _a === void 0 ? void 0 : _a.length) && ((_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.length)) {
+            if (this._cachedAbacusProperty.values[1] !== abacusProperty.values[1]) {
+                this._currentHandle = this._handles[1];
+            }
         }
         return this._currentHandle;
     };
@@ -14382,4 +14381,4 @@ return typeDetect;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-tests.js.map?v=84438b3ba1693e623ef9
+//# sourceMappingURL=abacus-tests.js.map?v=bdcb25bc20943a1d6a78
