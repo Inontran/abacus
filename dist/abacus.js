@@ -2090,7 +2090,7 @@ var View = /** @class */ (function () {
         var _a, _b;
         var viewInstance = this;
         var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-        if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length)) {
+        if (!((_a = abacusProperty.values) === null || _a === void 0 ? void 0 : _a.length) || !viewInstance._currentHandle) {
             return;
         }
         var coordinate = 0;
@@ -2102,30 +2102,26 @@ var View = /** @class */ (function () {
         }
         var percent = this.getPosPercent(coordinate);
         var valueUnrounded = this.getValFromPosPercent(percent);
-        var newValues = [];
-        if (abacusProperty.values) {
-            newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
-        }
-        if (abacusProperty.range === true && abacusProperty.values) {
-            var deltaMin = abacusProperty.values[0] - valueUnrounded;
-            deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
-            var deltaMax = abacusProperty.values[1] - valueUnrounded;
-            deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
-            if (deltaMax < deltaMin) {
-                newValues[1] = valueUnrounded;
+        var newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
+        if (viewInstance._currentHandle.handleIndex === 0) {
+            if (valueUnrounded >= abacusProperty.values[1]) {
+                newValues[0] = abacusProperty.values[1];
+                viewInstance._currentHandle = viewInstance._handles[1];
             }
             else {
                 newValues[0] = valueUnrounded;
             }
         }
-        else {
-            newValues[0] = valueUnrounded;
+        if (viewInstance._currentHandle.handleIndex === 1) {
+            if (valueUnrounded <= abacusProperty.values[0]) {
+                newValues[1] = abacusProperty.values[0];
+                viewInstance._currentHandle = viewInstance._handles[0];
+            }
+            else {
+                newValues[1] = valueUnrounded;
+            }
         }
         viewInstance._presenter.setAbacusValue(newValues);
-        if (!View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values)) {
-            viewInstance.updateView();
-            viewInstance._eventChangeWrapper(event);
-        }
     };
     /**
      * Функция, которая вычисляет, какие значения были изменены, и передает их через Представителя в Модель.
@@ -2133,7 +2129,7 @@ var View = /** @class */ (function () {
      * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
      */
     View.prototype._calcHandleValues = function (valueUnrounded) {
-        var _a, _b;
+        var _a, _b, _c;
         if (isNaN(valueUnrounded)) {
             return;
         }
@@ -2146,25 +2142,40 @@ var View = /** @class */ (function () {
         if (abacusProperty.values) {
             newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
         }
-        if (abacusProperty.range === true && abacusProperty.values) {
+        if (abacusProperty.range === true
+            && ((_c = abacusProperty.values) === null || _c === void 0 ? void 0 : _c.length)
+            && abacusProperty.step) {
             var deltaMin = abacusProperty.values[0] - valueUnrounded;
             deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
             var deltaMax = abacusProperty.values[1] - valueUnrounded;
             deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
             if (deltaMax < deltaMin) {
                 newValues[1] = valueUnrounded;
+                // это условие нужно, чтобы можно было сократить интервал до ноля. 
+                // if( View.round(abacusProperty.values[0] + abacusProperty.step, abacusProperty.step) === abacusProperty.values[1]
+                //   && valueUnrounded < abacusProperty.values[1]
+                // ){
+                //   newValues[0] = abacusProperty.values[1];
+                // }
+                // else{
+                //   newValues[1] = valueUnrounded;
+                // }
             }
             else {
                 newValues[0] = valueUnrounded;
+                // это условие нужно, чтобы можно было сократить интервал до ноля. 
+                // if( View.round(abacusProperty.values[1] - abacusProperty.step, abacusProperty.step) === abacusProperty.values[0]
+                //   && valueUnrounded > abacusProperty.values[0]){
+                //   newValues[1] = abacusProperty.values[0];
+                // }
+                // else{
+                //   newValues[0] = valueUnrounded;
+                // }
             }
         }
         else {
             newValues[0] = valueUnrounded;
         }
-        // if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
-        //   viewInstance.updateView();
-        //   viewInstance._eventChangeWrapper(event);
-        // }
         viewInstance._presenter.setAbacusValue(newValues);
     };
     /**
@@ -2230,7 +2241,6 @@ var View = /** @class */ (function () {
      * @private
      */
     View.prototype._handlerHandleItemClickMove = function (event) {
-        var _this = this;
         var viewInstance = this;
         if (viewInstance._isDisabled) {
             return;
@@ -2241,20 +2251,20 @@ var View = /** @class */ (function () {
         viewInstance._handleMovingTimer = setTimeout(function () {
             if (viewInstance._isDragHandle) {
                 // console.log('_handlerHandleItemClickMove');
-                // viewInstance._mouseHandler(event);
-                var coordinate = 0;
-                if (event instanceof MouseEvent) {
-                    coordinate = _this._isVertical ? event.clientY : event.clientX;
-                }
-                else if (event instanceof TouchEvent) {
-                    coordinate = _this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
-                }
-                var percent = _this.getPosPercent(coordinate);
-                var valueUnrounded = _this.getValFromPosPercent(percent);
-                viewInstance._calcHandleValues(valueUnrounded);
-                viewInstance._eventSlideWrapper(event);
+                viewInstance._mouseHandler(event);
+                // let coordinate: number = 0;
+                // if( event instanceof MouseEvent ){
+                //   coordinate = this._isVertical ? event.clientY : event.clientX;
+                // }
+                // else if(event instanceof TouchEvent){
+                //   coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+                // }
+                // const percent = this.getPosPercent(coordinate);
+                // const valueUnrounded: number = this.getValFromPosPercent(percent);
+                // viewInstance._calcHandleValues(valueUnrounded);
+                // viewInstance._eventSlideWrapper(event);
             }
-        }, 15);
+        }, 5);
     };
     /**
      * Обработчик окончание пересещения курсора или пальца по экрану.
@@ -3000,4 +3010,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=bdcb25bc20943a1d6a78
+//# sourceMappingURL=abacus.js.map?v=07a1f56a2fd8d1029e2a

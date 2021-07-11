@@ -888,15 +888,14 @@ export class View{
 
 
   /**
-   * Функция, обрабатывающая позицию мыши или касания.
-   * @deprecated
+   * Функция, обрабатывающая позицию мыши или касания и вычисляющая, какию ручку перемещать.
    * @private
    * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
    */
   private _mouseHandler(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-		if( ! abacusProperty.values?.length ){
+		if( ! abacusProperty.values?.length || ! viewInstance._currentHandle ){
 			return;
 		}
 
@@ -911,33 +910,29 @@ export class View{
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
 
-    let newValues: number[] = [];
-    if( abacusProperty.values ){
-      newValues = abacusProperty.values?.slice(0);
-    }
+    let newValues: number[] = abacusProperty.values?.slice(0);
 
-    if( abacusProperty.range === true && abacusProperty.values ){
-      let deltaMin = abacusProperty.values[0] - valueUnrounded;
-      deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
-      let deltaMax = abacusProperty.values[1] - valueUnrounded;
-      deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
-
-      if( deltaMax < deltaMin ){
-        newValues[1] = valueUnrounded;
+    if( viewInstance._currentHandle.handleIndex === 0 ){
+      if( valueUnrounded >= abacusProperty.values[1] ){
+        newValues[0] = abacusProperty.values[1];
+        viewInstance._currentHandle = viewInstance._handles[1];
       }
       else{
         newValues[0] = valueUnrounded;
       }
     }
-    else{
-      newValues[0] = valueUnrounded;
+
+    if( viewInstance._currentHandle.handleIndex === 1 ){
+      if( valueUnrounded <= abacusProperty.values[0] ){
+        newValues[1] = abacusProperty.values[0];
+        viewInstance._currentHandle = viewInstance._handles[0];
+      }
+      else{
+        newValues[1] = valueUnrounded;
+      }
     }
 
     viewInstance._presenter.setAbacusValue(newValues);
-    if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
-      viewInstance.updateView();
-      viewInstance._eventChangeWrapper(event);
-    }
   }
 
 
@@ -962,27 +957,45 @@ export class View{
       newValues = abacusProperty.values?.slice(0);
     }
 
-    if( abacusProperty.range === true && abacusProperty.values ){
+    if( abacusProperty.range === true 
+      && abacusProperty.values?.length 
+      && abacusProperty.step
+    ){
       let deltaMin = abacusProperty.values[0] - valueUnrounded;
-      deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
+          deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
       let deltaMax = abacusProperty.values[1] - valueUnrounded;
-      deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
+          deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
 
       if( deltaMax < deltaMin ){
         newValues[1] = valueUnrounded;
+
+        // это условие нужно, чтобы можно было сократить интервал до ноля. 
+        // if( View.round(abacusProperty.values[0] + abacusProperty.step, abacusProperty.step) === abacusProperty.values[1]
+        //   && valueUnrounded < abacusProperty.values[1]
+        // ){
+        //   newValues[0] = abacusProperty.values[1];
+        // }
+        // else{
+        //   newValues[1] = valueUnrounded;
+        // }
       }
       else{
         newValues[0] = valueUnrounded;
+
+        // это условие нужно, чтобы можно было сократить интервал до ноля. 
+        // if( View.round(abacusProperty.values[1] - abacusProperty.step, abacusProperty.step) === abacusProperty.values[0]
+        //   && valueUnrounded > abacusProperty.values[0]){
+        //   newValues[1] = abacusProperty.values[0];
+        // }
+        // else{
+        //   newValues[0] = valueUnrounded;
+        // }
       }
     }
     else{
       newValues[0] = valueUnrounded;
     }
 
-    // if( ! View.arrayCompare(this._cachedAbacusProperty.values, abacusProperty.values) ){
-    //   viewInstance.updateView();
-    //   viewInstance._eventChangeWrapper(event);
-    // }
     viewInstance._presenter.setAbacusValue(newValues);
   }
 
@@ -1097,22 +1110,22 @@ export class View{
     viewInstance._handleMovingTimer = setTimeout(() => {
       if( viewInstance._isDragHandle ){
         // console.log('_handlerHandleItemClickMove');
-        // viewInstance._mouseHandler(event);
-        let coordinate: number = 0;
-        if( event instanceof MouseEvent ){
-          coordinate = this._isVertical ? event.clientY : event.clientX;
-        }
-        else if(event instanceof TouchEvent){
-          coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
-        }
+        viewInstance._mouseHandler(event);
+        // let coordinate: number = 0;
+        // if( event instanceof MouseEvent ){
+        //   coordinate = this._isVertical ? event.clientY : event.clientX;
+        // }
+        // else if(event instanceof TouchEvent){
+        //   coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
+        // }
     
-        const percent = this.getPosPercent(coordinate);
-        const valueUnrounded: number = this.getValFromPosPercent(percent);
-        viewInstance._calcHandleValues(valueUnrounded);
+        // const percent = this.getPosPercent(coordinate);
+        // const valueUnrounded: number = this.getValFromPosPercent(percent);
+        // viewInstance._calcHandleValues(valueUnrounded);
 
-        viewInstance._eventSlideWrapper(event);
+        // viewInstance._eventSlideWrapper(event);
       }
-    }, 15);
+    }, 5);
   }
 
 

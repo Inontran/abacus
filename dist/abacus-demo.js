@@ -266,4 +266,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=bdcb25bc20943a1d6a78
+//# sourceMappingURL=abacus-demo.js.map?v=07a1f56a2fd8d1029e2a
