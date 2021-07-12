@@ -102,9 +102,8 @@ export declare class View {
      * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
      * в котором будет находиться инициализированный плагин.
      * @param  {AbacusOptions} options Параметры настройки плагина.
-     * @param  {object} data Другие данные.
      */
-    constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object);
+    constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions);
     /**
      * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
      * а возвращает количество процентов от начала (левого края) слайдера.
@@ -243,8 +242,7 @@ export declare class View {
      */
     private _eventStopWrapper;
     /**
-     * Функция, обрабатывающая позицию мыши или касания.
-     * @deprecated
+     * Функция, обрабатывающая позицию мыши или касания и вычисляющая, какию ручку перемещать.
      * @private
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
@@ -260,6 +258,12 @@ export declare class View {
      * @private
      */
     private _bindEventListeners;
+    /**
+     * Обработчик обновления модели.
+     * @private
+     * @param {Event} event Объект события.
+     */
+    private _updateModelHandler;
     /**
      * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
      * @private

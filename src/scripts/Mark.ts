@@ -31,7 +31,7 @@ export class Mark{
    * @type {boolean}
    * @private
    */
-  private _isInrange: boolean = false;
+  private _isInrange = false;
 
 
   /**
@@ -39,7 +39,7 @@ export class Mark{
    * @type {string}
    * @private
    */
-  private _classNameSelected: string = '';
+  private _classNameSelected = '';
 
 
   /**
@@ -47,7 +47,7 @@ export class Mark{
    * @type {boolean}
    * @private
    */
-  private _isSelected: boolean = false;
+  private _isSelected = false;
 
 
   /**
@@ -197,7 +197,7 @@ export class Mark{
       if( left > 100 ) left = 100;
 
       this._posLeft = left;
-      this._htmlElement.style.left = left + '%';
+      this._htmlElement.style.left = left.toString() + '%';
     }
   }
 
@@ -226,7 +226,7 @@ export class Mark{
       if( bottom > 100 ) bottom = 100;
 
       this._posBottom = bottom;
-      this._htmlElement.style.bottom = bottom + '%';
+      this._htmlElement.style.bottom = bottom.toString() + '%';
     }
   }
 

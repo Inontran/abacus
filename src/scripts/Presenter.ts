@@ -32,15 +32,10 @@ export class Presenter{
    * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
    */
   constructor(options?: AbacusOptions){
-    const presenterInstance = this;
     this._model = new Model(options);
-
     this._eventTarget = new EventTarget();
     this._eventUpdateModel = new CustomEvent('update-model');
-
-    this._model.eventTarget.addEventListener('update-model', (event: Event) => {
-      presenterInstance._eventTarget.dispatchEvent(presenterInstance._eventUpdateModel);
-    });
+    this._bindEventListeners();
   }
 
 
@@ -70,6 +65,25 @@ export class Presenter{
 		this._model.abacusProperty = {
 			values: [values[0], values[1]]
 		}
+  }
+
+
+  /**
+   * Установка обработчиков событий.
+   * @private
+   */
+  private _bindEventListeners(): void{
+    this._model.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
+  }
+
+
+  /**
+   * Обработчик обновления модели.
+   * @private
+   * @param {Event} event Объект события.
+   */
+  private _updateModelHandler(): void{
+    this._eventTarget.dispatchEvent(this._eventUpdateModel);
   }
 
 

@@ -15,7 +15,7 @@ export class Tooltip{
    * @type {number}
    * @private
    */
-  private _tooltipIndex: number = 0;
+  private _tooltipIndex = 0;
 
   /**
    * Название класса HTML-элемента.
@@ -38,7 +38,7 @@ export class Tooltip{
    * @type {boolean}
    * @private
    */
-  private _isVisible: boolean = false;
+  private _isVisible = false;
 
 
   /**
@@ -160,7 +160,7 @@ export class Tooltip{
       if( left > 100 ) left = 100;
 
       this._posLeft = left;
-      this._htmlElement.style.left = left + '%';
+      this._htmlElement.style.left = left.toString() + '%';
     }
   }
 
@@ -188,7 +188,7 @@ export class Tooltip{
       if( bottom > 100 ) bottom = 100;
 
       this._posBottom = bottom;
-      this._htmlElement.style.bottom = bottom + '%';
+      this._htmlElement.style.bottom = bottom.toString() + '%';
     }
   }
 

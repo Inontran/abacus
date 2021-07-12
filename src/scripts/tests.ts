@@ -149,8 +149,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   describe('set orientation property', () => {
     const model: Model = new Model();
-    const arrTestValues: any[] = ['1', true, null, 'qwe', 2, undefined, 'vertical', 'horizontal'];
-    const arrRightValues: any[] = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical', 'horizontal'];
+    const arrTestValues: any[] = ['1', true, null, 'qwe', 2,
+                                  undefined, 'vertical', 'horizontal'];
+    const arrRightValues: any[] = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal',
+                                  'horizontal', 'vertical', 'horizontal'];
 
     for (let i = 0; i < arrTestValues.length; i++) {
       it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, ()=>{

@@ -29,7 +29,7 @@ export class Handle{
    * @type {number}
    * @private
    */
-  private _handleIndex: number = 0;
+  private _handleIndex = 0;
 
   /**
    * Название класса HTML-элемента.
@@ -79,7 +79,7 @@ export class Handle{
       if( left > 100 ) left = 100;
 
       this._posLeft = left;
-      this._htmlElement.style.left = left + '%';
+      this._htmlElement.style.left = left.toString() + '%';
     }
   }
 
@@ -107,7 +107,7 @@ export class Handle{
       if( bottom > 100 ) bottom = 100;
 
       this._posBottom = bottom;
-      this._htmlElement.style.bottom = bottom + '%';
+      this._htmlElement.style.bottom = bottom.toString() + '%';
     }
   }
 

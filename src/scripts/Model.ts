@@ -77,9 +77,10 @@ export class Model{
   public set abacusProperty(abacusProperty: AbacusOptions) {
     // animate
     if( abacusProperty.animate !== undefined ){
-      if (abacusProperty.animate === 'fast'
-      || abacusProperty.animate === 'slow'
-      || typeof abacusProperty.animate === 'boolean')
+      const isAnimatePropFastOrSlow = abacusProperty.animate === 'fast' || abacusProperty.animate === 'slow';
+      const isAnimatePropBoolean = typeof abacusProperty.animate === 'boolean';
+      const isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
+      if (isAnimatePropResult)
       {
         this._abacusProperty.animate = abacusProperty.animate;
       }
@@ -133,7 +134,7 @@ export class Model{
 
     // max
     if( abacusProperty.max !== undefined && abacusProperty.max !== null ){
-      if( !isNaN(abacusProperty.max as number) ){
+      if( !isNaN(abacusProperty.max) ){
         if( typeof abacusProperty.max === 'string' ){
           this._abacusProperty.max = parseFloat(abacusProperty.max);
         }
@@ -150,7 +151,7 @@ export class Model{
 
     // min
     if( abacusProperty.min !== undefined && abacusProperty.min !== null ){
-      if( !isNaN(abacusProperty.min as number) ){
+      if( !isNaN(abacusProperty.min) ){
         if( typeof abacusProperty.min === 'string' ){
           this._abacusProperty.min = parseFloat(abacusProperty.min);
         }
@@ -168,7 +169,7 @@ export class Model{
 
     // step
     if( abacusProperty.step !== undefined && abacusProperty.step !== null ){
-      if( !isNaN(abacusProperty.step as number) ){
+      if( !isNaN(abacusProperty.step) ){
         if( typeof abacusProperty.step === 'string' ){
           this._abacusProperty.step = parseFloat(abacusProperty.step);
         }
@@ -198,7 +199,7 @@ export class Model{
 
     // value
     if( abacusProperty.value !== undefined && abacusProperty.value !== null ){
-      if( !isNaN(abacusProperty.value as number) ){
+      if( !isNaN(abacusProperty.value) ){
         if( typeof abacusProperty.value === 'string' ){
           abacusProperty.value = parseFloat(abacusProperty.value);
         }
@@ -381,7 +382,8 @@ export class Model{
    * @returns {number} Количество знаков после запятой.
    */
   static countNumAfterPoint(x: number): number{
-    return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+    const xStr = x.toString();
+    return ~(xStr + '').indexOf('.') ? (xStr + '').split('.')[1].length : 0;
   }
 
 

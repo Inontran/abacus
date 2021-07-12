@@ -15,7 +15,7 @@ export class WidgetContainer{
    * @type {number}
    * @private
    */
-  private _width: number = 100;
+  private _width = 100;
 
   /**
    * Название класса HTML-элемента.

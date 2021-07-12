@@ -6,11 +6,20 @@ import $ from 'jquery';
 import {View} from './View';
 
 $.fn.abacus = function (
-  paramOptions ? : AbacusOptions | string, 
-  param1 ? : AbacusOptions | number | string | number[], 
+  paramOptions ? : AbacusOptions | string,
+  param1 ? : AbacusOptions | number | string | number[],
   param2 ? : number | string | boolean | null | AbacusClasses
-): JQuery {
-  let returnResult: any = this;
+) {
+  let returnResult: JQuery | 
+                    AbacusOptions | 
+                    number | 
+                    number[] | 
+                    boolean | 
+                    null | 
+                    undefined | 
+                    AbacusClasses | 
+                    View | 
+                    string = this;
 
   this.each(function () {
     const instanceHTMLAbacus: HTMLAbacusElement = this;
@@ -32,7 +41,7 @@ $.fn.abacus = function (
     }
 
     if( typeof paramOptions === 'string' ){
-      let resultOption: any;
+      let resultOption: AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined;
 
       switch (paramOptions) {
         case 'destroy':
@@ -88,12 +97,6 @@ $.fn.abacus = function (
           break;
       }
     }
-
-    // instanceHTMLAbacus.addEventListener('change', (event: Event) => {
-    //   let input = event.currentTarget as HTMLInputElement;
-    //   let value: string = input.value;
-    //   console.log('value == ' + value);
-    // });
   });
 
   return returnResult;

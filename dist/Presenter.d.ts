@@ -43,6 +43,17 @@ export declare class Presenter {
      */
     setAbacusValue(values: number[]): void;
     /**
+     * Установка обработчиков событий.
+     * @private
+     */
+    private _bindEventListeners;
+    /**
+     * Обработчик обновления модели.
+     * @private
+     * @param {Event} event Объект события.
+     */
+    private _updateModelHandler;
+    /**
      * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
      */
     get eventTarget(): EventTarget;

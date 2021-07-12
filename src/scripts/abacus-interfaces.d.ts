@@ -181,9 +181,9 @@ interface AbacusOptions {
 
 
 /**
- * Функция для применения плагина "abacus" к выбранным jQuery-элементам. 
+ * Интерфейс объекта плагина.
  */
-interface AbacusFunction {
+interface Abacus {
   /**
    * Функция инициализации плагина на выбранных JQuery-элементов.
    * @param {AbacusOptions} options Свойства слайдера.
@@ -192,20 +192,18 @@ interface AbacusFunction {
   (options ? : AbacusOptions): JQuery;
 
   /**
-   * Функция вызова методов слайдера в том числе, для получения или установки значений свойств на выбранных JQuery-элементах.
+   * Функция вызова методов слайдера в том числе,
+   * для получения или установки значений свойств на выбранных JQuery-элементах.
    * @param {string} funcName Название функции, которую надо выполнить.
    * @param {any} param1 Это может быть название свойства слайдера или значение свойства.
    * @param {any} param2 Значение свойства слайдера.
-   * @returns {JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses}
+   * @returns {JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View}
    */
-  (funcName: string, param1 ? : AbacusOptions | number | string | number[], param2 ? : number | string | boolean | null | AbacusClasses): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses;
+  ( funcName: string,
+    param1 ? : AbacusOptions | number | string | number[],
+    param2 ? : number | string | boolean | null | AbacusClasses
+  ): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
 }
-
-
-/**
- * Интерфейс объекта плагина.
- */
-interface Abacus extends AbacusFunction {}
 
 
 /**

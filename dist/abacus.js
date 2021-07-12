@@ -169,7 +169,7 @@ var Handle = /** @class */ (function () {
                 if (left > 100)
                     left = 100;
                 this._posLeft = left;
-                this._htmlElement.style.left = left + '%';
+                this._htmlElement.style.left = left.toString() + '%';
             }
         },
         enumerable: false,
@@ -199,7 +199,7 @@ var Handle = /** @class */ (function () {
                 if (bottom > 100)
                     bottom = 100;
                 this._posBottom = bottom;
-                this._htmlElement.style.bottom = bottom + '%';
+                this._htmlElement.style.bottom = bottom.toString() + '%';
             }
         },
         enumerable: false,
@@ -424,7 +424,7 @@ var Mark = /** @class */ (function () {
                 if (left > 100)
                     left = 100;
                 this._posLeft = left;
-                this._htmlElement.style.left = left + '%';
+                this._htmlElement.style.left = left.toString() + '%';
             }
         },
         enumerable: false,
@@ -454,7 +454,7 @@ var Mark = /** @class */ (function () {
                 if (bottom > 100)
                     bottom = 100;
                 this._posBottom = bottom;
-                this._htmlElement.style.bottom = bottom + '%';
+                this._htmlElement.style.bottom = bottom.toString() + '%';
             }
         },
         enumerable: false,
@@ -587,9 +587,10 @@ var Model = /** @class */ (function () {
             var _a, _b, _c, _d, _e;
             // animate
             if (abacusProperty.animate !== undefined) {
-                if (abacusProperty.animate === 'fast'
-                    || abacusProperty.animate === 'slow'
-                    || typeof abacusProperty.animate === 'boolean') {
+                var isAnimatePropFastOrSlow = abacusProperty.animate === 'fast' || abacusProperty.animate === 'slow';
+                var isAnimatePropBoolean = typeof abacusProperty.animate === 'boolean';
+                var isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
+                if (isAnimatePropResult) {
                     this._abacusProperty.animate = abacusProperty.animate;
                 }
                 else if (abacusProperty.animate == null) {
@@ -866,7 +867,8 @@ var Model = /** @class */ (function () {
      * @returns {number} Количество знаков после запятой.
      */
     Model.countNumAfterPoint = function (x) {
-        return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+        var xStr = x.toString();
+        return ~(xStr + '').indexOf('.') ? (xStr + '').split('.')[1].length : 0;
     };
     /**
      * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
@@ -916,13 +918,10 @@ var Presenter = /** @class */ (function () {
      * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
      */
     function Presenter(options) {
-        var presenterInstance = this;
         this._model = new Model_1.Model(options);
         this._eventTarget = new event_target_1.default();
         this._eventUpdateModel = new CustomEvent('update-model');
-        this._model.eventTarget.addEventListener('update-model', function (event) {
-            presenterInstance._eventTarget.dispatchEvent(presenterInstance._eventUpdateModel);
-        });
+        this._bindEventListeners();
     }
     /**
      * Функция получения свойств слайдера, полученные из Модели.
@@ -946,6 +945,21 @@ var Presenter = /** @class */ (function () {
         this._model.abacusProperty = {
             values: [values[0], values[1]]
         };
+    };
+    /**
+     * Установка обработчиков событий.
+     * @private
+     */
+    Presenter.prototype._bindEventListeners = function () {
+        this._model.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
+    };
+    /**
+     * Обработчик обновления модели.
+     * @private
+     * @param {Event} event Объект события.
+     */
+    Presenter.prototype._updateModelHandler = function (event) {
+        this._eventTarget.dispatchEvent(this._eventUpdateModel);
     };
     Object.defineProperty(Presenter.prototype, "eventTarget", {
         /**
@@ -1031,7 +1045,7 @@ var Range = /** @class */ (function () {
                 if (width > 100)
                     width = 100;
                 this._width = width;
-                this._htmlElement.style.width = width + '%';
+                this._htmlElement.style.width = width.toString() + '%';
             }
         },
         enumerable: false,
@@ -1059,7 +1073,7 @@ var Range = /** @class */ (function () {
                 if (height > 100)
                     height = 100;
                 this._height = height;
-                this._htmlElement.style.height = height + '%';
+                this._htmlElement.style.height = height.toString() + '%';
             }
         },
         enumerable: false,
@@ -1105,7 +1119,8 @@ var Range = /** @class */ (function () {
          *
          */
         set: function (value) {
-            if (value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between') {
+            var isValueEqualRangeType = value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between';
+            if (isValueEqualRangeType) {
                 value = 'hidden';
             }
             this._rangeType = value;
@@ -1268,7 +1283,7 @@ var Tooltip = /** @class */ (function () {
                 if (left > 100)
                     left = 100;
                 this._posLeft = left;
-                this._htmlElement.style.left = left + '%';
+                this._htmlElement.style.left = left.toString() + '%';
             }
         },
         enumerable: false,
@@ -1298,7 +1313,7 @@ var Tooltip = /** @class */ (function () {
                 if (bottom > 100)
                     bottom = 100;
                 this._posBottom = bottom;
-                this._htmlElement.style.bottom = bottom + '%';
+                this._htmlElement.style.bottom = bottom.toString() + '%';
             }
         },
         enumerable: false,
@@ -1372,9 +1387,8 @@ var View = /** @class */ (function () {
      * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
      * в котором будет находиться инициализированный плагин.
      * @param  {AbacusOptions} options Параметры настройки плагина.
-     * @param  {object} data Другие данные.
      */
-    function View(abacusHtmlContainer, options, data) {
+    function View(abacusHtmlContainer, options) {
         /**
          * Массив, в котором содержатся объекты ручек (Handle) слайдера.
          * @type {Handle[]}
@@ -1417,12 +1431,7 @@ var View = /** @class */ (function () {
          * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
          */
         this._isVertical = false;
-        var viewInstance = this;
         this._presenter = new Presenter_1.Presenter(options);
-        this._presenter.eventTarget.addEventListener('update-model', function (event) {
-            // console.log('Модель обновилась!');
-            viewInstance.updateView();
-        });
         var abacusProperty = this._presenter.getModelAbacusProperty();
         this._widgetContainer = new WidgetContainer_1.WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
         this._widgetContainer.htmlElement.innerHTML = '';
@@ -1571,7 +1580,6 @@ var View = /** @class */ (function () {
                     if (value !== undefined) {
                         // это условие для установки конкретного свойства слайдера
                         var newProperty = {};
-                        // newProperty[optionName] = value;
                         newProperty[optionName] = value;
                         this._presenter.setModelAbacusProperty(newProperty);
                     }
@@ -1595,17 +1603,27 @@ var View = /** @class */ (function () {
      * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
      */
     View.prototype.updateView = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         var abacusProperty = this._presenter.getModelAbacusProperty();
+        var hasRangeChanged = ((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range;
+        var hasOrientationChanged = ((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.orientation) !== abacusProperty.orientation;
+        var hasTooltipChanged = ((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip;
+        var hasAnimateChanged = ((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.animate) !== abacusProperty.animate;
+        var hasMaxChanged = ((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.max) !== abacusProperty.max;
+        var hasMinChanged = ((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.min) !== abacusProperty.min;
+        var hasValuesChanged = !View.arrayCompare((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.values, abacusProperty.values);
+        var hasDisabledChanged = ((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.disabled) !== abacusProperty.disabled;
+        var hasScaleChanged = ((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.scale) !== abacusProperty.scale;
+        var hasStepChanged = ((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.step) !== abacusProperty.step;
         // Добавляем или удалаем элементы инерфейса
         // if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
         //   this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
         // }
-        if (((_a = this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.range) !== abacusProperty.range) {
+        if (hasRangeChanged) {
             this._createViewHandles(abacusProperty);
             this._createViewRange(abacusProperty);
         }
-        if (((_b = this._cachedAbacusProperty) === null || _b === void 0 ? void 0 : _b.orientation) !== abacusProperty.orientation) {
+        if (hasOrientationChanged) {
             if (abacusProperty.orientation === 'vertical') {
                 this._isVertical = true;
                 this._widgetContainer.isVertical(true);
@@ -1615,27 +1633,28 @@ var View = /** @class */ (function () {
                 this._widgetContainer.isVertical(false);
             }
         }
-        if (((_c = this._cachedAbacusProperty) === null || _c === void 0 ? void 0 : _c.tooltip) !== abacusProperty.tooltip
-            || ((_d = this._cachedAbacusProperty) === null || _d === void 0 ? void 0 : _d.range) !== abacusProperty.range) {
+        var resultTooltipRangeChanged = hasTooltipChanged || hasRangeChanged;
+        if (resultTooltipRangeChanged) {
             this._createViewTooltips(abacusProperty);
             this._updateViewTooltips(abacusProperty);
             this._setTransition();
         }
-        if (((_e = this._cachedAbacusProperty) === null || _e === void 0 ? void 0 : _e.animate) !== abacusProperty.animate) {
+        if (hasAnimateChanged) {
             this._setTransition();
         }
         // Обновляем положение бегунка и индикатора
-        if ((((_f = this._cachedAbacusProperty) === null || _f === void 0 ? void 0 : _f.range) !== abacusProperty.range)
-            || (((_g = this._cachedAbacusProperty) === null || _g === void 0 ? void 0 : _g.max) !== abacusProperty.max)
-            || (((_h = this._cachedAbacusProperty) === null || _h === void 0 ? void 0 : _h.min) !== abacusProperty.min)
-            || (((_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.orientation) !== abacusProperty.orientation)
-            || !View.arrayCompare((_k = this._cachedAbacusProperty) === null || _k === void 0 ? void 0 : _k.values, abacusProperty.values)) {
+        var resultRangeMaxMinOrientationValuesChanged = hasRangeChanged ||
+            hasMaxChanged ||
+            hasMinChanged ||
+            hasOrientationChanged ||
+            hasValuesChanged;
+        if (resultRangeMaxMinOrientationValuesChanged) {
             this._updateViewHandles(abacusProperty);
             this._updateViewTooltips(abacusProperty);
             this._updateViewRange(abacusProperty);
             this._highlightMarks();
         }
-        if (!View.arrayCompare((_l = this._cachedAbacusProperty) === null || _l === void 0 ? void 0 : _l.values, abacusProperty.values)) {
+        if (hasValuesChanged) {
             this._findMovedHandle();
             this._eventChangeWrapper();
         }
@@ -1644,15 +1663,16 @@ var View = /** @class */ (function () {
             this._updateClassNames(abacusProperty.classes);
         }
         // Включаем или отключаем слайдер
-        if (((_m = this._cachedAbacusProperty) === null || _m === void 0 ? void 0 : _m.disabled) !== abacusProperty.disabled) {
+        if (hasDisabledChanged) {
             this.toggleDisable(abacusProperty.disabled);
         }
         // Создаем шкалу значений
-        if ((((_o = this._cachedAbacusProperty) === null || _o === void 0 ? void 0 : _o.scale) !== abacusProperty.scale)
-            || (((_p = this._cachedAbacusProperty) === null || _p === void 0 ? void 0 : _p.step) !== abacusProperty.step)
-            || (((_q = this._cachedAbacusProperty) === null || _q === void 0 ? void 0 : _q.max) !== abacusProperty.max)
-            || (((_r = this._cachedAbacusProperty) === null || _r === void 0 ? void 0 : _r.min) !== abacusProperty.min)
-            || (((_s = this._cachedAbacusProperty) === null || _s === void 0 ? void 0 : _s.orientation) !== abacusProperty.orientation)) {
+        var resultScaleStepMaxMinOrientationChanged = hasScaleChanged ||
+            hasStepChanged ||
+            hasMaxChanged ||
+            hasMinChanged ||
+            hasOrientationChanged;
+        if (resultScaleStepMaxMinOrientationChanged) {
             if (abacusProperty.scale) {
                 this._createScale();
                 this._setTransition();
@@ -1989,14 +2009,13 @@ var View = /** @class */ (function () {
      * (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventChangeWrapper = function (event) {
-        var viewInstance = this;
         if (!event) {
-            event = viewInstance._customEventChange;
+            event = this._customEventChange;
         }
-        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventChange);
-        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
+        var abacusProperty = this._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.change) === 'function') {
-            abacusProperty.change(event, viewInstance._getEventUIData());
+            abacusProperty.change(event, this._getEventUIData());
         }
         return dispatchEventResult;
     };
@@ -2009,14 +2028,13 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventCreateWrapper = function (event) {
-        var viewInstance = this;
         if (!event) {
-            event = viewInstance._customEventCreate;
+            event = this._customEventCreate;
         }
-        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventCreate);
-        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
+        var abacusProperty = this._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.create) === 'function') {
-            abacusProperty.create(event, viewInstance._getEventUIData());
+            abacusProperty.create(event, this._getEventUIData());
         }
         return dispatchEventResult;
     };
@@ -2029,14 +2047,13 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventSlideWrapper = function (event) {
-        var viewInstance = this;
         if (!event) {
-            event = viewInstance._customEventSlide;
+            event = this._customEventSlide;
         }
-        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventSlide);
-        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
+        var abacusProperty = this._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.slide) === 'function') {
-            abacusProperty.slide(event, viewInstance._getEventUIData());
+            abacusProperty.slide(event, this._getEventUIData());
         }
         return dispatchEventResult;
     };
@@ -2049,14 +2066,13 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStartWrapper = function (event) {
-        var viewInstance = this;
         if (!event) {
-            event = viewInstance._customEventStart;
+            event = this._customEventStart;
         }
-        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStart);
-        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
+        var abacusProperty = this._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.start) === 'function') {
-            abacusProperty.start(event, viewInstance._getEventUIData());
+            abacusProperty.start(event, this._getEventUIData());
         }
         return dispatchEventResult;
     };
@@ -2069,20 +2085,18 @@ var View = /** @class */ (function () {
      * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
      */
     View.prototype._eventStopWrapper = function (event) {
-        var viewInstance = this;
         if (!event) {
-            event = viewInstance._customEventStop;
+            event = this._customEventStop;
         }
-        var dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStop);
-        var abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+        var dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
+        var abacusProperty = this._presenter.getModelAbacusProperty();
         if (typeof (abacusProperty === null || abacusProperty === void 0 ? void 0 : abacusProperty.stop) === 'function') {
-            abacusProperty.stop(event, viewInstance._getEventUIData());
+            abacusProperty.stop(event, this._getEventUIData());
         }
         return dispatchEventResult;
     };
     /**
-     * Функция, обрабатывающая позицию мыши или касания.
-     * @deprecated
+     * Функция, обрабатывающая позицию мыши или касания и вычисляющая, какию ручку перемещать.
      * @private
      * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
      */
@@ -2142,35 +2156,17 @@ var View = /** @class */ (function () {
         if (abacusProperty.values) {
             newValues = (_b = abacusProperty.values) === null || _b === void 0 ? void 0 : _b.slice(0);
         }
-        if (abacusProperty.range === true
-            && ((_c = abacusProperty.values) === null || _c === void 0 ? void 0 : _c.length)
-            && abacusProperty.step) {
+        var checkNecessaryProps = abacusProperty.range === true && ((_c = abacusProperty.values) === null || _c === void 0 ? void 0 : _c.length) && abacusProperty.step;
+        if (checkNecessaryProps) {
             var deltaMin = abacusProperty.values[0] - valueUnrounded;
             deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
             var deltaMax = abacusProperty.values[1] - valueUnrounded;
             deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
             if (deltaMax < deltaMin) {
                 newValues[1] = valueUnrounded;
-                // это условие нужно, чтобы можно было сократить интервал до ноля. 
-                // if( View.round(abacusProperty.values[0] + abacusProperty.step, abacusProperty.step) === abacusProperty.values[1]
-                //   && valueUnrounded < abacusProperty.values[1]
-                // ){
-                //   newValues[0] = abacusProperty.values[1];
-                // }
-                // else{
-                //   newValues[1] = valueUnrounded;
-                // }
             }
             else {
                 newValues[0] = valueUnrounded;
-                // это условие нужно, чтобы можно было сократить интервал до ноля. 
-                // if( View.round(abacusProperty.values[1] - abacusProperty.step, abacusProperty.step) === abacusProperty.values[0]
-                //   && valueUnrounded > abacusProperty.values[0]){
-                //   newValues[1] = abacusProperty.values[0];
-                // }
-                // else{
-                //   newValues[0] = valueUnrounded;
-                // }
             }
         }
         else {
@@ -2184,6 +2180,7 @@ var View = /** @class */ (function () {
      */
     View.prototype._bindEventListeners = function () {
         var viewInstance = this;
+        viewInstance._presenter.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
         viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
@@ -2191,6 +2188,14 @@ var View = /** @class */ (function () {
         document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
         document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
         document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
+    };
+    /**
+     * Обработчик обновления модели.
+     * @private
+     * @param {Event} event Объект события.
+     */
+    View.prototype._updateModelHandler = function (event) {
+        this.updateView();
     };
     /**
      * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
@@ -2204,9 +2209,10 @@ var View = /** @class */ (function () {
         var eventTarget = event.target;
         var handleClass = ((_a = abacusProperty.classes) === null || _a === void 0 ? void 0 : _a.handle) ? (_b = abacusProperty.classes) === null || _b === void 0 ? void 0 : _b.handle : '';
         var markClass = ((_c = abacusProperty.classes) === null || _c === void 0 ? void 0 : _c.mark) ? (_d = abacusProperty.classes) === null || _d === void 0 ? void 0 : _d.mark : '';
-        if (viewInstance._isDisabled
+        var condition = viewInstance._isDisabled
             || eventTarget.classList.contains(handleClass)
-            || eventTarget.classList.contains(markClass)) {
+            || eventTarget.classList.contains(markClass);
+        if (condition) {
             return;
         }
         // viewInstance._mouseHandler(event);
@@ -2252,7 +2258,7 @@ var View = /** @class */ (function () {
             if (viewInstance._isDragHandle) {
                 // console.log('_handlerHandleItemClickMove');
                 viewInstance._mouseHandler(event);
-                // let coordinate: number = 0;
+                // let coordinate = 0;
                 // if( event instanceof MouseEvent ){
                 //   coordinate = this._isVertical ? event.clientY : event.clientX;
                 // }
@@ -2289,7 +2295,10 @@ var View = /** @class */ (function () {
             this._removeScale();
         }
         var abacusProperty = this._presenter.getModelAbacusProperty();
-        if (abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined) {
+        var checkNecessaryProps = abacusProperty.min !== undefined &&
+            abacusProperty.max !== undefined &&
+            abacusProperty.step !== undefined;
+        if (checkNecessaryProps) {
             var value = abacusProperty.min;
             for (; value <= abacusProperty.max; value += abacusProperty.step) {
                 value = View.round(value, abacusProperty.step);
@@ -2942,11 +2951,6 @@ jquery_1.default.fn.abacus = function (paramOptions, param1, param2) {
                     break;
             }
         }
-        // instanceHTMLAbacus.addEventListener('change', (event: Event) => {
-        //   let input = event.currentTarget as HTMLInputElement;
-        //   let value: string = input.value;
-        //   console.log('value == ' + value);
-        // });
     });
     return returnResult;
 };
@@ -3010,4 +3014,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=07a1f56a2fd8d1029e2a
+//# sourceMappingURL=abacus.js.map?v=929a8276e9ff804a6fd9

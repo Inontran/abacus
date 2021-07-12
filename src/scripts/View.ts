@@ -87,14 +87,14 @@ export class View{
    * @type {boolean}
    * @private
    */
-  private _isDisabled: boolean = false;
+  private _isDisabled = false;
 
   /**
    * Перемещается ли бегунок в данный момент с помощью мыши.
    * @type {boolean}
    * @private
    */
-  private _isDragHandle: boolean = false;
+  private _isDragHandle = false;
 
 
   /**
@@ -120,7 +120,7 @@ export class View{
   /**
    * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
    */
-  private _isVertical: boolean = false;
+  private _isVertical = false;
 
 
   private _currentHandle?: Handle;
@@ -132,16 +132,9 @@ export class View{
    * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
    * в котором будет находиться инициализированный плагин.
    * @param  {AbacusOptions} options Параметры настройки плагина.
-   * @param  {object} data Другие данные.
    */
-  constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions, data?: object){
-    const viewInstance = this;
-
+  constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions){
     this._presenter = new Presenter(options);
-    this._presenter.eventTarget.addEventListener('update-model', (event: Event) => {
-      // console.log('Модель обновилась!');
-      viewInstance.updateView();
-    });
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
 
@@ -191,7 +184,7 @@ export class View{
    * @returns {number} Количество процентов от начала (левого края) слайдера.
    */
   getPosPercent(coordXY: number): number{
-    let result: number = 0;
+    let result = 0;
     if( this._isVertical ){
       const posTopWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().top;
       const heigthWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().height;
@@ -223,7 +216,7 @@ export class View{
    * @returns {number} Значение, соответствующее проценту и кратно шагу.
    */
   getPosPerStep(percent: number): number{
-    let result: number = 0;
+    let result = 0;
     const options: AbacusOptions = this._presenter.getModelAbacusProperty();
     const minVal: number = options.min as number;
     const maxVal: number = options.max as number;
@@ -242,7 +235,7 @@ export class View{
    * @returns {number} Позиция бегунка в процентах от начала слайдера.
    */
   getPosFromValue(value: number): number{
-    let result: number = 0;
+    let result = 0;
     const options: AbacusOptions = this._presenter.getModelAbacusProperty();
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
@@ -274,7 +267,7 @@ export class View{
    * @returns {number} Значение слайдера.
    */
   getValFromPosPercent(posPercent: number): number{
-    let abacusValue: number = 0;
+    let abacusValue = 0;
     const options: AbacusOptions = this._presenter.getModelAbacusProperty();
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
@@ -296,12 +289,12 @@ export class View{
    * Функция получения и установки свойств слайдера.
    * @param {string} optionName Название свойства, значение которого надо получить или изменить.
    * @param {any} value Значение свойства.
-   * @returns {AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined}
+   * @returns {AbacusOptions | number | string | number[] | boolean | AbacusClasses | undefined}
    */
   option(
     optionName?: string, 
     value?: any
-  ): AbacusOptions | number | string | number[] | boolean | null | AbacusClasses | undefined{
+  ): AbacusOptions | number | string | number[] | boolean | AbacusClasses | undefined{
     if( typeof optionName === 'string' ){
       switch (optionName) {
         case 'animate':
@@ -319,7 +312,6 @@ export class View{
           if( value !== undefined ){
             // это условие для установки конкретного свойства слайдера
             const newProperty = {} as AbacusOptions;
-            // newProperty[optionName] = value;
             newProperty[optionName] = value;
             this._presenter.setModelAbacusProperty(newProperty);
           }
@@ -347,19 +339,30 @@ export class View{
   updateView(): void{
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
 
+    const hasRangeChanged = this._cachedAbacusProperty?.range !== abacusProperty.range;
+    const hasOrientationChanged = this._cachedAbacusProperty?.orientation !== abacusProperty.orientation;
+    const hasTooltipChanged = this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip;
+    const hasAnimateChanged = this._cachedAbacusProperty?.animate !== abacusProperty.animate;
+    const hasMaxChanged = this._cachedAbacusProperty?.max !== abacusProperty.max;
+    const hasMinChanged = this._cachedAbacusProperty?.min !== abacusProperty.min;
+    const hasValuesChanged = !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values);
+    const hasDisabledChanged = this._cachedAbacusProperty?.disabled !== abacusProperty.disabled;
+    const hasScaleChanged = this._cachedAbacusProperty?.scale !== abacusProperty.scale;
+    const hasStepChanged = this._cachedAbacusProperty?.step !== abacusProperty.step;
+
     // Добавляем или удалаем элементы инерфейса
     // if( ! this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement) ){
     //   this._widgetContainer.htmlElement.append(this._handles[0].htmlElement);
     // }
 
 
-    if( this._cachedAbacusProperty?.range !== abacusProperty.range ){
+    if( hasRangeChanged ){
       this._createViewHandles(abacusProperty);
       this._createViewRange(abacusProperty);
     }
 
 
-    if( this._cachedAbacusProperty?.orientation !== abacusProperty.orientation ){
+    if( hasOrientationChanged ){
       if( abacusProperty.orientation === 'vertical' ){
         this._isVertical = true;
         this._widgetContainer.isVertical(true);
@@ -371,34 +374,33 @@ export class View{
     }
 
 
-    if( this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip
-      || this._cachedAbacusProperty?.range !== abacusProperty.range 
-    ){
+    const resultTooltipRangeChanged = hasTooltipChanged || hasRangeChanged;
+    if( resultTooltipRangeChanged ){
       this._createViewTooltips(abacusProperty);
       this._updateViewTooltips(abacusProperty);
       this._setTransition();
     }
 
 
-    if( this._cachedAbacusProperty?.animate !== abacusProperty.animate ){
+    if( hasAnimateChanged ){
       this._setTransition();
     }
 
 
     // Обновляем положение бегунка и индикатора
-    if( (this._cachedAbacusProperty?.range !== abacusProperty.range)
-      || (this._cachedAbacusProperty?.max !== abacusProperty.max)
-      || (this._cachedAbacusProperty?.min !== abacusProperty.min)
-      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation)
-      || !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values) 
-    ){
+    const resultRangeMaxMinOrientationValuesChanged = hasRangeChanged || 
+                                                      hasMaxChanged || 
+                                                      hasMinChanged || 
+                                                      hasOrientationChanged || 
+                                                      hasValuesChanged;
+    if( resultRangeMaxMinOrientationValuesChanged ){
       this._updateViewHandles(abacusProperty);
       this._updateViewTooltips(abacusProperty);
       this._updateViewRange(abacusProperty);
       this._highlightMarks();
     }
 
-    if( !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values) ){
+    if( hasValuesChanged ){
       this._findMovedHandle();
       this._eventChangeWrapper();
     }
@@ -411,18 +413,18 @@ export class View{
 
 
     // Включаем или отключаем слайдер
-    if( this._cachedAbacusProperty?.disabled !== abacusProperty.disabled ){
+    if( hasDisabledChanged ){
       this.toggleDisable(abacusProperty.disabled);
     }
 
 
     // Создаем шкалу значений
-    if( (this._cachedAbacusProperty?.scale !== abacusProperty.scale)
-      || (this._cachedAbacusProperty?.step !== abacusProperty.step)
-      || (this._cachedAbacusProperty?.max !== abacusProperty.max)
-      || (this._cachedAbacusProperty?.min !== abacusProperty.min)
-      || (this._cachedAbacusProperty?.orientation !== abacusProperty.orientation) )
-    {
+    const resultScaleStepMaxMinOrientationChanged = hasScaleChanged ||
+                                                    hasStepChanged ||
+                                                    hasMaxChanged ||
+                                                    hasMinChanged ||
+                                                    hasOrientationChanged;
+    if( resultScaleStepMaxMinOrientationChanged ){
       if( abacusProperty.scale ){
         this._createScale();
         this._setTransition();
@@ -742,7 +744,7 @@ export class View{
    * Функция переключает состояние слайдера с активного на неактивный и обратно.
    * @param {boolean} off "true" значит отключить. "false" значит активировать.
    */
-  toggleDisable(off?: boolean){
+  toggleDisable(off?: boolean): void{
     if( off === undefined || off === null ){
       this._isDisabled = !this._isDisabled;
     }
@@ -781,14 +783,13 @@ export class View{
    * (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventChangeWrapper(event?: Event): boolean{
-    const viewInstance = this;
     if( ! event ){
-      event = viewInstance._customEventChange;
+      event = this._customEventChange;
     }
-    const dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventChange);
-    const abacusProperty: AbacusOptions = viewInstance._presenter.getModelAbacusProperty();
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if( typeof abacusProperty?.change === 'function' ){
-      abacusProperty.change(event, viewInstance._getEventUIData());
+      abacusProperty.change(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -804,14 +805,13 @@ export class View{
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventCreateWrapper(event?: Event): boolean{
-    const viewInstance = this;
     if( ! event ){
-      event = viewInstance._customEventCreate;
+      event = this._customEventCreate;
     }
-    const dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventCreate);
-    const abacusProperty: AbacusOptions = viewInstance._presenter.getModelAbacusProperty();
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if( typeof abacusProperty?.create === 'function' ){
-      abacusProperty.create(event, viewInstance._getEventUIData());
+      abacusProperty.create(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -827,14 +827,13 @@ export class View{
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventSlideWrapper(event?: Event): boolean{
-    const viewInstance = this;
     if( ! event ){
-      event = viewInstance._customEventSlide;
+      event = this._customEventSlide;
     }
-    const dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventSlide);
-    const abacusProperty: AbacusOptions = viewInstance._presenter.getModelAbacusProperty();
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if( typeof abacusProperty?.slide === 'function' ){
-      abacusProperty.slide(event, viewInstance._getEventUIData());
+      abacusProperty.slide(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -850,14 +849,13 @@ export class View{
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventStartWrapper(event?: Event): boolean{
-    const viewInstance = this;
     if( ! event ){
-      event = viewInstance._customEventStart;
+      event = this._customEventStart;
     }
-    const dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStart);
-    const abacusProperty: AbacusOptions = viewInstance._presenter.getModelAbacusProperty();
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if( typeof abacusProperty?.start === 'function' ){
-      abacusProperty.start(event, viewInstance._getEventUIData());
+      abacusProperty.start(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -873,14 +871,13 @@ export class View{
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
   private _eventStopWrapper(event?: Event): boolean{
-    const viewInstance = this;
     if( ! event ){
-      event = viewInstance._customEventStop;
+      event = this._customEventStop;
     }
-    const dispatchEventResult = viewInstance._widgetContainer.htmlElement.dispatchEvent(viewInstance._customEventStop);
-    const abacusProperty: AbacusOptions = viewInstance._presenter.getModelAbacusProperty();
+    const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
+    const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if( typeof abacusProperty?.stop === 'function' ){
-      abacusProperty.stop(event, viewInstance._getEventUIData());
+      abacusProperty.stop(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -899,7 +896,7 @@ export class View{
 			return;
 		}
 
-    let coordinate: number = 0;
+    let coordinate = 0;
     if( event instanceof MouseEvent ){
       coordinate = this._isVertical ? event.clientY : event.clientX;
     }
@@ -910,7 +907,7 @@ export class View{
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
 
-    let newValues: number[] = abacusProperty.values?.slice(0);
+    const newValues: number[] = abacusProperty.values?.slice(0);
 
     if( viewInstance._currentHandle.handleIndex === 0 ){
       if( valueUnrounded >= abacusProperty.values[1] ){
@@ -947,7 +944,7 @@ export class View{
     }
 
     const viewInstance = this;
-    let abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
 		if( ! abacusProperty.values?.length ){
 			return;
 		}
@@ -957,10 +954,8 @@ export class View{
       newValues = abacusProperty.values?.slice(0);
     }
 
-    if( abacusProperty.range === true 
-      && abacusProperty.values?.length 
-      && abacusProperty.step
-    ){
+    const checkNecessaryProps = abacusProperty.range === true && abacusProperty.values?.length && abacusProperty.step;
+    if( checkNecessaryProps ){
       let deltaMin = abacusProperty.values[0] - valueUnrounded;
           deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
       let deltaMax = abacusProperty.values[1] - valueUnrounded;
@@ -968,28 +963,9 @@ export class View{
 
       if( deltaMax < deltaMin ){
         newValues[1] = valueUnrounded;
-
-        // это условие нужно, чтобы можно было сократить интервал до ноля. 
-        // if( View.round(abacusProperty.values[0] + abacusProperty.step, abacusProperty.step) === abacusProperty.values[1]
-        //   && valueUnrounded < abacusProperty.values[1]
-        // ){
-        //   newValues[0] = abacusProperty.values[1];
-        // }
-        // else{
-        //   newValues[1] = valueUnrounded;
-        // }
       }
       else{
         newValues[0] = valueUnrounded;
-
-        // это условие нужно, чтобы можно было сократить интервал до ноля. 
-        // if( View.round(abacusProperty.values[1] - abacusProperty.step, abacusProperty.step) === abacusProperty.values[0]
-        //   && valueUnrounded > abacusProperty.values[0]){
-        //   newValues[1] = abacusProperty.values[0];
-        // }
-        // else{
-        //   newValues[0] = valueUnrounded;
-        // }
       }
     }
     else{
@@ -1006,6 +982,8 @@ export class View{
    */
   private _bindEventListeners(): void{
     const viewInstance = this;
+
+    viewInstance._presenter.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
 
     viewInstance._widgetContainer.htmlElement.addEventListener(
       'click',
@@ -1043,6 +1021,16 @@ export class View{
 
 
   /**
+   * Обработчик обновления модели.
+   * @private
+   * @param {Event} event Объект события.
+   */
+  private _updateModelHandler(): void{
+    this.updateView();
+  }
+
+
+  /**
    * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
    * @private
    */
@@ -1054,16 +1042,16 @@ export class View{
     const handleClass = abacusProperty.classes?.handle ? abacusProperty.classes?.handle : '';
     const markClass = abacusProperty.classes?.mark ? abacusProperty.classes?.mark : '';
 
-    if( viewInstance._isDisabled
-      || eventTarget.classList.contains(handleClass)
-      || eventTarget.classList.contains(markClass)
-    ){
+    const condition = viewInstance._isDisabled
+                    || eventTarget.classList.contains(handleClass)
+                    || eventTarget.classList.contains(markClass);
+    if( condition ){
       return;
     }
 
     // viewInstance._mouseHandler(event);
 
-    let coordinate: number = 0;
+    let coordinate = 0;
     if( event instanceof MouseEvent ){
       coordinate = this._isVertical ? event.clientY : event.clientX;
     }
@@ -1111,7 +1099,7 @@ export class View{
       if( viewInstance._isDragHandle ){
         // console.log('_handlerHandleItemClickMove');
         viewInstance._mouseHandler(event);
-        // let coordinate: number = 0;
+        // let coordinate = 0;
         // if( event instanceof MouseEvent ){
         //   coordinate = this._isVertical ? event.clientY : event.clientX;
         // }
@@ -1155,6 +1143,10 @@ export class View{
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
     if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
+    // const checkNecessaryProps = abacusProperty.min !== undefined && 
+    //                             abacusProperty.max !== undefined && 
+    //                             abacusProperty.step !== undefined;
+    // if( checkNecessaryProps ){
       let value = abacusProperty.min;
       for (; value <= abacusProperty.max; value += abacusProperty.step) {
         value = View.round(value, abacusProperty.step);
@@ -1222,7 +1214,7 @@ export class View{
     }
 
     const k = 7; // Минимальное расстояние между метка шкалы.
-    let sizeMarks: number = 0;
+    let sizeMarks = 0;
     if( this._isVertical ){
       for(const mark of this._mapScale.values()){
         sizeMarks += mark.htmlElement.offsetHeight + k;
@@ -1236,10 +1228,18 @@ export class View{
 
     if( sizeWidget < sizeMarks ){
       const abacusProperty = this._presenter.getModelAbacusProperty();
-      if( abacusProperty.min !== undefined && abacusProperty.max !== undefined && abacusProperty.step !== undefined ){
-        let isDelete: boolean = false;
+      // if( abacusProperty.min !== undefined
+      //   && abacusProperty.max !== undefined
+      //   && abacusProperty.step !== undefined
+      // ){
+      const checkNecessaryProps = abacusProperty.min !== undefined && 
+                                  abacusProperty.max !== undefined && 
+                                  abacusProperty.step !== undefined;
+      if( checkNecessaryProps ){
+        let isDelete = false;
         for (const mark of this._mapScale) {
-          if( mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete ){
+          const dontDeleteMark = mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete;
+          if( dontDeleteMark ){
             isDelete = false;
             continue;
           }
@@ -1282,22 +1282,25 @@ export class View{
     const abacusProperty = this._presenter.getModelAbacusProperty();
     const rangeType = abacusProperty.range;
 
+    // const checkNecessaryProps = abacusProperty.min !== undefined
+    //                           && abacusProperty.max !== undefined
+    //                           && abacusProperty.step !== undefined
+    //                           && abacusProperty.values?.length;
+    // if( checkNecessaryProps ){
     if( abacusProperty.min !== undefined
       && abacusProperty.max !== undefined
       && abacusProperty.step !== undefined
       && abacusProperty.values?.length 
     ){
       for (const markItem of this._mapScale) {
+        const isValBetween0And1 = markItem[0] >= abacusProperty.values[0] && markItem[0] <= abacusProperty.values[1];
         if( rangeType === 'min' && markItem[0] <= abacusProperty.values[0]){
           markItem[1].isInrange(true);
         }
         else if( rangeType === 'max' && markItem[0] >= abacusProperty.values[0]){
           markItem[1].isInrange(true);
         }
-        else if( rangeType === true 
-          && markItem[0] >= abacusProperty.values[0] 
-          && markItem[0] <= abacusProperty.values[1] 
-        ){
+        else if( rangeType === true && isValBetween0And1 ){
           markItem[1].isInrange(true);
         }
         else{
@@ -1323,7 +1326,7 @@ export class View{
     for (const mark of this._mapScale) {
       // я оставил эти обработчики в таком виде,
       // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
-      mark[1].htmlElement.addEventListener('click', (event: MouseEvent) => {
+      mark[1].htmlElement.addEventListener('click', () => {
         const viewInstance = this;
         if( viewInstance._isDisabled ){
           return;
@@ -1335,7 +1338,7 @@ export class View{
         }
       });
 
-      mark[1].htmlElement.addEventListener('touchend', (event: TouchEvent) => {
+      mark[1].htmlElement.addEventListener('touchend', () => {
         const viewInstance = this;
         if( viewInstance._isDisabled ){
           return;
@@ -1356,7 +1359,7 @@ export class View{
    * @private
    */
   private _setTransition(): void{
-    let duration: string = '';
+    let duration = '';
     const animate = this._presenter.getModelAbacusProperty().animate;
     if( typeof animate === 'number' && animate > 0 ){
       duration = animate.toString();
@@ -1420,7 +1423,8 @@ export class View{
    * @returns {number} Количество знаков после запятой.
    */
   static countNumAfterPoint(x: number): number{
-    return ~(x + '').indexOf('.') ? (x + '').split('.')[1].length : 0;
+    const xStr = x.toString();
+    return ~(xStr + '').indexOf('.') ? (xStr + '').split('.')[1].length : 0;
   }
 
 

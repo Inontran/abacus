@@ -2,27 +2,29 @@
  * @fileoverview Файл с примерами использования плагина Abacus.
  */
 $(() => {
-  $('#abacus-1').on('abacus-change', ()=>{
+  const $abacus = $('#abacus-1');
+
+  $abacus.on('abacus-change', ()=>{
     // console.log('abacus-change');
   });
 
-  $('#abacus-1').on('abacus-create', ()=>{
+  $abacus.on('abacus-create', ()=>{
     // console.log('abacus-create');
   });
 
-  $('#abacus-1').on('abacus-slide', ()=>{
+  $abacus.on('abacus-slide', ()=>{
     // console.log('abacus-slide');
   });
 
-  $('#abacus-1').on('abacus-start', ()=>{
+  $abacus.on('abacus-start', ()=>{
     // console.log('abacus-start');
   });
 
-  $('#abacus-1').on('abacus-stop', ()=>{
+  $abacus.on('abacus-stop', ()=>{
     // console.log('abacus-stop');
   });
 
-  const $abacus = $('#abacus-1').abacus({
+  $abacus.abacus({
     min: -10,
     max: 9,
     step: 2,
@@ -226,3 +228,15 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
 
   return abacusProperty;
 }
+
+
+// let a: number | undefined = Math.random();
+// if( a < 0.5 ){
+//   a = undefined;
+// }
+// let b = 0;
+// const isNotEmpty = (a !== undefined);
+// if(isNotEmpty){
+// // if( a !== undefined ){
+//   b += a;
+// }

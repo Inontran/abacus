@@ -73,7 +73,7 @@ export class Range{
       if( width > 100 ) width = 100;
 
       this._width = width;
-      this._htmlElement.style.width = width + '%';
+      this._htmlElement.style.width = width.toString() + '%';
     }
   }
 
@@ -99,7 +99,7 @@ export class Range{
       if( height > 100 ) height = 100;
 
       this._height = height;
-      this._htmlElement.style.height = height + '%';
+      this._htmlElement.style.height = height.toString() + '%';
     }
   }
 
@@ -142,7 +142,8 @@ export class Range{
    *
    */
   public set rangeType(value : string) {
-    if( value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between' ){
+    const isValueEqualRangeType = value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between';
+    if( isValueEqualRangeType ){
       value = 'hidden';
     }
     this._rangeType = value as RangeType;
