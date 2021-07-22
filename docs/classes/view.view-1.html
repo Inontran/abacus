@@ -97,6 +97,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_cachedabacusproperty" class="tsd-kind-icon">_cached<wbr>Abacus<wbr>Property</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_currenthandle" class="tsd-kind-icon">_current<wbr>Handle</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_customeventchange" class="tsd-kind-icon">_custom<wbr>Event<wbr>Change</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_customeventcreate" class="tsd-kind-icon">_custom<wbr>Event<wbr>Create</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_customeventslide" class="tsd-kind-icon">_custom<wbr>Event<wbr>Slide</a></li>
@@ -129,6 +130,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_eventslidewrapper" class="tsd-kind-icon">_event<wbr>Slide<wbr>Wrapper</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_eventstartwrapper" class="tsd-kind-icon">_event<wbr>Start<wbr>Wrapper</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_eventstopwrapper" class="tsd-kind-icon">_event<wbr>Stop<wbr>Wrapper</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_findmovedhandle" class="tsd-kind-icon">_find<wbr>Moved<wbr>Handle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_getcloneabacusproperty" class="tsd-kind-icon">_get<wbr>Clone<wbr>Abacus<wbr>Property</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_geteventuidata" class="tsd-kind-icon">_get<wbr>EventUIData</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_handlerhandleitemclickmove" class="tsd-kind-icon">_handler<wbr>Handle<wbr>Item<wbr>Click<wbr>Move</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_handlerhandleitemclickstart" class="tsd-kind-icon">_handler<wbr>Handle<wbr>Item<wbr>Click<wbr>Start</a></li>
@@ -139,6 +142,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_removescale" class="tsd-kind-icon">_remove<wbr>Scale</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_settransition" class="tsd-kind-icon">_set<wbr>Transition</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_thinoutscale" class="tsd-kind-icon">_thin<wbr>Out<wbr>Scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_updateclassnames" class="tsd-kind-icon">_update<wbr>Class<wbr>Names</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_updatemodelhandler" class="tsd-kind-icon">_update<wbr>Model<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_updateviewhandles" class="tsd-kind-icon">_update<wbr>View<wbr>Handles</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_updateviewrange" class="tsd-kind-icon">_update<wbr>View<wbr>Range</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="view.view-1.html#_updateviewtooltips" class="tsd-kind-icon">_update<wbr>View<wbr>Tooltips</a></li>
@@ -163,13 +168,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>View<span class="tsd-signature-symbol">(</span>abacusHtmlContainer<span class="tsd-signature-symbol">: </span><a href="../interfaces/abacus_interfaces.htmlabacuselement.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLAbacusElement</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="view.view-1.html" class="tsd-signature-type" data-tsd-kind="Class">View</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>View<span class="tsd-signature-symbol">(</span>abacusHtmlContainer<span class="tsd-signature-symbol">: </span><a href="../interfaces/abacus_interfaces.htmlabacuselement.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLAbacusElement</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="view.view-1.html" class="tsd-signature-type" data-tsd-kind="Class">View</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L123">View.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L126">View.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,12 +192,6 @@
 										<p>Параметры настройки плагина.</p>
 									</div>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">object</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Другие данные.</p>
-									</div>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="view.view-1.html" class="tsd-signature-type" data-tsd-kind="Class">View</a></h4>
 						</li>
@@ -207,7 +206,7 @@
 					<div class="tsd-signature tsd-kind-icon">_cached<wbr>Abacus<wbr>Property<span class="tsd-signature-symbol">:</span> <a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol"> = {}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L117">View.ts:117</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L117">View.ts:117</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -217,12 +216,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_currenthandle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> _current<wbr>Handle</h3>
+					<div class="tsd-signature tsd-kind-icon">_current<wbr>Handle<span class="tsd-signature-symbol">:</span> <a href="handle.handle-1.html" class="tsd-signature-type" data-tsd-kind="Class">Handle</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L126">View.ts:126</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_customeventchange" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _custom<wbr>Event<wbr>Change</h3>
 					<div class="tsd-signature tsd-kind-icon">_custom<wbr>Event<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L55">View.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L55">View.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -237,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">_custom<wbr>Event<wbr>Create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L62">View.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L62">View.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">_custom<wbr>Event<wbr>Slide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L69">View.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L69">View.ts:69</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -267,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">_custom<wbr>Event<wbr>Start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L76">View.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L76">View.ts:76</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -282,7 +291,7 @@
 					<div class="tsd-signature tsd-kind-icon">_custom<wbr>Event<wbr>Stop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L83">View.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L83">View.ts:83</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -297,7 +306,7 @@
 					<div class="tsd-signature tsd-kind-icon">_handle<wbr>Moving<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Timeout</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L105">View.ts:105</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L105">View.ts:105</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -312,7 +321,7 @@
 					<div class="tsd-signature tsd-kind-icon">_handles<span class="tsd-signature-symbol">:</span> <a href="handle.handle-1.html" class="tsd-signature-type" data-tsd-kind="Class">Handle</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L41">View.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L41">View.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -327,7 +336,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Disabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L90">View.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L90">View.ts:90</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -342,7 +351,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Drag<wbr>Handle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L97">View.ts:97</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L97">View.ts:97</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -357,7 +366,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Vertical<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L123">View.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L123">View.ts:123</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -372,7 +381,7 @@
 					<div class="tsd-signature tsd-kind-icon">_map<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="mark.mark-1.html" class="tsd-signature-type" data-tsd-kind="Class">Mark</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L111">View.ts:111</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L111">View.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -387,7 +396,7 @@
 					<div class="tsd-signature tsd-kind-icon">_presenter<span class="tsd-signature-symbol">:</span> <a href="presenter.presenter-1.html" class="tsd-signature-type" data-tsd-kind="Class">Presenter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L20">View.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L20">View.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -403,7 +412,7 @@
 					<div class="tsd-signature tsd-kind-icon">_range<span class="tsd-signature-symbol">:</span> <a href="range.range-1.html" class="tsd-signature-type" data-tsd-kind="Class">Range</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L34">View.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L34">View.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -418,7 +427,7 @@
 					<div class="tsd-signature tsd-kind-icon">_tooltips<span class="tsd-signature-symbol">:</span> <a href="tooltip.tooltip-1.html" class="tsd-signature-type" data-tsd-kind="Class">Tooltip</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L48">View.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L48">View.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -433,7 +442,7 @@
 					<div class="tsd-signature tsd-kind-icon">_widget<wbr>Container<span class="tsd-signature-symbol">:</span> <a href="widgetcontainer.widgetcontainer-1.html" class="tsd-signature-type" data-tsd-kind="Class">WidgetContainer</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L27">View.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L27">View.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -455,7 +464,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L915">View.ts:915</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L983">View.ts:983</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1227">View.ts:1227</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1325">View.ts:1325</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L871">View.ts:871</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L941">View.ts:941</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -530,7 +539,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1066">View.ts:1066</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1139">View.ts:1139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -552,7 +561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L449">View.ts:449</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L448">View.ts:448</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -583,7 +592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L573">View.ts:573</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L597">View.ts:597</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -614,7 +623,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L523">View.ts:523</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L545">View.ts:545</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -645,7 +654,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L707">View.ts:707</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L785">View.ts:785</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -679,7 +688,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L730">View.ts:730</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L807">View.ts:807</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -713,7 +722,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L753">View.ts:753</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L829">View.ts:829</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -747,7 +756,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L776">View.ts:776</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L851">View.ts:851</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -781,7 +790,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L799">View.ts:799</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L873">View.ts:873</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -806,6 +815,46 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_findmovedhandle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _find<wbr>Moved<wbr>Handle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_find<wbr>Moved<wbr>Handle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="handle.handle-1.html" class="tsd-signature-type" data-tsd-kind="Class">Handle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1404">View.ts:1404</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="handle.handle-1.html" class="tsd-signature-type" data-tsd-kind="Class">Handle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_getcloneabacusproperty" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _get<wbr>Clone<wbr>Abacus<wbr>Property</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_get<wbr>Clone<wbr>Abacus<wbr>Property<span class="tsd-signature-symbol">(</span>abacusProperty<span class="tsd-signature-symbol">: </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1395">View.ts:1395</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>abacusProperty: <a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="_geteventuidata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _get<wbr>EventUIData</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -815,7 +864,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L687">View.ts:687</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L764">View.ts:764</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -838,7 +887,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1018">View.ts:1018</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1089">View.ts:1089</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -867,7 +916,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1002">View.ts:1002</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1072">View.ts:1072</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -895,7 +944,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1053">View.ts:1053</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1125">View.ts:1125</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -924,7 +973,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L968">View.ts:968</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1037">View.ts:1037</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -952,7 +1001,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1189">View.ts:1189</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1277">View.ts:1277</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -974,17 +1023,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L819">View.ts:819</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L892">View.ts:892</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Функция, обрабатывающая позицию мыши или касания.</p>
+									<p>Функция, обрабатывающая позицию мыши или касания и вычисляющая, какию ручку перемещать.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd></dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1009,7 +1054,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1117">View.ts:1117</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1195">View.ts:1195</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1031,7 +1076,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1258">View.ts:1258</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1361">View.ts:1361</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1054,12 +1099,62 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1128">View.ts:1128</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1207">View.ts:1207</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Функция удаления лишних меток на шкале значений для того, чтобы они не &quot;слипались&quot; друг с другом.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_updateclassnames" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _update<wbr>Class<wbr>Names</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_update<wbr>Class<wbr>Names<span class="tsd-signature-symbol">(</span>abacusClasses<span class="tsd-signature-symbol">: </span><a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L696">View.ts:696</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>abacusClasses: <a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_updatemodelhandler" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _update<wbr>Model<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_update<wbr>Model<wbr>Handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1028">View.ts:1028</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Обработчик обновления модели.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1076,7 +1171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L496">View.ts:496</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L517">View.ts:517</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1107,7 +1202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L605">View.ts:605</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L630">View.ts:630</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1138,7 +1233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L544">View.ts:544</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L567">View.ts:567</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1169,7 +1264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L242">View.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L237">View.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1201,7 +1296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L223">View.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L218">View.ts:218</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1238,7 +1333,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L191">View.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L186">View.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1271,7 +1366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L274">View.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L269">View.ts:269</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1298,13 +1393,13 @@
 					<a name="option" class="tsd-anchor"></a>
 					<h3>option</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">option<span class="tsd-signature-symbol">(</span>optionName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">option<span class="tsd-signature-symbol">(</span>optionName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L299">View.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L294">View.ts:294</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1327,7 +1422,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/abacus_interfaces.abacusoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1341,7 +1436,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L670">View.ts:670</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L747">View.ts:747</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1372,7 +1467,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L346">View.ts:346</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L339">View.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1394,13 +1489,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1325">View.ts:1325</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1458">View.ts:1458</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Функция сравнения двух массивов с произвольними примитивными значениями.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1432,13 +1531,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1295">View.ts:1295</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1425">View.ts:1425</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Функция получения количества знаков после запятой.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1464,13 +1567,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/826f2c9/src/scripts/View.ts#L1306">View.ts:1306</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/e41c619/src/scripts/View.ts#L1438">View.ts:1438</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1550,6 +1657,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="view.view-1.html#_cachedabacusproperty" class="tsd-kind-icon">_cached<wbr>Abacus<wbr>Property</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="view.view-1.html#_currenthandle" class="tsd-kind-icon">_current<wbr>Handle</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="view.view-1.html#_customeventchange" class="tsd-kind-icon">_custom<wbr>Event<wbr>Change</a>
@@ -1633,6 +1743,12 @@
 								<a href="view.view-1.html#_eventstopwrapper" class="tsd-kind-icon">_event<wbr>Stop<wbr>Wrapper</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="view.view-1.html#_findmovedhandle" class="tsd-kind-icon">_find<wbr>Moved<wbr>Handle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="view.view-1.html#_getcloneabacusproperty" class="tsd-kind-icon">_get<wbr>Clone<wbr>Abacus<wbr>Property</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="view.view-1.html#_geteventuidata" class="tsd-kind-icon">_get<wbr>EventUIData</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -1661,6 +1777,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="view.view-1.html#_thinoutscale" class="tsd-kind-icon">_thin<wbr>Out<wbr>Scale</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="view.view-1.html#_updateclassnames" class="tsd-kind-icon">_update<wbr>Class<wbr>Names</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="view.view-1.html#_updatemodelhandler" class="tsd-kind-icon">_update<wbr>Model<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="view.view-1.html#_updateviewhandles" class="tsd-kind-icon">_update<wbr>View<wbr>Handles</a>
