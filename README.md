@@ -6,4 +6,4 @@
 Документация: [https://inontran.github.io/abacus/docs](https://inontran.github.io/abacus/docs).
 
 Структура TS-кода:
-![Структура TS-кода](//inontran.github.io/abacus/uml/uml.svg)
+![Структура TS-кода](https://inontran.github.io/abacus/uml/uml.svg)
