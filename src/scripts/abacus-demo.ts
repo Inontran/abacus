@@ -2,78 +2,36 @@
  * @fileoverview Файл с примерами использования плагина Abacus.
  */
 $(() => {
-  const $abacus = $('#abacus-1');
+  const $cardList = $('.js-card-list');
 
-  $abacus.on('abacus-change', ()=>{
-    // console.log('abacus-change');
-  });
+  for (let i = 2; i <= 3; i++) {
+    const $cloneCard = $('.js-card-list__item:first', $cardList).clone();
+    $cardList.append($cloneCard);
+    $('.js-card-list__number', $cloneCard).text(i);
+  }
 
-  $abacus.on('abacus-create', ()=>{
-    // console.log('abacus-create');
-  });
-
-  $abacus.on('abacus-slide', ()=>{
-    // console.log('abacus-slide');
-  });
-
-  $abacus.on('abacus-start', ()=>{
-    // console.log('abacus-start');
-  });
-
-  $abacus.on('abacus-stop', ()=>{
-    // console.log('abacus-stop');
-  });
-
-  $abacus.abacus({
+  $('.abacus', $cardList).abacus({
     min: -10,
     max: 9,
     step: 2,
     values: [-4, 6],
     range: true,
-    scale: true,
-    change: (event, ui) =>{
-      // console.log('change');
-      // console.log(ui);
-    },
-    create: (event, ui) =>{
-      // console.log('create');
-      // console.log( ui );
-    },
-    slide: (event, ui) =>{
-      // console.log('slide');
-      // console.log( ui );
-    },
-    start: (event, ui) =>{
-      // console.log('start');
-      // console.log( ui );
-    },
-    stop: (event, ui) =>{
-      // console.log('stop');
-      // console.log( ui );
-    },
+    scale: true
   });
 
 
-  setTimeout(() => {
-    // $abacus.abacus('option', {
-    //   classes: {
-    //     handle: 'qwe'
-    //   },
-    // } as AbacusOptions);
-  }, 5000);
-
   $('body').on('abacus-change', '.abacus', (event)=>{
     const $abacusItem = $(event.currentTarget);
-    const $form = $abacusItem.closest('.card').find('form');
+    const $form = $abacusItem.closest('.js-card-list__item').find('form');
     if( $form.length && $abacusItem[0].jqueryAbacusInstance ){
       parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
     }
   });
 
 
-  $('body .abacus').each(function(){
+  $('.abacus', $cardList).each(function(){
     const $abacusItem = $(this as HTMLAbacusElement);
-    const $form = $abacusItem.closest('.card').find('form');
+    const $form = $abacusItem.closest('.js-card-list__item').find('form');
     if( $form.length && $abacusItem[0].jqueryAbacusInstance ){
       parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
     }
@@ -87,6 +45,7 @@ $(() => {
     }
     const $form = $(event.currentTarget) as JQuery<HTMLElement>;
     const abacusOptions = parseFormToProperty($form);
+    const $abacus = $form.closest('.js-card-list__item').find('.abacus');
     $abacus?.abacus('option', abacusOptions);
   });
 });
