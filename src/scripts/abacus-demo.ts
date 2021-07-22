@@ -230,13 +230,21 @@ function parseFormToProperty($form: JQuery): AbacusOptions{
 }
 
 
+
+
+
+
+
+
+
+
 // let a: number | undefined = Math.random();
 // if( a < 0.5 ){
 //   a = undefined;
 // }
 // let b = 0;
-// const isNotEmpty = (a !== undefined);
-// if(isNotEmpty){
+// const isNotEmpty = (a: number | undefined): a is number => a !== undefined;
+// if(isNotEmpty(a)){
 // // if( a !== undefined ){
 //   b += a;
 // }
