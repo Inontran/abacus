@@ -2,7 +2,7 @@
  * Класс "Range" является оберткой для HTML-элемента индикатора (progress bar).
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export class Range{
+export class Range {
   /**
    * HTML-элемент индикатора.
    * @type {HTMLElement}
@@ -45,12 +45,11 @@ export class Range{
    *  range: 'abacus__range'
    * });
    */
-  constructor(classes?: AbacusClasses){
+  constructor(classes?: AbacusClasses) {
     this._htmlElement = document.createElement('span');
     this._className = classes?.range ? classes.range : 'abacus__range';
     this._htmlElement.classList.add(this._className);
   }
-
 
   /**
    * Геттер ширины HTML-элемента (_htmlElement).
@@ -64,19 +63,17 @@ export class Range{
    * @param {number | null} width ширина в процентах от 0 до 100.
    */
   public set width(width : number | null) {
-    if( width === null ){
+    if (width === null) {
       this._width = width;
       this._htmlElement.style.width = '';
-    }
-    else{
-      if( width < 0 ) width = 0;
-      if( width > 100 ) width = 100;
+    } else {
+      if (width < 0) width = 0;
+      if (width > 100) width = 100;
 
       this._width = width;
-      this._htmlElement.style.width = width.toString() + '%';
+      this._htmlElement.style.width = `${width.toString()}%`;
     }
   }
-
 
   /**
    * Геттер высоты HTML-элемента (_htmlElement).
@@ -90,19 +87,17 @@ export class Range{
    * @param {number | null} height высота в процентах от 0 до 100.
    */
   public set height(height : number | null) {
-    if( height === null ){
+    if (height === null) {
       this._height = height;
       this._htmlElement.style.height = '';
-    }
-    else{
-      if( height < 0 ) height = 0;
-      if( height > 100 ) height = 100;
+    } else {
+      if (height < 0) height = 0;
+      if (height > 100) height = 100;
 
       this._height = height;
-      this._htmlElement.style.height = height.toString() + '%';
+      this._htmlElement.style.height = `${height.toString()}%`;
     }
   }
-
 
   /**
    * Геттер ссылки на HTML-элемент.
@@ -111,14 +106,12 @@ export class Range{
     return this._htmlElement;
   }
 
-
   /**
    * Геттер названия класса HTML-элемента.
    */
   public get className() : string {
     return this._className;
   }
-
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
@@ -129,7 +122,6 @@ export class Range{
     this._htmlElement.classList.add(value);
     this._className = value;
   }
-
 
   /**
    *
@@ -143,17 +135,16 @@ export class Range{
    */
   public set rangeType(value : string) {
     const isValueEqualRangeType = value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between';
-    if( isValueEqualRangeType ){
+    if (isValueEqualRangeType) {
       value = 'hidden';
     }
     this._rangeType = value as RangeType;
   }
-
 }
 
 enum RangeType {
   HIDDEN = 'hidden',
   MIN = 'min',
   MAX = 'max',
-  BETWEEN = 'between'
+  BETWEEN = 'between',
 }

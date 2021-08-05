@@ -17,7 +17,7 @@ interface AbacusClasses{
   /**
    * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
    */
-	disabled: string;
+  disabled: string;
 
   /**
    * Класс HTML-элемента ручек слайдера.
@@ -91,8 +91,8 @@ interface AbacusOptions {
   min?: number;
 
   /**
-   * Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа) 
-   * или вертикально (минимум внизу, максимум вверху). 
+   * Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа)
+   * или вертикально (минимум внизу, максимум вверху).
    * Возможные значения: "horizontal" (по горизонтали), "vertical" (по вертикали).
    * @type {string}
    */
@@ -148,22 +148,19 @@ interface AbacusOptions {
    */
   change?: (event: Event, ui: EventUIData) => void;
 
-
   /**
    * Срабатывает после создания слайдера.
    * Тип события - "create".
    */
   create?: (event: Event, ui: EventUIData) => void;
 
-
   /**
-   * Срабатывает при каждом движении мыши во время перемещении ручки слайдреа. 
+   * Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
    * Значение, указанное в событии как ui.value, представляет значение,
    * которое ручка будет иметь в результате текущего движения.
    * Тип события - "slide".
    */
   slide?: (event: Event, ui: EventUIData) => void;
-
 
   /**
    * Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.
@@ -171,14 +168,12 @@ interface AbacusOptions {
    */
   start?: (event: Event, ui: EventUIData) => void;
 
-
   /**
    * Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.
    * Тип события - "stop".
    */
   stop?: (event: Event, ui: EventUIData) => void;
 }
-
 
 /**
  * Интерфейс объекта плагина.
@@ -199,12 +194,11 @@ interface Abacus {
    * @param {any} param2 Значение свойства слайдера.
    * @returns {JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View}
    */
-  ( funcName: string,
+  (funcName: string,
     param1 ? : AbacusOptions | number | string | number[],
     param2 ? : number | string | boolean | null | AbacusClasses
   ): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
 }
-
 
 /**
  * Добавление в интефейс JQuery поле с плагинов "abacus".
@@ -212,7 +206,6 @@ interface Abacus {
 interface JQuery {
   abacus: Abacus;
 }
-
 
 /**
  * Интерфейс, расширяющий HTMLElement, для хранения в нем экземпляр объекта слайдера.
@@ -224,7 +217,6 @@ interface HTMLAbacusElement extends HTMLElement{
    */
   jqueryAbacusInstance?: View;
 }
-
 
 interface EventUIData{
   handle: HTMLElement;

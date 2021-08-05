@@ -1,11 +1,11 @@
 import EventTarget from '@ungap/event-target';
-import {Model} from './Model';
+import { Model } from './Model';
 
 /**
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
  * Соответственно, он отвечает за передачу данных от Вида к Модели и обратно.
  */
-export class Presenter{
+export class Presenter {
   /**
    * Ссылка на Модель, которая содержит данные слайдера.
    * @type {Model}
@@ -31,22 +31,20 @@ export class Presenter{
    * @this Presenter
    * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
    */
-  constructor(options?: AbacusOptions){
+  constructor(options?: AbacusOptions) {
     this._model = new Model(options);
     this._eventTarget = new EventTarget();
     this._eventUpdateModel = new CustomEvent('update-model');
     this._bindEventListeners();
   }
 
-
   /**
    * Функция получения свойств слайдера, полученные из Модели.
    * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
    */
-  getModelAbacusProperty(): AbacusOptions{
+  getModelAbacusProperty(): AbacusOptions {
     return this._model.abacusProperty;
   }
-
 
   /**
    * Функция получения свойств слайдера, полученные из Модели.
@@ -56,17 +54,15 @@ export class Presenter{
     this._model.abacusProperty = abacusProperty;
   }
 
-
   /**
    * Функция установки текущих значений слайдера.
    * @param {number[]} values Текущее значения слайдера.
    */
   setAbacusValue(values: number[]): void{
-		this._model.abacusProperty = {
-			values: [values[0], values[1]]
-		}
+    this._model.abacusProperty = {
+      values: [values[0], values[1]],
+    };
   }
-
 
   /**
    * Установка обработчиков событий.
@@ -75,7 +71,6 @@ export class Presenter{
   private _bindEventListeners(): void{
     this._model.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
   }
-
 
   /**
    * Обработчик обновления модели.
@@ -86,11 +81,10 @@ export class Presenter{
     this._eventTarget.dispatchEvent(this._eventUpdateModel);
   }
 
-
   /**
    * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
    */
-  public get eventTarget(): EventTarget{
+  public get eventTarget(): EventTarget {
     return this._eventTarget;
   }
 }

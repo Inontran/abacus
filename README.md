@@ -49,6 +49,11 @@ npm run eslint
 npm run eslint:dump
 ```
 
+Исправление js/ts кода с помощью eslint:
+```
+npm run eslint:fix
+```
+
 Проверка стилей с помощью stylelint:
 ```
 npm run stylelint

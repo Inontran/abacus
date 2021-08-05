@@ -2,7 +2,7 @@
  * Класс "Handle" является оберткой для HTML-элемента бегунка.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export class Handle{
+export class Handle {
   /**
    * HTML-элемент бегунка.
    * @type {HTMLElement}
@@ -36,7 +36,7 @@ export class Handle{
    * @type {string}
    * @private
    */
-	private _className: string;
+  private _className: string;
 
   /**
    * @constructor
@@ -46,12 +46,12 @@ export class Handle{
    *  handle: 'abacus__handle'
    * });
    */
-  constructor(classes?: AbacusClasses, handleIndex?: number){
+  constructor(classes?: AbacusClasses, handleIndex?: number) {
     this._htmlElement = document.createElement('span');
     this._className = classes?.handle ? classes.handle : 'abacus__handle';
     this._htmlElement.classList.add(this._className);
 
-    if( handleIndex !== undefined && !isNaN(handleIndex) ){
+    if (handleIndex !== undefined && !isNaN(handleIndex)) {
       this._handleIndex = handleIndex;
     }
   }
@@ -70,25 +70,23 @@ export class Handle{
    * Или null, если координты по горизонтиле быть не должно.
    */
   public set posLeft(left : number | null) {
-    if( left === null ){
+    if (left === null) {
       this._posLeft = left;
       this._htmlElement.style.left = '';
-    }
-    else{
-      if( left < 0 ) left = 0;
-      if( left > 100 ) left = 100;
+    } else {
+      if (left < 0) left = 0;
+      if (left > 100) left = 100;
 
       this._posLeft = left;
-      this._htmlElement.style.left = left.toString() + '%';
+      this._htmlElement.style.left = `${left.toString()}%`;
     }
   }
-
 
   /**
    * Геттер позиции бегунка в процентах от нижнего края.
    * @returns {number | null} Позиция бегунка в процентах от 0 до 100.
    */
-	public get posBottom() : number | null {
+  public get posBottom() : number | null {
     return this._posBottom;
   }
 
@@ -98,19 +96,17 @@ export class Handle{
    * Или null, если координты по вертикале быть не должно.
    */
   public set posBottom(bottom : number | null) {
-    if( bottom === null ){
+    if (bottom === null) {
       this._posBottom = bottom;
       this._htmlElement.style.bottom = '';
-    }
-    else{
-      if( bottom < 0 ) bottom = 0;
-      if( bottom > 100 ) bottom = 100;
+    } else {
+      if (bottom < 0) bottom = 0;
+      if (bottom > 100) bottom = 100;
 
       this._posBottom = bottom;
-      this._htmlElement.style.bottom = bottom.toString() + '%';
+      this._htmlElement.style.bottom = `${bottom.toString()}%`;
     }
   }
-
 
   /**
    * Геттер ссылки на HTML-элемент.
@@ -119,7 +115,6 @@ export class Handle{
     return this._htmlElement;
   }
 
-
   /**
    * Геттер номера (индекса) бегунка.
    */
@@ -127,14 +122,12 @@ export class Handle{
     return this._handleIndex;
   }
 
-
   /**
    * Геттер названия класса HTML-элемента.
    */
   public get className() : string {
     return this._className;
   }
-
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.

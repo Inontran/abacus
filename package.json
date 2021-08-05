@@ -12,6 +12,7 @@
     "doc:build": "typedoc",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
     "eslint:dump": "eslint --print-config ./.eslintrc.json",
+    "eslint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx src",
     "stylelint": "stylelint 'src/styles/**/*.{css,scss}'",
     "stylelint:fix": "stylelint 'src/styles/**/*.{css,scss}' --fix"
   },
@@ -38,6 +39,7 @@
     "css-loader": "^5.0.1",
     "cssnano": "^4.1.10",
     "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-fsd": "^1.0.1",
     "file-loader": "^6.2.0",
