@@ -1,133 +1,130 @@
-.abacus{
-	position: relative;
-	display: block;
-	height: 10px;
+.abacus {
+  position: relative;
+  display: block;
+  height: 10px;
   width: 100%;
-	background-color: gold;
-	border: 2px solid brown;
+  background-color: gold;
+  border: 2px solid brown;
 
-	&,
-	*{
-		box-sizing: border-box;
-	}
+  &,
+  * {
+    box-sizing: border-box;
+  }
 
-	.abacus__handle{
-		display: inline-block;
-		width: 9px;
-		height: 20px;
-		position: absolute;
-		top: 50%;
-		left: 0;
-		transform: translate(-50%, -50%);
-		background-color: silver;
-	}
+  .abacus__handle {
+    display: inline-block;
+    width: 9px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    background-color: silver;
+  }
 
-	.abacus__range{
-		display: inline-block;
-		position: absolute;
-		top: 50%;
-		left: 0;
-		transform: translateY(-50%);
-		height: 6px;
-		width: auto;
-		background-color: brown;
-	}
+  .abacus__range {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 6px;
+    width: auto;
+    background-color: brown;
+  }
 
-	.abacus__mark{
-		display: inline-block;
-		position: absolute;
-		top: 12px;
-		transform: translateX(-50%);
-		left: 0;
+  .abacus__mark {
+    display: inline-block;
+    position: absolute;
+    top: 12px;
+    transform: translateX(-50%);
+    left: 0;
 
-		&:after{
-			content: '';
-			position: absolute;
-			top: -9px;
-			transform: translate(-50%, -50%);
-			width: 3px;
-			height: 20px;
-			background-color: cadetblue;
-			left: 50%;
-		}
+    &::after {
+      content: '';
+      position: absolute;
+      top: -9px;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 20px;
+      background-color: cadetblue;
+      left: 50%;
+    }
 
-		&.abacus__mark_inrange{
-			&:after{
-				background-color: brown;
-			}
-		}
+    &.abacus__mark_inrange {
+      &::after {
+        background-color: brown;
+      }
+    }
 
-		&.abacus__mark_selected{
-			color: brown;
-		}
-	}
+    &.abacus__mark_selected {
+      color: brown;
+    }
+  }
 
-	.abacus__tooltip{
-		display: inline-block;
-		position: absolute;
-		bottom: 16px;
-		transform: translateX(-50%);
-		background-color: sandybrown;
-		padding: 3px 5px;
-		border-radius: 100vh;
-		line-height: 1;
-	}
+  .abacus__tooltip {
+    display: inline-block;
+    position: absolute;
+    bottom: 16px;
+    transform: translateX(-50%);
+    background-color: sandybrown;
+    padding: 3px 5px;
+    border-radius: 100vh;
+    line-height: 1;
+  }
 
+  &:not(.abacus_disabled) {
+    &,
+    .abacus__handle {
+      cursor: pointer;
+    }
+  }
 
-	&:not(.abacus_disabled){
-		&,
-		.abacus__handle{
-			cursor: pointer;
-		}
-	}
+  &.abacus_vertical {
+    height: 300px;
+    width: 10px;
 
+    .abacus__handle {
+      width: 20px;
+      height: 9px;
+      top: auto;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+    }
 
-	&.abacus_vertical{
-		height: 300px;
-		width: 10px;
+    .abacus__range {
+      top: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: auto;
+    }
 
-		.abacus__handle{
-			width: 20px;
-			height: 9px;
-			top: auto;
-			bottom: 0;
-			left: 50%;
-			transform: translate(-50%, 50%);
-		}
+    .abacus__mark {
+      top: auto;
+      right: 17px;
+      left: auto;
+      transform: translateY(50%);
 
-		.abacus__range{
-			top: auto;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 6px;
-			height: auto;
-		}
+      &::after {
+        left: auto;
+        right: -34px;
+        transform: translate(-50%, -50%);
+        height: 3px;
+        width: 20px;
+        top: 50%;
+      }
+    }
 
-		.abacus__mark{
-			top: auto;
-			right: 17px;
-			left:  auto;
-			transform: translateY(50%);
-	
-			&:after{
-				left: auto;
-				right: -34px;
-				transform: translate(-50%, -50%);
-				height: 3px;
-				width: 20px;
-				top: 50%;
-			}
-		}
+    .abacus__tooltip {
+      top: auto;
+      left: 16px;
+      transform: translateY(50%);
+    }
+  }
 
-		.abacus__tooltip{
-			top: auto;
-			left: 16px;
-			transform: translateY(50%);
-		}
-	}
-
-
-	&.abacus_disabled{
-		filter: grayscale(0.5);
-	}
+  &.abacus_disabled {
+    filter: grayscale(0.5);
+  }
 }

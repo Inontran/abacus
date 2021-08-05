@@ -11,7 +11,9 @@
     "start": "cross-env NODE_ENV=development webpack serve --mode development --watch",
     "doc:build": "typedoc",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
-    "eslint:dump": "eslint --print-config ./.eslintrc.json"
+    "eslint:dump": "eslint --print-config ./.eslintrc.json",
+    "stylelint": "stylelint 'src/styles/**/*.{css,scss}'",
+    "stylelint:fix": "stylelint 'src/styles/**/*.{css,scss}' --fix"
   },
   "keywords": [
     "abacus",
@@ -48,6 +50,9 @@
     "postcss-loader": "^4.1.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.20.1",
     "sugarss": "^3.0.3",
     "ts-loader": "^8.0.14",
     "ts-node": "^10.0.0",
