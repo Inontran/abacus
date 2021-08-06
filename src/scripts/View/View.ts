@@ -1,9 +1,9 @@
-import Presenter from './Presenter';
-import WidgetContainer from './WidgetContainer';
-import Handle from './Handle';
-import Range from './Range';
-import Mark from './Mark';
-import Tooltip from './Tooltip';
+import Presenter from '../Presenter/Presenter';
+import WidgetContainer from '../WidgetContainer/WidgetContainer';
+import Handle from '../Handle/Handle';
+import Range from '../Range/Range';
+import Mark from '../Mark/Mark';
+import Tooltip from '../Tooltip/Tooltip';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.

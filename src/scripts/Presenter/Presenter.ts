@@ -1,5 +1,5 @@
 import EventTarget from '@ungap/event-target';
-import Model from './Model';
+import Model from '../Model/Model';
 
 /**
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
