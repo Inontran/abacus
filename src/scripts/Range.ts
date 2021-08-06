@@ -1,8 +1,15 @@
+enum RangeType {
+  HIDDEN = 'hidden',
+  MIN = 'min',
+  MAX = 'max',
+  BETWEEN = 'between',
+}
+
 /**
  * Класс "Range" является оберткой для HTML-элемента индикатора (progress bar).
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export class Range {
+export default class Range {
   /**
    * HTML-элемент индикатора.
    * @type {HTMLElement}
@@ -67,11 +74,12 @@ export class Range {
       this._width = width;
       this._htmlElement.style.width = '';
     } else {
-      if (width < 0) width = 0;
-      if (width > 100) width = 100;
+      let newWidth = width;
+      if (width < 0) newWidth = 0;
+      if (width > 100) newWidth = 100;
 
-      this._width = width;
-      this._htmlElement.style.width = `${width.toString()}%`;
+      this._width = newWidth;
+      this._htmlElement.style.width = `${newWidth.toString()}%`;
     }
   }
 
@@ -91,11 +99,12 @@ export class Range {
       this._height = height;
       this._htmlElement.style.height = '';
     } else {
-      if (height < 0) height = 0;
-      if (height > 100) height = 100;
+      let newHeight = height;
+      if (height < 0) newHeight = 0;
+      if (height > 100) newHeight = 100;
 
-      this._height = height;
-      this._htmlElement.style.height = `${height.toString()}%`;
+      this._height = newHeight;
+      this._htmlElement.style.height = `${newHeight.toString()}%`;
     }
   }
 
@@ -124,27 +133,20 @@ export class Range {
   }
 
   /**
-   *
+   * Получение типа диапозона слайдера.
    */
   public get rangeType() : string {
     return this._rangeType;
   }
 
   /**
-   *
+   * Установка типа диапозона слайдера.
    */
   public set rangeType(value : string) {
     const isValueEqualRangeType = value !== 'hidden' && value !== 'min' && value !== 'max' && value !== 'between';
     if (isValueEqualRangeType) {
-      value = 'hidden';
+      this._rangeType = RangeType.HIDDEN;
     }
     this._rangeType = value as RangeType;
   }
-}
-
-enum RangeType {
-  HIDDEN = 'hidden',
-  MIN = 'min',
-  MAX = 'max',
-  BETWEEN = 'between',
 }

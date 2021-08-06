@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import { View } from './View';
-import { Model } from './Model';
+import View from './View';
+import Model from './Model';
 
 document.addEventListener('DOMContentLoaded', () => {
   // console.log( Object.prototype.toString.call(mocha) );

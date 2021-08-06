@@ -1,16 +1,16 @@
-import { Presenter } from './Presenter';
+import Presenter from './Presenter';
 import WidgetContainer from './WidgetContainer';
-import { Handle } from './Handle';
-import { Range } from './Range';
-import { Mark } from './Mark';
-import { Tooltip } from './Tooltip';
+import Handle from './Handle';
+import Range from './Range';
+import Mark from './Mark';
+import Tooltip from './Tooltip';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
  * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
  * находящихся в Модели.
  */
-export class View {
+export default class View {
   /**
    * Ссылка на Представителя, который связывает объект класса View с объектом класса Model
    * по паттерну проектирования MVP.
@@ -228,15 +228,16 @@ export class View {
     const options: AbacusOptions = this._presenter.getModelAbacusProperty();
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
+    let valueAbacus = value;
 
     // если минимальное значение меньше ноля, то
     // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
     // на минимальное значение (minVal) по модулю
     if (minVal < 0) {
       maxVal += (minVal * -1);
-      value += (minVal * -1);
+      valueAbacus += (minVal * -1);
     }
-    result = (value / maxVal) * 100;
+    result = (valueAbacus / maxVal) * 100;
 
     if (result < 0) {
       return 0;
@@ -306,6 +307,9 @@ export class View {
             return this._presenter.getModelAbacusProperty()[optionName];
           }
           break;
+
+        default:
+          break;
       }
     } else if (typeof value === 'object') {
       // это условие для установки одного или несколько свойств слайдера в виде объекта
@@ -314,6 +318,8 @@ export class View {
       // это условие для получения всех свойств слайдера в виде объекта
       return this._presenter.getModelAbacusProperty();
     }
+
+    return undefined;
   }
 
   /**
@@ -409,7 +415,7 @@ export class View {
       this._highlightMarks();
     }
 
-    this._cachedAbacusProperty = this._getCloneAbacusProperty(abacusProperty);
+    this._cachedAbacusProperty = View.getCloneAbacusProperty(abacusProperty);
   }
 
   /**
@@ -420,14 +426,16 @@ export class View {
   private _createViewHandles(abacusProperty: AbacusOptions): void{
     const viewInstance = this;
     const handleIndexes: number[] = []; // массив с индексами ручек слайдера.
-
     if (!viewInstance._handles?.length) {
       viewInstance._handles = [];
       viewInstance._handles[0] = new Handle(abacusProperty.classes, 0);
-      viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[0].htmlElement);
-      this._currentHandle = this._handles[0];
+      const [firstHandle] = viewInstance._handles;
+      viewInstance._widgetContainer.htmlElement.append(firstHandle.htmlElement);
+      viewInstance._currentHandle = firstHandle;
       handleIndexes.push(0);
     }
+
+    const [firstHandle] = viewInstance._handles;
 
     switch (abacusProperty.range) {
       case true:
@@ -443,7 +451,7 @@ export class View {
           viewInstance._handles[1].htmlElement.remove();
           viewInstance._handles = viewInstance._handles.slice(0, 1);
         }
-        viewInstance._currentHandle = viewInstance._handles[0];
+        viewInstance._currentHandle = firstHandle;
         break;
     }
 
@@ -620,6 +628,9 @@ export class View {
           this._range.htmlElement.style.top = '';
           this._range.height = posHandle1 - posHandle0;
           break;
+
+        default:
+          break;
       }
     } else {
       this._range.htmlElement.style.top = '';
@@ -643,6 +654,9 @@ export class View {
           this._range.htmlElement.style.left = `${posHandle0.toString()}%`;
           this._range.htmlElement.style.right = '';
           this._range.width = posHandle1 - posHandle0;
+          break;
+
+        default:
           break;
       }
     }
@@ -674,29 +688,27 @@ export class View {
       this._range.className = abacusClasses?.range;
     }
 
-    if (this._cachedAbacusProperty?.classes?.mark !== abacusClasses?.mark) {
-      for (const markItem of this._mapScale) {
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
+
+      if (this._cachedAbacusProperty?.classes?.mark !== abacusClasses?.mark) {
         if (abacusClasses?.mark) {
-          markItem[1].className = abacusClasses.mark;
+          mark.className = abacusClasses.mark;
         }
       }
-    }
 
-    if (this._cachedAbacusProperty?.classes?.markSelected !== abacusClasses?.markSelected) {
-      for (const markItem of this._mapScale) {
-        if (abacusClasses?.markSelected) {
-          markItem[1].classNameSelected = abacusClasses.markSelected;
-        }
-      }
-    }
-
-    if (this._cachedAbacusProperty?.classes?.markInrange !== abacusClasses?.markInrange) {
-      for (const markItem of this._mapScale) {
+      if (this._cachedAbacusProperty?.classes?.markSelected !== abacusClasses?.markSelected) {
         if (abacusClasses?.markInrange) {
-          markItem[1].classNameInrange = abacusClasses.markInrange;
+          mark.classNameSelected = abacusClasses.markSelected;
         }
       }
-    }
+
+      if (this._cachedAbacusProperty?.classes?.markInrange !== abacusClasses?.markInrange) {
+        if (abacusClasses?.markInrange) {
+          mark.classNameInrange = abacusClasses.markInrange;
+        }
+      }
+    });
   }
 
   /**
@@ -726,7 +738,7 @@ export class View {
     }
 
     const modelData = this._presenter.getModelAbacusProperty();
-    uiData.abacusProperty = this._getCloneAbacusProperty(modelData);
+    uiData.abacusProperty = View.getCloneAbacusProperty(modelData);
     return uiData;
   }
 
@@ -738,10 +750,7 @@ export class View {
    * этого события вызвал Event.preventDefault(). В ином случае — true.
    * (Точно также, как у функции EventTarget.dispatchEvent()).
    */
-  private _eventChangeWrapper(event?: Event): boolean {
-    if (!event) {
-      event = this._customEventChange;
-    }
+  private _eventChangeWrapper(event: Event = this._customEventChange): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if (typeof abacusProperty?.change === 'function') {
@@ -759,10 +768,7 @@ export class View {
    * этого события вызвал Event.preventDefault().
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
-  private _eventCreateWrapper(event?: Event): boolean {
-    if (!event) {
-      event = this._customEventCreate;
-    }
+  private _eventCreateWrapper(event: Event = this._customEventCreate): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if (typeof abacusProperty?.create === 'function') {
@@ -780,10 +786,7 @@ export class View {
    * этого события вызвал Event.preventDefault().
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
-  private _eventSlideWrapper(event?: Event): boolean {
-    if (!event) {
-      event = this._customEventSlide;
-    }
+  private _eventSlideWrapper(event: Event = this._customEventSlide): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if (typeof abacusProperty?.slide === 'function') {
@@ -801,10 +804,7 @@ export class View {
    * этого события вызвал Event.preventDefault().
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
-  private _eventStartWrapper(event?: Event): boolean {
-    if (!event) {
-      event = this._customEventStart;
-    }
+  private _eventStartWrapper(event: Event = this._customEventStart): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if (typeof abacusProperty?.start === 'function') {
@@ -822,10 +822,7 @@ export class View {
    * этого события вызвал Event.preventDefault().
    * В ином случае — true. (Точно также, как у функции EventTarget.dispatchEvent()).
    */
-  private _eventStopWrapper(event?: Event): boolean {
-    if (!event) {
-      event = this._customEventStop;
-    }
+  private _eventStopWrapper(event: Event = this._customEventStop): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
     const abacusProperty: AbacusOptions = this._presenter.getModelAbacusProperty();
     if (typeof abacusProperty?.stop === 'function') {
@@ -858,20 +855,22 @@ export class View {
     const valueUnrounded: number = this.getValFromPosPercent(percent);
 
     const newValues: number[] = abacusProperty.values?.slice(0);
+    const [firstHandle, secondHandle] = viewInstance._handles;
+    const [firstValue, secondValue] = abacusProperty.values;
 
     if (viewInstance._currentHandle.handleIndex === 0) {
-      if (valueUnrounded >= abacusProperty.values[1]) {
-        newValues[0] = abacusProperty.values[1];
-        viewInstance._currentHandle = viewInstance._handles[1];
+      if (valueUnrounded >= secondValue) {
+        newValues[0] = secondValue;
+        viewInstance._currentHandle = secondHandle;
       } else {
         newValues[0] = valueUnrounded;
       }
     }
 
     if (viewInstance._currentHandle.handleIndex === 1) {
-      if (valueUnrounded <= abacusProperty.values[0]) {
-        newValues[1] = abacusProperty.values[0];
-        viewInstance._currentHandle = viewInstance._handles[0];
+      if (valueUnrounded <= firstValue) {
+        newValues[1] = firstValue;
+        viewInstance._currentHandle = firstHandle;
       } else {
         newValues[1] = valueUnrounded;
       }
@@ -886,7 +885,7 @@ export class View {
    * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
    */
   private _calcHandleValues(valueUnrounded: number): void{
-    if (isNaN(valueUnrounded)) {
+    if (Number.isNaN(valueUnrounded)) {
       return;
     }
 
@@ -1109,15 +1108,24 @@ export class View {
       }
     }
 
-    if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
-      for (const mark of this._mapScale.values()) {
+    // if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
+    //   for (const mark of this._mapScale.values()) {
+    //     this._handles[0].htmlElement.before(mark.htmlElement);
+    //   }
+    // } else {
+    //   for (const mark of this._mapScale.values()) {
+    //     this._widgetContainer.htmlElement.append(mark.htmlElement);
+    //   }
+    // }
+
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
+      if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
         this._handles[0].htmlElement.before(mark.htmlElement);
-      }
-    } else {
-      for (const mark of this._mapScale.values()) {
+      } else {
         this._widgetContainer.htmlElement.append(mark.htmlElement);
       }
-    }
+    });
 
     this._thinOutScale();
     this._bindEventListenersOnMarks();
@@ -1128,9 +1136,10 @@ export class View {
    * @private
    */
   private _removeScale(): void{
-    for (const mark of this._mapScale.values()) {
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
       mark.htmlElement.remove();
-    }
+    });
     this._mapScale.clear();
   }
 
@@ -1148,15 +1157,14 @@ export class View {
 
     const k = 7; // Минимальное расстояние между метка шкалы.
     let sizeMarks = 0;
-    if (this._isVertical) {
-      for (const mark of this._mapScale.values()) {
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
+      if (this._isVertical) {
         sizeMarks += mark.htmlElement.offsetHeight + k;
-      }
-    } else {
-      for (const mark of this._mapScale.values()) {
+      } else {
         sizeMarks += mark.htmlElement.offsetWidth + k;
       }
-    }
+    });
 
     if (sizeWidget < sizeMarks) {
       const abacusProperty = this._presenter.getModelAbacusProperty();
@@ -1173,27 +1181,25 @@ export class View {
           const dontDeleteMark = mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete;
           if (dontDeleteMark) {
             isDelete = false;
-            continue;
+          } else {
+            mark[1]?.htmlElement.remove();
+            this._mapScale.delete(mark[0]);
+            isDelete = true;
           }
-
-          mark[1]?.htmlElement.remove();
-          this._mapScale.delete(mark[0]);
-          isDelete = true;
         }
       }
     }
 
     sizeMarks = 0;
 
-    if (this._isVertical) {
-      for (const mark of this._mapScale.values()) {
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
+      if (this._isVertical) {
         sizeMarks += mark.htmlElement.offsetHeight + k;
-      }
-    } else {
-      for (const mark of this._mapScale.values()) {
+      } else {
         sizeMarks += mark.htmlElement.offsetWidth + k;
       }
-    }
+    });
 
     if (sizeWidget < sizeMarks) {
       this._thinOutScale();
@@ -1305,14 +1311,14 @@ export class View {
     }
 
     this._range.htmlElement.style.transition = duration;
-    if (this._mapScale) {
-      for (const markItem of this._mapScale) {
-        markItem[1].htmlElement.style.transition = duration;
-      }
-    }
+
+    this._mapScale.forEach((mapItem) => {
+      const mark = mapItem;
+      mark.htmlElement.style.transition = duration;
+    });
   }
 
-  private _getCloneAbacusProperty(abacusProperty: AbacusOptions): AbacusOptions {
+  static getCloneAbacusProperty(abacusProperty: AbacusOptions): AbacusOptions {
     const cloneProperty = {} as AbacusOptions;
     Object.assign(cloneProperty, abacusProperty);
     cloneProperty.values = abacusProperty.values?.slice(0);
@@ -1342,7 +1348,7 @@ export class View {
    */
   static countNumAfterPoint(x: number): number {
     const xStr = x.toString();
-    return ~(`${xStr}`).indexOf('.') ? (`${xStr}`).split('.')[1].length : 0;
+    return (`${xStr}`).indexOf('.') >= 0 ? (`${xStr}`).split('.')[1].length : 0;
   }
 
   /**

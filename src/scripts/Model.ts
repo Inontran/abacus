@@ -5,7 +5,7 @@ import EventTarget from '@ungap/event-target';
  * В этом классе хранится данные слайдера, а также бизнес логика работы с этими данными.
  */
 
-export class Model {
+export default class Model {
   /**
    * Свойства слайдера.
    * @private
@@ -73,7 +73,9 @@ export class Model {
    * Сеттер свойств слайдера.
    * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
    */
-  public set abacusProperty(abacusProperty: AbacusOptions) {
+  public set abacusProperty(newAbacusProperty: AbacusOptions) {
+    const abacusProperty = newAbacusProperty;
+
     // animate
     if (abacusProperty.animate !== undefined) {
       const isAnimatePropFastOrSlow = abacusProperty.animate === 'fast' || abacusProperty.animate === 'slow';
@@ -83,8 +85,8 @@ export class Model {
         this._abacusProperty.animate = abacusProperty.animate;
       } else if (abacusProperty.animate == null) {
         this._abacusProperty.animate = false;
-      } else if (!isNaN(abacusProperty.animate as number)) {
-        this._abacusProperty.animate = parseInt(abacusProperty.animate as string);
+      } else if (!Number.isNaN(abacusProperty.animate as number)) {
+        this._abacusProperty.animate = parseInt(abacusProperty.animate as string, 10);
       }
     }
 
@@ -130,7 +132,7 @@ export class Model {
 
     // max
     if (abacusProperty.max !== undefined && abacusProperty.max !== null) {
-      if (!isNaN(abacusProperty.max)) {
+      if (!Number.isNaN(abacusProperty.max)) {
         if (typeof abacusProperty.max === 'string') {
           this._abacusProperty.max = parseFloat(abacusProperty.max);
         } else {
@@ -146,7 +148,7 @@ export class Model {
 
     // min
     if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
-      if (!isNaN(abacusProperty.min)) {
+      if (!Number.isNaN(abacusProperty.min)) {
         if (typeof abacusProperty.min === 'string') {
           this._abacusProperty.min = parseFloat(abacusProperty.min);
         } else {
@@ -163,7 +165,7 @@ export class Model {
 
     // step
     if (abacusProperty.step !== undefined && abacusProperty.step !== null) {
-      if (!isNaN(abacusProperty.step)) {
+      if (!Number.isNaN(abacusProperty.step)) {
         if (typeof abacusProperty.step === 'string') {
           this._abacusProperty.step = parseFloat(abacusProperty.step);
         } else {
@@ -190,7 +192,7 @@ export class Model {
 
     // value
     if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
-      if (!isNaN(abacusProperty.value)) {
+      if (!Number.isNaN(abacusProperty.value)) {
         if (typeof abacusProperty.value === 'string') {
           abacusProperty.value = parseFloat(abacusProperty.value);
         }
@@ -208,7 +210,7 @@ export class Model {
     if (abacusProperty.values?.length) {
       this._abacusProperty.values = [];
 
-      for (let i = 0; i < abacusProperty.values.length; i++) {
+      for (let i = 0; i < abacusProperty.values.length; i += 1) {
         if (typeof abacusProperty.values[i] === 'string') {
           abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
         }
@@ -285,12 +287,11 @@ export class Model {
    * @param {number} value Текущее значение слайдера.
    */
   public set value(value : number) {
-    value = this.roundValuePerStep(value);
-    this._abacusProperty.value = value;
+    this._abacusProperty.value = this.roundValuePerStep(value);
     if (!this._abacusProperty.values?.length) {
       this._abacusProperty.values = [];
     }
-    this._abacusProperty.values[0] = value;
+    this._abacusProperty.values[0] = this._abacusProperty.value;
 
     if (this._eventTarget) {
       this._eventTarget.dispatchEvent(this._eventUpdateModel);
@@ -330,9 +331,9 @@ export class Model {
         }
 
         const prevVal: number = valByStep;
-        const	positivePrevVal: number = prevVal < 0 ? prevVal * -1 : prevVal;// берем предыдущее значение по модулю
+        const positivePrevVal: number = prevVal < 0 ? prevVal * -1 : prevVal;// берем предыдущее значение по модулю
         const nextVal: number = valByStep + step;
-        const	positiveNextVal: number = nextVal < 0 ? nextVal * -1 : nextVal;// берем следующее значение по модулю
+        const positiveNextVal: number = nextVal < 0 ? nextVal * -1 : nextVal;// берем следующее значение по модулю
         const positiveValue: number = value < 0 ? value * -1 : value;// берем переданное значение по модулю
 
         let deltaPrevValue: number;
@@ -366,7 +367,7 @@ export class Model {
    */
   static countNumAfterPoint(x: number): number {
     const xStr = x.toString();
-    return ~(`${xStr}`).indexOf('.') ? (`${xStr}`).split('.')[1].length : 0;
+    return (`${xStr}`).indexOf('.') >= 0 ? (`${xStr}`).split('.')[1].length : 0;
   }
 
   /**
@@ -377,12 +378,13 @@ export class Model {
    */
   static round(value: number, fractionalNum: number): number {
     const numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);
+    let roundedValue = value;
     if (numbersAfterPoint > 0) {
-      value = parseFloat(value.toFixed(numbersAfterPoint));
+      roundedValue = parseFloat(value.toFixed(numbersAfterPoint));
     } else {
-      value = Math.round(value);
+      roundedValue = Math.round(value);
     }
 
-    return value;
+    return roundedValue;
   }
 }

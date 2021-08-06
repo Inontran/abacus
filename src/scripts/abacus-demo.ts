@@ -149,13 +149,14 @@ function parseFormToProperty($form: JQuery): AbacusOptions {
 $(() => {
   const $body = $('body');
   const $cardList = $('.js-card-list');
-  const $abacus = $('.js-abacus', $cardList);
 
   for (let i = 2; i <= 3; i += 1) {
     const $cloneCard = $('.js-card-list__item:first', $cardList).clone();
     $cardList.append($cloneCard);
     $('.js-card-list__number', $cloneCard).text(i);
   }
+
+  const $abacus = $('.js-abacus', $cardList);
 
   $abacus.abacus({
     min: -10,

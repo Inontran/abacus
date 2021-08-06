@@ -1,11 +1,11 @@
 import EventTarget from '@ungap/event-target';
-import { Model } from './Model';
+import Model from './Model';
 
 /**
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
  * Соответственно, он отвечает за передачу данных от Вида к Модели и обратно.
  */
-export class Presenter {
+export default class Presenter {
   /**
    * Ссылка на Модель, которая содержит данные слайдера.
    * @type {Model}

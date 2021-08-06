@@ -2,7 +2,7 @@
  * Класс "Tooltip" является оберткой для HTML-элемента подсказки со значением ручки слайдера.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export class Tooltip {
+export default class Tooltip {
   /**
    * HTML-элемент подсказки со значением ручки слайдера.
    * @type {HTMLElement}
@@ -67,7 +67,7 @@ export class Tooltip {
     this._classNameVisible = classes?.tooltipVisible ? classes.tooltipVisible : 'abacus__tooltip_visible';
     this._htmlElement.classList.add(this._className);
 
-    if (tooltipIndex !== undefined && !isNaN(tooltipIndex)) {
+    if (tooltipIndex !== undefined && !Number.isNaN(tooltipIndex)) {
       this._tooltipIndex = tooltipIndex;
     }
   }
@@ -145,11 +145,12 @@ export class Tooltip {
       this._posLeft = left;
       this._htmlElement.style.left = '';
     } else {
-      if (left < 0) left = 0;
-      if (left > 100) left = 100;
+      let newLeft = left;
+      if (left < 0) newLeft = 0;
+      if (left > 100) newLeft = 100;
 
-      this._posLeft = left;
-      this._htmlElement.style.left = `${left.toString()}%`;
+      this._posLeft = newLeft;
+      this._htmlElement.style.left = `${newLeft.toString()}%`;
     }
   }
 
@@ -171,11 +172,12 @@ export class Tooltip {
       this._posBottom = bottom;
       this._htmlElement.style.bottom = '';
     } else {
-      if (bottom < 0) bottom = 0;
-      if (bottom > 100) bottom = 100;
+      let newBottom = bottom;
+      if (bottom < 0) newBottom = 0;
+      if (bottom > 100) newBottom = 100;
 
-      this._posBottom = bottom;
-      this._htmlElement.style.bottom = `${bottom.toString()}%`;
+      this._posBottom = newBottom;
+      this._htmlElement.style.bottom = `${newBottom.toString()}%`;
     }
   }
 
@@ -186,7 +188,7 @@ export class Tooltip {
    * Если функция получила параметр true, то метке добавляется класс,
    * записанный в _classNameVisible.
    * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
-	 * Если ничего не передать, то возвращается текущее состояние.
+   * Если ничего не передать, то возвращается текущее состояние.
    * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
    */
   isVisible(value?: boolean): boolean {

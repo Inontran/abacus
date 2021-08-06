@@ -2,7 +2,7 @@
  * Класс "Mark" является оберткой для HTML-элемента метки шкалы значений слайдера.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export class Mark {
+export default class Mark {
   /**
    * HTML-элемент метки шкалы значений слайдера.
    * @type {HTMLElement}
@@ -64,10 +64,10 @@ export class Mark {
    * @this   {Mark}
    * @param  {AbacusClasses} classes Объект с названиями классов.
    * @example new Mark({
-	 * 	mark: 'abacus__mark',
-	 * 	markInrange: 'abacus__mark_inrange',
-	 * 	markSelected: 'abacus__mark_selected'
-	 * });
+   *  mark: 'abacus__mark',
+   *  markInrange: 'abacus__mark_inrange',
+   *  markSelected: 'abacus__mark_selected'
+   * });
    */
   constructor(classes?: AbacusClasses) {
     this._htmlElement = document.createElement('span');
@@ -177,11 +177,12 @@ export class Mark {
       this._posLeft = left;
       this._htmlElement.style.left = '';
     } else {
-      if (left < 0) left = 0;
-      if (left > 100) left = 100;
+      let newLeft = left;
+      if (left < 0) newLeft = 0;
+      if (left > 100) newLeft = 100;
 
-      this._posLeft = left;
-      this._htmlElement.style.left = `${left.toString()}%`;
+      this._posLeft = newLeft;
+      this._htmlElement.style.left = `${newLeft.toString()}%`;
     }
   }
 
@@ -203,11 +204,12 @@ export class Mark {
       this._posBottom = bottom;
       this._htmlElement.style.bottom = '';
     } else {
-      if (bottom < 0) bottom = 0;
-      if (bottom > 100) bottom = 100;
+      let newBottom = bottom;
+      if (bottom < 0) newBottom = 0;
+      if (bottom > 100) newBottom = 100;
 
-      this._posBottom = bottom;
-      this._htmlElement.style.bottom = `${bottom.toString()}%`;
+      this._posBottom = newBottom;
+      this._htmlElement.style.bottom = `${newBottom.toString()}%`;
     }
   }
 
