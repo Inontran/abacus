@@ -40,28 +40,17 @@ export default class Presenter {
 
   /**
    * Функция получения свойств слайдера, полученные из Модели.
-   * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
+   * @returns {AbacusProperty} Свойства слайдера, полученные из Модели.
    */
-  getModelAbacusProperty(): AbacusOptions {
+  getModelAbacusProperty(): AbacusProperty {
     return this._model.abacusProperty;
   }
 
   /**
-   * Функция получения свойств слайдера, полученные из Модели.
-   * @returns {AbacusOptions} Свойства слайдера, полученные из Модели.
+   * Функция установки свойств слайдера.
    */
-  setModelAbacusProperty(abacusProperty: AbacusOptions): void{
-    this._model.abacusProperty = abacusProperty;
-  }
-
-  /**
-   * Функция установки текущих значений слайдера.
-   * @param {number[]} values Текущее значения слайдера.
-   */
-  setAbacusValue(values: number[]): void{
-    this._model.abacusProperty = {
-      values: [values[0], values[1]],
-    };
+  setModelAbacusProperty(abacusProperty: AbacusOptions | AbacusProperty): void{
+    this._model.setAbacusProperty(abacusProperty);
   }
 
   /**

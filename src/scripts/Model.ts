@@ -10,7 +10,7 @@ export default class Model {
    * Свойства слайдера.
    * @private
    */
-  private _abacusProperty: AbacusOptions = {
+  private _abacusProperty: AbacusProperty = {
     animate: false,
     classes: {
       abacus: 'abacus',
@@ -54,7 +54,7 @@ export default class Model {
    */
   constructor(data?: AbacusOptions) {
     if (data) {
-      this.abacusProperty = data;
+      this.setAbacusProperty(data);
     }
 
     this._eventTarget = new EventTarget();
@@ -63,17 +63,16 @@ export default class Model {
 
   /**
    * Геттер свойств слайдера.
-   * @returns {AbacusOptions} Свойства слайдера, хранящиеся в Модели.
+   * @returns {AbacusProperty} Свойства слайдера, хранящиеся в Модели.
    */
-  public get abacusProperty() : AbacusOptions {
+  public get abacusProperty() : AbacusProperty {
     return this._abacusProperty;
   }
 
   /**
-   * Сеттер свойств слайдера.
    * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
    */
-  public set abacusProperty(newAbacusProperty: AbacusOptions) {
+  public setAbacusProperty(newAbacusProperty: AbacusOptions | AbacusProperty) {
     const abacusProperty = newAbacusProperty;
 
     // animate

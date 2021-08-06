@@ -1,3 +1,8 @@
+enum AbacusOrientationType{
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
+}
+
 /**
  * Список классов элементов и их состояний слайдера.
  */
@@ -176,6 +181,93 @@ interface AbacusOptions {
 }
 
 /**
+ * Свойства слайдера.
+ */
+interface AbacusProperty extends AbacusOptions {
+  /**
+   * Следует ли плавно перемещать ручку, когда пользователь нажимает на дорожку ползунка.
+   * Также принимает любую допустимую продолжительность анимации.
+   * @type {boolean | string | number}
+   */
+  animate: boolean | string | number;
+
+  /**
+   * Классы элементов виджета.
+   * @type {AbacusClasses}
+   */
+  classes: AbacusClasses;
+
+  /**
+   * Отключает ползунок, если установлено значение "true".
+   * @type {boolean}
+   */
+  disabled: boolean;
+
+  /**
+   * Максимальное значение ползунка.
+   * @type {number}
+   */
+  max: number;
+
+  /**
+   * Минимальное значение ползунка.
+   * @type {number}
+   */
+  min: number;
+
+  /**
+   * Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа)
+   * или вертикально (минимум внизу, максимум вверху).
+   * Возможные значения: "horizontal" (по горизонтали), "vertical" (по вертикали).
+   * @type {string}
+   */
+  orientation: string;
+
+  /**
+   * Включение или отключение элемента диапазона.
+   * Если установлено значение false, то элемент отключен.
+   * Если установлено значение true, ползунок определит, есть ли у вас две ручки,
+   * и создаст между ними стилизуемый элемент диапазона.
+   * Если установлено значение "min", диапазон идет от минимального значения ползунка до ручки.
+   * Если установлено значение "max", диапазон идет от максимального значения ползунка до ручки.
+   * @type {boolean | string}
+   */
+  range: boolean | string;
+
+  /**
+   * Включение или отключение шкалы значений.
+   * @type {boolean}
+   */
+  scale: boolean;
+
+  /**
+   * Число, на которое увеличивается значение слайдера.
+   * @type {number}
+   */
+  step: number;
+
+  /**
+   * Включение или отключение подсказки с текущем значением, которое отображется над ручкой слайдера.
+   * @type {boolean}
+   */
+  tooltip: boolean;
+
+  /**
+   * Значение ползунка, если у слайдера только одна ручка и нет интервала.
+   * Если у слайдера две ручки, тогда в свойстве храниться значение первой ручки.
+   * @type {number}
+   */
+  value: number;
+
+  /**
+   * Этот параметр можно использовать для указания значений двух ручек слайдера.
+   * Если для параметра диапазона установлено значение true, длина массива со значениями должна быть 2.
+   * @type {number[]}
+   */
+  values: number[];
+}
+
+/**
  * Интерфейс объекта плагина.
  */
 interface Abacus {
@@ -192,12 +284,12 @@ interface Abacus {
    * @param {string} funcName Название функции, которую надо выполнить.
    * @param {any} param1 Это может быть название свойства слайдера или значение свойства.
    * @param {any} param2 Значение свойства слайдера.
-   * @returns {JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View}
+   * @returns {JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View}
    */
   (funcName: string,
     param1 ? : AbacusOptions | number | string | number[],
     param2 ? : number | string | boolean | null | AbacusClasses
-  ): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
+  ): JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
 }
 
 /**
