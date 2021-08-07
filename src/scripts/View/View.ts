@@ -4,6 +4,7 @@ import Handle from '../Handle/Handle';
 import Range from '../Range/Range';
 import Mark from '../Mark/Mark';
 import Tooltip from '../Tooltip/Tooltip';
+import AbacusOrientationType from '../AbacusOrientationType';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
@@ -345,7 +346,7 @@ export default class View {
     }
 
     if (hasOrientationChanged) {
-      if (abacusProperty.orientation === 'vertical') {
+      if (abacusProperty.orientation === AbacusOrientationType.VERTICAL) {
         this._isVertical = true;
         this._widgetContainer.isVertical(true);
       } else {

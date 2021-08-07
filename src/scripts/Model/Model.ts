@@ -1,10 +1,10 @@
 import EventTarget from '@ungap/event-target';
+import AbacusOrientationType from '../AbacusOrientationType';
 
 /**
  * Класс Model реализует "Модель" паттерна проектирования MVP.
  * В этом классе хранится данные слайдера, а также бизнес логика работы с этими данными.
  */
-
 export default class Model {
   /**
    * Свойства слайдера.
@@ -27,7 +27,7 @@ export default class Model {
     disabled: false,
     max: 100,
     min: 0,
-    orientation: 'horizontal',
+    orientation: AbacusOrientationType.HORIZONTAL,
     range: false,
     scale: false,
     step: 1,
@@ -244,10 +244,10 @@ export default class Model {
 
     // orientation
     if (abacusProperty.orientation !== undefined) {
-      if (abacusProperty.orientation === 'vertical') {
-        this._abacusProperty.orientation = 'vertical';
+      if (abacusProperty.orientation === 'vertical' || abacusProperty.orientation === AbacusOrientationType.VERTICAL) {
+        this._abacusProperty.orientation = AbacusOrientationType.VERTICAL;
       } else {
-        this._abacusProperty.orientation = 'horizontal';
+        this._abacusProperty.orientation = AbacusOrientationType.HORIZONTAL;
       }
     }
 

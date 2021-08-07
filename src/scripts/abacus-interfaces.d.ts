@@ -1,12 +1,7 @@
-enum AbacusOrientationType{
-  HORIZONTAL = 'horizontal',
-  VERTICAL = 'vertical',
-}
-
 /**
  * Список классов элементов и их состояний слайдера.
  */
-interface AbacusClasses{
+interface AbacusClasses {
   /**
    * Класс HTML-элемента контейнера слайдера.
    * @type {string}
@@ -218,10 +213,9 @@ interface AbacusProperty extends AbacusOptions {
   /**
    * Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа)
    * или вертикально (минимум внизу, максимум вверху).
-   * Возможные значения: "horizontal" (по горизонтали), "vertical" (по вертикали).
-   * @type {string}
+   * @type {AbacusOrientationType}
    */
-  orientation: string;
+  orientation: AbacusOrientationType;
 
   /**
    * Включение или отключение элемента диапазона.
@@ -300,9 +294,9 @@ interface JQuery {
 }
 
 /**
- * Интерфейс, расширяющий HTMLElement, для хранения в нем экземпляр объекта слайдера.
+ * Интерфейс, расширяющий HTMLElement, для хранения в нем экземпляра объекта слайдера.
  */
-interface HTMLAbacusElement extends HTMLElement{
+interface HTMLAbacusElement extends HTMLElement {
   /**
    * Экземпляр объекта слайдера.
    * @type {View}
@@ -310,8 +304,8 @@ interface HTMLAbacusElement extends HTMLElement{
   jqueryAbacusInstance?: View;
 }
 
-interface EventUIData{
+interface EventUIData {
   handle: HTMLElement;
   handleIndex: number;
-  abacusProperty: AbacusOptions;
+  abacusProperty: AbacusProperty;
 }

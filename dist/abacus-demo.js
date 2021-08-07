@@ -1,2 +1,258 @@
-(()=>{"use strict";var a={609:a=>{a.exports=jQuery}},e={};function n(r){if(e[r])return e[r].exports;var t=e[r]={exports:{}};return a[r](t,t.exports,n),t.exports}(()=>{var a=n(609),e=n(609);function r(e,n){var r=a('[name="animate"]',n);if(void 0!==e.animate){var t=e.animate.toString();r.val(t)}else r.val("false");if(a('[name="disabled"]',n).prop("checked",!e.disabled),void 0!==e.max&&a('[name="max"]',n).val(e.max),void 0!==e.min&&a('[name="min"]',n).val(e.min),e.values)for(var i=0;i<2;i+=1){var s=a('[name="value[]"]',n).eq(i);void 0!==e.values[i]||null!==e.values[i]?s.val(e.values[i]):s.val("")}if(e.orientation&&a('[name="orientation"]',n).val(e.orientation),void 0!==e.range){var l=e.range.toString();a('[name="range"]',n).val(l)}a('[name="scale"]',n).prop("checked",!!e.scale),a('[name="tooltip"]',n).prop("checked",!!e.tooltip),void 0!==e.step&&a('[name="step"]',n).val(e.step)}a((function(){for(var n=a("body"),t=a(".js-card-list"),i=2;i<=3;i+=1){var s=a(".js-card-list__item:first",t).clone();t.append(s),a(".js-card-list__number",s).text(i)}var l=a(".js-abacus",t);l.abacus({min:-10,max:9,step:2,values:[-4,6],range:!0,scale:!0}),n.on("abacus-change",".js-card-list .js-abacus",(function(e){var n=a(e.currentTarget),t=n.closest(".js-card-list__item").find("form");t.length&&n[0].jqueryAbacusInstance&&r(n.abacus("option"),t)})),l.each((function(){var e=a(this),n=e.closest(".js-card-list__item").find("form");n.length&&e[0].jqueryAbacusInstance&&r(e.abacus("option"),n)})),n.on("submit",".js-form_modifier-options",(function(n){if(n.preventDefault(),!n.currentTarget)return null;var r=a(n.currentTarget),t=function(n){var r={};if(!(n instanceof e))return r;var t=a('[name="animate"]',n);if(t.length)switch(t.val()){case"false":r.animate=!1;break;case"true":r.animate=!0;break;default:r.animate=t.val()}var i=a('[name="disabled"]',n);i.length&&(r.disabled=!i.prop("checked"));var s=a('[name="max"]',n);s.val()&&(r.max=s.val());var l=a('[name="min"]',n);l.val()&&(r.min=l.val()),r.values=[];for(var o=0;o<2;o+=1){var v=a('[name="value[]"]',n).eq(o);v.val()&&(r.values[o]=v.val())}var c=a('[name="orientation"]',n);c.length&&(r.orientation=c.val());var m=a('[name="range"]',n);if(m.length){var u=m.val();switch(u){case"true":r.range=!0;break;case"false":r.range=!1;break;case"max":r.range="max";break;case"min":r.range="min";break;default:r.range=u}}var d=a('[name="scale"]',n);d.length&&(r.scale=!!d.prop("checked"));var p=a('[name="tooltip"]',n);p.length&&(r.tooltip=!!p.prop("checked"));var f=a('[name="step"]',n);return f.length&&(r.step=f.val()),r}(r),i=r.closest(".js-card-list__item").find(".abacus");return null==i||i.abacus("option",t),null}))}))})()})();
-//# sourceMappingURL=abacus-demo.js.map?v=f72b5d929124510092e6
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/styles/abacus-demo.scss":
+/*!*************************************!*\
+  !*** ./src/styles/abacus-demo.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/scripts/abacus-demo.ts":
+/*!************************************!*\
+  !*** ./src/scripts/abacus-demo.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "jquery");
+/* provided dependency */ var jQuery = __webpack_require__(/*! jquery */ "jquery");
+
+/**
+ * @fileoverview Файл с примерами использования плагина Abacus.
+ */
+function parsePropertyToForm(abacusProperty, $form) {
+    var $inputAnimate = $('[name="animate"]', $form);
+    if (abacusProperty.animate !== undefined) {
+        var stringValAnimate = abacusProperty.animate.toString();
+        $inputAnimate.val(stringValAnimate);
+    }
+    else {
+        $inputAnimate.val('false');
+    }
+    $('[name="disabled"]', $form).prop('checked', !abacusProperty.disabled);
+    if (abacusProperty.max !== undefined) {
+        $('[name="max"]', $form).val(abacusProperty.max);
+    }
+    if (abacusProperty.min !== undefined) {
+        $('[name="min"]', $form).val(abacusProperty.min);
+    }
+    if (abacusProperty.values) {
+        for (var i = 0; i < 2; i += 1) {
+            var $inputValue = $('[name="value[]"]', $form).eq(i);
+            if (abacusProperty.values[i] !== undefined || abacusProperty.values[i] !== null) {
+                $inputValue.val(abacusProperty.values[i]);
+            }
+            else {
+                $inputValue.val('');
+            }
+        }
+    }
+    if (abacusProperty.orientation) {
+        $('[name="orientation"]', $form).val(abacusProperty.orientation);
+    }
+    if (abacusProperty.range !== undefined) {
+        var stringValRange = abacusProperty.range.toString();
+        $('[name="range"]', $form).val(stringValRange);
+    }
+    $('[name="scale"]', $form).prop('checked', !!abacusProperty.scale);
+    $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
+    if (abacusProperty.step !== undefined) {
+        $('[name="step"]', $form).val(abacusProperty.step);
+    }
+}
+function parseFormToProperty($form) {
+    var abacusProperty = {};
+    if (!($form instanceof jQuery)) {
+        return abacusProperty;
+    }
+    var $inputAnimate = $('[name="animate"]', $form);
+    if ($inputAnimate.length) {
+        switch ($inputAnimate.val()) {
+            case 'false':
+                abacusProperty.animate = false;
+                break;
+            case 'true':
+                abacusProperty.animate = true;
+                break;
+            default:
+                abacusProperty.animate = $inputAnimate.val();
+                break;
+        }
+    }
+    var $inputDisabled = $('[name="disabled"]', $form);
+    if ($inputDisabled.length) {
+        abacusProperty.disabled = !$inputDisabled.prop('checked');
+    }
+    var $inputMax = $('[name="max"]', $form);
+    if ($inputMax.val()) {
+        abacusProperty.max = $inputMax.val();
+    }
+    var $inputMin = $('[name="min"]', $form);
+    if ($inputMin.val()) {
+        abacusProperty.min = $inputMin.val();
+    }
+    abacusProperty.values = [];
+    for (var i = 0; i < 2; i += 1) {
+        var $inputValue = $('[name="value[]"]', $form).eq(i);
+        if ($inputValue.val()) {
+            abacusProperty.values[i] = $inputValue.val();
+        }
+    }
+    var $inputOrientation = $('[name="orientation"]', $form);
+    if ($inputOrientation.length) {
+        abacusProperty.orientation = $inputOrientation.val();
+    }
+    var $inputRange = $('[name="range"]', $form);
+    if ($inputRange.length) {
+        var valRange = $inputRange.val();
+        switch (valRange) {
+            case 'true':
+                abacusProperty.range = true;
+                break;
+            case 'false':
+                abacusProperty.range = false;
+                break;
+            case 'max':
+                abacusProperty.range = 'max';
+                break;
+            case 'min':
+                abacusProperty.range = 'min';
+                break;
+            default:
+                abacusProperty.range = valRange;
+                break;
+        }
+    }
+    var $inputScale = $('[name="scale"]', $form);
+    if ($inputScale.length) {
+        abacusProperty.scale = !!$inputScale.prop('checked');
+    }
+    var $inputTooltip = $('[name="tooltip"]', $form);
+    if ($inputTooltip.length) {
+        abacusProperty.tooltip = !!$inputTooltip.prop('checked');
+    }
+    var $inputStep = $('[name="step"]', $form);
+    if ($inputStep.length) {
+        abacusProperty.step = $inputStep.val();
+    }
+    return abacusProperty;
+}
+$(function () {
+    var $body = $('body');
+    var $cardList = $('.js-card-list');
+    for (var i = 2; i <= 3; i += 1) {
+        var $cloneCard = $('.js-card-list__item:first', $cardList).clone();
+        $cardList.append($cloneCard);
+        $('.js-card-list__number', $cloneCard).text(i);
+    }
+    var $abacus = $('.js-abacus', $cardList);
+    $abacus.abacus({
+        min: -10,
+        max: 9,
+        step: 2,
+        values: [-4, 6],
+        range: true,
+        scale: true,
+    });
+    $body.on('abacus-change', '.js-card-list .js-abacus', function (event) {
+        var $abacusItem = $(event.currentTarget);
+        var $form = $abacusItem.closest('.js-card-list__item').find('form');
+        if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
+            parsePropertyToForm($abacusItem.abacus('option'), $form);
+        }
+    });
+    $abacus.each(function () {
+        var $abacusItem = $(this);
+        var $form = $abacusItem.closest('.js-card-list__item').find('form');
+        if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
+            parsePropertyToForm($abacusItem.abacus('option'), $form);
+        }
+    });
+    $body.on('submit', '.js-form_modifier-options', function (event) {
+        event.preventDefault();
+        if (!event.currentTarget) {
+            return null;
+        }
+        var $form = $(event.currentTarget);
+        var abacusOptions = parseFormToProperty($form);
+        var $abacusItem = $form.closest('.js-card-list__item').find('.abacus');
+        $abacusItem === null || $abacusItem === void 0 ? void 0 : $abacusItem.abacus('option', abacusOptions);
+        return null;
+    });
+});
+// let a: number | undefined = Math.random();
+// if( a < 0.5 ){
+//   a = undefined;
+// }
+// let b = 0;
+// const isNotEmpty = (a: number | undefined): a is number => a !== undefined;
+// if(isNotEmpty(a)){
+// // if( a !== undefined ){
+//   b += a;
+// }
+
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = jQuery;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// startup
+/******/ 	// Load entry module
+/******/ 	__webpack_require__("./src/scripts/abacus-demo.ts");
+/******/ 	__webpack_require__("./src/styles/abacus-demo.scss");
+/******/ 	// This entry module used 'exports' so it can't be inlined
+/******/ })()
+;
+//# sourceMappingURL=abacus-demo.js.map?v=05b2f6790c91df4b658a
