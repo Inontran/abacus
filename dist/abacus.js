@@ -639,11 +639,14 @@ var Model = /** @class */ (function () {
             if (isAnimatePropResult) {
                 this._abacusProperty.animate = abacusProperty.animate;
             }
-            else if (abacusProperty.animate == null) {
-                this._abacusProperty.animate = false;
+            else if (typeof abacusProperty.animate === 'number') {
+                this._abacusProperty.animate = abacusProperty.animate;
             }
-            else if (!Number.isNaN(abacusProperty.animate)) {
+            else if (typeof abacusProperty.animate === 'string') {
                 this._abacusProperty.animate = parseInt(abacusProperty.animate, 10);
+            }
+            else {
+                this._abacusProperty.animate = false;
             }
         }
         // classes
@@ -2374,7 +2377,9 @@ var View = /** @class */ (function () {
             var isDelete_1 = false;
             this._collectionMarks.forEach(function (mapItem) {
                 var mark = mapItem;
-                var dontDeleteMark = mark.associatedValue === abacusProperty_1.min || mark.associatedValue === abacusProperty_1.max || isDelete_1;
+                var dontDeleteMark = mark.associatedValue === abacusProperty_1.min
+                    || mark.associatedValue === abacusProperty_1.max
+                    || isDelete_1;
                 if (dontDeleteMark) {
                     isDelete_1 = false;
                 }
@@ -2447,9 +2452,8 @@ var View = /** @class */ (function () {
                 if (viewInstance._isDisabled) {
                     return;
                 }
-                var value = mark.associatedValue;
-                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    viewInstance._calcHandleValues(value);
+                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== mark.associatedValue) {
+                    viewInstance._calcHandleValues(mark.associatedValue);
                 }
             });
             mark.htmlElement.addEventListener('touchend', function () {
@@ -2458,9 +2462,8 @@ var View = /** @class */ (function () {
                 if (viewInstance._isDisabled) {
                     return;
                 }
-                var value = mark.associatedValue;
-                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
-                    viewInstance._calcHandleValues(value);
+                if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== mark.associatedValue) {
+                    viewInstance._calcHandleValues(mark.associatedValue);
                 }
             });
         });
@@ -2901,4 +2904,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=14056417501dae2deb4a
+//# sourceMappingURL=abacus.js.map?v=7bc6040bd1b144c15a75

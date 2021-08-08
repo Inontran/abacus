@@ -82,11 +82,11 @@ export default class Model {
       const isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
       if (isAnimatePropResult) {
         this._abacusProperty.animate = abacusProperty.animate;
-      } else if (abacusProperty.animate == null) {
+      } else if (typeof abacusProperty.animate === 'number') {
+        this._abacusProperty.animate = Math.round(abacusProperty.animate);
+      } else {
         this._abacusProperty.animate = false;
-      } else if (!Number.isNaN(abacusProperty.animate as number)) {
-        this._abacusProperty.animate = parseInt(abacusProperty.animate as string, 10);
-      }
+      } 
     }
 
     // classes
@@ -131,12 +131,8 @@ export default class Model {
 
     // max
     if (abacusProperty.max !== undefined && abacusProperty.max !== null) {
-      if (!Number.isNaN(abacusProperty.max)) {
-        if (typeof abacusProperty.max === 'string') {
-          this._abacusProperty.max = parseFloat(abacusProperty.max);
-        } else {
-          this._abacusProperty.max = abacusProperty.max;
-        }
+      if (typeof abacusProperty.max === 'number') {
+        this._abacusProperty.max = abacusProperty.max;
       }
     }
 
@@ -147,12 +143,8 @@ export default class Model {
 
     // min
     if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
-      if (!Number.isNaN(abacusProperty.min)) {
-        if (typeof abacusProperty.min === 'string') {
-          this._abacusProperty.min = parseFloat(abacusProperty.min);
-        } else {
-          this._abacusProperty.min = abacusProperty.min;
-        }
+      if (typeof abacusProperty.min === 'number') {
+        this._abacusProperty.min = abacusProperty.min;
       }
     }
 
@@ -164,12 +156,8 @@ export default class Model {
 
     // step
     if (abacusProperty.step !== undefined && abacusProperty.step !== null) {
-      if (!Number.isNaN(abacusProperty.step)) {
-        if (typeof abacusProperty.step === 'string') {
-          this._abacusProperty.step = parseFloat(abacusProperty.step);
-        } else {
-          this._abacusProperty.step = abacusProperty.step;
-        }
+      if (typeof abacusProperty.step === 'number') {
+        this._abacusProperty.step = abacusProperty.step;
       }
     }
 
