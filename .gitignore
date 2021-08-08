@@ -3,5 +3,4 @@ package-lock.json
 .eslintcache
 dist
 docs
-tests.ts
-tests.ts_
+coverage

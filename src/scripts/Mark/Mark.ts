@@ -60,6 +60,13 @@ export default class Mark {
   private _posBottom: number | null = null;
 
   /**
+   *
+   * @type {number}
+   * @private
+   */
+  private _associatedValue: number;
+
+  /**
    * @constructor
    * @this   {Mark}
    * @param  {AbacusClasses} classes Объект с названиями классов.
@@ -69,12 +76,15 @@ export default class Mark {
    *  markSelected: 'abacus__mark_selected'
    * });
    */
-  constructor(classes?: AbacusClasses) {
+  constructor(associatedValue: number, classes?: AbacusClasses) {
     this._htmlElement = document.createElement('span');
     this._className = classes?.mark ? classes.mark : 'abacus__mark';
     this._classNameInrange = classes?.markInrange ? classes.markInrange : 'abacus__mark_inrange';
     this._classNameSelected = classes?.markSelected ? classes.markSelected : 'abacus__mark_selected';
     this._htmlElement.classList.add(this._className);
+
+    this._associatedValue = associatedValue;
+    this._htmlElement.innerText = associatedValue.toString();
   }
 
   /**
@@ -211,6 +221,24 @@ export default class Mark {
       this._posBottom = newBottom;
       this._htmlElement.style.bottom = `${newBottom.toString()}%`;
     }
+  }
+
+  /**
+   * Геттер значения, ассоциированное с этом меткой.
+   * @returns {number} Значение, связанное с этой меткой.
+   */
+  public get associatedValue() : number {
+    return this._associatedValue;
+  }
+
+  /**
+   * Сеттер значения, ассоциированное с этом меткой.
+   * @param {number} bottom Позиция метки в процентах от 0 до 100.
+   * Или null, если координты по вертикале быть не должно.
+   */
+  public set associatedValue(value : number) {
+    this._associatedValue = value;
+    this._htmlElement.innerText = value.toString();
   }
 
   /**

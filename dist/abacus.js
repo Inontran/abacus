@@ -295,7 +295,7 @@ var Mark = /** @class */ (function () {
      *  markSelected: 'abacus__mark_selected'
      * });
      */
-    function Mark(classes) {
+    function Mark(associatedValue, classes) {
         /**
          * Если параметр равен "true", то это значит, что метка находится в диапозоне.
          * @type {boolean}
@@ -331,6 +331,8 @@ var Mark = /** @class */ (function () {
         this._classNameInrange = (classes === null || classes === void 0 ? void 0 : classes.markInrange) ? classes.markInrange : 'abacus__mark_inrange';
         this._classNameSelected = (classes === null || classes === void 0 ? void 0 : classes.markSelected) ? classes.markSelected : 'abacus__mark_selected';
         this._htmlElement.classList.add(this._className);
+        this._associatedValue = associatedValue;
+        this._htmlElement.innerText = associatedValue.toString();
     }
     Object.defineProperty(Mark.prototype, "htmlElement", {
         /**
@@ -477,6 +479,26 @@ var Mark = /** @class */ (function () {
                 this._posBottom = newBottom;
                 this._htmlElement.style.bottom = newBottom.toString() + "%";
             }
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Mark.prototype, "associatedValue", {
+        /**
+         * Геттер значения, ассоциированное с этом меткой.
+         * @returns {number} Значение, связанное с этой меткой.
+         */
+        get: function () {
+            return this._associatedValue;
+        },
+        /**
+         * Сеттер значения, ассоциированное с этом меткой.
+         * @param {number} bottom Позиция метки в процентах от 0 до 100.
+         * Или null, если координты по вертикале быть не должно.
+         */
+        set: function (value) {
+            this._associatedValue = value;
+            this._htmlElement.innerText = value.toString();
         },
         enumerable: false,
         configurable: true
@@ -1383,17 +1405,6 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -1452,7 +1463,7 @@ var View = /** @class */ (function () {
         /**
          * Коллекция меток разметки слайдера.
          */
-        this._mapScale = new Map();
+        this._collectionMarks = new Set();
         /**
          * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
          */
@@ -1952,7 +1963,7 @@ var View = /** @class */ (function () {
         if (((_k = (_j = this._cachedAbacusProperty) === null || _j === void 0 ? void 0 : _j.classes) === null || _k === void 0 ? void 0 : _k.range) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.range)) {
             this._range.className = abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.range;
         }
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var _a, _b, _c, _d, _e, _f;
             var mark = mapItem;
             if (((_b = (_a = _this._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.classes) === null || _b === void 0 ? void 0 : _b.mark) !== (abacusClasses === null || abacusClasses === void 0 ? void 0 : abacusClasses.mark)) {
@@ -2287,33 +2298,31 @@ var View = /** @class */ (function () {
      */
     View.prototype._createScale = function () {
         var _this = this;
-        if (this._mapScale.size) {
+        if (this._collectionMarks.size) {
             this._removeScale();
         }
         var abacusProperty = this._presenter.getModelAbacusProperty();
         var value = abacusProperty.min;
         for (; value <= abacusProperty.max; value += abacusProperty.step) {
             value = View.round(value, abacusProperty.step);
-            var mark = new Mark_1.default(abacusProperty.classes);
+            var mark = new Mark_1.default(value, abacusProperty.classes);
             var left = this.getPosFromValue(value);
             if (this._isVertical)
                 mark.posBottom = left;
             else
                 mark.posLeft = left;
-            mark.htmlElement.innerText = value.toString();
-            this._mapScale.set(value, mark);
+            this._collectionMarks.add(mark);
         }
         if (value !== abacusProperty.max) {
-            var mark = new Mark_1.default(abacusProperty.classes);
+            var mark = new Mark_1.default(abacusProperty.max, abacusProperty.classes);
             var left = this.getPosFromValue(abacusProperty.max);
             if (this._isVertical)
                 mark.posBottom = left;
             else
                 mark.posLeft = left;
-            mark.htmlElement.innerText = abacusProperty.max.toString();
-            this._mapScale.set(value, mark);
+            this._collectionMarks.add(mark);
         }
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var mark = mapItem;
             if (_this._widgetContainer.htmlElement.contains(_this._handles[0].htmlElement)) {
                 _this._handles[0].htmlElement.before(mark.htmlElement);
@@ -2330,20 +2339,18 @@ var View = /** @class */ (function () {
      * @private
      */
     View.prototype._removeScale = function () {
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var mark = mapItem;
             mark.htmlElement.remove();
         });
-        this._mapScale.clear();
+        this._collectionMarks.clear();
     };
     /**
      * Функция удаления лишних меток на шкале значений для того, чтобы они не "слипались" друг с другом.
      * @private
      */
     View.prototype._thinOutScale = function () {
-        var e_1, _a;
         var _this = this;
-        var _b;
         var sizeWidget;
         if (this._isVertical) {
             sizeWidget = this._widgetContainer.htmlElement.offsetHeight;
@@ -2353,7 +2360,7 @@ var View = /** @class */ (function () {
         }
         var k = 7; // Минимальное расстояние между метка шкалы.
         var sizeMarks = 0;
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var mark = mapItem;
             if (_this._isVertical) {
                 sizeMarks += mark.htmlElement.offsetHeight + k;
@@ -2363,32 +2370,23 @@ var View = /** @class */ (function () {
             }
         });
         if (sizeWidget < sizeMarks) {
-            var abacusProperty = this._presenter.getModelAbacusProperty();
-            var isDelete = false;
-            try {
-                for (var _c = __values(this._mapScale), _d = _c.next(); !_d.done; _d = _c.next()) {
-                    var mark = _d.value;
-                    var dontDeleteMark = mark[0] === abacusProperty.min || mark[0] === abacusProperty.max || isDelete;
-                    if (dontDeleteMark) {
-                        isDelete = false;
-                    }
-                    else {
-                        (_b = mark[1]) === null || _b === void 0 ? void 0 : _b.htmlElement.remove();
-                        this._mapScale.delete(mark[0]);
-                        isDelete = true;
-                    }
+            var abacusProperty_1 = this._presenter.getModelAbacusProperty();
+            var isDelete_1 = false;
+            this._collectionMarks.forEach(function (mapItem) {
+                var mark = mapItem;
+                var dontDeleteMark = mark.associatedValue === abacusProperty_1.min || mark.associatedValue === abacusProperty_1.max || isDelete_1;
+                if (dontDeleteMark) {
+                    isDelete_1 = false;
                 }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                else {
+                    mark === null || mark === void 0 ? void 0 : mark.htmlElement.remove();
+                    _this._collectionMarks.delete(mark);
+                    isDelete_1 = true;
                 }
-                finally { if (e_1) throw e_1.error; }
-            }
+            });
         }
         sizeMarks = 0;
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var mark = mapItem;
             if (_this._isVertical) {
                 sizeMarks += mark.htmlElement.offsetHeight + k;
@@ -2406,90 +2404,66 @@ var View = /** @class */ (function () {
      * @private
      */
     View.prototype._highlightMarks = function () {
-        var e_2, _a;
-        if (!this._mapScale.size) {
+        if (!this._collectionMarks.size) {
             return;
         }
         var abacusProperty = this._presenter.getModelAbacusProperty();
         var rangeType = abacusProperty.range;
-        try {
-            for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var markItem = _c.value;
-                var isValBetween0And1 = markItem[0] >= abacusProperty.values[0] && markItem[0] <= abacusProperty.values[1];
-                if (rangeType === 'min' && markItem[0] <= abacusProperty.values[0]) {
-                    markItem[1].isInrange(true);
-                }
-                else if (rangeType === 'max' && markItem[0] >= abacusProperty.values[0]) {
-                    markItem[1].isInrange(true);
-                }
-                else if (rangeType === true && isValBetween0And1) {
-                    markItem[1].isInrange(true);
-                }
-                else {
-                    markItem[1].isInrange(false);
-                }
-                if (markItem[0] === abacusProperty.values[0] || markItem[0] === abacusProperty.values[1]) {
-                    markItem[1].isSelected(true);
-                }
-                else {
-                    markItem[1].isSelected(false);
-                }
+        this._collectionMarks.forEach(function (mapItem) {
+            var mark = mapItem;
+            var isValBetween0And1 = mark.associatedValue >= abacusProperty.values[0]
+                && mark.associatedValue <= abacusProperty.values[1];
+            if (rangeType === 'min' && mark.associatedValue <= abacusProperty.values[0]) {
+                mark.isInrange(true);
             }
-        }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            else if (rangeType === 'max' && mark.associatedValue >= abacusProperty.values[0]) {
+                mark.isInrange(true);
             }
-            finally { if (e_2) throw e_2.error; }
-        }
+            else if (rangeType === true && isValBetween0And1) {
+                mark.isInrange(true);
+            }
+            else {
+                mark.isInrange(false);
+            }
+            if (mark.associatedValue === abacusProperty.values[0] || mark.associatedValue === abacusProperty.values[1]) {
+                mark.isSelected(true);
+            }
+            else {
+                mark.isSelected(false);
+            }
+        });
     };
     /**
      * Функция установки обработчиков на метки шкалы значений.
      * @private
      */
     View.prototype._bindEventListenersOnMarks = function () {
-        var e_3, _a;
         var _this = this;
-        var _loop_2 = function (mark) {
-            // я оставил эти обработчики в таком виде,
-            // так как мне нужна ссылка на объект View и значение метки, на которую кликнули.
-            mark[1].htmlElement.addEventListener('click', function () {
+        this._collectionMarks.forEach(function (mapItem) {
+            var mark = mapItem;
+            mark.htmlElement.addEventListener('click', function () {
                 var _a;
                 var viewInstance = _this;
                 if (viewInstance._isDisabled) {
                     return;
                 }
-                var value = mark[0];
+                var value = mark.associatedValue;
                 if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
                     viewInstance._calcHandleValues(value);
                 }
             });
-            mark[1].htmlElement.addEventListener('touchend', function () {
+            mark.htmlElement.addEventListener('touchend', function () {
                 var _a;
                 var viewInstance = _this;
                 if (viewInstance._isDisabled) {
                     return;
                 }
-                var value = mark[0];
+                var value = mark.associatedValue;
                 if (((_a = viewInstance._cachedAbacusProperty) === null || _a === void 0 ? void 0 : _a.value) !== value) {
                     viewInstance._calcHandleValues(value);
                 }
             });
-        };
-        try {
-            for (var _b = __values(this._mapScale), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var mark = _c.value;
-                _loop_2(mark);
-            }
-        }
-        catch (e_3_1) { e_3 = { error: e_3_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_3) throw e_3.error; }
-        }
+        });
     };
     /**
      * Установка css-свойства "transition" элементам интерфейса слайдера.
@@ -2519,7 +2493,7 @@ var View = /** @class */ (function () {
             }
         }
         this._range.htmlElement.style.transition = duration;
-        this._mapScale.forEach(function (mapItem) {
+        this._collectionMarks.forEach(function (mapItem) {
             var mark = mapItem;
             mark.htmlElement.style.transition = duration;
         });
@@ -2927,4 +2901,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=05b2f6790c91df4b658a
+//# sourceMappingURL=abacus.js.map?v=14056417501dae2deb4a
