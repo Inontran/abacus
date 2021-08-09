@@ -1,3 +1,6 @@
+/**
+ * Перечисление состояний ориентации слайдера.
+ */
 enum AbacusOrientationType {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical',

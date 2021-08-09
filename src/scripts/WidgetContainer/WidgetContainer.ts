@@ -38,6 +38,11 @@ export default class WidgetContainer {
    */
   private _classNameVertical: string;
 
+  /**
+   * Старые классы контейнера, которые были у него до инициализации плагина.
+   * @type {string}
+   * @private
+   */
   private _oldClasses: string;
 
   /**
@@ -190,6 +195,9 @@ export default class WidgetContainer {
     }
   }
 
+  /**
+   * Восстанавливает классы у контейнера слайдера после инициализации плагина.
+   */
   restoreOldClasses(){
     this._htmlElement.className = this._oldClasses;
   }

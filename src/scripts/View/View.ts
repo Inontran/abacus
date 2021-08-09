@@ -993,8 +993,6 @@ export default class View {
       return;
     }
 
-    // viewInstance._mouseHandler(event);
-
     let coordinate = 0;
     if (event instanceof MouseEvent) {
       coordinate = this._isVertical ? event.clientY : event.clientX;
@@ -1289,9 +1287,9 @@ export default class View {
   }
 
   /**
-   *
-   * @param abacusProperty
-   * @returns
+   * Функция, копирующая объект со свойствами слайдера.
+   * @param {AbacusProperty} abacusProperty Свойства слайдера.
+   * @returns {AbacusProperty} Новый объект со свойствами слайдера.
    */
   static getCloneAbacusProperty(abacusProperty: AbacusProperty): AbacusProperty {
     const cloneProperty = {} as AbacusProperty;
@@ -1302,8 +1300,8 @@ export default class View {
   }
 
   /**
-   *
-   * @returns
+   * Функция, которая определяет, какая ручка слайдера сдвинулась.
+   * @returns {Handle} Возвращает ссылку на объект ручкы слайдера, которая передвинулась.
    */
   private _findMovedHandle(): Handle {
     const abacusProperty = this._presenter.getModelAbacusProperty();
@@ -1320,15 +1318,15 @@ export default class View {
   }
 
   /**
-   * 
-   * @returns 
+   * Возвращает HTML-элемент контейнера слайдера.
+   * @returns {HTMLAbacusElement} Контейнер слайдера.
    */
   getHtmlWidget(): HTMLAbacusElement{
     return this._widgetContainer.htmlElement;
   }
 
   /**
-   * 
+   * Возвращет контейнер слайдера в исходное состояние.
    */
   destroy(){
     this._widgetContainer.htmlElement.innerHTML = '';

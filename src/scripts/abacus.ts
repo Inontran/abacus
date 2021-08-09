@@ -1,5 +1,5 @@
 /**
- * @fileoverview
+ * @fileoverview В этом файле находится функция, реализующая внешний API плагина.
  */
 
 import $ from 'jquery';

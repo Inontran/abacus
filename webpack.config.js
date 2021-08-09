@@ -39,11 +39,6 @@ module.exports = {
   devtool: isDev ? 'source-map' : 'nosources-source-map',
   module: {
     rules: [
-      // {
-      //   test: /\.ts$/,
-      //   enforce: 'pre',
-      //   loader: 'eslint-loader',
-      // },
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
@@ -56,23 +51,12 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            // options: {
-            //   hmr: isDev,
-            // },
           },
           'css-loader',
           'postcss-loader',
           'sass-loader',
         ],
       },
-      // {
-      //   test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
-      // 	// loader: 'file-loader?name=assets/fonts/[name].[ext]',
-      // 	loader: 'file-loader',
-      // 	options: {
-      // 		name: 'assets/fonts/[name].[ext]'
-      // 	},
-      // }
     ],
   },
   plugins: [
@@ -86,14 +70,7 @@ module.exports = {
 				{
           from: PATHS.root + '/node_modules/jquery/dist/jquery.min.js',
           to: PATHS.dist
-        },
-        // {
-        //   from: PATHS.src + '/assets/**/*',
-        //   to: PATHS.dist + '/assets',
-        //   transformPath(targetPath, absolutePath) {
-        //     return targetPath.replace('src/assets', '');
-        //   }
-        // },
+        }
       ]
     }),
     new HtmlWebpackPlugin({
@@ -107,7 +84,6 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css?v=[fullhash]',
-      // allChunks: true
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
