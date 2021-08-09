@@ -10,7 +10,7 @@ $.fn.abacus = function (
   param1 ? : AbacusOptions | number | string | number[],
   param2 ? : number | string | boolean | null | AbacusClasses,
 ) {
-  let returnResult: JQuery |
+  let returnResult: JQuery<HTMLAbacusElement> |
   AbacusProperty |
   number |
   number[] |
@@ -31,18 +31,31 @@ $.fn.abacus = function (
     } else {
       if (typeof paramOptions === 'object') {
         view = new View(instanceHTMLAbacus, paramOptions);
-      } else {
+      } else if (!paramOptions) {
         view = new View(instanceHTMLAbacus);
+      } else {
+        return;
       }
 
       instanceHTMLAbacus.jqueryAbacusInstance = view;
     }
 
     if (typeof paramOptions === 'string') {
-      let resultOption: AbacusProperty | number | string | number[] | boolean | null | AbacusClasses | undefined;
+      let resultOption: JQuery<HTMLAbacusElement> |
+      AbacusProperty |
+      number |
+      number[] |
+      boolean |
+      null |
+      undefined |
+      AbacusClasses |
+      View |
+      string;
 
       switch (paramOptions) {
         case 'destroy':
+          view.destroy();
+          instanceHTMLAbacus.jqueryAbacusInstance = null;
           break;
 
         case 'disable':
@@ -72,17 +85,16 @@ $.fn.abacus = function (
           break;
 
         case 'value':
-          resultOption = view.option('value', param2);
+        case 'values':
+          resultOption = view.option(paramOptions, param2);
 
           if (typeof resultOption !== undefined) {
             returnResult = resultOption;
           }
           break;
 
-        case 'values':
-          break;
-
         case 'widget':
+          resultOption = $(view.getHtmlWidget());
           break;
 
         default:

@@ -928,15 +928,17 @@ export default class View {
 
     viewInstance._presenter.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
 
+    viewInstance._handlerWidgetContainerClick = viewInstance._handlerWidgetContainerClick.bind(viewInstance);
     viewInstance._widgetContainer.htmlElement.addEventListener(
       'click',
-      viewInstance._handlerWidgetContainerClick.bind(viewInstance),
+      viewInstance._handlerWidgetContainerClick,
     );
     viewInstance._widgetContainer.htmlElement.addEventListener(
       'touchend',
-      viewInstance._handlerWidgetContainerClick.bind(viewInstance),
+      viewInstance._handlerWidgetContainerClick,
     );
 
+    viewInstance._handlerHandleItemClickMove = viewInstance._handlerHandleItemClickMove.bind(viewInstance);
     document.addEventListener(
       'mousemove',
       viewInstance._handlerHandleItemClickMove.bind(viewInstance),
@@ -948,6 +950,7 @@ export default class View {
       { passive: true },
     );
 
+    viewInstance._handlerHandleItemClickStop = viewInstance._handlerHandleItemClickStop.bind(viewInstance);
     document.addEventListener(
       'mouseup',
       viewInstance._handlerHandleItemClickStop.bind(viewInstance),
@@ -1314,6 +1317,33 @@ export default class View {
     }
 
     return this._currentHandle;
+  }
+
+  /**
+   * 
+   * @returns 
+   */
+  getHtmlWidget(): HTMLAbacusElement{
+    return this._widgetContainer.htmlElement;
+  }
+
+  /**
+   * 
+   */
+  destroy(){
+    this._widgetContainer.htmlElement.innerHTML = '';
+
+    this._widgetContainer.htmlElement.removeEventListener('click', this._handlerWidgetContainerClick);
+    this._widgetContainer.htmlElement.removeEventListener('touchend', this._handlerWidgetContainerClick);
+
+    document.removeEventListener('mousemove', this._handlerHandleItemClickMove);
+    document.removeEventListener('touchmove', this._handlerHandleItemClickMove);
+
+    document.removeEventListener('mouseup', this._handlerHandleItemClickStop);
+    document.removeEventListener('touchend', this._handlerHandleItemClickStop);
+    document.removeEventListener('touchcancel', this._handlerHandleItemClickStop);
+
+    this._widgetContainer.restoreOldClasses();
   }
 
   /**

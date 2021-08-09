@@ -81,19 +81,19 @@ function parseFormToProperty($form: JQuery): AbacusOptions {
 
   const $inputMax = $('[name="max"]', $form);
   if ($inputMax.val()) {
-    abacusProperty.max = $inputMax.val() as number;
+    abacusProperty.max = parseFloat($inputMax.val() as string);
   }
 
   const $inputMin = $('[name="min"]', $form);
   if ($inputMin.val()) {
-    abacusProperty.min = $inputMin.val() as number;
+    abacusProperty.min = parseFloat($inputMin.val() as string);
   }
 
   abacusProperty.values = [];
   for (let i = 0; i < 2; i += 1) {
     const $inputValue = $('[name="value[]"]', $form).eq(i);
     if ($inputValue.val()) {
-      abacusProperty.values[i] = $inputValue.val() as number;
+      abacusProperty.values[i] = parseFloat($inputValue.val() as string);
     }
   }
 
@@ -140,7 +140,7 @@ function parseFormToProperty($form: JQuery): AbacusOptions {
 
   const $inputStep = $('[name="step"]', $form);
   if ($inputStep.length) {
-    abacusProperty.step = $inputStep.val() as number;
+    abacusProperty.step = parseFloat($inputStep.val() as string);
   }
 
   return abacusProperty;
@@ -188,22 +188,27 @@ $(() => {
     if (!event.currentTarget) {
       return null;
     }
+
     const $form = $(event.currentTarget) as JQuery<HTMLElement>;
-    const abacusOptions = parseFormToProperty($form);
-    const $abacusItem = $form.closest('.js-card-list__item').find('.abacus');
-    $abacusItem?.abacus('option', abacusOptions);
+    const $abacusItem = $form.closest('.js-card-list__item').find('.js-abacus') as JQuery<HTMLAbacusElement>;
+    if (!$abacusItem?.length) {
+      return;
+    }
+
+    const $destroySwitch = $('[name="destroy"]', $form);
+
+    if ($destroySwitch.length && $destroySwitch.prop('checked') === false) {
+      $abacusItem.abacus('destroy');
+    } else {
+      const abacusOptions = parseFormToProperty($form);
+
+      if (!$abacusItem[0].jqueryAbacusInstance) {
+        $abacusItem?.abacus(abacusOptions);
+      } else {
+        $abacusItem?.abacus('option', abacusOptions);
+      }
+    }
 
     return null;
   });
 });
-
-// let a: number | undefined = Math.random();
-// if( a < 0.5 ){
-//   a = undefined;
-// }
-// let b = 0;
-// const isNotEmpty = (a: number | undefined): a is number => a !== undefined;
-// if(isNotEmpty(a)){
-// // if( a !== undefined ){
-//   b += a;
-// }

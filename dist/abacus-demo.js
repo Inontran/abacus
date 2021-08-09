@@ -91,17 +91,17 @@ function parseFormToProperty($form) {
     }
     var $inputMax = $('[name="max"]', $form);
     if ($inputMax.val()) {
-        abacusProperty.max = $inputMax.val();
+        abacusProperty.max = parseFloat($inputMax.val());
     }
     var $inputMin = $('[name="min"]', $form);
     if ($inputMin.val()) {
-        abacusProperty.min = $inputMin.val();
+        abacusProperty.min = parseFloat($inputMin.val());
     }
     abacusProperty.values = [];
     for (var i = 0; i < 2; i += 1) {
         var $inputValue = $('[name="value[]"]', $form).eq(i);
         if ($inputValue.val()) {
-            abacusProperty.values[i] = $inputValue.val();
+            abacusProperty.values[i] = parseFloat($inputValue.val());
         }
     }
     var $inputOrientation = $('[name="orientation"]', $form);
@@ -139,7 +139,7 @@ function parseFormToProperty($form) {
     }
     var $inputStep = $('[name="step"]', $form);
     if ($inputStep.length) {
-        abacusProperty.step = $inputStep.val();
+        abacusProperty.step = parseFloat($inputStep.val());
     }
     return abacusProperty;
 }
@@ -180,9 +180,24 @@ $(function () {
             return null;
         }
         var $form = $(event.currentTarget);
-        var abacusOptions = parseFormToProperty($form);
-        var $abacusItem = $form.closest('.js-card-list__item').find('.abacus');
-        $abacusItem === null || $abacusItem === void 0 ? void 0 : $abacusItem.abacus('option', abacusOptions);
+        var $abacusItem = $form.closest('.js-card-list__item').find('.js-abacus');
+        if (!($abacusItem === null || $abacusItem === void 0 ? void 0 : $abacusItem.length)) {
+            return;
+        }
+        var $destroySwitch = $('[name="destroy"]', $form);
+        if ($destroySwitch.length && $destroySwitch.prop('checked') === false) {
+            $abacusItem.abacus('destroy');
+        }
+        else {
+            var abacusOptions = parseFormToProperty($form);
+            console.log($abacusItem[0].jqueryAbacusInstance);
+            if (!$abacusItem[0].jqueryAbacusInstance) {
+                $abacusItem === null || $abacusItem === void 0 ? void 0 : $abacusItem.abacus(abacusOptions);
+            }
+            else {
+                $abacusItem === null || $abacusItem === void 0 ? void 0 : $abacusItem.abacus('option', abacusOptions);
+            }
+        }
         return null;
     });
 });
@@ -255,4 +270,4 @@ module.exports = jQuery;
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
-//# sourceMappingURL=abacus-demo.js.map?v=7bc6040bd1b144c15a75
+//# sourceMappingURL=abacus-demo.js.map?v=423203b5f8b0b30c10d7

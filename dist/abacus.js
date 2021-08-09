@@ -640,10 +640,7 @@ var Model = /** @class */ (function () {
                 this._abacusProperty.animate = abacusProperty.animate;
             }
             else if (typeof abacusProperty.animate === 'number') {
-                this._abacusProperty.animate = abacusProperty.animate;
-            }
-            else if (typeof abacusProperty.animate === 'string') {
-                this._abacusProperty.animate = parseInt(abacusProperty.animate, 10);
+                this._abacusProperty.animate = Math.round(abacusProperty.animate);
             }
             else {
                 this._abacusProperty.animate = false;
@@ -688,13 +685,8 @@ var Model = /** @class */ (function () {
         }
         // max
         if (abacusProperty.max !== undefined && abacusProperty.max !== null) {
-            if (!Number.isNaN(abacusProperty.max)) {
-                if (typeof abacusProperty.max === 'string') {
-                    this._abacusProperty.max = parseFloat(abacusProperty.max);
-                }
-                else {
-                    this._abacusProperty.max = abacusProperty.max;
-                }
+            if (typeof abacusProperty.max === 'number') {
+                this._abacusProperty.max = abacusProperty.max;
             }
         }
         // scale
@@ -703,13 +695,8 @@ var Model = /** @class */ (function () {
         }
         // min
         if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
-            if (!Number.isNaN(abacusProperty.min)) {
-                if (typeof abacusProperty.min === 'string') {
-                    this._abacusProperty.min = parseFloat(abacusProperty.min);
-                }
-                else {
-                    this._abacusProperty.min = abacusProperty.min;
-                }
+            if (typeof abacusProperty.min === 'number') {
+                this._abacusProperty.min = abacusProperty.min;
             }
         }
         if (this._abacusProperty.max < this._abacusProperty.min) {
@@ -719,13 +706,8 @@ var Model = /** @class */ (function () {
         }
         // step
         if (abacusProperty.step !== undefined && abacusProperty.step !== null) {
-            if (!Number.isNaN(abacusProperty.step)) {
-                if (typeof abacusProperty.step === 'string') {
-                    this._abacusProperty.step = parseFloat(abacusProperty.step);
-                }
-                else {
-                    this._abacusProperty.step = abacusProperty.step;
-                }
+            if (typeof abacusProperty.step === 'number') {
+                this._abacusProperty.step = abacusProperty.step;
             }
         }
         // tooltip
@@ -2191,10 +2173,13 @@ var View = /** @class */ (function () {
     View.prototype._bindEventListeners = function () {
         var viewInstance = this;
         viewInstance._presenter.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
-        viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
-        viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick.bind(viewInstance));
+        viewInstance._handlerWidgetContainerClick = viewInstance._handlerWidgetContainerClick.bind(viewInstance);
+        viewInstance._widgetContainer.htmlElement.addEventListener('click', viewInstance._handlerWidgetContainerClick);
+        viewInstance._widgetContainer.htmlElement.addEventListener('touchend', viewInstance._handlerWidgetContainerClick);
+        viewInstance._handlerHandleItemClickMove = viewInstance._handlerHandleItemClickMove.bind(viewInstance);
         document.addEventListener('mousemove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
         document.addEventListener('touchmove', viewInstance._handlerHandleItemClickMove.bind(viewInstance), { passive: true });
+        viewInstance._handlerHandleItemClickStop = viewInstance._handlerHandleItemClickStop.bind(viewInstance);
         document.addEventListener('mouseup', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
         document.addEventListener('touchend', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
         document.addEventListener('touchcancel', viewInstance._handlerHandleItemClickStop.bind(viewInstance));
@@ -2530,6 +2515,27 @@ var View = /** @class */ (function () {
         return this._currentHandle;
     };
     /**
+     *
+     * @returns
+     */
+    View.prototype.getHtmlWidget = function () {
+        return this._widgetContainer.htmlElement;
+    };
+    /**
+     *
+     */
+    View.prototype.destroy = function () {
+        this._widgetContainer.htmlElement.innerHTML = '';
+        this._widgetContainer.htmlElement.removeEventListener('click', this._handlerWidgetContainerClick);
+        this._widgetContainer.htmlElement.removeEventListener('touchend', this._handlerWidgetContainerClick);
+        document.removeEventListener('mousemove', this._handlerHandleItemClickMove);
+        document.removeEventListener('touchmove', this._handlerHandleItemClickMove);
+        document.removeEventListener('mouseup', this._handlerHandleItemClickStop);
+        document.removeEventListener('touchend', this._handlerHandleItemClickStop);
+        document.removeEventListener('touchcancel', this._handlerHandleItemClickStop);
+        this._widgetContainer.restoreOldClasses();
+    };
+    /**
      * Функция получения количества знаков после запятой.
      * @static
      * @param {number} x Число, у которого надо узнать количество знаков после запятой.
@@ -2618,6 +2624,7 @@ var WidgetContainer = /** @class */ (function () {
         this._className = (classes === null || classes === void 0 ? void 0 : classes.abacus) ? classes.abacus : 'abacus';
         this._classNameDisabled = (classes === null || classes === void 0 ? void 0 : classes.disabled) ? classes.disabled : 'abacus_disabled';
         this._classNameVertical = (classes === null || classes === void 0 ? void 0 : classes.vertical) ? classes.vertical : 'abacus_vertical';
+        this._oldClasses = this._htmlElement.className;
         this._htmlElement.classList.add(this._className);
         this._htmlElement.classList.add("js-" + this._className);
     }
@@ -2757,6 +2764,9 @@ var WidgetContainer = /** @class */ (function () {
             }
         }
     };
+    WidgetContainer.prototype.restoreOldClasses = function () {
+        this._htmlElement.className = this._oldClasses;
+    };
     return WidgetContainer;
 }());
 exports.default = WidgetContainer;
@@ -2794,8 +2804,11 @@ jquery_1.default.fn.abacus = function (paramOptions, param1, param2) {
             if (typeof paramOptions === 'object') {
                 view = new View_1.default(instanceHTMLAbacus, paramOptions);
             }
-            else {
+            else if (!paramOptions) {
                 view = new View_1.default(instanceHTMLAbacus);
+            }
+            else {
+                return;
             }
             instanceHTMLAbacus.jqueryAbacusInstance = view;
         }
@@ -2803,6 +2816,8 @@ jquery_1.default.fn.abacus = function (paramOptions, param1, param2) {
             var resultOption = void 0;
             switch (paramOptions) {
                 case 'destroy':
+                    view.destroy();
+                    instanceHTMLAbacus.jqueryAbacusInstance = null;
                     break;
                 case 'disable':
                     view.option('disabled', true);
@@ -2828,14 +2843,14 @@ jquery_1.default.fn.abacus = function (paramOptions, param1, param2) {
                     }
                     break;
                 case 'value':
-                    resultOption = view.option('value', param2);
+                case 'values':
+                    resultOption = view.option(paramOptions, param2);
                     if (typeof resultOption !== undefined) {
                         returnResult = resultOption;
                     }
                     break;
-                case 'values':
-                    break;
                 case 'widget':
+                    resultOption = jquery_1.default(view.getHtmlWidget());
                     break;
                 default:
                     break;
@@ -2904,4 +2919,4 @@ module.exports = jQuery;
 /******/ 	__webpack_require__("./src/styles/abacus.scss");
 /******/ })()
 ;
-//# sourceMappingURL=abacus.js.map?v=7bc6040bd1b144c15a75
+//# sourceMappingURL=abacus.js.map?v=423203b5f8b0b30c10d7

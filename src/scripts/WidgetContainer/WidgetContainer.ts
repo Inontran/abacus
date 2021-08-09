@@ -38,6 +38,8 @@ export default class WidgetContainer {
    */
   private _classNameVertical: string;
 
+  private _oldClasses: string;
+
   /**
    * @constructor
    * @this   {WidgetContainer}
@@ -53,6 +55,8 @@ export default class WidgetContainer {
     this._className = classes?.abacus ? classes.abacus : 'abacus';
     this._classNameDisabled = classes?.disabled ? classes.disabled : 'abacus_disabled';
     this._classNameVertical = classes?.vertical ? classes.vertical : 'abacus_vertical';
+
+    this._oldClasses = this._htmlElement.className;
     this._htmlElement.classList.add(this._className);
     this._htmlElement.classList.add(`js-${this._className}`);
   }
@@ -184,5 +188,9 @@ export default class WidgetContainer {
         this._htmlElement.classList.remove(this._classNameVertical);
       }
     }
+  }
+
+  restoreOldClasses(){
+    this._htmlElement.className = this._oldClasses;
   }
 }
