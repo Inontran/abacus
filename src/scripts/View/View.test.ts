@@ -1,5 +1,11 @@
 import View from './View';
 
+function makeTest(testInfo: string, expectedVal: number, reciviedVal: number) {
+  it(testInfo, () => {
+    expect(expectedVal).toBe(reciviedVal);
+  });
+}
+
 describe('getPosFromValue', () => {
   const abacusHtmlContainer: HTMLAbacusElement = document.createElement('div') as HTMLAbacusElement;
   const view = new View(abacusHtmlContainer, {
@@ -12,8 +18,10 @@ describe('getPosFromValue', () => {
   const arrPercent: number[] = [0, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 100];
 
   for (let i = 0; i < arrAbacusSetValues.length; i += 1) {
-    it(`значение ${arrAbacusSetValues[i]} в процентах получается ${arrPercent[i]}%`, () => {
-      expect(arrPercent[i]).toBe(view.getPosFromValue(arrAbacusSetValues[i]));
-    });
+    makeTest(
+      `значение ${arrAbacusSetValues[i]} в процентах получается ${arrPercent[i]}%`,
+      arrPercent[i],
+      view.getPosFromValue(arrAbacusSetValues[i]),
+    );
   }
 });

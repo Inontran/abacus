@@ -167,13 +167,15 @@ $(() => {
     scale: true,
   });
 
-  $body.on('abacus-change', '.js-card-list .js-abacus', (event) => {
+  function handlerAbacusChange(event: Event) {
     const $abacusItem = $(event.currentTarget as HTMLAbacusElement);
     const $form = $abacusItem.closest('.js-card-list__item').find('form');
     if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
       parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
     }
-  });
+  }
+
+  $body.on('abacus-change', '.js-card-list .js-abacus', handlerAbacusChange);
 
   $abacus.each(function () {
     const $abacusItem = $(this as HTMLAbacusElement);
@@ -183,7 +185,7 @@ $(() => {
     }
   });
 
-  $body.on('submit', '.js-form_modifier-options', (event: Event) => {
+  function handlerSubmitFormOptions(event: Event) {
     event.preventDefault();
     if (!event.currentTarget) {
       return null;
@@ -192,7 +194,7 @@ $(() => {
     const $form = $(event.currentTarget) as JQuery<HTMLElement>;
     const $abacusItem = $form.closest('.js-card-list__item').find('.js-abacus') as JQuery<HTMLAbacusElement>;
     if (!$abacusItem?.length) {
-      return;
+      return null;
     }
 
     const $destroySwitch = $('[name="destroy"]', $form);
@@ -210,5 +212,7 @@ $(() => {
     }
 
     return null;
-  });
+  }
+
+  $body.on('submit', '.js-form_modifier-options', handlerSubmitFormOptions);
 });

@@ -1,5 +1,11 @@
 import Model from './Model';
 
+function makeTest(testInfo: string, expectedVal: any, reciviedVal: any) {
+  it(testInfo, () => {
+    expect(expectedVal).toBe(reciviedVal);
+  });
+}
+
 describe('roundValuePerStep', () => {
   const model: Model = new Model({
     min: -10,
@@ -11,10 +17,12 @@ describe('roundValuePerStep', () => {
   const arrRightValues: number[] = [-10, -10, -10, -8, -8, -6, -4, 0, 0, 0, 2, 2, 6, 8, 10, 10, 11];
 
   for (let i = 0; i < arrSetValues.length; i += 1) {
-    test(`значение ${arrSetValues[i]} окргуляется до ${arrRightValues[i]}`, () => {
-      model.value = arrSetValues[i];
-      expect(arrRightValues[i]).toBe(model.abacusProperty.value);
-    });
+    model.value = arrSetValues[i];
+    makeTest(
+      `значение ${arrSetValues[i]} окргуляется до ${arrRightValues[i]}`,
+      arrRightValues[i],
+      model.abacusProperty.value,
+    );
   }
 });
 
@@ -24,12 +32,15 @@ describe('set animate property', () => {
   const arrRightValues: any[] = [false, true, false, false, 'fast', 'slow', false, 1, 0, false, 0];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        animate: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.animate).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      animate: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.animate,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -39,14 +50,17 @@ describe('set classes property', () => {
   const arrRightValues: any[] = ['abacus', 'abacus', 'abacus', 'qwe', 'fast', 'slow', '1', '1', '1', '0'];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        classes: {
-          abacus: arrTestValues[i],
-        },
-      } as AbacusOptions);
-      expect(model.abacusProperty.classes?.abacus).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      classes: {
+        abacus: arrTestValues[i],
+      },
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.classes?.abacus,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -56,12 +70,15 @@ describe('set max property', () => {
   const arrRightValues: any[] = [100, 100, 100, 100, 2, 2, 0.1, 0.1];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        max: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.max).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      max: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.max,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -71,12 +88,15 @@ describe('set min property', () => {
   const arrRightValues: any[] = [0, 0, 0, 0, 2, 2, 0.1, 0.1];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        min: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.min).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      min: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.min,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -86,12 +106,15 @@ describe('set step property', () => {
   const arrRightValues: any[] = [1, 1, 1, 1, 2, 2, 0.1, 0.1];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        step: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.step).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      step: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.step,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -103,12 +126,15 @@ describe('set orientation property', () => {
     'horizontal', 'vertical', 'horizontal'];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        orientation: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.orientation).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      orientation: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.orientation,
+      arrRightValues[i],
+    );
   }
 });
 
@@ -118,11 +144,14 @@ describe('set range property', () => {
   const arrRightValues: any[] = [false, true, true, true, true, true, 'max', 'min'];
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
-    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({
-        range: arrTestValues[i],
-      } as AbacusOptions);
-      expect(model.abacusProperty.range).toBe(arrRightValues[i]);
-    });
+    model.setAbacusProperty({
+      range: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.range,
+      arrRightValues[i],
+    );
   }
 });
