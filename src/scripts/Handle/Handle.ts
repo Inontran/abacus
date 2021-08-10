@@ -53,6 +53,7 @@ export default class Handle {
 
     if (handleIndex !== undefined && !Number.isNaN(handleIndex)) {
       this._handleIndex = handleIndex;
+      this._htmlElement.setAttribute('data-handle-index', handleIndex.toString());
     }
   }
 

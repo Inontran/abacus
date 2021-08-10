@@ -84,7 +84,7 @@ export default class Mark {
     this._htmlElement.classList.add(this._className);
 
     this._associatedValue = associatedValue;
-    this._htmlElement.innerText = associatedValue.toString();
+    this.associatedValue = associatedValue;
   }
 
   /**
@@ -239,6 +239,7 @@ export default class Mark {
   public set associatedValue(value : number) {
     this._associatedValue = value;
     this._htmlElement.innerText = value.toString();
+    this._htmlElement.setAttribute('data-associated-value', value.toString());
   }
 
   /**

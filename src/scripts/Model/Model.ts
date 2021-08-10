@@ -86,7 +86,7 @@ export default class Model {
         this._abacusProperty.animate = Math.round(abacusProperty.animate);
       } else {
         this._abacusProperty.animate = false;
-      } 
+      }
     }
 
     // classes

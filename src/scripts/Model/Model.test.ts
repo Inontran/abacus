@@ -25,7 +25,7 @@ describe('set animate property', () => {
 
   for (let i = 0; i < arrTestValues.length; i += 1) {
     it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-      model.setAbacusProperty({ 
+      model.setAbacusProperty({
         animate: arrTestValues[i],
       } as AbacusOptions);
       expect(model.abacusProperty.animate).toBe(arrRightValues[i]);

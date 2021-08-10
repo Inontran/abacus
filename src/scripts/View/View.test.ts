@@ -1,4 +1,4 @@
-import View from "./View";
+import View from './View';
 
 describe('getPosFromValue', () => {
   const abacusHtmlContainer: HTMLAbacusElement = document.createElement('div') as HTMLAbacusElement;

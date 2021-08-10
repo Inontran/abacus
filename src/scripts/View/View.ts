@@ -451,34 +451,17 @@ export default class View {
         break;
     }
 
+    viewInstance._handlerHandleItemClickStart = viewInstance._handlerHandleItemClickStart.bind(viewInstance);
     for (let i = 0; i < handleIndexes.length; i += 1) {
       const handleIndex = handleIndexes[i];
       viewInstance._handles[handleIndex].htmlElement.addEventListener(
         'mousedown',
-        // viewInstance._handlerHandleItemClickStart.bind(viewInstance)
-        (event: MouseEvent) => {
-          event.preventDefault();
-          if (viewInstance._isDisabled) {
-            return;
-          }
-          viewInstance._isDragHandle = true;
-          viewInstance._currentHandle = viewInstance._handles[handleIndex];
-          viewInstance._eventStartWrapper(event);
-        },
+        viewInstance._handlerHandleItemClickStart,
       );
 
       viewInstance._handles[handleIndex].htmlElement.addEventListener(
         'touchstart',
-        // viewInstance._handlerHandleItemClickStart.bind(viewInstance),
-        (event: TouchEvent) => {
-          event.preventDefault();
-          if (viewInstance._isDisabled) {
-            return;
-          }
-          viewInstance._isDragHandle = true;
-          viewInstance._currentHandle = viewInstance._handles[handleIndex];
-          viewInstance._eventStartWrapper(event);
-        },
+        viewInstance._handlerHandleItemClickStart,
         { passive: true },
       );
     }
@@ -941,27 +924,27 @@ export default class View {
     viewInstance._handlerHandleItemClickMove = viewInstance._handlerHandleItemClickMove.bind(viewInstance);
     document.addEventListener(
       'mousemove',
-      viewInstance._handlerHandleItemClickMove.bind(viewInstance),
+      viewInstance._handlerHandleItemClickMove,
       { passive: true },
     );
     document.addEventListener(
       'touchmove',
-      viewInstance._handlerHandleItemClickMove.bind(viewInstance),
+      viewInstance._handlerHandleItemClickMove,
       { passive: true },
     );
 
     viewInstance._handlerHandleItemClickStop = viewInstance._handlerHandleItemClickStop.bind(viewInstance);
     document.addEventListener(
       'mouseup',
-      viewInstance._handlerHandleItemClickStop.bind(viewInstance),
+      viewInstance._handlerHandleItemClickStop,
     );
     document.addEventListener(
       'touchend',
-      viewInstance._handlerHandleItemClickStop.bind(viewInstance),
+      viewInstance._handlerHandleItemClickStop,
     );
     document.addEventListener(
       'touchcancel',
-      viewInstance._handlerHandleItemClickStop.bind(viewInstance),
+      viewInstance._handlerHandleItemClickStop,
     );
   }
 
@@ -1011,12 +994,19 @@ export default class View {
    */
   private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
     event.preventDefault();
-    // console.log('_handlerHandleItemClickStart');
     const viewInstance = this;
     if (viewInstance._isDisabled) {
       return;
     }
+
+    const handleHtml = event.currentTarget as HTMLElement;
+    const handleIndexAttr = handleHtml.getAttribute('data-handle-index');
+    if (!handleIndexAttr) {
+      return;
+    }
+    const handleIndex = parseInt(handleIndexAttr, 10);
     viewInstance._isDragHandle = true;
+    viewInstance._currentHandle = viewInstance._handles[handleIndex];
     viewInstance._eventStartWrapper(event);
   }
 
@@ -1224,31 +1214,36 @@ export default class View {
    * @private
    */
   private _bindEventListenersOnMarks(): void{
+    this._handlerClickMarks = this._handlerClickMarks.bind(this);
+
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-
-      mark.htmlElement.addEventListener('click', () => {
-        const viewInstance = this;
-        if (viewInstance._isDisabled) {
-          return;
-        }
-
-        if (viewInstance._cachedAbacusProperty?.value !== mark.associatedValue) {
-          viewInstance._calcHandleValues(mark.associatedValue);
-        }
-      });
-
-      mark.htmlElement.addEventListener('touchend', () => {
-        const viewInstance = this;
-        if (viewInstance._isDisabled) {
-          return;
-        }
-
-        if (viewInstance._cachedAbacusProperty?.value !== mark.associatedValue) {
-          viewInstance._calcHandleValues(mark.associatedValue);
-        }
-      });
+      mark.htmlElement.addEventListener('click', this._handlerClickMarks);
+      mark.htmlElement.addEventListener('touchend', this._handlerClickMarks);
     });
+  }
+
+  /**
+   * Обработчик клика на метки шкалы.
+   * @param {Event} event Объект события.
+   */
+  private _handlerClickMarks(event: Event): void{
+    event.preventDefault();
+    const viewInstance = this;
+    if (viewInstance._isDisabled) {
+      return;
+    }
+
+    const markHtml = event.currentTarget as HTMLElement;
+    const markValueAttr = markHtml.getAttribute('data-associated-value');
+    if (!markValueAttr) {
+      return;
+    }
+    const markAssociatedValue = parseFloat(markValueAttr);
+
+    if (viewInstance._cachedAbacusProperty?.value !== markAssociatedValue) {
+      viewInstance._calcHandleValues(markAssociatedValue);
+    }
   }
 
   /**
@@ -1321,14 +1316,14 @@ export default class View {
    * Возвращает HTML-элемент контейнера слайдера.
    * @returns {HTMLAbacusElement} Контейнер слайдера.
    */
-  getHtmlWidget(): HTMLAbacusElement{
+  getHtmlWidget(): HTMLAbacusElement {
     return this._widgetContainer.htmlElement;
   }
 
   /**
    * Возвращет контейнер слайдера в исходное состояние.
    */
-  destroy(){
+  destroy() {
     this._widgetContainer.htmlElement.innerHTML = '';
 
     this._widgetContainer.htmlElement.removeEventListener('click', this._handlerWidgetContainerClick);
