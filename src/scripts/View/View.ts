@@ -1026,21 +1026,7 @@ export default class View {
     }
     viewInstance._handleMovingTimer = setTimeout(() => {
       if (viewInstance._isDragHandle) {
-        // console.log('_handlerHandleItemClickMove');
         viewInstance._mouseHandler(event);
-        // let coordinate = 0;
-        // if( event instanceof MouseEvent ){
-        //   coordinate = this._isVertical ? event.clientY : event.clientX;
-        // }
-        // else if(event instanceof TouchEvent){
-        //   coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
-        // }
-
-        // const percent = this.getPosPercent(coordinate);
-        // const valueUnrounded: number = this.getValFromPosPercent(percent);
-        // viewInstance._calcHandleValues(valueUnrounded);
-
-        // viewInstance._eventSlideWrapper(event);
       }
     }, 5);
   }
@@ -1053,7 +1039,6 @@ export default class View {
   private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
     const viewInstance = this;
     if (viewInstance._isDragHandle) {
-      // console.log('_handlerHandleItemClickStop');
       viewInstance._eventStopWrapper(event);
     }
     viewInstance._isDragHandle = false;
