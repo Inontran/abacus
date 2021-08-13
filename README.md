@@ -4,7 +4,7 @@
 Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
 
 Структура TS-кода:
-![Структура TS-кода](https://inontran.github.io/abacus/uml/uml.svg)
+![Структура TS-кода](https://inontran.github.io/abacus/uml/uml.svg?v=2)
 
 Для работы с проектом необходим NPM.
 
