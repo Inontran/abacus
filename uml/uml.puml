@@ -9,19 +9,26 @@ Range "1" *-- "1" RangeType
 View "1" -- "1" Presenter
 Model "1" -- "1" Presenter
 
-Model "1" *-- "1" AbacusOptions
-EventUIData "0.." *-- "1" AbacusOptions
+AbacusProperty "1" *-- "1" AbacusOrientationType
+AbacusProperty <|-- AbacusOptions
+Model "1" *-- "1" AbacusProperty
+EventUIData "0.." *-- "1" AbacusProperty
 
 JQuery "1" <-- "1" Abacus
 
 HTMLAbacusElement "0..*" <-- "0..1" View
 
+enum AbacusOrientationType {
+    HORIZONTAL
+    VERTICAL
+}
+
 class Model {
-    -_abacusProperty: AbacusOptions
+    -_abacusProperty: AbacusProperty
     -_eventTarget: EventTarget
     -_eventUpdateModel: CustomEvent<any>
-    +abacusProperty(): AbacusOptions
-    +abacusProperty(abacusProperty: AbacusOptions): AbacusOptions
+    +abacusProperty(): AbacusProperty
+    +setAbacusProperty(newAbacusProperty: AbacusOptions | AbacusProperty)
     +value(value : number): number
     +eventTarget(): EventTarget
     +roundValuePerStep(value: number): number
@@ -32,8 +39,8 @@ class Presenter {
     -_model: Model
     -_eventTarget: EventTarget
     -_eventUpdateModel: CustomEvent<any>
-    +getModelAbacusProperty(): AbacusOptions
-    +setModelAbacusProperty(abacusProperty: AbacusOptions): void
+    +getModelAbacusProperty(): AbacusProperty
+    +setModelAbacusProperty(abacusProperty: AbacusOptions | AbacusProperty): void
     +setAbacusValue(values: number[]): void
     -_bindEventListeners(): void
     -_updateModelHandler(): void
@@ -103,6 +110,7 @@ class Mark {
     -_isSelected: boolean
     -_posLeft: number | null
     -_posBottom: number | null
+    -_associatedValue: number
     +htmlElement(): HTMLElement
     +className(): string
     +className(name: string)
@@ -114,6 +122,8 @@ class Mark {
     +posLeft(left: number)
     +posBottom(): number | null
     +posBottom(bottom: number)
+    +associatedValue() : number
+    +associatedValue(value : number)
     +isInrange(value?: boolean | undefined): boolean
     +isSelected(value?: boolean | undefined): boolean
 }
@@ -151,21 +161,21 @@ class View {
     -_isDragHandle: boolean
     -_handleMovingTimer: NodeJS.Timeout | null
     -_mapScale: Map<number, Mark>
-    -_cachedAbacusProperty: AbacusOptions
+    -_cachedAbacusProperty: AbacusProperty
     -_isVertical: boolean
     -_currentHandle?: Handle | undefined
     +getPosPercent(coordXY: number): number
     +getPosPerStep(percent: number): number
     +getPosFromValue(value: number): number
     +getValFromPosPercent(posPercent: number): number
-    +option(optionName?: string | undefined, value?: any): string | number | boolean | AbacusOptions | number[] | AbacusClasses | undefined
+    +option(optionName?: string | undefined, value?: any): string | number | boolean | AbacusProperty | number[] | AbacusClasses | undefined
     +updateView(): void
-    -_createViewHandles(abacusProperty: AbacusOptions): void
-    -_updateViewHandles(abacusProperty: AbacusOptions): void
-    -_createViewTooltips(abacusProperty: AbacusOptions): void
-    -_updateViewTooltips(abacusProperty: AbacusOptions): void
-    -_createViewRange(abacusProperty: AbacusOptions): void
-    -_updateViewRange(abacusProperty: AbacusOptions): void
+    -_createViewHandles(abacusProperty: AbacusProperty): void
+    -_updateViewHandles(abacusProperty: AbacusProperty): void
+    -_createViewTooltips(abacusProperty: AbacusProperty): void
+    -_updateViewTooltips(abacusProperty: AbacusProperty): void
+    -_createViewRange(abacusProperty: AbacusProperty): void
+    -_updateViewRange(abacusProperty: AbacusProperty): void
     -_updateClassNames(abacusClasses: AbacusClasses): void
     +toggleDisable(off?: boolean | undefined): void
     -_getEventUIData(): EventUIData
@@ -188,7 +198,7 @@ class View {
     -_highlightMarks(): void
     -_bindEventListenersOnMarks(): void
     -_setTransition(): void
-    -_getCloneAbacusProperty(abacusProperty: AbacusOptions): AbacusOptions
+    -_getCloneAbacusProperty(abacusProperty: AbacusProperty): AbacusProperty
     -_findMovedHandle(): Handle
     +{static} countNumAfterPoint(x: number): number
     +{static} round(value: number, fractionalNum: number): number
@@ -215,9 +225,24 @@ interface AbacusOptions {
     +stop?: ((event: Event, ui: EventUIData) => void) | undefined
 }
 
+interface AbacusProperty {
+    +animate: string | number | boolean
+    +classes: AbacusClasses
+    +disabled: boolean
+    +max: number
+    +min: number
+    +orientation: AbacusOrientationType
+    +range: string | boolean
+    +scale: boolean
+    +step: number
+    +tooltip: boolean
+    +value: number
+    +values: number[]
+}
+
 interface Abacus{
   +(options ?: AbacusOptions): JQuery;
-  +(funcName: string, param1 ? : AbacusOptions | number | string | number[],param2 ? : number | string | boolean | null | AbacusClasses): JQuery | AbacusOptions | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
+  +(funcName: string, param1 ? : AbacusOptions | number | string | number[],param2 ? : number | string | boolean | null | AbacusClasses): JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
 }
 
 interface JQuery{
@@ -231,6 +256,6 @@ interface HTMLAbacusElement extends HTMLElement {
 interface EventUIData {
     +handle: HTMLElement
     +handleIndex: number
-    +abacusProperty: AbacusOptions
+    +abacusProperty: AbacusProperty
 }
 @enduml
