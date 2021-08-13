@@ -14,7 +14,8 @@
     "eslint:dump": "eslint --print-config ./.eslintrc.json",
     "eslint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx src",
     "stylelint": "stylelint 'src/styles/**/*.{css,scss}'",
-    "stylelint:fix": "stylelint 'src/styles/**/*.{css,scss}' --fix"
+    "stylelint:fix": "stylelint 'src/styles/**/*.{css,scss}' --fix",
+    "gh-deploy": "gh-pages -d dist"
   },
   "keywords": [
     "abacus",
@@ -43,6 +44,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-fsd": "^1.0.1",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^4.5.1",
     "jest": "^27.0.6",
     "mini-css-extract-plugin": "^1.3.3",
