@@ -1,9 +1,7 @@
 # abacus
 Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD).
 
-Демо-страница: [https://inontran.github.io/abacus/dist](https://inontran.github.io/abacus/dist).
-
-Документация: [https://inontran.github.io/abacus/docs](https://inontran.github.io/abacus/docs).
+Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
 
 Структура TS-кода:
 ![Структура TS-кода](https://inontran.github.io/abacus/uml/uml.svg)
@@ -69,4 +67,9 @@ npm run stylelint
 Исправление простых ошибок в стилях с помощью stylelint:
 ```
 npm run stylelint:fix
+```
+
+Загрузить демо-страницу на GitHub Pages:
+```
+npm run gh-deploy
 ```
