@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
 const PATHS = {
-	root: __dirname,
+  root: __dirname,
   src: path.resolve(__dirname, './src'),
   dist: path.resolve(__dirname, './dist'),
 };
@@ -67,10 +67,20 @@ module.exports = {
           from: PATHS.src + '/styles/images',
           to: PATHS.dist + '/images/'
         },
-				{
+        {
           from: PATHS.root + '/node_modules/jquery/dist/jquery.min.js',
           to: PATHS.dist
-        }
+        },
+        {
+          from: PATHS.root + '/uml/**/*.svg',
+          to: PATHS.dist + '/uml/',
+          noErrorOnMissing: true
+        },
+        {
+          from: PATHS.root + '/docs',
+          to: PATHS.dist + '/docs/',
+          noErrorOnMissing: true
+        },
       ]
     }),
     new HtmlWebpackPlugin({
