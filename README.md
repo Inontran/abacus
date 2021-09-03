@@ -9,6 +9,16 @@
 Для работы с проектом необходим NPM.
 
 ### Описание команд
+Клонирование проекта по SSH:
+```
+git clone git@github.com:Inontran/abacus.git
+```
+
+Клонирование проекта по HTTPS:
+```
+git clone https://github.com/Inontran/abacus.git
+```
+
 Установка проекта:
 ```
 npm install
