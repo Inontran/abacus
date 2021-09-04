@@ -91,17 +91,28 @@ npm run gh-deploy
 ## API
 API данного слайдера делалось на основе слайдера из библеотеки jQuery UI. Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
 
-| Опции         | Методы        | События |
-| ------------- | ------------- | ------- |
-| animate       | destroy       | change  |
-| classes       | disable       | create  |
-| disabled      | enebale       | slide   |
-| max           | instance      | start   |
-| min           | option        | stop    |
-| orientation   | value         |
-| range         | values        |
-| scale         | widget        |
-| step          | 
-| tooltip       | 
-| value         | 
-| values        | 
+| Опции                         | Методы        | События |
+|:----------------------------- |:------------- |:------- |
+| [animate](#option-animate)    | destroy       | change  |
+| classes                       | disable       | create  |
+| disabled                      | enebale       | slide   |
+| max                           | instance      | start   |
+| min                           | option        | stop    |
+| orientation                   | value         |
+| range                         | values        |
+| scale                         | widget        |
+| step                          | 
+| tooltip                       | 
+| value                         | 
+| values                        | 
+
+### Опции
+<div id="option-animate">
+  Optional animate
+  animate: string | number | boolean
+
+  Defined in abacus-interfaces.d.ts:67
+
+  Следует ли плавно перемещать ручку, когда пользователь нажимает на дорожку ползунка. Также принимает любую допустимую продолжительность анимации.
+
+</div>
