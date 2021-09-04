@@ -89,9 +89,19 @@ npm run gh-deploy
 
 
 ## API
-API данного слайдера делалось на основе слайдера из библеотеки jQuery UI. Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но возможны отличия.
+API данного слайдера делалось на основе слайдера из библеотеки jQuery UI. Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| Опции         | Методы        | События |
+| ------------- | ------------- | ------- |
+| animate       | destroy       | change  |
+| classes       | disable       | create  |
+| disabled      | enebale       | slide   |
+| max           | instance      | start   |
+| min           | option        | stop    |
+| orientation   | value         |
+| range         | values        |
+| scale         | widget        |
+| step          | 
+| tooltip       | 
+| value         | 
+| values        | 
