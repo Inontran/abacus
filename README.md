@@ -2,18 +2,19 @@
 Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD).
 
 Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
+Документация: [https://inontran.github.io/abacus/docs](https://inontran.github.io/abacus/docs).
 
 Структура TS-кода:
 ![uml/uml.svg](https://inontran.github.io/abacus/uml/uml.svg?v=2)
 
 Для работы с проектом необходим NPM.
 
-### Описание команд
+### Описание команд для работы с проектом
 Клонирование проекта по SSH:
 ```
 git clone git@github.com:Inontran/abacus.git
 ```
-
+  
 Клонирование проекта по HTTPS:
 ```
 git clone https://github.com/Inontran/abacus.git
