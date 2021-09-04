@@ -2,6 +2,7 @@
 Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD).
 
 Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
+
 Документация: [https://inontran.github.io/abacus/docs](https://inontran.github.io/abacus/docs).
 
 Структура TS-кода:
@@ -9,12 +10,13 @@
 
 Для работы с проектом необходим NPM.
 
-### Описание команд для работы с проектом
+
+## Описание команд для работы с проектом
 Клонирование проекта по SSH:
 ```
 git clone git@github.com:Inontran/abacus.git
 ```
-  
+
 Клонирование проекта по HTTPS:
 ```
 git clone https://github.com/Inontran/abacus.git
@@ -80,7 +82,16 @@ npm run stylelint
 npm run stylelint:fix
 ```
 
-Загрузить демо-страницу на GitHub Pages:
+Загрузить демо-страницу на GitHub Pages (желательно перед этим сгенерировать документацию, а потом собрать проект):
 ```
 npm run gh-deploy
 ```
+
+
+## API
+API данного слайдера делалось на основе слайдера из библеотеки jQuery UI. Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но возможны отличия.
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
