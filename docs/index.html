@@ -59,14 +59,14 @@
 				<a href="#abacus" id="abacus" style="color: inherit; text-decoration: none;">
 					<h1>abacus</h1>
 				</a>
-				<p>Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD).</p>
+				<p>Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD). Реализован в виде jQuery-плагина, поэтому для работы его работы необходима библиотека <a href="https://jquery.com/">jQuery</a> версии не ниже 1.9.1.</p>
 				<p>Демо-страница: <a href="https://inontran.github.io/abacus/">https://inontran.github.io/abacus/</a>.</p>
 				<p>Документация: <a href="https://inontran.github.io/abacus/docs">https://inontran.github.io/abacus/docs</a>.</p>
 				<p>Структура TS-кода:
 				<img src="https://inontran.github.io/abacus/uml/uml.svg?v=2" alt="uml/uml.svg"></p>
-				<p>Для работы с проектом необходим NPM.</p>
+				<p>Для работы с исходным кода проекта необходим NPM.</p>
 				<a href="#описание-команд-для-работы-с-проектом" id="описание-команд-для-работы-с-проектом" style="color: inherit; text-decoration: none;">
-					<h3>Описание команд для работы с проектом</h3>
+					<h2>Описание команд для работы с проектом</h2>
 				</a>
 				<p>Клонирование проекта по SSH:</p>
 				<pre><code><span style="color: #001080">git</span><span style="color: #000000"> </span><span style="color: #001080">clone</span><span style="color: #000000"> </span><span style="color: #001080">git</span><span style="color: #000000">@</span><span style="color: #001080">github</span><span style="color: #000000">.</span><span style="color: #001080">com</span><span style="color: #000000">:</span><span style="color: #001080">Inontran</span><span style="color: #000000">/</span><span style="color: #001080">abacus</span><span style="color: #000000">.</span><span style="color: #001080">git</span>
@@ -110,9 +110,98 @@
 				<p>Исправление простых ошибок в стилях с помощью stylelint:</p>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> stylelint:</span><span style="color: #001080">fix</span>
 </code></pre>
-				<p>Загрузить демо-страницу на GitHub Pages:</p>
+				<p>Загрузить демо-страницу на GitHub Pages (желательно перед этим сгенерировать документацию, а потом собрать проект):</p>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">gh</span><span style="color: #000000">-</span><span style="color: #001080">deploy</span>
 </code></pre>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<p>API данного слайдера делалось на основе слайдера из библеотеки jQuery UI.
+				Поэтому в качестве дополнительного источника можно пользоваться <a href="https://api.jqueryui.com/slider/">документацией</a> jQuery UI, но есть отличия.</p>
+				<table>
+					<thead>
+						<tr>
+							<th align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html">Опции</a></th>
+							<th align="left"><a href="#methods">Методы</a></th>
+							<th align="left">События</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#animate">animate</a></td>
+							<td align="left"><a href="#method-destroy">destroy</a></td>
+							<td align="left">change</td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#classes">classes</a></td>
+							<td align="left">disable</td>
+							<td align="left">create</td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#disabled">disabled</a></td>
+							<td align="left">enable</td>
+							<td align="left">slide</td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#max">max</a></td>
+							<td align="left">instance</td>
+							<td align="left">start</td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#min">min</a></td>
+							<td align="left">option</td>
+							<td align="left">stop</td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#orientation">orientation</a></td>
+							<td align="left">value</td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#range">range</a></td>
+							<td align="left">values</td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#scale">scale</a></td>
+							<td align="left">widget</td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#step">step</a></td>
+							<td align="left"></td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#tooltip">tooltip</a></td>
+							<td align="left"></td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#value">value</a></td>
+							<td align="left"></td>
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#values">values</a></td>
+							<td align="left"></td>
+							<td align="left"></td>
+						</tr>
+				</tbody></table>
+				<div id="methods">
+					<a href="#методы" id="методы" style="color: inherit; text-decoration: none;">
+						<h3>Методы</h3>
+					</a>
+				</div>
+				<div id="method-destroy">
+					<a href="#destroy" id="destroy" style="color: inherit; text-decoration: none;">
+						<h4>destroy</h4>
+					</a>
+					<p>  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.
+					<strong>Возвращает:</strong> jQuery</p>
+					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>destroy</code>:</p>
+					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;destroy&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				</div>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
