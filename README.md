@@ -1,5 +1,5 @@
 # abacus
-Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD).
+Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD). Реализован в виде jQuery-плагина, поэтому для работы его работы необходима библиотека [jQuery](https://jquery.com/) версии не ниже 1.9.1.
 
 Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
 
@@ -8,7 +8,7 @@
 Структура TS-кода:
 ![uml/uml.svg](https://inontran.github.io/abacus/uml/uml.svg?v=2)
 
-Для работы с проектом необходим NPM.
+Для работы с исходным кода проекта необходим NPM.
 
 
 ## Описание команд для работы с проектом
@@ -89,57 +89,41 @@ npm run gh-deploy
 
 
 ## API
-API данного слайдера делалось на основе слайдера из библеотеки jQuery UI. Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
+API данного слайдера делалось на основе слайдера из библеотеки jQuery UI.
+Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
 
-| [Опции](#options)             | Методы        | События |
-|:----------------------------- |:------------- |:------- |
-| [animate](#option-animate)    | destroy       | change  |
-| classes                       | disable       | create  |
-| disabled                      | enebale       | slide   |
-| max                           | instance      | start   |
-| min                           | option        | stop    |
-| orientation                   | value         |
-| range                         | values        |
-| scale                         | widget        |
-| step                          | 
-| tooltip                       | 
-| value                         | 
-| values                        | 
+| [Опции](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)                    | [Методы](#methods)            | События |
+|:------------------------------------------------------------------------------------------------------------------ |:----------------------------- |:------- |
+| [animate](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#animate)          | [destroy](#method-destroy)    | change  |
+| [classes](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#classes)          | disable                       | create  |
+| [disabled](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#disabled)        | enable                        | slide   |
+| [max](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#max)                  | instance                      | start   |
+| [min](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#min)                  | option                        | stop    |
+| [orientation](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#orientation)  | value                         |
+| [range](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#range)              | values                        |
+| [scale](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#scale)              | widget                        |
+| [step](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#step)                | 
+| [tooltip](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#tooltip)          | 
+| [value](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#value)              | 
+| [values](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#values)            | 
 
 
-<div id="options">
+<div id="methods">
 
-  ### Опции
+  ### Методы
 
 </div>
 
-<div id="option-animate">
+<div id="method-destroy">
 
-  #### animate
+  #### destroy
 
-  **Тип**: ``string`` или ``number`` или ``boolean``  
-  **Значение по-умолчанию**: ``false``  
-
-  Следует ли добавить анимацию элементам слайдера при перемещении ручки. Также принимает любую допустимую продолжительность анимации.  
-  **Поддерживается несколько типов данных:**
-
-  - **boolean**: Если параметр равен ``true``, то элементы слайдера анимируются с продолжительностью в 400 мс.
-  - **string**: Название продолжительности анимации. Принимает значения ``fast``(200 мс) или ``slow``(600 мс).
-  - **number**: Продолжительность анимации в миллисекундах.
+  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.
+  **Возвращает:** jQuery
 
   **Примеры кода:**  
-  Инициализация слайдера с параметром ``animate``:
+  Вызов метода ``destroy``:
   ```
-  $('.selector').abacus({
-    animate: 'fast',
-  });
-  ```
-  Получение или установка значения опции ``animate`` после инициализации:
-  ```
-  // Получение значения
-  let animate = $('.selector').abacus('option', 'animate');
-  
-  // Установка значения
-  $('.selector').abacus('option', 'animate', 'fast');
+  $('.selector').abacus('destroy');
   ```
 </div>
