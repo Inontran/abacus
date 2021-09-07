@@ -62,8 +62,6 @@
 				<p>Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD). Реализован в виде jQuery-плагина, поэтому для работы его работы необходима библиотека <a href="https://jquery.com/">jQuery</a> версии не ниже 1.9.1.</p>
 				<p>Демо-страница: <a href="https://inontran.github.io/abacus/">https://inontran.github.io/abacus/</a>.</p>
 				<p>Документация: <a href="https://inontran.github.io/abacus/docs">https://inontran.github.io/abacus/docs</a>.</p>
-				<p>Структура TS-кода:
-				<img src="https://inontran.github.io/abacus/uml/uml.svg?v=2" alt="uml/uml.svg"></p>
 				<p>Для работы с исходным кода проекта необходим NPM.</p>
 				<a href="#описание-команд-для-работы-с-проектом" id="описание-команд-для-работы-с-проектом" style="color: inherit; text-decoration: none;">
 					<h2>Описание команд для работы с проектом</h2>
@@ -113,6 +111,7 @@
 				<p>Загрузить демо-страницу на GitHub Pages (желательно перед этим сгенерировать документацию, а потом собрать проект):</p>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">gh</span><span style="color: #000000">-</span><span style="color: #001080">deploy</span>
 </code></pre>
+				<hr>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
@@ -343,6 +342,15 @@
 					<pre><code><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">widget</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;widget&#039;</span><span style="color: #000000">);</span>
 </code></pre>
 				</div>
+				<hr>
+				<a href="#описание-архитектуры-слайдера" id="описание-архитектуры-слайдера" style="color: inherit; text-decoration: none;">
+					<h2>Описание архитектуры слайдера</h2>
+				</a>
+				<p><img src="https://inontran.github.io/abacus/uml/uml.svg" alt="uml/uml.svg"></p>
+				<p>Слайдер разделен на слои по шаблону проектирования MVP.
+					Слой &quot;Model&quot; содержит свойства слайдера и методы для работы с этими данными.
+					Слой &quot;View&quot; занимается отрисовкой пользовательского интерфейса, реагирует на события, генерируемые пользователем. Также слой &quot;View&quot; поделен на подслои &quot;subViews&quot;, которые хранят данные об элементах интерфейса слайдера.
+				Связующим звеном между слоями модели и отображения служит слой &quot;Presenter&quot;. Он реагирует на сообщения от &quot;View&quot; и обновляет модель, и наоборот, реагирует на сообщения об обновлении модели и сообщает об этом &quot;View&quot;, чтобы тот обновлялся.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
