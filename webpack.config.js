@@ -73,7 +73,7 @@ module.exports = {
         },
         {
           from: PATHS.root + '/uml/**/*.svg',
-          to: PATHS.dist + '/uml/',
+          to: PATHS.dist,
           noErrorOnMissing: true
         },
         {
