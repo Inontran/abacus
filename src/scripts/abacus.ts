@@ -86,7 +86,7 @@ $.fn.abacus = function (
 
         case 'value':
         case 'values':
-          resultOption = view.option(paramOptions, param2);
+          resultOption = view.option(paramOptions, param1);
 
           if (typeof resultOption !== undefined) {
             returnResult = resultOption;
