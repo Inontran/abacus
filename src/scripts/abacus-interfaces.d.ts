@@ -345,35 +345,85 @@ interface AbacusOptions {
   values?: number[] = [0];
 
   /**
-   * Запускается после того, как пользователь переместит ручку слайдера, если значение изменилось.
+   * @event change
+   * @description Запускается после того, как пользователь переместит ручку слайдера, если значение изменилось.
    * Также если значение изменяется программно с помощью метода "value" или "values".
-   * Тип события - "change".
+   * @example Инициализация слайдера с определением колбека события ``change``:
+   * ```
+   * $('.selector').abacus({
+   *    change: function(event, ui){},
+   * });
+   * ```
+   * @example Установка слушателя на событие ``abacus-change`` после инициализации:
+   * ```
+   * $('.selector').on('abacus-change', function(event, ui){});
+   * ```
    */
   change?: (event: Event, ui: EventUIData) => void;
 
   /**
-   * Срабатывает после создания слайдера.
-   * Тип события - "create".
+   * @event create
+   * @description Срабатывает после создания слайдера.
+   * @example Инициализация слайдера с определением колбека события ``create``:
+   * ```
+   * $('.selector').abacus({
+   *    create: function(event, ui){},
+   * });
+   * ```
+   * @example Установка слушателя на событие ``abacus-create`` после инициализации:
+   * ```
+   * $('.selector').on('abacus-create', function(event, ui){});
+   * ```
    */
   create?: (event: Event, ui: EventUIData) => void;
 
   /**
-   * Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
+   * @event slide
+   * @description Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
    * Значение, указанное в событии как ui.value, представляет значение,
    * которое ручка будет иметь в результате текущего движения.
-   * Тип события - "slide".
+   * @example Инициализация слайдера с определением колбека события ``slide``:
+   * ```
+   * $('.selector').abacus({
+   *    slide: function(event, ui){},
+   * });
+   * ```
+   * @example Установка слушателя на событие ``abacus-slide`` после инициализации:
+   * ```
+   * $('.selector').on('abacus-slide', function(event, ui){});
+   * ```
    */
   slide?: (event: Event, ui: EventUIData) => void;
 
   /**
-   * Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.
-   * Тип события - "start".
+   * @event start
+   * @description Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.
+   * @example Инициализация слайдера с определением колбека события ``start``:
+   * ```
+   * $('.selector').abacus({
+   *    start: function(event, ui){},
+   * });
+   * ```
+   * @example Установка слушателя на событие ``abacus-start`` после инициализации:
+   * ```
+   * $('.selector').on('abacus-start', function(event, ui){});
+   * ```
    */
   start?: (event: Event, ui: EventUIData) => void;
 
   /**
-   * Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.
-   * Тип события - "stop".
+   * @event stop
+   * @description Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.
+   * @example Инициализация слайдера с определением колбека события ``stop``:
+   * ```
+   * $('.selector').abacus({
+   *    stop: function(event, ui){},
+   * });
+   * ```
+   * @example Установка слушателя на событие ``abacus-stop`` после инициализации:
+   * ```
+   * $('.selector').on('abacus-stop', function(event, ui){});
+   * ```
    */
   stop?: (event: Event, ui: EventUIData) => void;
 }

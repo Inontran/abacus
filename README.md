@@ -92,13 +92,13 @@ npm run gh-deploy
 API данного слайдера делалось на основе слайдера из библеотеки jQuery UI.
 Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
 
-| [Опции](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)                    | [Методы](#methods)            | События |
-|:------------------------------------------------------------------------------------------------------------------ |:----------------------------- |:------- |
-| [animate](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#animate)          | [destroy](#method-destroy)    | change  |
-| [classes](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#classes)          | disable                       | create  |
-| [disabled](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#disabled)        | enable                        | slide   |
-| [max](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#max)                  | instance                      | start   |
-| [min](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#min)                  | option                        | stop    |
+| [Опции](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)                    | [Методы](#methods)            | [События](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)        |
+|:------------------------------------------------------------------------------------------------------------------ |:----------------------------- |:-------------------------------------------------------------------------------------------------------- |
+| [animate](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#animate)          | [destroy](#method-destroy)    | [change](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#change)  |
+| [classes](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#classes)          | disable                       | [create](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#create)  |
+| [disabled](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#disabled)        | enable                        | [slide](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#slide)    |
+| [max](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#max)                  | instance                      | [start](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#start)    |
+| [min](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#min)                  | option                        | [stop](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#stop)      |
 | [orientation](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#orientation)  | value                         |
 | [range](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#range)              | values                        |
 | [scale](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#scale)              | widget                        |
@@ -116,14 +116,84 @@ API данного слайдера делалось на основе слай�
 
 <div id="method-destroy">
 
-  #### destroy
+  #### destroy()
 
-  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.
-  **Возвращает:** jQuery
+  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.  
+  **Возвращает:** ``jQuery``
 
   **Примеры кода:**  
   Вызов метода ``destroy``:
   ```
   $('.selector').abacus('destroy');
+  ```
+</div>
+
+<div id="method-disable">
+
+  #### disable()
+
+  Отключает слайдер, как атрибут ``disabled`` поля ввода.  
+  **Возвращает:** ``jQuery``
+
+  **Примеры кода:**  
+  Вызов метода ``disable``:
+  ```
+  $('.selector').abacus('disable');
+  ```
+</div>
+
+<div id="method-enable">
+
+  #### enable()
+
+  Включает слайдер, возвращает его в активное состояние. Например, после применения метода ``disable``.  
+  **Возвращает:** ``jQuery``
+
+  **Примеры кода:**  
+  Вызов метода ``enable``:
+  ```
+  $('.selector').abacus('enable');
+  ```
+</div>
+
+<div id="method-instance">
+
+  #### instance()
+
+  Возвращает экземпляр объекта слайдера.  
+  **Возвращает:** ``View``
+
+  **Примеры кода:**  
+  Вызов метода ``instance``:
+  ```
+  $('.selector').abacus('instance');
+  ```
+</div>
+
+<div id="method-option">
+
+  #### option()
+
+  Возвращает объект, содеражащий пары ключ-значение, в которых записаны свойства слайдера.  
+  **Возвращает:** ``AbacusProperty``
+
+  **Примеры кода:**  
+  Вызов метода ``option``:
+  ```
+  $('.selector').abacus('option');
+  ```
+</div>
+
+<div>
+
+  #### option(optionName)
+
+  Возвращает значение свойства слайдера, название которого соответствует ``optionName``.  
+  **Возвращает:** ``number`` или ``string`` или ``number[]`` или ``boolean`` или ``AbacusClasses`` или ``undefined``
+
+  **Примеры кода:**  
+  Вызов метода ``option``:
+  ```
+  $('.selector').abacus('option', 'disabled');
   ```
 </div>
