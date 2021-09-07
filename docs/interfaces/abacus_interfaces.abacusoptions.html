@@ -91,27 +91,303 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Events</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-event tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#change" class="tsd-kind-icon">change</a></li>
+								<li class="tsd-kind-event tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-event tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a></li>
+								<li class="tsd-kind-event tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-event tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#animate" class="tsd-kind-icon">animate</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#change" class="tsd-kind-icon">change</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#classes" class="tsd-kind-icon">classes</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#disabled" class="tsd-kind-icon">disabled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#max" class="tsd-kind-icon">max</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#min" class="tsd-kind-icon">min</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#orientation" class="tsd-kind-icon">orientation</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#range" class="tsd-kind-icon">range</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#scale" class="tsd-kind-icon">scale</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#start" class="tsd-kind-icon">start</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#step" class="tsd-kind-icon">step</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#tooltip" class="tsd-kind-icon">tooltip</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#value" class="tsd-kind-icon">value</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="abacus_interfaces.abacusoptions.html#values" class="tsd-kind-icon">values</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Events</h2>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-interface">
+					<a name="change" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change</h3>
+					<div class="tsd-signature tsd-kind-icon">change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L362">abacus-interfaces.d.ts:362</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>Запускается после того, как пользователь переместит ручку слайдера, если значение изменилось.
+								Также если значение изменяется программно с помощью метода &quot;value&quot; или &quot;values&quot;.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Инициализация слайдера с определением колбека события <code>change</code>:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #795E26">change</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){},</span>
+<span style="color: #000000">});</span>
+</code></pre>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Установка слушателя на событие <code>abacus-change</code> после инициализации:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus-change&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){});</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											</li>
+											<li>
+												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-interface">
+					<a name="create" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create</h3>
+					<div class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L378">abacus-interfaces.d.ts:378</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>Срабатывает после создания слайдера.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Инициализация слайдера с определением колбека события <code>create</code>:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #795E26">create</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){},</span>
+<span style="color: #000000">});</span>
+</code></pre>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Установка слушателя на событие <code>abacus-create</code> после инициализации:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus-create&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){});</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											</li>
+											<li>
+												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-interface">
+					<a name="slide" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> slide</h3>
+					<div class="tsd-signature tsd-kind-icon">slide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L396">abacus-interfaces.d.ts:396</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
+									Значение, указанное в событии как ui.value, представляет значение,
+								которое ручка будет иметь в результате текущего движения.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Инициализация слайдера с определением колбека события <code>slide</code>:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #795E26">slide</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){},</span>
+<span style="color: #000000">});</span>
+</code></pre>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Установка слушателя на событие <code>abacus-slide</code> после инициализации:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus-slide&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){});</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											</li>
+											<li>
+												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-interface">
+					<a name="start" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> start</h3>
+					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L412">abacus-interfaces.d.ts:412</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Инициализация слайдера с определением колбека события <code>start</code>:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #795E26">start</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){},</span>
+<span style="color: #000000">});</span>
+</code></pre>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Установка слушателя на событие <code>abacus-start</code> после инициализации:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus-start&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){});</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											</li>
+											<li>
+												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-interface">
+					<a name="stop" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stop</h3>
+					<div class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L428">abacus-interfaces.d.ts:428</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Инициализация слайдера с определением колбека события <code>stop</code>:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #795E26">stop</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){},</span>
+<span style="color: #000000">});</span>
+</code></pre>
+							</dd>
+							<dt>example</dt>
+							<dd><p>Установка слушателя на событие <code>abacus-stop</code> после инициализации:</p>
+								<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus-stop&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">, </span><span style="color: #001080">ui</span><span style="color: #000000">){});</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											</li>
+											<li>
+												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</section>
 			</section>
@@ -161,47 +437,6 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="change" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change</h3>
-					<div class="tsd-signature tsd-kind-icon">change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L352">abacus-interfaces.d.ts:352</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Запускается после того, как пользователь переместит ручку слайдера, если значение изменилось.
-								Также если значение изменяется программно с помощью метода &quot;value&quot; или &quot;values&quot;.
-							Тип события - &quot;change&quot;.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>event: <span class="tsd-signature-type">Event</span></h5>
-											</li>
-											<li>
-												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="classes" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> classes</h3>
 					<div class="tsd-signature tsd-kind-icon">classes<span class="tsd-signature-symbol">:</span> <a href="abacus_interfaces.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a></div>
@@ -234,46 +469,6 @@
 </code></pre>
 							</dd>
 						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="create" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create</h3>
-					<div class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L358">abacus-interfaces.d.ts:358</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Срабатывает после создания слайдера.
-							Тип события - &quot;create&quot;.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>event: <span class="tsd-signature-type">Event</span></h5>
-											</li>
-											<li>
-												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -502,88 +697,6 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="slide" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> slide</h3>
-					<div class="tsd-signature tsd-kind-icon">slide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L366">abacus-interfaces.d.ts:366</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Срабатывает при каждом движении мыши во время перемещении ручки слайдреа.
-								Значение, указанное в событии как ui.value, представляет значение,
-								которое ручка будет иметь в результате текущего движения.
-							Тип события - &quot;slide&quot;.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>event: <span class="tsd-signature-type">Event</span></h5>
-											</li>
-											<li>
-												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="start" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> start</h3>
-					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L372">abacus-interfaces.d.ts:372</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Событие, срабатывающее когда пользователь начинает перемещать ручку слайдера.
-							Тип события - &quot;start&quot;.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>event: <span class="tsd-signature-type">Event</span></h5>
-											</li>
-											<li>
-												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="step" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> step</h3>
 					<div class="tsd-signature tsd-kind-icon">step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
@@ -617,46 +730,6 @@
 </code></pre>
 							</dd>
 						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="stop" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stop</h3>
-					<div class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/7ad3152/src/scripts/abacus-interfaces.d.ts#L378">abacus-interfaces.d.ts:378</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Событие, срабатывающее когда пользователь закончил перемещать ручку слайдера.
-							Тип события - &quot;stop&quot;.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span>, ui<span class="tsd-signature-symbol">: </span><a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>event: <span class="tsd-signature-type">Event</span></h5>
-											</li>
-											<li>
-												<h5>ui: <a href="abacus_interfaces.eventuidata.html" class="tsd-signature-type" data-tsd-kind="Interface">EventUIData</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -834,17 +907,26 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="abacus_interfaces.abacusoptions.html" class="tsd-kind-icon">Abacus<wbr>Options</a>
 						<ul>
+							<li class=" tsd-kind-event tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#change" class="tsd-kind-icon">change</a>
+							</li>
+							<li class=" tsd-kind-event tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-event tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a>
+							</li>
+							<li class=" tsd-kind-event tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#start" class="tsd-kind-icon">start</a>
+							</li>
+							<li class=" tsd-kind-event tsd-parent-kind-interface">
+								<a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#animate" class="tsd-kind-icon">animate</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#change" class="tsd-kind-icon">change</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#classes" class="tsd-kind-icon">classes</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#create" class="tsd-kind-icon">create</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#disabled" class="tsd-kind-icon">disabled</a>
@@ -865,16 +947,7 @@
 								<a href="abacus_interfaces.abacusoptions.html#scale" class="tsd-kind-icon">scale</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#slide" class="tsd-kind-icon">slide</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#start" class="tsd-kind-icon">start</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#step" class="tsd-kind-icon">step</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="abacus_interfaces.abacusoptions.html#stop" class="tsd-kind-icon">stop</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="abacus_interfaces.abacusoptions.html#tooltip" class="tsd-kind-icon">tooltip</a>
