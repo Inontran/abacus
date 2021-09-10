@@ -20,33 +20,41 @@
           <form action="" method="POST" class="form form_modifier-options js-form_modifier-options">
             <div class="row">
               <div class="col-md my-auto">
-                <label class="form-check form-switch mb-3">
-                  <input class="form-check-input" type="checkbox" name="destroy" checked>
-                  <span class="form-check-label">
-                    Удалить/Создать слайдер
-                  </span>
-                </label>
+                <div>
+                  <label class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="destroy" checked>
+                    <span class="form-check-label">
+                      Удалить/Создать слайдер
+                    </span>
+                  </label>
+                </div>
 
-                <label class="form-check form-switch mb-3">
-                  <input class="form-check-input" type="checkbox" name="disabled" value="true">
-                  <span class="form-check-label">
-                    Отключить/Включить слайдер
-                  </span>
-                </label>
-  
-                <label class="form-check form-switch mb-3">
-                  <input class="form-check-input" type="checkbox" name="scale" value="true">
-                  <span class="form-check-label">
-                    Отключить/Включить шкалу значений
-                  </span>
-                </label>
-  
-                <label class="form-check form-switch mb-3">
-                  <input class="form-check-input" type="checkbox" name="tooltip" value="true">
-                  <span class="form-check-label">
-                    Отключить/Включить подсказки
-                  </span>
-                </label>
+                <div>
+                  <label class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="disabled" value="true">
+                    <span class="form-check-label">
+                      Отключить/Включить слайдер
+                    </span>
+                  </label>
+                </div>
+
+                <div>
+                  <label class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="scale" value="true">
+                    <span class="form-check-label">
+                      Отключить/Включить шкалу значений
+                    </span>
+                  </label>
+                </div>
+
+                <div>
+                  <label class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="tooltip" value="true">
+                    <span class="form-check-label">
+                      Отключить/Включить подсказки
+                    </span>
+                  </label>
+                </div>
   
                 <label class="row d-flex mb-3">
                   <span class="form-label col-sm-auto col-form-label">Анимация ("false", "true", "fast", "slow", кол-во мс)</span>
@@ -56,16 +64,16 @@
                 </label>
   
                 <label class="row d-flex mb-3">
-                  <span class="form-label col-sm-auto col-form-label">Максимальное значение</span>
-                  <span class="col-sm d-block">
-                    <input type="text" class="form-control" name="max" pattern="(-)?\d+(\.\d{1,})?">
-                  </span>
-                </label>
-  
-                <label class="row d-flex mb-3">
                   <span class="form-label col-sm-auto col-form-label">Минимальное значение</span>
                   <span class="col-sm d-block">
                     <input type="text" class="form-control" name="min" pattern="(-)?\d+(\.\d{1,})?">
+                  </span>
+                </label>
+
+                <label class="row d-flex mb-3">
+                  <span class="form-label col-sm-auto col-form-label">Максимальное значение</span>
+                  <span class="col-sm d-block">
+                    <input type="text" class="form-control" name="max" pattern="(-)?\d+(\.\d{1,})?">
                   </span>
                 </label>
   
