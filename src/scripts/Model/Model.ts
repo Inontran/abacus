@@ -319,21 +319,10 @@ export default class Model {
         }
 
         const prevVal: number = valByStep;
-        const positivePrevVal: number = prevVal < 0 ? prevVal * -1 : prevVal;// берем предыдущее значение по модулю
         const nextVal: number = valByStep + step;
-        const positiveNextVal: number = nextVal < 0 ? nextVal * -1 : nextVal;// берем следующее значение по модулю
-        const positiveValue: number = value < 0 ? value * -1 : value;// берем переданное значение по модулю
 
-        let deltaPrevValue: number;
-        let deltaNextValue: number;
-
-        if (value < 0) {
-          deltaPrevValue = positivePrevVal - positiveValue;
-          deltaNextValue = positiveValue - positiveNextVal;
-        } else {
-          deltaPrevValue = positiveValue - positivePrevVal;
-          deltaNextValue = positiveNextVal - positiveValue;
-        }
+        let deltaPrevValue: number = value - prevVal;
+        let deltaNextValue: number = nextVal - value;
 
         if (deltaPrevValue < deltaNextValue) {
           result = prevVal;
