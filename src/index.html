@@ -77,8 +77,10 @@
                   </span>
                 </label>
   
-                <label class="row d-flex mb-3">
-                  <span class="form-label col-sm-auto col-form-label">Текущие значения</span>
+                <label class="row d-flex mb-3" title="Если добавить слайдеру второе значение, то он будет работать в режиме интервала">
+                  <span class="form-label col-sm-auto col-form-label">
+                    Текущие значения<span class="text-danger">*</span>
+                  </span>
                   <span class="col d-block">
                     <input type="text" class="form-control" name="value[]" pattern="(-)?\d+(\.\d{1,})?">
                   </span>
@@ -98,7 +100,7 @@
                 </label>
   
                 <label class="row d-flex mb-3">
-                  <span class="form-label col-sm-auto col-form-label">Интервал</span>
+                  <span class="form-label col-sm-auto col-form-label">Режим диапазона</span>
                   <span class="col-sm d-block">
                     <select class="form-select" name="range">
                       <option value="false">Отключить</option>

@@ -25,6 +25,7 @@ export default class Model {
       tooltipVisible: 'abacus__tooltip_visible',
     },
     disabled: false,
+    interval: false,
     max: 100,
     min: 0,
     orientation: AbacusOrientationType.HORIZONTAL,
@@ -166,17 +167,6 @@ export default class Model {
       this._abacusProperty.tooltip = !!abacusProperty.tooltip;
     }
 
-    // range
-    if (abacusProperty.range !== undefined) {
-      if (abacusProperty.range === false || abacusProperty.range === true) {
-        this._abacusProperty.range = abacusProperty.range;
-      } else if (abacusProperty.range === 'max') {
-        this._abacusProperty.range = 'max';
-      } else if (abacusProperty.range === 'min') {
-        this._abacusProperty.range = 'min';
-      }
-    }
-
     // value
     if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
       if (!Number.isNaN(abacusProperty.value)) {
@@ -216,18 +206,29 @@ export default class Model {
         if (a === b) return 0;
         return -1;
       });
+
+      if (this._abacusProperty.values.length < 2) this._abacusProperty.interval = false;
+      else this._abacusProperty.interval = true;
     }
 
-    if (this._abacusProperty.range === true) {
-      if (!this._abacusProperty.values?.length) {
-        this._abacusProperty.values = [];
-        this._abacusProperty.values[0] = this._abacusProperty.min ? this._abacusProperty.min : 0;
-        this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
-      } else if (this._abacusProperty.values?.length === 1) {
-        this._abacusProperty.values[1] = this._abacusProperty.max ? this._abacusProperty.max : 100;
+    for (let i = 0; i < this._abacusProperty.values.length; i += 1) {
+      if( i == 0 && this._abacusProperty.values[0] < this._abacusProperty.min ) {
+        this._abacusProperty.values[0] = this._abacusProperty.min;
       }
-    } else {
-      this._abacusProperty.values = this._abacusProperty.values?.slice(0, 1);
+      if( i == 1 && this._abacusProperty.values[1] > this._abacusProperty.max ) {
+        this._abacusProperty.values[1] = this._abacusProperty.max;
+      }
+    }
+
+    // range
+    if (abacusProperty.range !== undefined) {
+      if (abacusProperty.range === false || abacusProperty.range === true) {
+        this._abacusProperty.range = abacusProperty.range;
+      } else if (abacusProperty.range === 'max') {
+        this._abacusProperty.range = 'max';
+      } else if (abacusProperty.range === 'min') {
+        this._abacusProperty.range = 'min';
+      }
     }
 
     // orientation

@@ -155,3 +155,70 @@ describe('set range property', () => {
     );
   }
 });
+
+describe('set interval property', () => {
+  const model: Model = new Model();
+  const arrTestValues: any[] = [
+    [1],
+    [1, 2],
+    ['3', 5],
+    [null, 6],
+    [-1, 200],
+    [],
+  ];
+  const arrRightValues: any[] = [
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ];
+
+  for (let i = 0; i < arrTestValues.length; i += 1) {
+    model.setAbacusProperty({
+      values: arrTestValues[i],
+    } as AbacusOptions);
+
+    makeTest(
+      `значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`,
+      model.abacusProperty.interval,
+      arrRightValues[i],
+    );
+  }
+});
+
+describe('set values property', () => {
+  const model: Model = new Model({
+    min: 0,
+    max: 100,
+    step: 1,
+  } as AbacusOptions);
+
+  const arrTestValues: any[] = [
+    [1],
+    [1, 2],
+    ['3', 5],
+    [null, 6],
+    [-1, 200],
+    [],
+  ];
+  const arrRightValues: any[] = [
+    [1],
+    [1, 2],
+    [3, 5],
+    [0, 6],
+    [0, 100],
+    [0, 100],
+  ];
+
+  for (let i = 0; i < arrTestValues.length; i += 1) {
+    it(`значение ${arrTestValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
+      model.setAbacusProperty({
+        values: arrTestValues[i],
+      } as AbacusOptions);
+
+      expect(model.abacusProperty.values).toEqual(expect.arrayContaining(arrRightValues[i]));
+    });
+  }
+});

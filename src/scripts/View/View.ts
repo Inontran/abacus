@@ -339,10 +339,15 @@ export default class View {
     const hasDisabledChanged = this._cachedAbacusProperty?.disabled !== abacusProperty.disabled;
     const hasScaleChanged = this._cachedAbacusProperty?.scale !== abacusProperty.scale;
     const hasStepChanged = this._cachedAbacusProperty?.step !== abacusProperty.step;
+    const hasIntervalChanged = this._cachedAbacusProperty?.interval !== abacusProperty.interval;
 
     if (hasRangeChanged) {
-      this._createViewHandles(abacusProperty);
       this._createViewRange(abacusProperty);
+    }
+
+    if (hasIntervalChanged) {
+      this._createViewRange(abacusProperty);
+      this._createViewHandles(abacusProperty);
     }
 
     if (hasOrientationChanged) {
@@ -355,7 +360,7 @@ export default class View {
       }
     }
 
-    const resultTooltipRangeChanged = hasTooltipChanged || hasRangeChanged;
+    const resultTooltipRangeChanged = hasTooltipChanged || hasIntervalChanged;
     if (resultTooltipRangeChanged) {
       this._createViewTooltips(abacusProperty);
       this._updateViewTooltips(abacusProperty);
@@ -367,12 +372,13 @@ export default class View {
     }
 
     // Обновляем положение бегунка и индикатора
-    const resultRangeMaxMinOrientationValuesChanged = hasRangeChanged
+    const resultRangeMaxMinOrientationValuesIntervalChanged = hasRangeChanged
                                                       || hasMaxChanged
                                                       || hasMinChanged
                                                       || hasOrientationChanged
-                                                      || hasValuesChanged;
-    if (resultRangeMaxMinOrientationValuesChanged) {
+                                                      || hasValuesChanged
+                                                      || hasIntervalChanged;
+    if (resultRangeMaxMinOrientationValuesIntervalChanged) {
       this._updateViewHandles(abacusProperty);
       this._updateViewTooltips(abacusProperty);
       this._updateViewRange(abacusProperty);
@@ -433,15 +439,13 @@ export default class View {
 
     const [firstHandle] = viewInstance._handles;
 
-    switch (abacusProperty.range) {
+    switch (abacusProperty.interval) {
       case true:
         viewInstance._handles[1] = new Handle(abacusProperty.classes, 1);
         viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[1].htmlElement);
         handleIndexes.push(1);
         break;
 
-      case 'max':
-      case 'min':
       default:
         if (viewInstance._handles[1]) {
           viewInstance._handles[1].htmlElement.remove();
@@ -505,7 +509,7 @@ export default class View {
     this._tooltips = [];
 
     if (abacusProperty.tooltip) {
-      const countTooltips = abacusProperty.range === true ? 2 : 1;
+      const countTooltips = abacusProperty.interval === true ? 2 : 1;
       for (let i = 0; i < countTooltips; i += 1) {
         this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
         this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
@@ -550,17 +554,20 @@ export default class View {
   private _createViewRange(abacusProperty: AbacusProperty): void{
     switch (abacusProperty.range) {
       case 'max':
-        this._range.rangeType = 'max';
+        if (abacusProperty.interval === true) { this._range.rangeType = 'between'; }
+        else { this._range.rangeType = 'max'; }
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case true:
-        this._range.rangeType = 'between';
+        if (abacusProperty.interval === false) { this._range.rangeType = 'min'; }
+        else { this._range.rangeType = 'between'; }
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case 'min':
-        this._range.rangeType = 'min';
+        if (abacusProperty.interval === true) { this._range.rangeType = 'between'; }
+        else { this._range.rangeType = 'min'; }
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
@@ -881,7 +888,7 @@ export default class View {
       newValues = abacusProperty.values?.slice(0);
     }
 
-    const checkNecessaryProps = abacusProperty.range === true && abacusProperty.values?.length && abacusProperty.step;
+    const checkNecessaryProps = abacusProperty.interval === true && abacusProperty.values?.length && abacusProperty.step;
     if (checkNecessaryProps) {
       let deltaMin = abacusProperty.values[0] - valueUnrounded;
       deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
@@ -1170,7 +1177,7 @@ export default class View {
     }
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
-    const rangeType = abacusProperty.range;
+    const rangeType = this._range.rangeType;
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
@@ -1180,7 +1187,7 @@ export default class View {
         mark.isInrange(true);
       } else if (rangeType === 'max' && mark.associatedValue >= abacusProperty.values[0]) {
         mark.isInrange(true);
-      } else if (rangeType === true && isValBetween0And1) {
+      } else if (rangeType === 'between' && isValBetween0And1) {
         mark.isInrange(true);
       } else {
         mark.isInrange(false);

@@ -435,6 +435,13 @@ interface AbacusProperty extends AbacusOptions {
   animate: boolean | string | number;
   classes: AbacusClasses;
   disabled: boolean;
+
+  /**
+   * Свойство, указывающее на то, работает ли слайдер в режиме интервала или нет.
+   * @type {boolean}
+   */
+  interval: boolean;
+
   max: number;
   min: number;
 
