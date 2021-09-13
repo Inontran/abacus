@@ -220,9 +220,11 @@ export default class View {
   }
 
   /**
-   * Функция, которая вычисляет позицию бегунка в процентах от начала слайдера.
+   * Функция, которая на вход получает значение слайдера,
+   * а возвращает количество процентов от начала слайдера (от левого или нижнего края).
+   * Выполняет действие обратное функции ``getValFromPosPercent``.
    * @param {number} value Значение слайдера.
-   * @returns {number} Позиция бегунка в процентах от начала слайдера.
+   * @returns {number} Количество процентов от начала слайдера.
    */
   getPosFromValue(value: number): number {
     let result = 0;
@@ -231,13 +233,17 @@ export default class View {
     let maxVal: number = options.max as number;
     let valueAbacus = value;
 
-    // если минимальное значение меньше ноля, то
+    // если минимальное значение меньше или больше ноля, то
     // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
     // на минимальное значение (minVal) по модулю
     if (minVal < 0) {
       maxVal += (minVal * -1);
       valueAbacus += (minVal * -1);
+    } else if (minVal > 0) {
+      maxVal -= minVal;
+      valueAbacus -= minVal;
     }
+    
     result = (valueAbacus / maxVal) * 100;
 
     if (result < 0) {
@@ -253,6 +259,7 @@ export default class View {
   /**
    * Функция, которая получает на вход процент от начала слайдера,
    * а возвращает соответствующее значение.
+   * Выполняет действие обратное функции ``getPosFromValue``.
    * @param {number} posPercent Позиция бегунка в процентах от начала слайдера.
    * @returns {number} Значение слайдера.
    */
@@ -262,15 +269,26 @@ export default class View {
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
-    // если минимальное значение меньше ноля, то
-    // "сдвигаем" переданное значение (value) и максимальное значение (maxVal)
+    // если минимальное значение меньше или больше ноля, то
+    // "сдвигаем" максимальное значение (maxVal)
     // на минимальное значение (minVal) по модулю
     if (minVal < 0) {
       maxVal += (minVal * -1);
+    } else if (minVal > 0) {
+      maxVal -= minVal;
     }
 
     abacusValue = (maxVal * posPercent) / 100;
-    abacusValue -= (minVal * -1);
+
+    // если минимальное значение было меньше или больше ноля, то
+    // "сдвигаем" результирующее значение (abacusValue) обратно
+    // на минимальное значение (minVal) по модулю
+    if (minVal < 0) {
+      abacusValue -= (minVal * -1);
+    } else if (minVal > 0) {
+      abacusValue += minVal;
+    }
+
     return abacusValue;
   }
 
