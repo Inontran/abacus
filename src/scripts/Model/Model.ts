@@ -271,22 +271,6 @@ export default class Model {
   }
 
   /**
-   * Сеттер текущего значения слайдера.
-   * @param {number} value Текущее значение слайдера.
-   */
-  public set value(value : number) {
-    this._abacusProperty.value = this.roundValuePerStep(value);
-    if (!this._abacusProperty.values?.length) {
-      this._abacusProperty.values = [];
-    }
-    this._abacusProperty.values[0] = this._abacusProperty.value;
-
-    if (this._eventTarget) {
-      this._eventTarget.dispatchEvent(this._eventUpdateModel);
-    }
-  }
-
-  /**
    * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
    */
   public get eventTarget(): EventTarget {

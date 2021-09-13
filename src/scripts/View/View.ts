@@ -200,26 +200,6 @@ export default class View {
   }
 
   /**
-   * Функция, которая получает на вход процент от начала слайдера,
-   * а возвращает соответствующее значение кратно заданному шагу.
-   * @deprecated
-   * @param {number} percent Позиция бегунка в процентах от начала слайдера.
-   * @returns {number} Значение, соответствующее проценту и кратно шагу.
-   */
-  getPosPerStep(percent: number): number {
-    let result = 0;
-    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
-    const minVal: number = options.min as number;
-    const maxVal: number = options.max as number;
-    const step: number = options.step as number;
-    const sizeStepPercent: number = (step / (maxVal - minVal)) * 100;
-    result = percent / sizeStepPercent;
-    result = Math.round(result);
-    result *= sizeStepPercent;
-    return result;
-  }
-
-  /**
    * Функция, которая на вход получает значение слайдера,
    * а возвращает количество процентов от начала слайдера (от левого или нижнего края).
    * Выполняет действие обратное функции ``getValFromPosPercent``.
