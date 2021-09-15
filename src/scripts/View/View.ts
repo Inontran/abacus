@@ -98,6 +98,13 @@ export default class View {
   private _isDragHandle = false;
 
   /**
+   * Смещение координаты клика по ручке слайдера относительно центра этой ручки.
+   * @type {number}
+   * @private
+   */
+  private _shiftClickOnHandle = 0;
+
+  /**
    * Таймер перемещения мыши или пальца на экране.
    * @type {null | NodeJS.Timeout}
    * @private
@@ -119,6 +126,11 @@ export default class View {
    */
   private _isVertical = false;
 
+  /**
+   * Ручка слайдера, которая перемещается в данный момент.
+   * @type {Handle}
+   * @private
+   */
   private _currentHandle?: Handle;
 
   /**
@@ -835,7 +847,7 @@ export default class View {
       coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
     }
 
-    const percent = this.getPosPercent(coordinate);
+    const percent = this.getPosPercent(coordinate - this._shiftClickOnHandle);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
 
     const newValues: number[] = abacusProperty.values?.slice(0);
@@ -1007,12 +1019,33 @@ export default class View {
     if (viewInstance._isDisabled) {
       return;
     }
-
     const handleHtml = event.currentTarget as HTMLElement;
     const handleIndexAttr = handleHtml.getAttribute('data-handle-index');
     if (!handleIndexAttr) {
       return;
     }
+
+    let coordinateClick = 0;
+    if (event instanceof MouseEvent) {
+      // здесь при вертикальном режиме отображения слайдера берется pageY, а не clientY,
+      // так как функция offset возвращает top в значении pageY элемента.
+      coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
+    } else if (event instanceof TouchEvent) {
+      coordinateClick = viewInstance._isVertical ? event.changedTouches[0].pageY : event.changedTouches[0].screenX;
+    }
+
+    // вычисляем смещение от центра ручки
+    const postitonHandle = $(handleHtml).offset();
+    if (postitonHandle) {
+      if (viewInstance._isVertical) {
+        viewInstance._shiftClickOnHandle = (coordinateClick - postitonHandle.top) - (handleHtml.clientHeight / 2);
+      } else {
+        viewInstance._shiftClickOnHandle = (coordinateClick - postitonHandle.left) - (handleHtml.clientWidth / 2);
+      }
+    } else {
+      viewInstance._shiftClickOnHandle = 0;
+    }
+
     const handleIndex = parseInt(handleIndexAttr, 10);
     viewInstance._isDragHandle = true;
     viewInstance._currentHandle = viewInstance._handles[handleIndex];
