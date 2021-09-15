@@ -1053,6 +1053,47 @@ export default class View {
    * Создает шкалу значений и добавляет ее в слайдер.
    * @private
    */
+  // private _createScale(): void{
+  //   if (this._collectionMarks.size) {
+  //     this._removeScale();
+  //   }
+
+  //   const abacusProperty = this._presenter.getModelAbacusProperty();
+
+  //   let value = abacusProperty.min;
+  //   for (; value <= abacusProperty.max; value += abacusProperty.step) {
+  //     value = View.round(value, abacusProperty.step);
+  //     const mark = new Mark(value, abacusProperty.classes);
+  //     const left = this.getPosFromValue(value);
+
+  //     if (this._isVertical) mark.posBottom = left;
+  //     else mark.posLeft = left;
+
+  //     this._collectionMarks.add(mark);
+  //   }
+
+  //   if (value !== abacusProperty.max) {
+  //     const mark = new Mark(abacusProperty.max, abacusProperty.classes);
+  //     const left = this.getPosFromValue(abacusProperty.max);
+
+  //     if (this._isVertical) mark.posBottom = left;
+  //     else mark.posLeft = left;
+
+  //     this._collectionMarks.add(mark);
+  //   }
+
+  //   this._collectionMarks.forEach((mapItem) => {
+  //     const mark = mapItem;
+  //     if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
+  //       this._handles[0].htmlElement.before(mark.htmlElement);
+  //     } else {
+  //       this._widgetContainer.htmlElement.append(mark.htmlElement);
+  //     }
+  //   });
+
+  //   this._thinOutScale();
+  //   this._bindEventListenersOnMarks();
+  // }
   private _createScale(): void{
     if (this._collectionMarks.size) {
       this._removeScale();
@@ -1060,24 +1101,84 @@ export default class View {
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
 
-    let value = abacusProperty.min;
-    for (; value <= abacusProperty.max; value += abacusProperty.step) {
-      value = View.round(value, abacusProperty.step);
-      const mark = new Mark(value, abacusProperty.classes);
-      const left = this.getPosFromValue(value);
+    // 1. Добавляем первую и последнюю метку.
+    const firstMark = new Mark(abacusProperty.min, abacusProperty.classes);
+    this._widgetContainer.htmlElement.append(firstMark.htmlElement);
+    const lastMark = new Mark(abacusProperty.max, abacusProperty.classes);
+    this._widgetContainer.htmlElement.append(lastMark.htmlElement);
 
-      if (this._isVertical) mark.posBottom = left;
-      else mark.posLeft = left;
+    // 2. Вычисляем максимальную длину метки.
+    let lengthFirstMark = 0;
+    let lengthLastMark = 0;
+    let maxLengthMarkItem = 0;
+    if (this._isVertical) {
+      lengthFirstMark = firstMark.htmlElement.offsetHeight;
+      lengthLastMark = lastMark.htmlElement.offsetHeight;
+    } else {
+      lengthFirstMark = firstMark.htmlElement.offsetWidth;
+      lengthLastMark = lastMark.htmlElement.offsetWidth;
+    }
+    if (lengthFirstMark > lengthLastMark) maxLengthMarkItem = lengthFirstMark;
+    else maxLengthMarkItem = lengthLastMark;
+    const marginXMark = 10; // Минимальное расстояние между метками шкалы в пикселях по горизонтали.
+    const marginYMark = 2; // Минимальное расстояние между метками шкалы в пикселях по вертикали.
+    maxLengthMarkItem = this._isVertical ? maxLengthMarkItem + marginYMark : maxLengthMarkItem + marginXMark;
+    firstMark.htmlElement.remove();
+    lastMark.htmlElement.remove();
 
-      this._collectionMarks.add(mark);
+    // 3. Вычисляем, сколько меток поместится в слайдере.
+    let lengthWidget: number;
+    if (this._isVertical) lengthWidget = this._widgetContainer.htmlElement.offsetHeight;
+    else lengthWidget = this._widgetContainer.htmlElement.offsetWidth;
+    let countPossibleMarks = Math.floor(lengthWidget / maxLengthMarkItem);
+    
+    // 4. Вычисляем шаг, через который бедут добавляться метки.
+    let countAllMarks = (abacusProperty.max - abacusProperty.min) / abacusProperty.step;
+    countAllMarks = countAllMarks < 0 ? countAllMarks * -1 : countAllMarks;
+    countAllMarks = Math.ceil(countAllMarks);
+    if (abacusProperty.max % abacusProperty.step !== 0) {
+      countPossibleMarks -= 1;
+    }
+    if (countPossibleMarks > countAllMarks) {
+      countPossibleMarks = countAllMarks;
+    }
+    let stepToAddMarks = (abacusProperty.max - abacusProperty.min) / countPossibleMarks;
+    if (abacusProperty.step > stepToAddMarks) {
+      stepToAddMarks = abacusProperty.step;
     }
 
-    if (value !== abacusProperty.max) {
-      const mark = new Mark(abacusProperty.max, abacusProperty.classes);
-      const left = this.getPosFromValue(abacusProperty.max);
+    // 5. Добавляем метки.
+    console.log(`countAllMarks == ${countAllMarks}`);
+    console.log(`countPossibleMarks == ${countPossibleMarks}`);
+    console.log(`stepToAddMarks == ${stepToAddMarks}`);
+    console.log('=========================');
+    // return;
+    let sumRealSteps = 0;
+    let value = abacusProperty.min;
+    for (; value <= abacusProperty.max; value += abacusProperty.step) {
+      sumRealSteps += abacusProperty.step;
+      const doAddMark = sumRealSteps >= stepToAddMarks
+                      || value === abacusProperty.min
+                      // || value === abacusProperty.max;
+      if (doAddMark) {
+        value = View.round(value, abacusProperty.step);
+        const mark = new Mark(value, abacusProperty.classes);
+        const positionMark = this.getPosFromValue(value);
+  
+        if (this._isVertical) mark.posBottom = positionMark;
+        else mark.posLeft = positionMark;
+  
+        this._collectionMarks.add(mark);
+        sumRealSteps = 0;
+      }
+    }
 
-      if (this._isVertical) mark.posBottom = left;
-      else mark.posLeft = left;
+    if (countPossibleMarks >= countAllMarks) {
+      const mark = new Mark(abacusProperty.max, abacusProperty.classes);
+      const positionMark = this.getPosFromValue(abacusProperty.max);
+
+      if (this._isVertical) mark.posBottom = positionMark;
+      else mark.posLeft = positionMark;
 
       this._collectionMarks.add(mark);
     }
@@ -1112,25 +1213,23 @@ export default class View {
    * @private
    */
   private _thinOutScale(): void{
-    let sizeWidget: number;
+    let lengthWidget: number;
     if (this._isVertical) {
-      sizeWidget = this._widgetContainer.htmlElement.offsetHeight;
+      lengthWidget = this._widgetContainer.htmlElement.offsetHeight;
     } else {
-      sizeWidget = this._widgetContainer.htmlElement.offsetWidth;
+      lengthWidget = this._widgetContainer.htmlElement.offsetWidth;
     }
 
-    const k = 7; // Минимальное расстояние между метка шкалы.
-    let sizeMarks = 0;
+    const marginXMark = 10; // Минимальное расстояние между метками шкалы в пикселях по горизонтали.
+    const marginYMark = 2; // Минимальное расстояние между метками шкалы в пикселях по вертикали.
+    let lengthMarks = 0;
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      if (this._isVertical) {
-        sizeMarks += mark.htmlElement.offsetHeight + k;
-      } else {
-        sizeMarks += mark.htmlElement.offsetWidth + k;
-      }
+      if (this._isVertical) lengthMarks += mark.htmlElement.offsetHeight + marginYMark;
+      else lengthMarks += mark.htmlElement.offsetWidth + marginXMark;
     });
 
-    if (sizeWidget < sizeMarks) {
+    if (lengthWidget < lengthMarks) {
       const abacusProperty = this._presenter.getModelAbacusProperty();
 
       let isDelete = false;
@@ -1149,18 +1248,15 @@ export default class View {
       });
     }
 
-    sizeMarks = 0;
+    lengthMarks = 0;
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      if (this._isVertical) {
-        sizeMarks += mark.htmlElement.offsetHeight + k;
-      } else {
-        sizeMarks += mark.htmlElement.offsetWidth + k;
-      }
+      if (this._isVertical) lengthMarks += mark.htmlElement.offsetHeight + marginYMark;
+      else lengthMarks += mark.htmlElement.offsetWidth + marginXMark;
     });
 
-    if (sizeWidget < sizeMarks) {
+    if (lengthWidget < lengthMarks) {
       this._thinOutScale();
     }
   }
