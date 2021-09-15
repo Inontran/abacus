@@ -69,6 +69,7 @@ export default class Tooltip {
 
     if (tooltipIndex !== undefined && !Number.isNaN(tooltipIndex)) {
       this._tooltipIndex = tooltipIndex;
+      this._htmlElement.setAttribute('data-handle-index', tooltipIndex.toString());
     }
   }
 

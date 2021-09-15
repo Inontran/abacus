@@ -975,11 +975,13 @@ export default class View {
     const eventTarget = event.target as HTMLElement;
     const handleClass = abacusProperty.classes?.handle ? abacusProperty.classes?.handle : '';
     const markClass = abacusProperty.classes?.mark ? abacusProperty.classes?.mark : '';
+    const tooltipClass = abacusProperty.classes?.tooltip ? abacusProperty.classes?.tooltip : '';
 
-    const condition = viewInstance._isDisabled
+    const dontProcessEvent = viewInstance._isDisabled
                     || eventTarget.classList.contains(handleClass)
-                    || eventTarget.classList.contains(markClass);
-    if (condition) {
+                    || eventTarget.classList.contains(markClass)
+                    || eventTarget.classList.contains(tooltipClass);
+    if (dontProcessEvent) {
       return;
     }
 
