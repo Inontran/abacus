@@ -1158,8 +1158,7 @@ export default class View {
     for (; value <= abacusProperty.max; value += abacusProperty.step) {
       sumRealSteps += abacusProperty.step;
       const doAddMark = sumRealSteps >= stepToAddMarks
-                      || value === abacusProperty.min
-                      // || value === abacusProperty.max;
+                      || value === abacusProperty.min;
       if (doAddMark) {
         value = View.round(value, abacusProperty.step);
         const mark = new Mark(value, abacusProperty.classes);
@@ -1171,16 +1170,6 @@ export default class View {
         this._collectionMarks.add(mark);
         sumRealSteps = 0;
       }
-    }
-
-    if (countPossibleMarks >= countAllMarks) {
-      const mark = new Mark(abacusProperty.max, abacusProperty.classes);
-      const positionMark = this.getPosFromValue(abacusProperty.max);
-
-      if (this._isVertical) mark.posBottom = positionMark;
-      else mark.posLeft = positionMark;
-
-      this._collectionMarks.add(mark);
     }
 
     this._collectionMarks.forEach((mapItem) => {
