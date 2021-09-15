@@ -223,7 +223,7 @@ export default class View {
       maxVal -= minVal;
       valueAbacus -= minVal;
     }
-    
+
     result = (valueAbacus / maxVal) * 100;
 
     if (result < 0) {
@@ -552,20 +552,20 @@ export default class View {
   private _createViewRange(abacusProperty: AbacusProperty): void{
     switch (abacusProperty.range) {
       case 'max':
-        if (abacusProperty.interval === true) { this._range.rangeType = 'between'; }
-        else { this._range.rangeType = 'max'; }
+        if (abacusProperty.interval === true) this._range.rangeType = 'between';
+        else this._range.rangeType = 'max';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case true:
-        if (abacusProperty.interval === false) { this._range.rangeType = 'min'; }
-        else { this._range.rangeType = 'between'; }
+        if (abacusProperty.interval === false) this._range.rangeType = 'min';
+        else this._range.rangeType = 'between';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case 'min':
-        if (abacusProperty.interval === true) { this._range.rangeType = 'between'; }
-        else { this._range.rangeType = 'min'; }
+        if (abacusProperty.interval === true) this._range.rangeType = 'between';
+        else this._range.rangeType = 'min';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
@@ -886,7 +886,9 @@ export default class View {
       newValues = abacusProperty.values?.slice(0);
     }
 
-    const checkNecessaryProps = abacusProperty.interval === true && abacusProperty.values?.length && abacusProperty.step;
+    const checkNecessaryProps = abacusProperty.interval === true
+                                && abacusProperty.values?.length
+                                && abacusProperty.step;
     if (checkNecessaryProps) {
       let deltaMin = abacusProperty.values[0] - valueUnrounded;
       deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
@@ -1053,47 +1055,6 @@ export default class View {
    * Создает шкалу значений и добавляет ее в слайдер.
    * @private
    */
-  // private _createScale(): void{
-  //   if (this._collectionMarks.size) {
-  //     this._removeScale();
-  //   }
-
-  //   const abacusProperty = this._presenter.getModelAbacusProperty();
-
-  //   let value = abacusProperty.min;
-  //   for (; value <= abacusProperty.max; value += abacusProperty.step) {
-  //     value = View.round(value, abacusProperty.step);
-  //     const mark = new Mark(value, abacusProperty.classes);
-  //     const left = this.getPosFromValue(value);
-
-  //     if (this._isVertical) mark.posBottom = left;
-  //     else mark.posLeft = left;
-
-  //     this._collectionMarks.add(mark);
-  //   }
-
-  //   if (value !== abacusProperty.max) {
-  //     const mark = new Mark(abacusProperty.max, abacusProperty.classes);
-  //     const left = this.getPosFromValue(abacusProperty.max);
-
-  //     if (this._isVertical) mark.posBottom = left;
-  //     else mark.posLeft = left;
-
-  //     this._collectionMarks.add(mark);
-  //   }
-
-  //   this._collectionMarks.forEach((mapItem) => {
-  //     const mark = mapItem;
-  //     if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
-  //       this._handles[0].htmlElement.before(mark.htmlElement);
-  //     } else {
-  //       this._widgetContainer.htmlElement.append(mark.htmlElement);
-  //     }
-  //   });
-
-  //   this._thinOutScale();
-  //   this._bindEventListenersOnMarks();
-  // }
   private _createScale(): void{
     if (this._collectionMarks.size) {
       this._removeScale();
@@ -1131,7 +1092,7 @@ export default class View {
     if (this._isVertical) lengthWidget = this._widgetContainer.htmlElement.offsetHeight;
     else lengthWidget = this._widgetContainer.htmlElement.offsetWidth;
     let countPossibleMarks = Math.floor(lengthWidget / maxLengthMarkItem);
-    
+
     // 4. Вычисляем шаг, через который бедут добавляться метки.
     let countAllMarks = (abacusProperty.max - abacusProperty.min) / abacusProperty.step;
     countAllMarks = countAllMarks < 0 ? countAllMarks * -1 : countAllMarks;
@@ -1148,11 +1109,6 @@ export default class View {
     }
 
     // 5. Добавляем метки.
-    console.log(`countAllMarks == ${countAllMarks}`);
-    console.log(`countPossibleMarks == ${countPossibleMarks}`);
-    console.log(`stepToAddMarks == ${stepToAddMarks}`);
-    console.log('=========================');
-    // return;
     let sumRealSteps = 0;
     let value = abacusProperty.min;
     for (; value <= abacusProperty.max; value += abacusProperty.step) {
@@ -1163,10 +1119,10 @@ export default class View {
         value = View.round(value, abacusProperty.step);
         const mark = new Mark(value, abacusProperty.classes);
         const positionMark = this.getPosFromValue(value);
-  
+
         if (this._isVertical) mark.posBottom = positionMark;
         else mark.posLeft = positionMark;
-  
+
         this._collectionMarks.add(mark);
         sumRealSteps = 0;
       }
@@ -1260,7 +1216,7 @@ export default class View {
     }
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
-    const rangeType = this._range.rangeType;
+    const { rangeType } = this._range;
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;

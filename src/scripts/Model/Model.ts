@@ -212,10 +212,10 @@ export default class Model {
     }
 
     for (let i = 0; i < this._abacusProperty.values.length; i += 1) {
-      if( i == 0 && this._abacusProperty.values[0] < this._abacusProperty.min ) {
+      if (i === 0 && this._abacusProperty.values[0] < this._abacusProperty.min) {
         this._abacusProperty.values[0] = this._abacusProperty.min;
       }
-      if( i == 1 && this._abacusProperty.values[1] > this._abacusProperty.max ) {
+      if (i === 1 && this._abacusProperty.values[1] > this._abacusProperty.max) {
         this._abacusProperty.values[1] = this._abacusProperty.max;
       }
     }
@@ -305,8 +305,8 @@ export default class Model {
         const prevVal: number = valByStep;
         const nextVal: number = valByStep + step;
 
-        let deltaPrevValue: number = value - prevVal;
-        let deltaNextValue: number = nextVal - value;
+        const deltaPrevValue: number = value - prevVal;
+        const deltaNextValue: number = nextVal - value;
 
         if (deltaPrevValue < deltaNextValue) {
           result = prevVal;
