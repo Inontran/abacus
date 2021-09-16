@@ -29,7 +29,6 @@ class Model {
     -_eventUpdateModel: CustomEvent<any>
     +abacusProperty(): AbacusProperty
     +setAbacusProperty(newAbacusProperty: AbacusOptions | AbacusProperty)
-    +value(value : number): number
     +eventTarget(): EventTarget
     +roundValuePerStep(value: number): number
     +{static} countNumAfterPoint(x: number): number
@@ -41,7 +40,6 @@ class Presenter {
     -_eventUpdateModel: CustomEvent<any>
     +getModelAbacusProperty(): AbacusProperty
     +setModelAbacusProperty(abacusProperty: AbacusOptions | AbacusProperty): void
-    +setAbacusValue(values: number[]): void
     -_bindEventListeners(): void
     -_updateModelHandler(): void
     +eventTarget(): EventTarget
@@ -165,7 +163,6 @@ class View {
     -_isVertical: boolean
     -_currentHandle?: Handle | undefined
     +getPosPercent(coordXY: number): number
-    +getPosPerStep(percent: number): number
     +getPosFromValue(value: number): number
     +getValFromPosPercent(posPercent: number): number
     +option(optionName?: string | undefined, value?: any): string | number | boolean | AbacusProperty | number[] | AbacusClasses | undefined

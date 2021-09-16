@@ -1028,7 +1028,7 @@ export default class View {
     let coordinateClick = 0;
     if (event instanceof MouseEvent) {
       // здесь при вертикальном режиме отображения слайдера берется pageY, а не clientY,
-      // так как функция offset возвращает top в значении pageY элемента.
+      // так как функция offset возвращает top элемента от края документа.
       coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
     } else if (event instanceof TouchEvent) {
       coordinateClick = viewInstance._isVertical ? event.changedTouches[0].pageY : event.changedTouches[0].screenX;
