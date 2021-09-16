@@ -932,11 +932,7 @@ export default class View {
 
     viewInstance._handlerWidgetContainerClick = viewInstance._handlerWidgetContainerClick.bind(viewInstance);
     viewInstance._widgetContainer.htmlElement.addEventListener(
-      'click',
-      viewInstance._handlerWidgetContainerClick,
-    );
-    viewInstance._widgetContainer.htmlElement.addEventListener(
-      'touchend',
+      'mousedown',
       viewInstance._handlerWidgetContainerClick,
     );
 
