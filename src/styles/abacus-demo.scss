@@ -22,3 +22,18 @@ body {
   display: inline-block;
   cursor: pointer;
 }
+
+.btn{
+  &_cat-submit{
+    animation: shadowBlink 2s ease-in 1s infinite;
+  }
+
+  @keyframes shadowBlink {
+    0%{
+      box-shadow: 0 0 0px 0px #198754;
+    }
+    100%{
+      box-shadow: 0 0 20px 1px #198754;
+    }
+  }
+}
