@@ -20,6 +20,7 @@
     left: 0;
     transform: translate(-50%, -50%);
     background-color: silver;
+    touch-action: none;
 
     &[data-handle-index="0"]:hover,
     &[data-handle-index="0"]:focus{

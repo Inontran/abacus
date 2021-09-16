@@ -469,14 +469,8 @@ export default class View {
     for (let i = 0; i < handleIndexes.length; i += 1) {
       const handleIndex = handleIndexes[i];
       viewInstance._handles[handleIndex].htmlElement.addEventListener(
-        'mousedown',
+        'pointerdown',
         viewInstance._handlerHandleItemClickStart,
-      );
-
-      viewInstance._handles[handleIndex].htmlElement.addEventListener(
-        'touchstart',
-        viewInstance._handlerHandleItemClickStart,
-        { passive: true },
       );
     }
   }
@@ -831,21 +825,16 @@ export default class View {
   /**
    * Функция, обрабатывающая позицию мыши или касания и вычисляющая, какию ручку перемещать.
    * @private
-   * @param {MouseEvent | TouchEvent} event Объект события мыши или касания.
+   * @param {PointerEvent} event Объект события мыши или касания.
    */
-  private _mouseHandler(event: MouseEvent | TouchEvent): void{
+  private _mouseHandler(event: PointerEvent): void{
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
     if (!abacusProperty.values?.length || !viewInstance._currentHandle) {
       return;
     }
 
-    let coordinate = 0;
-    if (event instanceof MouseEvent) {
-      coordinate = this._isVertical ? event.clientY : event.clientX;
-    } else if (event instanceof TouchEvent) {
-      coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
-    }
+    let coordinate = this._isVertical ? event.clientY : event.clientX;
 
     const percent = this.getPosPercent(coordinate - this._shiftClickOnHandle);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
@@ -932,33 +921,24 @@ export default class View {
 
     viewInstance._handlerWidgetContainerClick = viewInstance._handlerWidgetContainerClick.bind(viewInstance);
     viewInstance._widgetContainer.htmlElement.addEventListener(
-      'mousedown',
+      'pointerdown',
       viewInstance._handlerWidgetContainerClick,
     );
 
     viewInstance._handlerHandleItemClickMove = viewInstance._handlerHandleItemClickMove.bind(viewInstance);
     document.addEventListener(
-      'mousemove',
-      viewInstance._handlerHandleItemClickMove,
-      { passive: true },
-    );
-    document.addEventListener(
-      'touchmove',
+      'pointermove',
       viewInstance._handlerHandleItemClickMove,
       { passive: true },
     );
 
     viewInstance._handlerHandleItemClickStop = viewInstance._handlerHandleItemClickStop.bind(viewInstance);
     document.addEventListener(
-      'mouseup',
+      'pointerup',
       viewInstance._handlerHandleItemClickStop,
     );
     document.addEventListener(
-      'touchend',
-      viewInstance._handlerHandleItemClickStop,
-    );
-    document.addEventListener(
-      'touchcancel',
+      'pointercancel',
       viewInstance._handlerHandleItemClickStop,
     );
   }
@@ -976,7 +956,7 @@ export default class View {
    * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
    * @private
    */
-  private _handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void{
+  private _handlerWidgetContainerClick(event: PointerEvent): void{
     event.preventDefault();
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
@@ -993,12 +973,7 @@ export default class View {
       return;
     }
 
-    let coordinate = 0;
-    if (event instanceof MouseEvent) {
-      coordinate = this._isVertical ? event.clientY : event.clientX;
-    } else if (event instanceof TouchEvent) {
-      coordinate = this._isVertical ? event.changedTouches[0].screenY : event.changedTouches[0].screenX;
-    }
+    let coordinate = this._isVertical ? event.clientY : event.clientX;
 
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
@@ -1009,7 +984,7 @@ export default class View {
    * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
    * @private
    */
-  private _handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void{
+  private _handlerHandleItemClickStart(event: PointerEvent): void{
     event.preventDefault();
     const viewInstance = this;
     if (viewInstance._isDisabled) {
@@ -1021,14 +996,9 @@ export default class View {
       return;
     }
 
-    let coordinateClick = 0;
-    if (event instanceof MouseEvent) {
-      // здесь при вертикальном режиме отображения слайдера берется pageY, а не clientY,
-      // так как функция offset возвращает top элемента от края документа.
-      coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
-    } else if (event instanceof TouchEvent) {
-      coordinateClick = viewInstance._isVertical ? event.changedTouches[0].pageY : event.changedTouches[0].screenX;
-    }
+    // здесь при вертикальном режиме отображения слайдера берется pageY, а не clientY,
+    // так как функция offset возвращает top элемента от края документа.
+    let coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
 
     // вычисляем смещение от центра ручки
     const postitonHandle = $(handleHtml).offset();
@@ -1053,7 +1023,7 @@ export default class View {
    * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
    * @private
    */
-  private _handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void{
+  private _handlerHandleItemClickMove(event: PointerEvent): void{
     const viewInstance = this;
     if (viewInstance._isDisabled) {
       return;
@@ -1074,7 +1044,7 @@ export default class View {
    * Генерирует событие "stop".
    * @private
    */
-  private _handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void{
+  private _handlerHandleItemClickStop(event: PointerEvent): void{
     const viewInstance = this;
     if (viewInstance._isDragHandle) {
       viewInstance._eventStopWrapper(event);
@@ -1388,15 +1358,12 @@ export default class View {
   destroy() {
     this._widgetContainer.htmlElement.innerHTML = '';
 
-    this._widgetContainer.htmlElement.removeEventListener('click', this._handlerWidgetContainerClick);
-    this._widgetContainer.htmlElement.removeEventListener('touchend', this._handlerWidgetContainerClick);
+    this._widgetContainer.htmlElement.removeEventListener('pointerdown', this._handlerWidgetContainerClick);
 
-    document.removeEventListener('mousemove', this._handlerHandleItemClickMove);
-    document.removeEventListener('touchmove', this._handlerHandleItemClickMove);
+    document.removeEventListener('pointermove', this._handlerHandleItemClickMove);
 
-    document.removeEventListener('mouseup', this._handlerHandleItemClickStop);
-    document.removeEventListener('touchend', this._handlerHandleItemClickStop);
-    document.removeEventListener('touchcancel', this._handlerHandleItemClickStop);
+    document.removeEventListener('pointerup', this._handlerHandleItemClickStop);
+    document.removeEventListener('pointercancel', this._handlerHandleItemClickStop);
 
     this._widgetContainer.restoreOldClasses();
   }
