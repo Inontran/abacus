@@ -181,14 +181,14 @@ class View {
     -_eventSlideWrapper(event?: Event | undefined): boolean
     -_eventStartWrapper(event?: Event | undefined): boolean
     -_eventStopWrapper(event?: Event | undefined): boolean
-    -_mouseHandler(event: MouseEvent | TouchEvent): void
+    -_mouseHandler(event: PointerEvent): void
     -_calcHandleValues(valueUnrounded: number): void
     -_bindEventListeners(): void
     -_updateModelHandler(): void
-    -_handlerWidgetContainerClick(event: MouseEvent | TouchEvent): void
-    -_handlerHandleItemClickStart(event: MouseEvent | TouchEvent): void
-    -_handlerHandleItemClickMove(event: MouseEvent | TouchEvent): void
-    -_handlerHandleItemClickStop(event: MouseEvent | TouchEvent): void
+    -_handlerWidgetContainerClick(event: PointerEvent): void
+    -_handlerHandleItemClickStart(event: PointerEvent): void
+    -_handlerHandleItemClickMove(event: PointerEvent): void
+    -_handlerHandleItemClickStop(event: PointerEvent): void
     -_createScale(): void
     -_removeScale(): void
     -_thinOutScale(): void
