@@ -50,20 +50,17 @@ export default class WidgetContainer {
    * @this   {WidgetContainer}
    * @param  {HTMLAbacusElement} htmlElement - HTML-элемент, в котором будут элементы слайдера.
    * @param  {AbacusClasses} classes - Объект с названиями классов.
-   * @example new WidgetContainer({
+   * @example new WidgetContainer($('#abacus-1')[0], {
    *  abacus: 'abacus',
    *  disabled: 'abacus_disabled'
    * });
    */
   constructor(htmlElement: HTMLAbacusElement, classes?: AbacusClasses) {
     this._htmlElement = htmlElement;
+    this._oldClasses = this._htmlElement.className;
     this._className = classes?.abacus ? classes.abacus : 'abacus';
     this._classNameDisabled = classes?.disabled ? classes.disabled : 'abacus_disabled';
     this._classNameVertical = classes?.vertical ? classes.vertical : 'abacus_vertical';
-
-    this._oldClasses = this._htmlElement.className;
-    this._htmlElement.classList.add(this._className);
-    this._htmlElement.classList.add(`js-${this._className}`);
   }
 
   /**
@@ -101,7 +98,9 @@ export default class WidgetContainer {
    */
   public set className(name : string) {
     this._htmlElement.classList.remove(this._className);
+    this._htmlElement.classList.remove(`js-${this._className}`);
     this._htmlElement.classList.add(name);
+    this._htmlElement.classList.add(`js-${this._className}`);
     this._className = name;
   }
 

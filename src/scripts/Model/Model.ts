@@ -20,9 +20,8 @@ export default class Model {
       range: 'abacus__range',
       mark: 'abacus__mark',
       markSelected: 'abacus__mark_selected',
-      markInrange: 'abacus__mark_inrange',
+      markInrange: 'abacus__mark_in-range',
       tooltip: 'abacus__tooltip',
-      tooltipVisible: 'abacus__tooltip_visible',
     },
     disabled: false,
     interval: false,
@@ -119,9 +118,6 @@ export default class Model {
       }
       if (typeof abacusProperty.classes.tooltip === 'string' && abacusProperty.classes.tooltip) {
         this._abacusProperty.classes.tooltip = abacusProperty.classes.tooltip;
-      }
-      if (typeof abacusProperty.classes.tooltipVisible === 'string' && abacusProperty.classes.tooltipVisible) {
-        this._abacusProperty.classes.tooltipVisible = abacusProperty.classes.tooltipVisible;
       }
     }
 

@@ -214,5 +214,5 @@ $(() => {
     return null;
   }
 
-  $body.on('submit', '.js-form_modifier-options', handlerSubmitFormOptions);
+  $body.on('submit', '.js-form_options-modifier', handlerSubmitFormOptions);
 });

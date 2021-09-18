@@ -25,13 +25,6 @@ export default class Tooltip {
   private _className: string;
 
   /**
-   * Название класса HTML-элемента подсказки, которая находится в состоянии видимости.
-   * @type {string}
-   * @private
-   */
-  private _classNameVisible: string;
-
-  /**
    * Если параметр равен "true", то это значит, что подсказка отображается.
    * @type {boolean}
    * @private
@@ -64,7 +57,6 @@ export default class Tooltip {
   constructor(classes?: AbacusClasses, tooltipIndex?: number) {
     this._htmlElement = document.createElement('span');
     this._className = classes?.tooltip ? classes.tooltip : 'abacus__tooltip';
-    this._classNameVisible = classes?.tooltipVisible ? classes.tooltipVisible : 'abacus__tooltip_visible';
     this._htmlElement.classList.add(this._className);
 
     if (tooltipIndex !== undefined && !Number.isNaN(tooltipIndex)) {
@@ -99,33 +91,6 @@ export default class Tooltip {
       this._htmlElement.classList.add(name);
     }
     this._className = name;
-  }
-
-  /**
-   * Геттер названия класса HTML-элемента метки, которая находится в диапозоне.
-   */
-  public get classNameVisible() : string {
-    return this._classNameVisible;
-  }
-
-  /**
-   * Сеттер названия класса HTML-элемента метки, которая находится в диапозоне.
-   * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} name Название класса.
-   */
-  public set classNameVisible(name : string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-
-    if (this._htmlElement.classList.contains(this._classNameVisible)) {
-      this._htmlElement.classList.add(name);
-    }
-    if (this._classNameVisible) {
-      this._htmlElement.classList.remove(this._classNameVisible);
-    }
-
-    this._classNameVisible = name;
   }
 
   /**
@@ -180,29 +145,5 @@ export default class Tooltip {
       this._posBottom = newBottom;
       this._htmlElement.style.bottom = `${newBottom.toString()}%`;
     }
-  }
-
-  /**
-   * Функция получения и установки состояния видимости подсказки.
-   * Если функция получила параметр false, то у метки удалаяется класс,
-   * записанный в _classNameVisible.
-   * Если функция получила параметр true, то метке добавляется класс,
-   * записанный в _classNameVisible.
-   * @param {boolean} value Если передать "true", то добавляется класс, иначе удалается класс.
-   * Если ничего не передать, то возвращается текущее состояние.
-   * @returns {boolean} Текущее состояние метки, а именно, в диапозоне она находится или нет.
-   */
-  isVisible(value?: boolean): boolean {
-    if (value !== undefined && this._classNameVisible) {
-      this._isVisible = !!value;
-
-      if (this._isVisible) {
-        this._htmlElement.classList.add(this._classNameVisible);
-      } else {
-        this._htmlElement.classList.remove(this._classNameVisible);
-      }
-    }
-
-    return this._isVisible;
   }
 }

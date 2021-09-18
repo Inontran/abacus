@@ -48,11 +48,6 @@ interface AbacusClasses {
    * Класс HTML-элемента подсказки со значением.
    */
   tooltip: string;
-
-  /**
-   * Класс HTML-элемента подсказки со значением в видимом состоянии.
-   */
-  tooltipVisible: string;
 }
 
 /**

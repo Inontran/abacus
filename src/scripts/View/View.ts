@@ -517,7 +517,6 @@ export default class View {
       for (let i = 0; i < countTooltips; i += 1) {
         this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
         this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
-        this._tooltips[i].isVisible(true);
       }
     }
   }
