@@ -10,11 +10,11 @@
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
     "start": "cross-env NODE_ENV=development webpack serve --mode development",
     "doc:build": "typedoc",
-    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
+    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx {src,demo}",
     "eslint:dump": "eslint --print-config ./.eslintrc.json",
-    "eslint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx src",
-    "stylelint": "stylelint 'src/styles/**/*.{css,scss}'",
-    "stylelint:fix": "stylelint 'src/styles/**/*.{css,scss}' --fix",
+    "eslint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx {src,demo}",
+    "stylelint": "stylelint '{src,demo}/**/*.{css,scss}'",
+    "stylelint:fix": "stylelint '{src,demo}/**/*.{css,scss}' --fix",
     "gh-deploy": "gh-pages -d dist"
   },
   "keywords": [

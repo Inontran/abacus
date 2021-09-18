@@ -23,16 +23,17 @@
     touch-action: none;
 
     &[data-handle-index="0"]:hover,
-    &[data-handle-index="0"]:focus{
+    &[data-handle-index="0"]:focus {
       &,
-      & ~ .abacus__tooltip[data-handle-index="0"]{
+      & ~ .abacus__tooltip[data-handle-index="0"] {
         z-index: 1;
       }
     }
+
     &[data-handle-index="1"]:hover,
-    &[data-handle-index="1"]:focus{
+    &[data-handle-index="1"]:focus {
       &,
-      & ~ .abacus__tooltip[data-handle-index="1"]{
+      & ~ .abacus__tooltip[data-handle-index="1"] {
         z-index: 1;
       }
     }
@@ -91,7 +92,7 @@
     border: 1px solid black;
 
     &:hover,
-    &:focus{
+    &:focus {
       z-index: 1;
     }
   }

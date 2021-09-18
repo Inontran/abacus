@@ -18,32 +18,33 @@ body {
   font-family: sans-serif;
 }
 
-.form-check{
+.form-check {
   display: inline-block;
   cursor: pointer;
 }
 
-.form-check-input{
-  &:enabled{
+.form-check-input {
+  &:enabled {
     cursor: pointer;
   }
 }
 
-.btn{
-  &_cat-submit{
+.btn {
+  &_cat-submit {
     animation: shadowBlink 2s ease-in 1s infinite;
 
-    .btn__img{
+    .btn__img {
       max-width: 100px;
       border-radius: 0.25rem;
     }
   }
 
   @keyframes shadowBlink {
-    0%{
-      box-shadow: 0 0 0px 0px #198754;
+    0% {
+      box-shadow: 0 0 0 0 #198754;
     }
-    100%{
+
+    100% {
       box-shadow: 0 0 20px 1px #198754;
     }
   }

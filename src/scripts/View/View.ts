@@ -833,7 +833,7 @@ export default class View {
       return;
     }
 
-    let coordinate = this._isVertical ? event.clientY : event.clientX;
+    const coordinate = this._isVertical ? event.clientY : event.clientX;
 
     const percent = this.getPosPercent(coordinate - this._shiftClickOnHandle);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
@@ -972,7 +972,7 @@ export default class View {
       return;
     }
 
-    let coordinate = this._isVertical ? event.clientY : event.clientX;
+    const coordinate = this._isVertical ? event.clientY : event.clientX;
 
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
@@ -997,7 +997,7 @@ export default class View {
 
     // здесь при вертикальном режиме отображения слайдера берется pageY, а не clientY,
     // так как функция offset возвращает top элемента от края документа.
-    let coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
+    const coordinateClick = viewInstance._isVertical ? event.pageY : event.clientX;
 
     // вычисляем смещение от центра ручки
     const postitonHandle = $(handleHtml).offset();
