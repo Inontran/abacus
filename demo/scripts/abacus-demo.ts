@@ -2,6 +2,8 @@
  * @fileoverview Файл с примерами использования плагина Abacus.
  */
 
+require('../styles/abacus-demo.scss');
+
 function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery) {
   const $inputAnimate = $('[name="animate"]', $form);
   if (abacusProperty.animate !== undefined) {

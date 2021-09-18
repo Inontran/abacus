@@ -5,6 +5,8 @@
 import $ from 'jquery';
 import View from './View/View';
 
+require('../styles/abacus.scss');
+
 $.fn.abacus = function (
   paramOptions ? : AbacusOptions | string,
   param1 ? : AbacusOptions | number | string | number[],
