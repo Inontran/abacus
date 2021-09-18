@@ -130,7 +130,6 @@ class Tooltip {
     -_tooltipIndex: number
     -_className: string
     -_classNameVisible: string
-    -_isVisible: boolean
     -_posLeft: number | null
     -_posBottom: number | null
     +htmlElement(): HTMLElement
@@ -142,7 +141,6 @@ class Tooltip {
     +posLeft(left: number)
     +posBottom(): number | null
     +posBottom(bottom: number)
-    +isVisible(value?: boolean | undefined): boolean
 }
 class View {
     -_presenter: Presenter
@@ -200,6 +198,18 @@ class View {
     +{static} countNumAfterPoint(x: number): number
     +{static} round(value: number, fractionalNum: number): number
     +{static} arrayCompare(a?: any[] | undefined, b?: any[] | undefined): boolean
+}
+
+interface AbacusClasses {
+    +abacus: string;
+    +vertical: string;
+    +disabled: string;
+    +handle: string;
+    +range: string;
+    +mark: string;
+    +markSelected: string;
+    +markInrange: string;
+    +tooltip: string;
 }
 
 interface AbacusOptions {
