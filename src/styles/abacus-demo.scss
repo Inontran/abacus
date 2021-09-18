@@ -23,6 +23,12 @@ body {
   cursor: pointer;
 }
 
+.form-check-input{
+  &:enabled{
+    cursor: pointer;
+  }
+}
+
 .btn{
   &_cat-submit{
     animation: shadowBlink 2s ease-in 1s infinite;
