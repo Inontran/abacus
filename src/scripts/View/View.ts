@@ -1128,6 +1128,15 @@ export default class View {
       }
     }
 
+    // 6. Добавляем последнюю метку с макс. значением
+    const mark = new Mark(abacusProperty.max, abacusProperty.classes);
+    const positionMark = this.getPosFromValue(abacusProperty.max);
+
+    if (this._isVertical) mark.posBottom = positionMark;
+    else mark.posLeft = positionMark;
+
+    this._collectionMarks.add(mark);
+
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
       if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
@@ -1137,7 +1146,10 @@ export default class View {
       }
     });
 
+    // 7. Удаляем лишние метки
     this._thinOutScale();
+
+    // 8. Устанавливаем обработчики на метки
     this._bindEventListenersOnMarks();
   }
 
@@ -1174,9 +1186,9 @@ export default class View {
       else lengthMarks += mark.htmlElement.offsetWidth + marginXMark;
     });
 
-    if (lengthWidget < lengthMarks) {
-      const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperty = this._presenter.getModelAbacusProperty();
 
+    if (lengthWidget < lengthMarks) {
       let isDelete = false;
       this._collectionMarks.forEach((mapItem) => {
         const mark = mapItem;
@@ -1193,8 +1205,35 @@ export default class View {
       });
     }
 
-    lengthMarks = 0;
+    // Проверяем и удаляем последнюю метку с макс. значением.
+    let prevMarkMax;
+    let markMax;
+    this._collectionMarks.forEach((mapItem) => {
+      const mark = mapItem;
+      if (mark.associatedValue === abacusProperty.max) markMax = mark;
+      else prevMarkMax = mark;
+    });
+    if (prevMarkMax && markMax) {
+      prevMarkMax = prevMarkMax as Mark;
+      markMax = markMax as Mark;
+      const posPrevMarkMax = this._isVertical ? 
+                                prevMarkMax.htmlElement.offsetTop : prevMarkMax.htmlElement.offsetLeft;
+      const lengthPrevMarkMax = this._isVertical ? 
+                                  prevMarkMax.htmlElement.offsetHeight : prevMarkMax.htmlElement.offsetWidth;
+      const posMarkMax = this._isVertical ? 
+                            markMax.htmlElement.offsetTop : markMax.htmlElement.offsetLeft;
+      const lengthMarkMax = this._isVertical ? 
+                              markMax.htmlElement.offsetHeight : markMax.htmlElement.offsetWidth;
 
+      // Удаляем последнюю метку.
+      if (Math.abs(posMarkMax - posPrevMarkMax) <= (lengthMarkMax + lengthPrevMarkMax) / 2 ) {
+        markMax.htmlElement.remove();
+        this._collectionMarks.delete(markMax);
+      }
+    }
+
+    // Проверяем еще раз, помещается ли метки на слайдере.
+    lengthMarks = 0;
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
       if (this._isVertical) lengthMarks += mark.htmlElement.offsetHeight + marginYMark;
