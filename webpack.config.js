@@ -18,7 +18,7 @@ module.exports = {
   mode: 'development',
   entry: {
     'abacus': path.join(PATHS.src, '/scripts/abacus.ts'),
-    'abacus-demo': path.join(PATHS.root, 'demo/scripts/abacus-demo.ts'),
+    'abacus-demo': path.join(PATHS.root, 'demo-page/abacus-demo.ts'),
   },
   output: {
     path: PATHS.dist,
@@ -64,7 +64,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: PATHS.root + '/demo/images',
+          from: PATHS.root + '/demo-page/**/*.(jpg|jpeg|png|gif|svg)',
           to: PATHS.dist + '/images/'
         },
         {
@@ -84,7 +84,7 @@ module.exports = {
       ]
     }),
     new HtmlWebpackPlugin({
-      template: PATHS.root + '/demo/index.html',
+      template: PATHS.root + '/demo-page/demo-page.html',
       minify: {
         collapseWhitespace: true,
         removeComments: true,
