@@ -4,7 +4,7 @@
   height: 10px;
   width: 100%;
   background-color: gold;
-  border: 2px solid brown;
+  border: 1px solid brown;
 
   &,
   * {
@@ -45,7 +45,7 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    height: 6px;
+    height: 8px;
     width: auto;
     background-color: brown;
   }
@@ -53,7 +53,7 @@
   .abacus__mark {
     display: inline-block;
     position: absolute;
-    top: 12px;
+    top: 13px;
     transform: translateX(-50%);
     left: 0;
 
