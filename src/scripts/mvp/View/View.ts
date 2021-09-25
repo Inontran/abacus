@@ -1,10 +1,10 @@
 import Presenter from '../Presenter/Presenter';
-import WidgetContainer from '../WidgetContainer/WidgetContainer';
-import Handle from '../Handle/Handle';
-import Range from '../Range/Range';
-import Mark from '../Mark/Mark';
-import Tooltip from '../Tooltip/Tooltip';
-import AbacusOrientationType from '../AbacusOrientationType';
+import WidgetContainer from './components/WidgetContainer/WidgetContainer';
+import Handle from './components/Handle/Handle';
+import Range from './components/Range/Range';
+import Mark from './components/Mark/Mark';
+import Tooltip from './components/Tooltip/Tooltip';
+import AbacusOrientationType from '../../AbacusOrientationType';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.

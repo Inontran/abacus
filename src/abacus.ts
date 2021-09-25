@@ -3,9 +3,9 @@
  */
 
 import $ from 'jquery';
-import View from './View/View';
+import View from './scripts/mvp/View/View';
 
-require('../styles/abacus.scss');
+import '../styles/abacus.scss';
 
 $.fn.abacus = function (
   paramOptions ? : AbacusOptions | string,
