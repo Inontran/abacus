@@ -1,10 +1,4 @@
-/**
- * @fileoverview Файл с примерами использования плагина Abacus.
- */
-
-import './abacus-demo.scss';
-
-function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery) {
+export function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery) {
   const $inputAnimate = $('[name="animate"]', $form);
   if (abacusProperty.animate !== undefined) {
     const stringValAnimate = abacusProperty.animate.toString();
@@ -52,7 +46,7 @@ function parsePropertyToForm(abacusProperty: AbacusOptions, $form: JQuery) {
   }
 }
 
-function parseFormToProperty($form: JQuery): AbacusOptions {
+export function parseFormToProperty($form: JQuery): AbacusOptions {
   const abacusProperty = {} as AbacusOptions;
 
   if (!($form instanceof jQuery)) {
@@ -148,73 +142,39 @@ function parseFormToProperty($form: JQuery): AbacusOptions {
   return abacusProperty;
 }
 
-$(() => {
-  const $body = $('body');
-  const $cardList = $('.js-card-list');
-
-  for (let i = 2; i <= 3; i += 1) {
-    const $cloneCard = $('.js-card-list__item:first', $cardList).clone();
-    $cardList.append($cloneCard);
-    $('.js-card-list__number', $cloneCard).text(i);
+export function handlerAbacusChange(event: Event) {
+  const $abacusItem = $(event.currentTarget as HTMLAbacusElement);
+  const $form = $abacusItem.closest('.js-card-list__item').find('form');
+  if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
+    parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
   }
+}
 
-  const $abacus = $('.js-abacus', $cardList);
-
-  $abacus.abacus({
-    min: -10,
-    max: 9,
-    step: 2,
-    values: [-4, 6],
-    range: true,
-    scale: true,
-  });
-
-  function handlerAbacusChange(event: Event) {
-    const $abacusItem = $(event.currentTarget as HTMLAbacusElement);
-    const $form = $abacusItem.closest('.js-card-list__item').find('form');
-    if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
-      parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
-    }
-  }
-
-  $body.on('abacus-change', '.js-card-list .js-abacus', handlerAbacusChange);
-
-  $abacus.each(function () {
-    const $abacusItem = $(this as HTMLAbacusElement);
-    const $form = $abacusItem.closest('.js-card-list__item').find('form');
-    if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
-      parsePropertyToForm($abacusItem.abacus('option') as AbacusOptions, $form);
-    }
-  });
-
-  function handlerSubmitFormOptions(event: Event) {
-    event.preventDefault();
-    if (!event.currentTarget) {
-      return null;
-    }
-
-    const $form = $(event.currentTarget) as JQuery<HTMLElement>;
-    const $abacusItem = $form.closest('.js-card-list__item').find('.js-abacus') as JQuery<HTMLAbacusElement>;
-    if (!$abacusItem?.length) {
-      return null;
-    }
-
-    const $destroySwitch = $('[name="destroy"]', $form);
-
-    if ($destroySwitch.length && $destroySwitch.prop('checked') === false) {
-      $abacusItem.abacus('destroy');
-    } else {
-      const abacusOptions = parseFormToProperty($form);
-
-      if (!$abacusItem[0].jqueryAbacusInstance) {
-        $abacusItem?.abacus(abacusOptions);
-      } else {
-        $abacusItem?.abacus('option', abacusOptions);
-      }
-    }
-
+export function handlerSubmitFormOptions(event: Event) {
+  event.preventDefault();
+  if (!event.currentTarget) {
     return null;
   }
 
-  $body.on('submit', '.js-form_options-modifier', handlerSubmitFormOptions);
-});
+  const $form = $(event.currentTarget) as JQuery<HTMLElement>;
+  const $abacusItem = $form.closest('.js-card-list__item').find('.js-abacus') as JQuery<HTMLAbacusElement>;
+  if (!$abacusItem?.length) {
+    return null;
+  }
+
+  const $destroySwitch = $('[name="destroy"]', $form);
+
+  if ($destroySwitch.length && $destroySwitch.prop('checked') === false) {
+    $abacusItem.abacus('destroy');
+  } else {
+    const abacusOptions = parseFormToProperty($form);
+
+    if (!$abacusItem[0].jqueryAbacusInstance) {
+      $abacusItem?.abacus(abacusOptions);
+    } else {
+      $abacusItem?.abacus('option', abacusOptions);
+    }
+  }
+
+  return null;
+}
