@@ -90,20 +90,20 @@ npm run gh-deploy
 API данного слайдера делалось на основе слайдера из библеотеки jQuery UI.
 Поэтому в качестве дополнительного источника можно пользоваться [документацией](https://api.jqueryui.com/slider/) jQuery UI, но есть отличия.
 
-| [Опции](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)                    | [Методы](#methods)            | [События](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html)        |
-|:------------------------------------------------------------------------------------------------------------------ |:----------------------------- |:-------------------------------------------------------------------------------------------------------- |
-| [animate](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#animate)          | [destroy](#method-destroy)    | [change](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#change)  |
-| [classes](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#classes)          | [disable](#method-disable)    | [create](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#create)  |
-| [disabled](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#disabled)        | [enable](#method-enable)      | [slide](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#slide)    |
-| [max](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#max)                  | [instance](#method-instance)  | [start](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#start)    |
-| [min](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#min)                  | [option](#method-option)      | [stop](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#stop)      |
-| [orientation](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#orientation)  | [value](#method-value)
-| [range](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#range)              | [values](#method-values)
-| [scale](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#scale)              | [widget](#method-widget)
-| [step](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#step)
-| [tooltip](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#tooltip)
-| [value](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#value)
-| [values](https://inontran.github.io/abacus/docs/interfaces/abacus_interfaces.abacusoptions.html#values)
+| [Опции](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)                    | [Методы](#methods)            | [События](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)        |
+|:-------------------------------------------------------------------------------------------------------------------- |:----------------------------- |:---------------------------------------------------------------------------------------------------------- |
+| [animate](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#animate)          | [destroy](#method-destroy)    | [change](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#change)  |
+| [classes](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#classes)          | [disable](#method-disable)    | [create](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#create)  |
+| [disabled](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#disabled)        | [enable](#method-enable)      | [slide](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#slide)    |
+| [max](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#max)                  | [instance](#method-instance)  | [start](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#start)    |
+| [min](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#min)                  | [option](#method-option)      | [stop](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#stop)      |
+| [orientation](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#orientation)  | [value](#method-value)
+| [range](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#range)              | [values](#method-values)
+| [scale](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#scale)              | [widget](#method-widget)
+| [step](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#step)
+| [tooltip](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#tooltip)
+| [value](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#value)
+| [values](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#values)
 
 
 <div id="methods">
