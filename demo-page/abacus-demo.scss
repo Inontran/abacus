@@ -32,13 +32,13 @@ body {
 .btn {
   &_cat-submit {
     animation: shadowBlink 2s ease-in 1s infinite;
-
-    .btn__img {
-      max-width: 100px;
-      border-radius: 0.25rem;
-    }
   }
 
+  &__img {
+    max-width: 100px;
+    border-radius: 0.25rem;
+  }
+  
   @keyframes shadowBlink {
     0% {
       box-shadow: 0 0 0 0 #198754;
