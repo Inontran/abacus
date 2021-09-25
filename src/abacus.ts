@@ -5,7 +5,7 @@
 import $ from 'jquery';
 import View from './scripts/mvp/View/View';
 
-import '../styles/abacus.scss';
+import './styles/abacus.scss';
 
 $.fn.abacus = function (
   paramOptions ? : AbacusOptions | string,

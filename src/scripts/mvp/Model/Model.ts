@@ -1,5 +1,5 @@
 import EventTarget from '@ungap/event-target';
-import AbacusOrientationType from '../../AbacusOrientationType';
+import AbacusOrientationType from '../../utils/AbacusOrientationType';
 
 /**
  * Класс Model реализует "Модель" паттерна проектирования MVP.

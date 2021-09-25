@@ -17,7 +17,7 @@ const PATHS = {
 module.exports = {
   mode: 'development',
   entry: {
-    'abacus': path.join(PATHS.src, '/scripts/abacus.ts'),
+    'abacus': path.join(PATHS.src, '/abacus.ts'),
     'abacus-demo': path.join(PATHS.root, 'demo-page/abacus-demo.ts'),
   },
   output: {

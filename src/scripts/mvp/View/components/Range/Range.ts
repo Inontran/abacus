@@ -1,10 +1,4 @@
-enum RangeType {
-  HIDDEN = 'hidden',
-  MIN = 'min',
-  MAX = 'max',
-  BETWEEN = 'between',
-}
-
+import RangeType from './RangeType';
 /**
  * Класс "Range" является оберткой для HTML-элемента индикатора (progress bar).
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.

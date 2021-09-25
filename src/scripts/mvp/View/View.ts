@@ -4,7 +4,7 @@ import Handle from './components/Handle/Handle';
 import Range from './components/Range/Range';
 import Mark from './components/Mark/Mark';
 import Tooltip from './components/Tooltip/Tooltip';
-import AbacusOrientationType from '../../AbacusOrientationType';
+import AbacusOrientationType from '../../utils/AbacusOrientationType';
 
 /**
  * Класс View реализует "Представление" или "Вид" паттерна проектирования MVP.
@@ -15,7 +15,7 @@ export default class View {
   /**
    * Ссылка на Представителя, который связывает объект класса View с объектом класса Model
    * по паттерну проектирования MVP.
-   * @type  {Presenter}
+   * @type {Presenter}
    * @private
    */
   private _presenter: Presenter;
