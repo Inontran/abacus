@@ -1,9 +1,9 @@
 # abacus
 Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD). Реализован в виде jQuery-плагина, поэтому для работы его работы необходима библиотека [jQuery](https://jquery.com/) версии не ниже 1.9.1.
 
-Демо-страница: [https://inontran.github.io/abacus/](https://inontran.github.io/abacus/).
+[Демо-страница](https://inontran.github.io/abacus/demo-page.html).
 
-Документация: [https://inontran.github.io/abacus/docs](https://inontran.github.io/abacus/docs).
+[Документация](https://inontran.github.io/abacus/docs).
 
 Для работы с исходным кода проекта необходим NPM.
 
