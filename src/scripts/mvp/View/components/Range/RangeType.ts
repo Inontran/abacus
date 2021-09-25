@@ -5,4 +5,4 @@ enum RangeType {
   BETWEEN = 'between',
 }
 
-export default RangeType
+export default RangeType;

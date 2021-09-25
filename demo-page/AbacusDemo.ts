@@ -1,8 +1,8 @@
 import './abacus-demo.scss';
 import * as Utils from './utils';
 
-class AbacusDemo{
-  constructor(){
+class AbacusDemo {
+  constructor() {
     const $body = $('body');
     const $cardList = $('.js-card-list');
 
@@ -37,6 +37,4 @@ class AbacusDemo{
   }
 }
 
-$(() => {
-  new AbacusDemo();
-})
+$(new AbacusDemo());

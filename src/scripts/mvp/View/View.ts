@@ -1138,11 +1138,11 @@ export default class View {
     this._collectionMarks.add(mark);
 
     this._collectionMarks.forEach((mapItem) => {
-      const mark = mapItem;
+      const markItem = mapItem;
       if (this._widgetContainer.htmlElement.contains(this._handles[0].htmlElement)) {
-        this._handles[0].htmlElement.before(mark.htmlElement);
+        this._handles[0].htmlElement.before(markItem.htmlElement);
       } else {
-        this._widgetContainer.htmlElement.append(mark.htmlElement);
+        this._widgetContainer.htmlElement.append(markItem.htmlElement);
       }
     });
 
@@ -1216,17 +1216,17 @@ export default class View {
     if (prevMarkMax && markMax) {
       prevMarkMax = prevMarkMax as Mark;
       markMax = markMax as Mark;
-      const posPrevMarkMax = this._isVertical ? 
-                                prevMarkMax.htmlElement.offsetTop : prevMarkMax.htmlElement.offsetLeft;
-      const lengthPrevMarkMax = this._isVertical ? 
-                                  prevMarkMax.htmlElement.offsetHeight : prevMarkMax.htmlElement.offsetWidth;
-      const posMarkMax = this._isVertical ? 
-                            markMax.htmlElement.offsetTop : markMax.htmlElement.offsetLeft;
-      const lengthMarkMax = this._isVertical ? 
-                              markMax.htmlElement.offsetHeight : markMax.htmlElement.offsetWidth;
+      const posPrevMarkMax = this._isVertical
+        ? prevMarkMax.htmlElement.offsetTop : prevMarkMax.htmlElement.offsetLeft;
+      const lengthPrevMarkMax = this._isVertical
+        ? prevMarkMax.htmlElement.offsetHeight : prevMarkMax.htmlElement.offsetWidth;
+      const posMarkMax = this._isVertical
+        ? markMax.htmlElement.offsetTop : markMax.htmlElement.offsetLeft;
+      const lengthMarkMax = this._isVertical
+        ? markMax.htmlElement.offsetHeight : markMax.htmlElement.offsetWidth;
 
       // Удаляем последнюю метку.
-      if (Math.abs(posMarkMax - posPrevMarkMax) <= (lengthMarkMax + lengthPrevMarkMax) / 2 ) {
+      if (Math.abs(posMarkMax - posPrevMarkMax) <= (lengthMarkMax + lengthPrevMarkMax) / 2) {
         markMax.htmlElement.remove();
         this._collectionMarks.delete(markMax);
       }
