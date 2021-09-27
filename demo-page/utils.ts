@@ -142,7 +142,7 @@ export function parseFormToProperty($form: JQuery): AbacusOptions {
   return abacusProperty;
 }
 
-export function handlerAbacusChange(event: Event) {
+export function handleAbacusChange(event: Event) {
   const $abacusItem = $(event.currentTarget as HTMLAbacusElement);
   const $form = $abacusItem.closest('.js-card-list__item').find('form');
   if ($form.length && $abacusItem[0].jqueryAbacusInstance) {
@@ -150,7 +150,7 @@ export function handlerAbacusChange(event: Event) {
   }
 }
 
-export function handlerSubmitFormOptions(event: Event) {
+export function handleFormOptionsSubmit(event: Event) {
   event.preventDefault();
   if (!event.currentTarget) {
     return null;

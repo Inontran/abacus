@@ -23,7 +23,7 @@ class AbacusDemo {
       scale: true,
     });
 
-    $body.on('abacus-change', '.js-card-list .js-abacus', Utils.handlerAbacusChange);
+    $body.on('abacus-change', '.js-card-list .js-abacus', Utils.handleAbacusChange);
 
     $abacus.each(function () {
       const $abacusItem = $(this as HTMLAbacusElement);
@@ -33,7 +33,7 @@ class AbacusDemo {
       }
     });
 
-    $body.on('submit', '.js-form_options-modifier', Utils.handlerSubmitFormOptions);
+    $body.on('submit', '.js-form_options-modifier', Utils.handleFormOptionsSubmit);
   }
 }
 
