@@ -1,4 +1,4 @@
-import './abacus-demo.scss';
+import './demo-page.scss';
 import * as Utils from './utils';
 
 class AbacusDemo {
