@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import './demo-page.scss';
 
 class AbacusDemo {
