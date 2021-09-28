@@ -149,7 +149,6 @@ export default class View {
     this._widgetContainer.htmlElement.innerHTML = '';
 
     this._range = new Range(abacusProperty.classes);
-    this._tooltips[0] = new Tooltip(abacusProperty.classes, 0);
 
     this._customEventChange = new CustomEvent('abacus-change', {
       bubbles: true,
