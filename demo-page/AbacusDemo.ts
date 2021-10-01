@@ -5,6 +5,7 @@ import '../src/abacus';
 class AbacusDemo {
   private _$abacusSlider!: JQuery<HTMLAbacusElement>;
   private _$form!: JQuery<HTMLFormElement>;
+  private _formInputs = new Map();
 
   constructor($abacusSlider: JQuery) {
     this._init($abacusSlider);
@@ -13,6 +14,7 @@ class AbacusDemo {
   private _init($abacusSlider: JQuery) {
     this._$abacusSlider = $abacusSlider as JQuery<HTMLAbacusElement>;
     this._$form = this._$abacusSlider.closest('.js-form') as JQuery<HTMLFormElement>;
+    this._searchFormInputs();
 
     this._handleAbacusChange = this._handleAbacusChange.bind(this);
     this._handleFormOptionsSubmit = this._handleFormOptionsSubmit.bind(this);
@@ -33,6 +35,17 @@ class AbacusDemo {
     });
   }
 
+  private _searchFormInputs() {
+    const abacusDemoInstance = this;
+    $('input, select', this._$form).each(function () {
+      const $input = $(this);
+      const inputName = $input.attr('name');
+      if (inputName){
+        abacusDemoInstance._formInputs.set(inputName, $input);
+      }
+    });
+  }
+
   private _bindEventListeners() {
     this._$abacusSlider.on('abacus-change', this._handleAbacusChange);
     this._$form.on('submit', this._handleFormOptionsSubmit);
@@ -48,7 +61,7 @@ class AbacusDemo {
       return null;
     }
 
-    const $destroySwitch = $('[name="destroy"]', this._$form);
+    const $destroySwitch = this._formInputs.get('destroy');
 
     if ($destroySwitch.length && $destroySwitch.prop('checked') === false) {
       this._$abacusSlider.abacus('destroy');
@@ -72,8 +85,7 @@ class AbacusDemo {
   }
 
   private _parsePropertyToForm(abacusProperty: AbacusOptions) {
-    const $form = this._$form;
-    const $inputAnimate = $('[name="animate"]', $form);
+    const $inputAnimate = this._formInputs.get('animate');
     if (abacusProperty.animate !== undefined) {
       const stringValAnimate = abacusProperty.animate.toString();
       $inputAnimate.val(stringValAnimate);
@@ -81,53 +93,51 @@ class AbacusDemo {
       $inputAnimate.val('false');
     }
 
-    $('[name="disabled"]', $form).prop('checked', !abacusProperty.disabled);
+    this._formInputs.get('disabled').prop('checked', !abacusProperty.disabled);
 
     if (abacusProperty.max !== undefined) {
-      $('[name="max"]', $form).val(abacusProperty.max);
+      this._formInputs.get('max').val(abacusProperty.max);
     }
 
     if (abacusProperty.min !== undefined) {
-      $('[name="min"]', $form).val(abacusProperty.min);
+      this._formInputs.get('min').val(abacusProperty.min);
     }
 
     if (abacusProperty.values) {
-      for (let i = 0; i < 2; i += 1) {
-        const $inputValue = $('[name="value[]"]', $form).eq(i);
-        if (abacusProperty.values[i] !== undefined || abacusProperty.values[i] !== null) {
-          $inputValue.val(abacusProperty.values[i]);
-        } else {
-          $inputValue.val('');
-        }
+      if (abacusProperty.values[0] !== undefined || abacusProperty.values[0] !== null) {
+        this._formInputs.get('value-first').val(abacusProperty.values[0]);
+      } else {
+        this._formInputs.get('value-first').val('');
+      }
+      if (abacusProperty.values[1] !== undefined || abacusProperty.values[1] !== null) {
+        this._formInputs.get('value-second').val(abacusProperty.values[1]);
+      } else {
+        this._formInputs.get('value-second').val('');
       }
     }
 
     if (abacusProperty.orientation) {
-      $('[name="orientation"]', $form).val(abacusProperty.orientation);
+      this._formInputs.get('orientation').val(abacusProperty.orientation);
     }
 
     if (abacusProperty.range !== undefined) {
       const stringValRange = abacusProperty.range.toString();
-      $('[name="range"]', $form).val(stringValRange);
+      this._formInputs.get('range').val(stringValRange);
     }
 
-    $('[name="scale"]', $form).prop('checked', !!abacusProperty.scale);
+    this._formInputs.get('scale').prop('checked', !!abacusProperty.scale);
 
-    $('[name="tooltip"]', $form).prop('checked', !!abacusProperty.tooltip);
+    this._formInputs.get('tooltip').prop('checked', !!abacusProperty.tooltip);
 
     if (abacusProperty.step !== undefined) {
-      $('[name="step"]', $form).val(abacusProperty.step);
+      this._formInputs.get('step').val(abacusProperty.step);
     }
   }
 
   parseFormToProperty(): AbacusOptions {
     const abacusProperty = {} as AbacusOptions;
-    const $form = this._$form;
-    if (!($form instanceof jQuery)) {
-      return abacusProperty;
-    }
 
-    const $inputAnimate = $('[name="animate"]', $form);
+    const $inputAnimate = this._formInputs.get('animate');
     if ($inputAnimate.length) {
       switch ($inputAnimate.val()) {
         case 'false':
@@ -144,35 +154,37 @@ class AbacusDemo {
       }
     }
 
-    const $inputDisabled = $('[name="disabled"]', $form);
+    const $inputDisabled = this._formInputs.get('disabled');
     if ($inputDisabled.length) {
       abacusProperty.disabled = !$inputDisabled.prop('checked');
     }
 
-    const $inputMax = $('[name="max"]', $form);
+    const $inputMax = this._formInputs.get('max');
     if ($inputMax.val()) {
       abacusProperty.max = parseFloat($inputMax.val() as string);
     }
 
-    const $inputMin = $('[name="min"]', $form);
+    const $inputMin = this._formInputs.get('min');
     if ($inputMin.val()) {
       abacusProperty.min = parseFloat($inputMin.val() as string);
     }
 
     abacusProperty.values = [];
-    for (let i = 0; i < 2; i += 1) {
-      const $inputValue = $('[name="value[]"]', $form).eq(i);
-      if ($inputValue.val()) {
-        abacusProperty.values[i] = parseFloat($inputValue.val() as string);
-      }
+    const $inputValueFirst = this._formInputs.get('value-first');
+    if ($inputValueFirst.val()) {
+      abacusProperty.values[0] = parseFloat($inputValueFirst.val() as string);
+    }
+    const $inputValueSecond = this._formInputs.get('value-second');
+    if ($inputValueSecond.val()) {
+      abacusProperty.values[1] = parseFloat($inputValueSecond.val() as string);
     }
 
-    const $inputOrientation = $('[name="orientation"]', $form);
+    const $inputOrientation = this._formInputs.get('orientation');
     if ($inputOrientation.length) {
       abacusProperty.orientation = $inputOrientation.val() as string;
     }
 
-    const $inputRange = $('[name="range"]', $form);
+    const $inputRange = this._formInputs.get('range');
     if ($inputRange.length) {
       const valRange = $inputRange.val() as string;
       switch (valRange) {
@@ -198,17 +210,17 @@ class AbacusDemo {
       }
     }
 
-    const $inputScale = $('[name="scale"]', $form);
+    const $inputScale = this._formInputs.get('scale');
     if ($inputScale.length) {
       abacusProperty.scale = !!$inputScale.prop('checked');
     }
 
-    const $inputTooltip = $('[name="tooltip"]', $form);
+    const $inputTooltip = this._formInputs.get('tooltip');
     if ($inputTooltip.length) {
       abacusProperty.tooltip = !!$inputTooltip.prop('checked');
     }
 
-    const $inputStep = $('[name="step"]', $form);
+    const $inputStep = this._formInputs.get('step');
     if ($inputStep.length) {
       abacusProperty.step = parseFloat($inputStep.val() as string);
     }
