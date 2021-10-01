@@ -3,13 +3,26 @@ import './demo-page.scss';
 import '../src/abacus';
 
 class AbacusDemo {
-  private _$abacusSlider: JQuery<HTMLAbacusElement>;
-
-  private _$form: JQuery<HTMLFormElement>;
+  private _$abacusSlider!: JQuery<HTMLAbacusElement>;
+  private _$form!: JQuery<HTMLFormElement>;
 
   constructor($abacusSlider: JQuery) {
-    this._$abacusSlider = $abacusSlider.eq(0) as JQuery<HTMLAbacusElement>;
+    this._init($abacusSlider);
+  }
 
+  private _init($abacusSlider: JQuery) {
+    this._$abacusSlider = $abacusSlider as JQuery<HTMLAbacusElement>;
+    this._$form = this._$abacusSlider.closest('.js-form') as JQuery<HTMLFormElement>;
+
+    this._handleAbacusChange = this._handleAbacusChange.bind(this);
+    this._handleFormOptionsSubmit = this._handleFormOptionsSubmit.bind(this);
+
+    this._initAbacus();
+    this._handleAbacusChange();
+    this._bindEventListeners();
+  }
+
+  private _initAbacus() {
     this._$abacusSlider.abacus({
       min: -10,
       max: 9,
@@ -18,20 +31,11 @@ class AbacusDemo {
       range: true,
       scale: true,
     });
-
-    this._$form = this._$abacusSlider.closest('.js-card-list__item').find('form');
-    this._handleAbacusChange();
-
-    this._bindEventListeners();
   }
 
   private _bindEventListeners() {
-    const $body = $('body');
-    this._handleAbacusChange = this._handleAbacusChange.bind(this);
-    $body.on('abacus-change', '.js-card-list .js-abacus', this._handleAbacusChange);
-
-    this._handleFormOptionsSubmit = this._handleFormOptionsSubmit.bind(this);
-    $body.on('submit', '.js-form_options-modifier', this._handleFormOptionsSubmit);
+    this._$abacusSlider.on('abacus-change', this._handleAbacusChange);
+    this._$form.on('submit', this._handleFormOptionsSubmit);
   }
 
   private _handleFormOptionsSubmit(event: Event) {
