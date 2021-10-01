@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import './demo-page.scss';
+import '../src/abacus';
 
 class AbacusDemo {
   private _$abacusSlider: JQuery<HTMLAbacusElement>;

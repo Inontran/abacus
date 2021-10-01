@@ -17,7 +17,6 @@ const PATHS = {
 module.exports = {
   mode: 'development',
   entry: {
-    'abacus': path.join(PATHS.src, '/abacus.ts'),
     'demo-page': path.join(PATHS.root, 'demo-page/demo-page.ts'),
   },
   output: {
@@ -68,10 +67,6 @@ module.exports = {
           to: PATHS.dist + '/images/'
         },
         {
-          from: PATHS.root + '/node_modules/jquery/dist/jquery.min.js',
-          to: PATHS.dist
-        },
-        {
           from: PATHS.root + '/uml/**/*.svg',
           to: PATHS.dist,
           noErrorOnMissing: true
@@ -102,7 +97,5 @@ module.exports = {
       'window.$': 'jquery'
     }),
   ],
-  externals: {
-    jquery: 'jQuery',
-  },
+  externals: {},
 };

@@ -2,9 +2,7 @@
  * @fileoverview В этом файле находится функция, реализующая внешний API плагина.
  */
 
-import $ from 'jquery';
 import View from './scripts/mvp/View/View';
-
 import './styles/abacus.scss';
 
 $.fn.abacus = function (
