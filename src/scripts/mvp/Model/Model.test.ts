@@ -20,13 +20,6 @@ describe('roundValuePerStep', () => {
   }
 
   for (let i = 0; i < arrSetValues.length; i += 1) {
-    // it(`значение ${arrSetValues[i]} должно быть равным ${arrRightValues[i]}`, () => {
-    //   model.setAbacusProperty({
-    //     value: arrSetValues[i],
-    //   } as AbacusOptions);
-
-    //   expect(model.abacusProperty.value).toEqual(arrRightValues[i]);
-    // });
     makeTest(arrSetValues[i], arrRightValues[i]);
   }
 });
