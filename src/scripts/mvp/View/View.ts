@@ -396,7 +396,7 @@ export default class View {
 
     if (hasValuesChanged) {
       this._findMovedHandle();
-      this._eventChangeWrapper();
+      this._eventSlideWrapper();
     }
 
     // Обновляем названия классов
@@ -973,9 +973,15 @@ export default class View {
 
     const coordinate = this._isVertical ? event.clientY : event.clientX;
 
+    const currentValues = viewInstance._cachedAbacusProperty?.values;
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
     viewInstance._calcHandleValues(valueUnrounded);
+
+    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
+    if (hasValuesChanged){
+      this._eventChangeWrapper(event);
+    }
   }
 
   /**
@@ -1038,13 +1044,14 @@ export default class View {
   }
 
   /**
-   * Обработчик окончание пересещения курсора или пальца по экрану.
+   * Обработчик окончание перемещения курсора или пальца по экрану.
    * Генерирует событие "stop".
    * @private
    */
   private _handlerHandleItemClickStop(event: PointerEvent): void{
     const viewInstance = this;
     if (viewInstance._isDragHandle) {
+      viewInstance._eventChangeWrapper(event);
       viewInstance._eventStopWrapper(event);
     }
     viewInstance._isDragHandle = false;
@@ -1287,8 +1294,7 @@ export default class View {
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      mark.htmlElement.addEventListener('click', this._handlerClickMarks);
-      mark.htmlElement.addEventListener('touchend', this._handlerClickMarks);
+      mark.htmlElement.addEventListener('pointerdown', this._handlerClickMarks);
     });
   }
 
@@ -1309,15 +1315,22 @@ export default class View {
       return;
     }
     const markAssociatedValue = parseFloat(markValueAttr);
-
+    
+    const currentValues = viewInstance._cachedAbacusProperty?.values;
     if (viewInstance._cachedAbacusProperty?.value !== markAssociatedValue) {
       viewInstance._calcHandleValues(markAssociatedValue);
+    }
+
+    const abacusProperty: AbacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
+    if (hasValuesChanged){
+      this._eventChangeWrapper(event);
     }
   }
 
   /**
    * Установка css-свойства "transition" элементам интерфейса слайдера.
-   * Первоначальное значение береться из model.abacusProperty.aniamte.
+   * Первоначальное значение берется из model.abacusProperty.aniamte.
    * @private
    */
   private _setTransition(): void{
