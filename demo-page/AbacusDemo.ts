@@ -34,12 +34,6 @@ class AbacusDemo {
       values: [-4, 6],
       range: true,
       scale: true,
-      slide: () => {
-        console.log('slide');
-      },
-      change: () => {
-        console.log('change');
-      },
     });
   }
 
