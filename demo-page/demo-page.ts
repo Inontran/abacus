@@ -9,7 +9,7 @@ $(() => {
     $('.js-sliders__number', $cloneCard).text(i);
   }
 
-  $('.js-abacus', $cardList).each(function () {
+  $('.js-abacus-wrapper', $cardList).each(function () {
     const $abacusItem = $(this);
     new AbacusDemo($abacusItem);
   });

@@ -39,25 +39,16 @@ export default class WidgetContainer {
   private _classNameVertical: string;
 
   /**
-   * Старые классы контейнера, которые были у него до инициализации плагина.
-   * @type {string}
-   * @private
-   */
-  private _oldClasses: string;
-
-  /**
    * @constructor
    * @this   {WidgetContainer}
-   * @param  {HTMLAbacusElement} htmlElement - HTML-элемент, в котором будут элементы слайдера.
    * @param  {AbacusClasses} classes - Объект с названиями классов.
-   * @example new WidgetContainer($('#abacus-1')[0], {
+   * @example new WidgetContainer({
    *  abacus: 'abacus',
    *  disabled: 'abacus_disabled'
    * });
    */
-  constructor(htmlElement: HTMLAbacusElement, classes?: AbacusClasses) {
-    this._htmlElement = htmlElement;
-    this._oldClasses = this._htmlElement.className;
+  constructor(classes?: AbacusClasses) {
+    this._htmlElement = document.createElement('div') as HTMLAbacusElement;
     this._className = classes?.abacus ? classes.abacus : 'abacus';
     this._classNameDisabled = classes?.disabled ? classes.disabled : 'abacus_disabled';
     this._classNameVertical = classes?.vertical ? classes.vertical : 'abacus_vertical';
@@ -192,12 +183,5 @@ export default class WidgetContainer {
         this._htmlElement.classList.remove(this._classNameVertical);
       }
     }
-  }
-
-  /**
-   * Восстанавливает классы у контейнера слайдера после инициализации плагина.
-   */
-  restoreOldClasses() {
-    this._htmlElement.className = this._oldClasses;
   }
 }

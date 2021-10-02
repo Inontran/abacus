@@ -145,8 +145,8 @@ export default class View {
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
 
-    this._widgetContainer = new WidgetContainer(abacusHtmlContainer, abacusProperty.classes);
-    this._widgetContainer.htmlElement.innerHTML = '';
+    this._widgetContainer = new WidgetContainer(abacusProperty.classes);
+    abacusHtmlContainer.append(this._widgetContainer.htmlElement);
 
     this._range = new Range(abacusProperty.classes);
 
@@ -1393,16 +1393,12 @@ export default class View {
    * Возвращет контейнер слайдера в исходное состояние.
    */
   destroy() {
-    this._widgetContainer.htmlElement.innerHTML = '';
-
+    this._widgetContainer.htmlElement.remove();
     this._widgetContainer.htmlElement.removeEventListener('pointerdown', this._handlerWidgetContainerClick);
 
     document.removeEventListener('pointermove', this._handlerHandleItemClickMove);
-
     document.removeEventListener('pointerup', this._handlerHandleItemClickStop);
     document.removeEventListener('pointercancel', this._handlerHandleItemClickStop);
-
-    this._widgetContainer.restoreOldClasses();
   }
 
   /**
