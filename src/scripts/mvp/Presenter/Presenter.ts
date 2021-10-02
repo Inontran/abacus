@@ -1,4 +1,5 @@
 import EventTarget from '@ungap/event-target';
+
 import Model from '../Model/Model';
 
 /**
