@@ -2,7 +2,7 @@
  * Класс "Tooltip" является оберткой для HTML-элемента подсказки со значением ручки слайдера.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export default class Tooltip {
+class Tooltip {
   /**
    * HTML-элемент подсказки со значением ручки слайдера.
    * @type {HTMLElement}
@@ -147,3 +147,5 @@ export default class Tooltip {
     }
   }
 }
+
+export default Tooltip;

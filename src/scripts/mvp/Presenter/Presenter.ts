@@ -5,7 +5,7 @@ import Model from '../Model/Model';
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
  * Соответственно, он отвечает за передачу данных от Вида к Модели и обратно.
  */
-export default class Presenter {
+class Presenter {
   /**
    * Ссылка на Модель, которая содержит данные слайдера.
    * @type {Model}
@@ -77,3 +77,5 @@ export default class Presenter {
     return this._eventTarget;
   }
 }
+
+export default Presenter;

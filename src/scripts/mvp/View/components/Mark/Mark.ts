@@ -2,7 +2,7 @@
  * Класс "Mark" является оберткой для HTML-элемента метки шкалы значений слайдера.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export default class Mark {
+class Mark {
   /**
    * HTML-элемент метки шкалы значений слайдера.
    * @type {HTMLElement}
@@ -291,3 +291,5 @@ export default class Mark {
     return this._isSelected;
   }
 }
+
+export default Mark;

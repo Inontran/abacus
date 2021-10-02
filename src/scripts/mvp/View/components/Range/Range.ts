@@ -3,7 +3,7 @@ import RangeType from './RangeType';
  * Класс "Range" является оберткой для HTML-элемента индикатора (progress bar).
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export default class Range {
+class Range {
   /**
    * HTML-элемент индикатора.
    * @type {HTMLElement}
@@ -144,3 +144,5 @@ export default class Range {
     this._rangeType = value as RangeType;
   }
 }
+
+export default Range;

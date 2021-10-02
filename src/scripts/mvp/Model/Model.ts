@@ -5,7 +5,7 @@ import AbacusOrientationType from '../../utils/AbacusOrientationType';
  * Класс Model реализует "Модель" паттерна проектирования MVP.
  * В этом классе хранятся данные слайдера, а также логика работы с этими данными.
  */
-export default class Model {
+class Model {
   /**
    * Свойства слайдера.
    * @private
@@ -345,3 +345,5 @@ export default class Model {
     return roundedValue;
   }
 }
+
+export default Model;

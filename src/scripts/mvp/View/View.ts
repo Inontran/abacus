@@ -11,7 +11,7 @@ import AbacusOrientationType from '../../utils/AbacusOrientationType';
  * Соответственно, он отвечает за отрисовку интерфейса плагина, получение данных от пользователя и отображение данных,
  * находящихся в Модели.
  */
-export default class View {
+class View {
   /**
    * Ссылка на Представителя, который связывает объект класса View с объектом класса Model
    * по паттерну проектирования MVP.
@@ -1465,3 +1465,5 @@ export default class View {
     return true;
   }
 }
+
+export default View;

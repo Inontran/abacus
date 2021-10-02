@@ -2,7 +2,7 @@
  * Класс "Handle" является оберткой для HTML-элемента бегунка.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export default class Handle {
+class Handle {
   /**
    * HTML-элемент бегунка.
    * @type {HTMLElement}
@@ -142,3 +142,5 @@ export default class Handle {
     this._className = value;
   }
 }
+
+export default Handle;

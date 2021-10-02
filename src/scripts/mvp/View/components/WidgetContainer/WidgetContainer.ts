@@ -2,7 +2,7 @@
  * Класс "WidgetContainer" является оберткой для HTML-элемента, в котором содержатся элементы слайдера.
  * Также класс является "subView", то есть частью Вида (Представления) согласно паттерну проектирования MVP.
  */
-export default class WidgetContainer {
+class WidgetContainer {
   /**
    * HTML-элемент, в котором содержатся элементы слайдера.
    * @type {HTMLAbacusElement}
@@ -185,3 +185,5 @@ export default class WidgetContainer {
     }
   }
 }
+
+export default WidgetContainer;
