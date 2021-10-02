@@ -58,7 +58,7 @@ export default class Presenter {
    * @private
    */
   private _bindEventListeners(): void{
-    this._model.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
+    this._model.eventTarget.addEventListener('update-model', this._handleModelUpdate.bind(this));
   }
 
   /**
@@ -66,7 +66,7 @@ export default class Presenter {
    * @private
    * @param {Event} event Объект события.
    */
-  private _updateModelHandler(): void{
+  private _handleModelUpdate(): void{
     this._eventTarget.dispatchEvent(this._eventUpdateModel);
   }
 

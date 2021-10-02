@@ -464,12 +464,12 @@ export default class View {
         break;
     }
 
-    viewInstance._handlerHandleItemClickStart = viewInstance._handlerHandleItemClickStart.bind(viewInstance);
+    viewInstance._handleHandleItemPointerdown = viewInstance._handleHandleItemPointerdown.bind(viewInstance);
     for (let i = 0; i < handleIndexes.length; i += 1) {
       const handleIndex = handleIndexes[i];
       viewInstance._handles[handleIndex].htmlElement.addEventListener(
         'pointerdown',
-        viewInstance._handlerHandleItemClickStart,
+        viewInstance._handleHandleItemPointerdown,
       );
     }
   }
@@ -825,7 +825,7 @@ export default class View {
    * @private
    * @param {PointerEvent} event Объект события мыши или касания.
    */
-  private _mouseHandler(event: PointerEvent): void{
+  private _mousePositionHandler(event: PointerEvent): void{
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
     if (!abacusProperty.values?.length || !viewInstance._currentHandle) {
@@ -915,29 +915,29 @@ export default class View {
   private _bindEventListeners(): void{
     const viewInstance = this;
 
-    viewInstance._presenter.eventTarget.addEventListener('update-model', this._updateModelHandler.bind(this));
+    viewInstance._presenter.eventTarget.addEventListener('update-model', this._handleModelUpdate.bind(this));
 
-    viewInstance._handlerWidgetContainerClick = viewInstance._handlerWidgetContainerClick.bind(viewInstance);
+    viewInstance._handleWidgetContainerPointerdown = viewInstance._handleWidgetContainerPointerdown.bind(viewInstance);
     viewInstance._widgetContainer.htmlElement.addEventListener(
       'pointerdown',
-      viewInstance._handlerWidgetContainerClick,
+      viewInstance._handleWidgetContainerPointerdown,
     );
 
-    viewInstance._handlerHandleItemClickMove = viewInstance._handlerHandleItemClickMove.bind(viewInstance);
+    viewInstance._handleHandleItemPointermove = viewInstance._handleHandleItemPointermove.bind(viewInstance);
     document.addEventListener(
       'pointermove',
-      viewInstance._handlerHandleItemClickMove,
+      viewInstance._handleHandleItemPointermove,
       { passive: true },
     );
 
-    viewInstance._handlerHandleItemClickStop = viewInstance._handlerHandleItemClickStop.bind(viewInstance);
+    viewInstance._handleHandleItemPointerup = viewInstance._handleHandleItemPointerup.bind(viewInstance);
     document.addEventListener(
       'pointerup',
-      viewInstance._handlerHandleItemClickStop,
+      viewInstance._handleHandleItemPointerup,
     );
     document.addEventListener(
       'pointercancel',
-      viewInstance._handlerHandleItemClickStop,
+      viewInstance._handleHandleItemPointerup,
     );
   }
 
@@ -946,7 +946,7 @@ export default class View {
    * @private
    * @param {Event} event Объект события.
    */
-  private _updateModelHandler(): void{
+  private _handleModelUpdate(): void{
     this.updateView();
   }
 
@@ -954,7 +954,7 @@ export default class View {
    * Обработчик клика по слайдеру. По клику перемещает ручку слайдера.
    * @private
    */
-  private _handlerWidgetContainerClick(event: PointerEvent): void{
+  private _handleWidgetContainerPointerdown(event: PointerEvent): void{
     event.preventDefault();
     const viewInstance = this;
     const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
@@ -988,7 +988,7 @@ export default class View {
    * Обработчик клика по ручке слайдера. Фиксирует нажатие на ручку и генерирует событие "start".
    * @private
    */
-  private _handlerHandleItemClickStart(event: PointerEvent): void{
+  private _handleHandleItemPointerdown(event: PointerEvent): void{
     event.preventDefault();
     const viewInstance = this;
     if (viewInstance._isDisabled) {
@@ -1027,7 +1027,7 @@ export default class View {
    * Нужен для того, чтобы вычислить, куда переместить ручку слайдера. Генерирует событие "slide".
    * @private
    */
-  private _handlerHandleItemClickMove(event: PointerEvent): void{
+  private _handleHandleItemPointermove(event: PointerEvent): void{
     const viewInstance = this;
     if (viewInstance._isDisabled) {
       return;
@@ -1038,7 +1038,7 @@ export default class View {
     }
     viewInstance._handleMovingTimer = setTimeout(() => {
       if (viewInstance._isDragHandle) {
-        viewInstance._mouseHandler(event);
+        viewInstance._mousePositionHandler(event);
       }
     }, 5);
   }
@@ -1048,7 +1048,7 @@ export default class View {
    * Генерирует событие "stop".
    * @private
    */
-  private _handlerHandleItemClickStop(event: PointerEvent): void{
+  private _handleHandleItemPointerup(event: PointerEvent): void{
     const viewInstance = this;
     if (viewInstance._isDragHandle) {
       viewInstance._eventChangeWrapper(event);
@@ -1290,11 +1290,11 @@ export default class View {
    * @private
    */
   private _bindEventListenersOnMarks(): void{
-    this._handlerClickMarks = this._handlerClickMarks.bind(this);
+    this._handleMarksClick = this._handleMarksClick.bind(this);
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      mark.htmlElement.addEventListener('pointerdown', this._handlerClickMarks);
+      mark.htmlElement.addEventListener('pointerdown', this._handleMarksClick);
     });
   }
 
@@ -1302,7 +1302,7 @@ export default class View {
    * Обработчик клика на метки шкалы.
    * @param {Event} event Объект события.
    */
-  private _handlerClickMarks(event: Event): void{
+  private _handleMarksClick(event: Event): void{
     event.preventDefault();
     const viewInstance = this;
     if (viewInstance._isDisabled) {
@@ -1407,11 +1407,11 @@ export default class View {
    */
   destroy() {
     this._widgetContainer.htmlElement.remove();
-    this._widgetContainer.htmlElement.removeEventListener('pointerdown', this._handlerWidgetContainerClick);
+    this._widgetContainer.htmlElement.removeEventListener('pointerdown', this._handleWidgetContainerPointerdown);
 
-    document.removeEventListener('pointermove', this._handlerHandleItemClickMove);
-    document.removeEventListener('pointerup', this._handlerHandleItemClickStop);
-    document.removeEventListener('pointercancel', this._handlerHandleItemClickStop);
+    document.removeEventListener('pointermove', this._handleHandleItemPointermove);
+    document.removeEventListener('pointerup', this._handleHandleItemPointerup);
+    document.removeEventListener('pointercancel', this._handleHandleItemPointerup);
   }
 
   /**
