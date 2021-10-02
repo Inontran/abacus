@@ -61,7 +61,6 @@
 				</a>
 				<p>Слайдер (ползунок) из четвертого задания программы обучения для Metalamp (FSD). Реализован в виде jQuery-плагина, поэтому для работы его работы необходима библиотека <a href="https://jquery.com/">jQuery</a> версии не ниже 1.9.1.</p>
 				<p><a href="https://inontran.github.io/abacus/">Демо-страница</a>.</p>
-				<p><a href="https://inontran.github.io/abacus/docs">Документация</a>.</p>
 				<p>Для работы с исходным кода проекта необходим NPM.</p>
 				<a href="#описание-команд-для-работы-с-проектом" id="описание-команд-для-работы-с-проектом" style="color: inherit; text-decoration: none;">
 					<h2>Описание команд для работы с проектом</h2>
@@ -112,11 +111,36 @@
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">gh</span><span style="color: #000000">-</span><span style="color: #001080">deploy</span>
 </code></pre>
 				<hr>
+				<a href="#примеры-инициализации-плагина" id="примеры-инициализации-плагина" style="color: inherit; text-decoration: none;">
+					<h2>Примеры инициализации плагина.</h2>
+				</a>
+				<p>Слайдер с параметрами по умолчанию:</p>
+				<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">();</span>
+</code></pre>
+				<p>Слайдер с пользовательским шагом изменения значения:</p>
+				<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">step:</span><span style="color: #000000"> </span><span style="color: #098658">10</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>Слайдер с двумя ручками, задающие интервал значений, и элементом-индикатором между ними:</p>
+				<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">range:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">values:</span><span style="color: #000000"> [</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000">]</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>Слайдер с вертикальной ориентацией:</p>
+				<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">orientation:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;vertical&#039;</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>Другие параметры слайдера можно изучить в документации.</p>
+				<hr>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
-				<p>API данного слайдера делалось на основе слайдера из библеотеки jQuery UI.
-				Поэтому в качестве дополнительного источника можно пользоваться <a href="https://api.jqueryui.com/slider/">документацией</a> jQuery UI, но есть отличия.</p>
+				<p><a href="https://inontran.github.io/abacus/docs">Документация</a>.</p>
+				<p>API данного слайдера делалось на основе слайдера из библиотеки jQuery UI.
+				Поэтому в качестве дополнительного источника можно пользоваться <a href="https://api.jqueryui.com/slider/">документацией jQuery UI</a>, но есть отличия.</p>
 				<table>
 					<thead>
 						<tr>

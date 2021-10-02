@@ -99,7 +99,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_classnamedisabled" class="tsd-kind-icon">_class<wbr>Name<wbr>Disabled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_classnamevertical" class="tsd-kind-icon">_class<wbr>Name<wbr>Vertical</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_htmlelement" class="tsd-kind-icon">_html<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_oldclasses" class="tsd-kind-icon">_old<wbr>Classes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_width" class="tsd-kind-icon">_width</a></li>
 							</ul>
 						</section>
@@ -118,7 +117,6 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#isdisabled" class="tsd-kind-icon">is<wbr>Disabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#isvertical" class="tsd-kind-icon">is<wbr>Vertical</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#restoreoldclasses" class="tsd-kind-icon">restore<wbr>Old<wbr>Classes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -130,19 +128,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>htmlElement<span class="tsd-signature-symbol">: </span><a href="../interfaces/utils_htmlabacuselement.htmlabacuselement.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLAbacusElement</a>, classes<span class="tsd-signature-symbol">?: </span><a href="../interfaces/utils_abacusclasses.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>classes<span class="tsd-signature-symbol">?: </span><a href="../interfaces/utils_abacusclasses.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L46">mvp/View/components/WidgetContainer/WidgetContainer.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L39">mvp/View/components/WidgetContainer/WidgetContainer.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><p>new WidgetContainer($(&#39;#abacus-1&#39;)[0], {
+									<dd><p>new WidgetContainer({
 											abacus: &#39;abacus&#39;,
 											disabled: &#39;abacus_disabled&#39;
 										});</p>
@@ -151,12 +149,6 @@
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
-								<li>
-									<h5>htmlElement: <a href="../interfaces/utils_htmlabacuselement.htmlabacuselement.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLAbacusElement</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>HTML-элемент, в котором будут элементы слайдера.</p>
-									</div>
-								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> classes: <a href="../interfaces/utils_abacusclasses.abacusclasses.html" class="tsd-signature-type" data-tsd-kind="Interface">AbacusClasses</a></h5>
 									<div class="tsd-comment tsd-typography">
@@ -177,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">_class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L25">mvp/View/components/WidgetContainer/WidgetContainer.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L25">mvp/View/components/WidgetContainer/WidgetContainer.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -192,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">_class<wbr>Name<wbr>Disabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L32">mvp/View/components/WidgetContainer/WidgetContainer.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L32">mvp/View/components/WidgetContainer/WidgetContainer.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -207,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">_class<wbr>Name<wbr>Vertical<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L39">mvp/View/components/WidgetContainer/WidgetContainer.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L39">mvp/View/components/WidgetContainer/WidgetContainer.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">_html<wbr>Element<span class="tsd-signature-symbol">:</span> <a href="../interfaces/utils_htmlabacuselement.htmlabacuselement.html" class="tsd-signature-type" data-tsd-kind="Interface">HTMLAbacusElement</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L11">mvp/View/components/WidgetContainer/WidgetContainer.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L11">mvp/View/components/WidgetContainer/WidgetContainer.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,27 +224,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_oldclasses" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _old<wbr>Classes</h3>
-					<div class="tsd-signature tsd-kind-icon">_old<wbr>Classes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L46">mvp/View/components/WidgetContainer/WidgetContainer.ts:46</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Старые классы контейнера, которые были у него до инициализации плагина.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_width" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _width</h3>
 					<div class="tsd-signature tsd-kind-icon">_width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 100</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L18">mvp/View/components/WidgetContainer/WidgetContainer.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L18">mvp/View/components/WidgetContainer/WidgetContainer.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -275,7 +252,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L91">mvp/View/components/WidgetContainer/WidgetContainer.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L82">mvp/View/components/WidgetContainer/WidgetContainer.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L99">mvp/View/components/WidgetContainer/WidgetContainer.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L90">mvp/View/components/WidgetContainer/WidgetContainer.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,7 +297,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L110">mvp/View/components/WidgetContainer/WidgetContainer.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L101">mvp/View/components/WidgetContainer/WidgetContainer.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L119">mvp/View/components/WidgetContainer/WidgetContainer.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L110">mvp/View/components/WidgetContainer/WidgetContainer.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L137">mvp/View/components/WidgetContainer/WidgetContainer.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L128">mvp/View/components/WidgetContainer/WidgetContainer.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L146">mvp/View/components/WidgetContainer/WidgetContainer.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L137">mvp/View/components/WidgetContainer/WidgetContainer.ts:137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,7 +388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L84">mvp/View/components/WidgetContainer/WidgetContainer.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L75">mvp/View/components/WidgetContainer/WidgetContainer.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,7 +411,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L69">mvp/View/components/WidgetContainer/WidgetContainer.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L60">mvp/View/components/WidgetContainer/WidgetContainer.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -447,7 +424,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L77">mvp/View/components/WidgetContainer/WidgetContainer.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L68">mvp/View/components/WidgetContainer/WidgetContainer.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -481,7 +458,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L169">mvp/View/components/WidgetContainer/WidgetContainer.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L160">mvp/View/components/WidgetContainer/WidgetContainer.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L187">mvp/View/components/WidgetContainer/WidgetContainer.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/db6743b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L178">mvp/View/components/WidgetContainer/WidgetContainer.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,28 +514,6 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="restoreoldclasses" class="tsd-anchor"></a>
-					<h3>restore<wbr>Old<wbr>Classes</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">restore<wbr>Old<wbr>Classes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Inontran/abacus/blob/5c6b04b/src/scripts/mvp/View/components/WidgetContainer/WidgetContainer.ts#L200">mvp/View/components/WidgetContainer/WidgetContainer.ts:200</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Восстанавливает классы у контейнера слайдера после инициализации плагина.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -653,9 +608,6 @@
 								<a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_htmlelement" class="tsd-kind-icon">_html<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_oldclasses" class="tsd-kind-icon">_old<wbr>Classes</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#_width" class="tsd-kind-icon">_width</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
@@ -678,9 +630,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#isvertical" class="tsd-kind-icon">is<wbr>Vertical</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="mvp_view_components_widgetcontainer_widgetcontainer.default.html#restoreoldclasses" class="tsd-kind-icon">restore<wbr>Old<wbr>Classes</a>
 							</li>
 						</ul>
 					</li>
