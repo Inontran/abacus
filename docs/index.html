@@ -111,6 +111,22 @@
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">gh</span><span style="color: #000000">-</span><span style="color: #001080">deploy</span>
 </code></pre>
 				<hr>
+				<a href="#подключение-плагина" id="подключение-плагина" style="color: inherit; text-decoration: none;">
+					<h2>Подключение плагина</h2>
+				</a>
+				<pre><code><span style="color: #000000">&lt;!-- </span><span style="color: #001080">Сначала</span><span style="color: #000000"> </span><span style="color: #001080">на</span><span style="color: #000000"> </span><span style="color: #001080">странице</span><span style="color: #000000"> </span><span style="color: #001080">должен</span><span style="color: #000000"> </span><span style="color: #001080">быть</span><span style="color: #000000"> </span><span style="color: #001080">подключен</span><span style="color: #000000"> </span><span style="color: #001080">jQuery</span><span style="color: #000000"> --&gt;</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;/path/to/jquery/jquery.js&quot;</span><span style="color: #000000">&gt;&lt;/</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+
+<span style="color: #000000">&lt;!-- </span><span style="color: #001080">Затем</span><span style="color: #000000"> </span><span style="color: #001080">подключается</span><span style="color: #000000"> </span><span style="color: #001080">файл</span><span style="color: #000000"> </span><span style="color: #001080">с</span><span style="color: #000000"> </span><span style="color: #001080">плагином</span><span style="color: #000000"> --&gt;</span>
+<span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;/path/to/plugin/abacus.js&quot;</span><span style="color: #000000">&gt;&lt;/</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+
+<span style="color: #000000">&lt;!-- </span><span style="color: #0070C1">А</span><span style="color: #000000"> </span><span style="color: #001080">потом</span><span style="color: #000000"> </span><span style="color: #001080">уже</span><span style="color: #000000"> </span><span style="color: #001080">пользовательский</span><span style="color: #000000"> </span><span style="color: #001080">скрипт</span><span style="color: #000000">, </span><span style="color: #001080">который</span><span style="color: #000000"> </span><span style="color: #001080">инициализирует</span><span style="color: #000000"> </span><span style="color: #001080">слайдер</span><span style="color: #000000"> --&gt;</span>
+<span style="color: #000000">&lt;</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">();</span>
+<span style="color: #000000">&lt;/</span><span style="color: #001080">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p>P.S. Да-да, это old school, но куда деваться)</p>
+				<hr>
 				<a href="#примеры-инициализации-плагина" id="примеры-инициализации-плагина" style="color: inherit; text-decoration: none;">
 					<h2>Примеры инициализации плагина.</h2>
 				</a>
