@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -17,6 +16,8 @@ const PATHS = {
 module.exports = {
   mode: 'development',
   entry: {
+    'jquery': path.join(PATHS.root, 'node_modules/jquery/src/jquery.js'),
+    'abacus': path.join(PATHS.src, 'abacus.ts'),
     'demo-page': path.join(PATHS.root, 'demo-page/demo-page.ts'),
   },
   output: {
@@ -89,12 +90,6 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css?v=[fullhash]',
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.$': 'jquery'
     }),
   ],
   externals: {},

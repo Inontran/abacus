@@ -1,7 +1,3 @@
-import $ from 'jquery';
-
-import '../src/abacus';
-
 import './demo-page.scss';
 
 class AbacusDemo {
