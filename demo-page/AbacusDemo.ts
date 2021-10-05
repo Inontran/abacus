@@ -153,11 +153,6 @@ class AbacusDemo {
 
         default:
           abacusProperty.animate = $inputAnimate.val() as string;
-          // if (parseInt($inputAnimate.val(), 10)) {
-          //   abacusProperty.animate = parseInt($inputAnimate.val(), 10);
-          // } else {
-          //   abacusProperty.animate = false;
-          // }
           break;
       }
     }
