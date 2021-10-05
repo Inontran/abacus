@@ -83,8 +83,8 @@ class Model {
       const isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
       if (isAnimatePropResult) {
         this._abacusProperty.animate = abacusProperty.animate;
-      } else if (typeof abacusProperty.animate === 'number') {
-        this._abacusProperty.animate = Math.round(abacusProperty.animate);
+      } else if (parseInt(abacusProperty.animate as string, 10)) {
+        this._abacusProperty.animate = Math.round(parseInt(abacusProperty.animate as string, 10));
       } else {
         this._abacusProperty.animate = false;
       }

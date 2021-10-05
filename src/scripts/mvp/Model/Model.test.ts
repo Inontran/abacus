@@ -51,7 +51,7 @@ describe('roundValuePerStep2', () => {
 describe('set animate property', () => {
   const model: Model = new Model();
   const arrTestValues: any[] = [false, true, null, 'qwe', 'fast', 'slow', '1', 1, 0, '0', 0.1];
-  const arrRightValues: any[] = [false, true, false, false, 'fast', 'slow', false, 1, 0, false, 0];
+  const arrRightValues: any[] = [false, true, false, false, 'fast', 'slow', 1, 1, false, false, false];
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
