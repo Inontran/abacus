@@ -1,16 +1,40 @@
 import AbacusDemo from './AbacusDemo';
 
 $(() => {
-  const $cardList = $('.js-sliders');
+  const $sliders = $('.js-sliders');
+  const SLIDER_CONFIGS: Array<AbacusOptions> = [
+    {
+      min: -10,
+      max: 9,
+      step: 2,
+      values: [-4, 6],
+      range: true,
+      scale: true,
+    },
+    {
+      animate: 'fast',
+      max: 1000,
+      step: 0.5,
+      value: 500,
+      range: 'max',
+    },
+    {
+      min: 10,
+      max: 100,
+      step: 1,
+      range: 'min',
+      orientation: 'vertical',
+    },
+  ];
 
-  for (let i = 2; i <= 3; i += 1) {
-    const $cloneCard = $('.js-sliders__item:first', $cardList).clone();
-    $cardList.append($cloneCard);
-    $('.js-sliders__number', $cloneCard).text(i);
+  for (let i = 2; i <= SLIDER_CONFIGS.length; i += 1) {
+    const $newSliderCard = $('.js-sliders__item:first', $sliders).clone();
+    $sliders.append($newSliderCard);
+    $('.js-sliders__number', $newSliderCard).text(i);
   }
 
-  $('.js-abacus-wrapper', $cardList).each(function () {
+  $('.js-abacus-wrapper', $sliders).each(function (i) {
     const $abacusItem = $(this);
-    new AbacusDemo($abacusItem);
+    new AbacusDemo($abacusItem, SLIDER_CONFIGS[i]);
   });
 });

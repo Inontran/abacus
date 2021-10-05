@@ -981,7 +981,7 @@ class View {
     viewInstance._calcHandleValues(valueUnrounded);
 
     const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
-    if (hasValuesChanged){
+    if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
   }
@@ -1317,7 +1317,7 @@ class View {
       return;
     }
     const markAssociatedValue = parseFloat(markValueAttr);
-    
+
     const currentValues = viewInstance._cachedAbacusProperty?.values;
     if (viewInstance._cachedAbacusProperty?.value !== markAssociatedValue) {
       viewInstance._calcHandleValues(markAssociatedValue);
@@ -1325,7 +1325,7 @@ class View {
 
     const abacusProperty: AbacusProperty = viewInstance._presenter.getModelAbacusProperty();
     const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
-    if (hasValuesChanged){
+    if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
   }

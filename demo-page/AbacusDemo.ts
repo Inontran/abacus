@@ -2,49 +2,54 @@ import './demo-page.scss';
 
 class AbacusDemo {
   private _$abacusSlider!: JQuery<HTMLAbacusElement>;
+
   private _$form!: JQuery<HTMLFormElement>;
+
   private _formInputs = new Map();
 
-  constructor($abacusSlider: JQuery) {
-    this._init($abacusSlider);
+  private _sliderConfig?: AbacusOptions;
+
+  constructor($abacusSlider: JQuery, sliderConfig?: AbacusOptions) {
+    this._init($abacusSlider, sliderConfig);
   }
 
-  private _init($abacusSlider: JQuery) {
-    this._$abacusSlider = $abacusSlider as JQuery<HTMLAbacusElement>;
-    this._$form = this._$abacusSlider.closest('.js-form') as JQuery<HTMLFormElement>;
-    this._searchFormInputs();
+  private _init($abacusSlider: JQuery, sliderConfig?: AbacusOptions) {
+    this._$abacusSlider = $abacusSlider;
+    this._sliderConfig = sliderConfig;
 
-    this._handleAbacusChange = this._handleAbacusChange.bind(this);
-    this._handleFormOptionsSubmit = this._handleFormOptionsSubmit.bind(this);
-
+    this._searchDOMElements();
     this._initAbacus();
     this._handleAbacusChange();
     this._bindEventListeners();
+    this._addEventListeners();
   }
 
   private _initAbacus() {
-    this._$abacusSlider.abacus({
-      min: -10,
-      max: 9,
-      step: 2,
-      values: [-4, 6],
-      range: true,
-      scale: true,
-    });
+    if (this._sliderConfig) {
+      this._$abacusSlider.abacus(this._sliderConfig);
+    } else {
+      this._$abacusSlider.abacus();
+    }
   }
 
-  private _searchFormInputs() {
+  private _searchDOMElements() {
+    this._$form = this._$abacusSlider.closest('.js-form') as JQuery<HTMLFormElement>;
     const abacusDemoInstance = this;
     $('input, select', this._$form).each(function () {
       const $input = $(this);
       const inputName = $input.attr('name');
-      if (inputName){
+      if (inputName) {
         abacusDemoInstance._formInputs.set(inputName, $input);
       }
     });
   }
 
   private _bindEventListeners() {
+    this._handleAbacusChange = this._handleAbacusChange.bind(this);
+    this._handleFormOptionsSubmit = this._handleFormOptionsSubmit.bind(this);
+  }
+
+  private _addEventListeners() {
     this._$abacusSlider.on('abacus-change', this._handleAbacusChange);
     this._$form.on('submit', this._handleFormOptionsSubmit);
   }
