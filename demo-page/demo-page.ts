@@ -10,6 +10,7 @@ $(() => {
       values: [-4, 6],
       range: true,
       scale: true,
+      tooltip: true,
     },
     {
       animate: 'fast',
@@ -24,6 +25,7 @@ $(() => {
       step: 1,
       range: 'min',
       orientation: 'vertical',
+      scale: true,
     },
   ];
 

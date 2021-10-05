@@ -36,7 +36,7 @@ class Handle {
    * @type {string}
    * @private
    */
-  private _className: string;
+  private _className!: string;
 
   /**
    * @constructor
@@ -46,10 +46,9 @@ class Handle {
    *  handle: 'abacus__handle'
    * });
    */
-  constructor(classes?: AbacusClasses, handleIndex?: number) {
+  constructor(classes: AbacusClasses, handleIndex?: number) {
     this._htmlElement = document.createElement('span');
-    this._className = classes?.handle ? classes.handle : 'abacus__handle';
-    this._htmlElement.classList.add(this._className);
+    this.className = classes.handle;
 
     if (handleIndex !== undefined && !Number.isNaN(handleIndex)) {
       this._handleIndex = handleIndex;
@@ -70,7 +69,7 @@ class Handle {
    * @param {number | null} left Позиция бегунка в процентах от 0 до 100.
    * Или null, если координты по горизонтиле быть не должно.
    */
-  public set posLeft(left : number | null) {
+  public set posLeft(left: number | null) {
     if (left === null) {
       this._posLeft = left;
       this._htmlElement.style.left = '';
@@ -97,7 +96,7 @@ class Handle {
    * @param {number | null} bottom Позиция бегунка в процентах от 0 до 100.
    * Или null, если координты по вертикале быть не должно.
    */
-  public set posBottom(bottom : number | null) {
+  public set posBottom(bottom: number | null) {
     if (bottom === null) {
       this._posBottom = bottom;
       this._htmlElement.style.bottom = '';
@@ -134,12 +133,17 @@ class Handle {
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} value Название класса.
+   * @param {string} name Название класса.
    */
-  public set className(value : string) {
-    this._htmlElement.classList.remove(this._className);
-    this._htmlElement.classList.add(value);
-    this._className = value;
+  public set className(name: string) {
+    if (!name || typeof name !== 'string') {
+      return;
+    }
+    if (this._className) {
+      this._htmlElement.classList.remove(this._className);
+    }
+    this._htmlElement.classList.add(name);
+    this._className = name;
   }
 }
 

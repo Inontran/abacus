@@ -15,14 +15,14 @@ class Mark {
    * @type {string}
    * @private
    */
-  private _className: string;
+  private _className!: string;
 
   /**
    * Название класса HTML-элемента метки, которая находится в диапозоне.
    * @type {string}
    * @private
    */
-  private _classNameInrange: string;
+  private _classNameInrange!: string;
 
   /**
    * Если параметр равен "true", то это значит, что метка находится в диапозоне.
@@ -36,7 +36,7 @@ class Mark {
    * @type {string}
    * @private
    */
-  private _classNameSelected = '';
+  private _classNameSelected!: string;
 
   /**
    * Если параметр равен "true", то это значит, что метка соответствует текущему значению слайдера.
@@ -64,7 +64,7 @@ class Mark {
    * @type {number}
    * @private
    */
-  private _associatedValue: number;
+  private _associatedValue!: number;
 
   /**
    * @constructor
@@ -76,14 +76,11 @@ class Mark {
    *  markSelected: 'abacus__mark_selected'
    * });
    */
-  constructor(associatedValue: number, classes?: AbacusClasses) {
+  constructor(associatedValue: number, classes: AbacusClasses) {
     this._htmlElement = document.createElement('span');
-    this._className = classes?.mark ? classes.mark : 'abacus__mark';
-    this._classNameInrange = classes?.markInrange ? classes.markInrange : 'abacus__mark_inrange';
-    this._classNameSelected = classes?.markSelected ? classes.markSelected : 'abacus__mark_selected';
-    this._htmlElement.classList.add(this._className);
-
-    this._associatedValue = associatedValue;
+    this.className = classes.mark;
+    this.classNameInrange = classes.markInrange;
+    this.classNameSelected = classes.markSelected;
     this.associatedValue = associatedValue;
   }
 
@@ -105,13 +102,14 @@ class Mark {
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
    * @param {string} name Название класса.
    */
-  public set className(name : string) {
+  public set className(name: string) {
+    if (!name || typeof name !== 'string') {
+      return;
+    }
     if (this._className) {
       this._htmlElement.classList.remove(this._className);
     }
-    if (name) {
-      this._htmlElement.classList.add(name);
-    }
+    this._htmlElement.classList.add(name);
     this._className = name;
   }
 
@@ -127,18 +125,15 @@ class Mark {
    * Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
    * @param {string} name Название класса.
    */
-  public set classNameInrange(name : string) {
+  public set classNameInrange(name: string) {
     if (!name || typeof name !== 'string') {
       return;
     }
 
     if (this._htmlElement.classList.contains(this._classNameInrange)) {
+      this._htmlElement.classList.remove(this._classNameInrange);
       this._htmlElement.classList.add(name);
     }
-    if (this._classNameInrange) {
-      this._htmlElement.classList.remove(this._classNameInrange);
-    }
-
     this._classNameInrange = name;
   }
 
@@ -160,10 +155,8 @@ class Mark {
     }
 
     if (this._htmlElement.classList.contains(this._classNameSelected)) {
-      this._htmlElement.classList.add(name);
-    }
-    if (this._classNameSelected) {
       this._htmlElement.classList.remove(this._classNameSelected);
+      this._htmlElement.classList.add(name);
     }
 
     this._classNameSelected = name;

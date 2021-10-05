@@ -22,7 +22,7 @@ class Tooltip {
    * @type {string}
    * @private
    */
-  private _className: string;
+  private _className!: string;
 
   /**
    * Если параметр равен "true", то это значит, что подсказка отображается.
@@ -54,10 +54,9 @@ class Tooltip {
    *  tooltipVisible: 'abacus__tooltip_visible'
    * });
    */
-  constructor(classes?: AbacusClasses, tooltipIndex?: number) {
+  constructor(classes: AbacusClasses, tooltipIndex?: number) {
     this._htmlElement = document.createElement('span');
-    this._className = classes?.tooltip ? classes.tooltip : 'abacus__tooltip';
-    this._htmlElement.classList.add(this._className);
+    this.className = classes.tooltip;
 
     if (tooltipIndex !== undefined && !Number.isNaN(tooltipIndex)) {
       this._tooltipIndex = tooltipIndex;
@@ -83,13 +82,15 @@ class Tooltip {
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
    * @param {string} name Название класса.
    */
-  public set className(name : string) {
+  public set className(name: string) {
+    if (!name || typeof name !== 'string') {
+      return;
+    }
+    
     if (this._className) {
       this._htmlElement.classList.remove(this._className);
     }
-    if (name) {
-      this._htmlElement.classList.add(name);
-    }
+    this._htmlElement.classList.add(name);
     this._className = name;
   }
 

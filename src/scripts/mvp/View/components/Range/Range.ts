@@ -31,7 +31,7 @@ class Range {
    * @type {string}
    * @private
    */
-  private _className: string;
+  private _className!: string;
 
   /**
    *
@@ -47,10 +47,9 @@ class Range {
    *  range: 'abacus__range'
    * });
    */
-  constructor(classes?: AbacusClasses) {
+  constructor(classes: AbacusClasses) {
     this._htmlElement = document.createElement('span');
-    this._className = classes?.range ? classes.range : 'abacus__range';
-    this._htmlElement.classList.add(this._className);
+    this.className = classes.range;
   }
 
   /**
@@ -119,12 +118,17 @@ class Range {
 
   /**
    * Сеттер названия класса HTML-элемента. Удаляет предудыщее название у HTML-элемента, а затем ставит новое название.
-   * @param {string} value Название класса.
+   * @param {string} name Название класса.
    */
-  public set className(value : string) {
-    this._htmlElement.classList.remove(this._className);
-    this._htmlElement.classList.add(value);
-    this._className = value;
+  public set className(name : string) {
+    if (!name || typeof name !== 'string') {
+      return;
+    }
+    if (this._className) {
+      this._htmlElement.classList.remove(this._className);
+    }
+    this._htmlElement.classList.add(name);
+    this._className = name;
   }
 
   /**
