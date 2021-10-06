@@ -19,7 +19,7 @@ class AbacusDemo {
 
     this._searchDOMElements();
     this._initAbacus();
-    this._handleAbacusChange();
+    this._parsePropertyToForm(this._$abacusSlider.abacus('option'));
     this._bindEventListeners();
     this._addEventListeners();
   }
@@ -83,7 +83,7 @@ class AbacusDemo {
 
   private _handleAbacusChange() {
     if (this._$form.length && this._$abacusSlider[0].jqueryAbacusInstance) {
-      this._parsePropertyToForm(this._$abacusSlider.abacus('option') as AbacusOptions);
+      this._parsePropertyToForm(this._$abacusSlider.abacus('option'));
     }
   }
 
