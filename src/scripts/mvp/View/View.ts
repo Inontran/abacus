@@ -121,7 +121,7 @@ class View {
   /**
    * Кэш свойств сладйера из Модели.
    */
-  private _cachedAbacusProperty?: AbacusProperty;
+  private _cachedAbacusProperties?: AbacusProperties;
 
   /**
    * Если значение равно "true", то значит слайдер находиться в вертикальном состоянии.
@@ -145,13 +145,13 @@ class View {
   constructor(abacusHtmlContainer: HTMLElement, options?: AbacusOptions) {
     this._presenter = new Presenter(options);
 
-    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties = this._presenter.getModelAbacusProperties();
 
-    this._widgetContainer = new WidgetContainer(abacusProperty.classes);
+    this._widgetContainer = new WidgetContainer(abacusProperties.classes);
     this._widgetContainer.htmlElement.jqueryAbacusInstance = this;
     abacusHtmlContainer.append(this._widgetContainer.htmlElement);
 
-    this._range = new Range(abacusProperty.classes);
+    this._range = new Range(abacusProperties.classes);
 
     this._customEventChange = new CustomEvent('abacus-change', {
       bubbles: true,
@@ -222,7 +222,7 @@ class View {
    */
   getPosFromValue(value: number): number {
     let result = 0;
-    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const options: AbacusOptions = this._presenter.getModelAbacusProperties();
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
     let valueAbacus = value;
@@ -259,7 +259,7 @@ class View {
    */
   getValFromPosPercent(posPercent: number): number {
     let abacusValue = 0;
-    const options: AbacusOptions = this._presenter.getModelAbacusProperty();
+    const options: AbacusOptions = this._presenter.getModelAbacusProperties();
     const minVal: number = options.min as number;
     let maxVal: number = options.max as number;
 
@@ -290,12 +290,12 @@ class View {
    * Функция получения и установки свойств слайдера.
    * @param {string} optionName Название свойства, значение которого надо получить или изменить.
    * @param {any} propValue Значение свойства.
-   * @returns {AbacusProperty | number | string | number[] | boolean | AbacusClasses | undefined}
+   * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
    */
   option(
     optionName?: string,
     propValue?: any,
-  ): AbacusProperty | number | string | number[] | boolean | AbacusClasses | undefined {
+  ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
     if (typeof optionName === 'string') {
       switch (optionName) {
         case 'animate':
@@ -312,12 +312,12 @@ class View {
         case 'values':
           if (propValue !== undefined) {
             // это условие для установки конкретного свойства слайдера
-            const newProperty = {} as AbacusOptions;
-            newProperty[optionName] = propValue;
-            this._presenter.setModelAbacusProperty(newProperty);
+            const newProperties = {} as AbacusOptions;
+            newProperties[optionName] = propValue;
+            this._presenter.setModelAbacusProperties(newProperties);
           } else {
             // это условие для получения конкретного свойства слайдера
-            return this._presenter.getModelAbacusProperty()[optionName];
+            return this._presenter.getModelAbacusProperties()[optionName];
           }
           break;
 
@@ -326,10 +326,10 @@ class View {
       }
     } else if (typeof propValue === 'object') {
       // это условие для установки одного или несколько свойств слайдера в виде объекта
-      this._presenter.setModelAbacusProperty(propValue as AbacusOptions);
+      this._presenter.setModelAbacusProperties(propValue as AbacusOptions);
     } else {
       // это условие для получения всех свойств слайдера в виде объекта
-      return this._presenter.getModelAbacusProperty();
+      return this._presenter.getModelAbacusProperties();
     }
 
     return undefined;
@@ -339,31 +339,31 @@ class View {
    * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
    */
   updateView(): void{
-    const abacusProperty: AbacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties: AbacusProperties = this._presenter.getModelAbacusProperties();
 
-    const hasRangeChanged = this._cachedAbacusProperty?.range !== abacusProperty.range;
-    const hasOrientationChanged = this._cachedAbacusProperty?.orientation !== abacusProperty.orientation;
-    const hasTooltipChanged = this._cachedAbacusProperty?.tooltip !== abacusProperty.tooltip;
-    const hasAnimateChanged = this._cachedAbacusProperty?.animate !== abacusProperty.animate;
-    const hasMaxChanged = this._cachedAbacusProperty?.max !== abacusProperty.max;
-    const hasMinChanged = this._cachedAbacusProperty?.min !== abacusProperty.min;
-    const hasValuesChanged = !View.arrayCompare(this._cachedAbacusProperty?.values, abacusProperty.values);
-    const hasDisabledChanged = this._cachedAbacusProperty?.disabled !== abacusProperty.disabled;
-    const hasScaleChanged = this._cachedAbacusProperty?.scale !== abacusProperty.scale;
-    const hasStepChanged = this._cachedAbacusProperty?.step !== abacusProperty.step;
-    const hasIntervalChanged = this._cachedAbacusProperty?.interval !== abacusProperty.interval;
+    const hasRangeChanged = this._cachedAbacusProperties?.range !== abacusProperties.range;
+    const hasOrientationChanged = this._cachedAbacusProperties?.orientation !== abacusProperties.orientation;
+    const hasTooltipChanged = this._cachedAbacusProperties?.tooltip !== abacusProperties.tooltip;
+    const hasAnimateChanged = this._cachedAbacusProperties?.animate !== abacusProperties.animate;
+    const hasMaxChanged = this._cachedAbacusProperties?.max !== abacusProperties.max;
+    const hasMinChanged = this._cachedAbacusProperties?.min !== abacusProperties.min;
+    const hasValuesChanged = !View.arrayCompare(this._cachedAbacusProperties?.values, abacusProperties.values);
+    const hasDisabledChanged = this._cachedAbacusProperties?.disabled !== abacusProperties.disabled;
+    const hasScaleChanged = this._cachedAbacusProperties?.scale !== abacusProperties.scale;
+    const hasStepChanged = this._cachedAbacusProperties?.step !== abacusProperties.step;
+    const hasIntervalChanged = this._cachedAbacusProperties?.interval !== abacusProperties.interval;
 
     if (hasRangeChanged) {
-      this._createViewRange(abacusProperty);
+      this._createViewRange(abacusProperties);
     }
 
     if (hasIntervalChanged) {
-      this._createViewRange(abacusProperty);
-      this._createViewHandles(abacusProperty);
+      this._createViewRange(abacusProperties);
+      this._createViewHandles(abacusProperties);
     }
 
     if (hasOrientationChanged) {
-      if (abacusProperty.orientation === AbacusOrientationType.VERTICAL) {
+      if (abacusProperties.orientation === AbacusOrientationType.VERTICAL) {
         this._isVertical = true;
         this._widgetContainer.isVertical(true);
       } else {
@@ -374,8 +374,8 @@ class View {
 
     const resultTooltipRangeChanged = hasTooltipChanged || hasIntervalChanged;
     if (resultTooltipRangeChanged) {
-      this._createViewTooltips(abacusProperty);
-      this._updateViewTooltips(abacusProperty);
+      this._createViewTooltips(abacusProperties);
+      this._updateViewTooltips(abacusProperties);
       this._setTransition();
     }
 
@@ -391,9 +391,9 @@ class View {
                                                       || hasValuesChanged
                                                       || hasIntervalChanged;
     if (resultRangeMaxMinOrientationValuesIntervalChanged) {
-      this._updateViewHandles(abacusProperty);
-      this._updateViewTooltips(abacusProperty);
-      this._updateViewRange(abacusProperty);
+      this._updateViewHandles(abacusProperties);
+      this._updateViewTooltips(abacusProperties);
+      this._updateViewRange(abacusProperties);
       this._highlightMarks();
     }
 
@@ -403,13 +403,13 @@ class View {
     }
 
     // Обновляем названия классов
-    if (abacusProperty.classes) {
-      this._updateClassNames(abacusProperty.classes);
+    if (abacusProperties.classes) {
+      this._updateClassNames(abacusProperties.classes);
     }
 
     // Включаем или отключаем слайдер
     if (hasDisabledChanged) {
-      this.toggleDisable(abacusProperty.disabled);
+      this.toggleDisable(abacusProperties.disabled);
     }
 
     // Создаем шкалу значений
@@ -419,7 +419,7 @@ class View {
                                                     || hasMinChanged
                                                     || hasOrientationChanged;
     if (resultScaleStepMaxMinOrientationChanged) {
-      if (abacusProperty.scale) {
+      if (abacusProperties.scale) {
         this._createScale();
         this._setTransition();
       } else {
@@ -429,20 +429,20 @@ class View {
       this._highlightMarks();
     }
 
-    this._cachedAbacusProperty = View.getCloneAbacusProperty(abacusProperty);
+    this._cachedAbacusProperties = View.getCloneAbacusProperties(abacusProperties);
   }
 
   /**
    * Функция создания или удаления ручек слайдера.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _createViewHandles(abacusProperty: AbacusProperty): void{
+  private _createViewHandles(abacusProperties: AbacusProperties): void{
     const viewInstance = this;
     const handleIndexes: number[] = []; // массив с индексами ручек слайдера.
     if (!viewInstance._handles?.length) {
       viewInstance._handles = [];
-      viewInstance._handles[0] = new Handle(abacusProperty.classes, 0);
+      viewInstance._handles[0] = new Handle(abacusProperties.classes, 0);
       const [firstHandle] = viewInstance._handles;
       viewInstance._widgetContainer.htmlElement.append(firstHandle.htmlElement);
       viewInstance._currentHandle = firstHandle;
@@ -451,9 +451,9 @@ class View {
 
     const [firstHandle] = viewInstance._handles;
 
-    switch (abacusProperty.interval) {
+    switch (abacusProperties.interval) {
       case true:
-        viewInstance._handles[1] = new Handle(abacusProperty.classes, 1);
+        viewInstance._handles[1] = new Handle(abacusProperties.classes, 1);
         viewInstance._widgetContainer.htmlElement.append(viewInstance._handles[1].htmlElement);
         handleIndexes.push(1);
         break;
@@ -480,15 +480,15 @@ class View {
   /**
    * Функция обновления ручек слайдера, а именно их местоположение.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _updateViewHandles(abacusProperty: AbacusProperty): void{
-    if (!abacusProperty.values) {
+  private _updateViewHandles(abacusProperties: AbacusProperties): void{
+    if (!abacusProperties.values) {
       return;
     }
 
-    for (let i = 0; i < abacusProperty.values.length; i += 1) {
-      const currentValue: number = abacusProperty.values[i];
+    for (let i = 0; i < abacusProperties.values.length; i += 1) {
+      const currentValue: number = abacusProperties.values[i];
       const posHandle = this.getPosFromValue(currentValue);
 
       if (this._handles[i]) {
@@ -506,18 +506,18 @@ class View {
   /**
    * Функция создания или удаления подсказок слайдера.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _createViewTooltips(abacusProperty: AbacusProperty): void{
+  private _createViewTooltips(abacusProperties: AbacusProperties): void{
     for (let i = 0; i < this._tooltips.length; i += 1) {
       this._tooltips[i].htmlElement.remove();
     }
     this._tooltips = [];
 
-    if (abacusProperty.tooltip) {
-      const countTooltips = abacusProperty.interval === true ? 2 : 1;
+    if (abacusProperties.tooltip) {
+      const countTooltips = abacusProperties.interval === true ? 2 : 1;
       for (let i = 0; i < countTooltips; i += 1) {
-        this._tooltips[i] = new Tooltip(abacusProperty.classes, i);
+        this._tooltips[i] = new Tooltip(abacusProperties.classes, i);
         this._widgetContainer.htmlElement.append(this._tooltips[i].htmlElement);
       }
     }
@@ -526,15 +526,15 @@ class View {
   /**
    * Функция обновления подсказок слайдера, а именно местоположение и текст.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _updateViewTooltips(abacusProperty: AbacusProperty): void{
-    if (!abacusProperty.values || !abacusProperty.tooltip) {
+  private _updateViewTooltips(abacusProperties: AbacusProperties): void{
+    if (!abacusProperties.values || !abacusProperties.tooltip) {
       return;
     }
 
-    for (let i = 0; i < abacusProperty.values.length; i += 1) {
-      const currentValue: number = abacusProperty.values[i];
+    for (let i = 0; i < abacusProperties.values.length; i += 1) {
+      const currentValue: number = abacusProperties.values[i];
       const posHandle = this.getPosFromValue(currentValue);
 
       if (this._tooltips[i]) {
@@ -546,7 +546,7 @@ class View {
           this._tooltips[i].posLeft = posHandle;
         }
 
-        this._tooltips[i].htmlElement.innerText = abacusProperty.values[i].toString();
+        this._tooltips[i].htmlElement.innerText = abacusProperties.values[i].toString();
       }
     }
   }
@@ -554,24 +554,24 @@ class View {
   /**
    * Функция создания или удаления индикатора (progress bar) слайдера.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _createViewRange(abacusProperty: AbacusProperty): void{
-    switch (abacusProperty.range) {
+  private _createViewRange(abacusProperties: AbacusProperties): void{
+    switch (abacusProperties.range) {
       case 'max':
-        if (abacusProperty.interval === true) this._range.rangeType = 'between';
+        if (abacusProperties.interval === true) this._range.rangeType = 'between';
         else this._range.rangeType = 'max';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case true:
-        if (abacusProperty.interval === false) this._range.rangeType = 'min';
+        if (abacusProperties.interval === false) this._range.rangeType = 'min';
         else this._range.rangeType = 'between';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
 
       case 'min':
-        if (abacusProperty.interval === true) this._range.rangeType = 'between';
+        if (abacusProperties.interval === true) this._range.rangeType = 'between';
         else this._range.rangeType = 'min';
         this._widgetContainer.htmlElement.prepend(this._range.htmlElement);
         break;
@@ -586,15 +586,15 @@ class View {
   /**
    * Функция обновления индикатора (progress bar) слайдера, а именно местоположение и размер.
    * @private
-   * @param {AbacusProperty} abacusProperty Свойства плагина.
+   * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
-  private _updateViewRange(abacusProperty: AbacusProperty): void{
-    if (!abacusProperty.values?.length) {
+  private _updateViewRange(abacusProperties: AbacusProperties): void{
+    if (!abacusProperties.values?.length) {
       return;
     }
 
-    const posHandle0 = this.getPosFromValue(abacusProperty.values[0]);
-    const posHandle1 = this.getPosFromValue(abacusProperty.values[1]);
+    const posHandle0 = this.getPosFromValue(abacusProperties.values[0]);
+    const posHandle1 = this.getPosFromValue(abacusProperties.values[1]);
 
     if (this._isVertical) {
       this._range.htmlElement.style.left = '';
@@ -659,42 +659,42 @@ class View {
    * @param {AbacusClasses} abacusClasses Объект с классами элементов плагина.
    */
   private _updateClassNames(abacusClasses: AbacusClasses) {
-    if (this._cachedAbacusProperty?.classes?.abacus !== abacusClasses?.abacus) {
+    if (this._cachedAbacusProperties?.classes?.abacus !== abacusClasses?.abacus) {
       this._widgetContainer.className = abacusClasses?.abacus;
     }
-    if (this._cachedAbacusProperty?.classes?.vertical !== abacusClasses?.vertical) {
+    if (this._cachedAbacusProperties?.classes?.vertical !== abacusClasses?.vertical) {
       this._widgetContainer.classNameVertical = abacusClasses?.vertical;
     }
-    if (this._cachedAbacusProperty?.classes?.disabled !== abacusClasses?.disabled) {
+    if (this._cachedAbacusProperties?.classes?.disabled !== abacusClasses?.disabled) {
       this._widgetContainer.classNameDisabled = abacusClasses?.disabled;
     }
 
-    if (this._cachedAbacusProperty?.classes?.handle !== abacusClasses?.handle) {
+    if (this._cachedAbacusProperties?.classes?.handle !== abacusClasses?.handle) {
       for (let i = 0; i < this._handles.length; i += 1) {
         this._handles[i].className = abacusClasses?.handle;
       }
     }
 
-    if (this._cachedAbacusProperty?.classes?.range !== abacusClasses?.range) {
+    if (this._cachedAbacusProperties?.classes?.range !== abacusClasses?.range) {
       this._range.className = abacusClasses?.range;
     }
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
 
-      if (this._cachedAbacusProperty?.classes?.mark !== abacusClasses?.mark) {
+      if (this._cachedAbacusProperties?.classes?.mark !== abacusClasses?.mark) {
         if (abacusClasses?.mark) {
           mark.className = abacusClasses.mark;
         }
       }
 
-      if (this._cachedAbacusProperty?.classes?.markSelected !== abacusClasses?.markSelected) {
+      if (this._cachedAbacusProperties?.classes?.markSelected !== abacusClasses?.markSelected) {
         if (abacusClasses?.markInrange) {
           mark.classNameSelected = abacusClasses.markSelected;
         }
       }
 
-      if (this._cachedAbacusProperty?.classes?.markInrange !== abacusClasses?.markInrange) {
+      if (this._cachedAbacusProperties?.classes?.markInrange !== abacusClasses?.markInrange) {
         if (abacusClasses?.markInrange) {
           mark.classNameInrange = abacusClasses.markInrange;
         }
@@ -728,8 +728,8 @@ class View {
       uiData.handleIndex = this._currentHandle.handleIndex;
     }
 
-    const modelData = this._presenter.getModelAbacusProperty();
-    uiData.abacusProperty = View.getCloneAbacusProperty(modelData);
+    const modelData = this._presenter.getModelAbacusProperties();
+    uiData.abacusProperties = View.getCloneAbacusProperties(modelData);
     return uiData;
   }
 
@@ -743,9 +743,9 @@ class View {
    */
   private _eventChangeWrapper(event: Event = this._customEventChange): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventChange);
-    const abacusProperty = this._presenter.getModelAbacusProperty();
-    if (typeof abacusProperty?.change === 'function') {
-      abacusProperty.change(event, this._getEventUIData());
+    const abacusProperties = this._presenter.getModelAbacusProperties();
+    if (typeof abacusProperties?.change === 'function') {
+      abacusProperties.change(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -761,9 +761,9 @@ class View {
    */
   private _eventCreateWrapper(event: Event = this._customEventCreate): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventCreate);
-    const abacusProperty = this._presenter.getModelAbacusProperty();
-    if (typeof abacusProperty?.create === 'function') {
-      abacusProperty.create(event, this._getEventUIData());
+    const abacusProperties = this._presenter.getModelAbacusProperties();
+    if (typeof abacusProperties?.create === 'function') {
+      abacusProperties.create(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -779,9 +779,9 @@ class View {
    */
   private _eventSlideWrapper(event: Event = this._customEventSlide): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventSlide);
-    const abacusProperty = this._presenter.getModelAbacusProperty();
-    if (typeof abacusProperty?.slide === 'function') {
-      abacusProperty.slide(event, this._getEventUIData());
+    const abacusProperties = this._presenter.getModelAbacusProperties();
+    if (typeof abacusProperties?.slide === 'function') {
+      abacusProperties.slide(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -797,9 +797,9 @@ class View {
    */
   private _eventStartWrapper(event: Event = this._customEventStart): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStart);
-    const abacusProperty = this._presenter.getModelAbacusProperty();
-    if (typeof abacusProperty?.start === 'function') {
-      abacusProperty.start(event, this._getEventUIData());
+    const abacusProperties = this._presenter.getModelAbacusProperties();
+    if (typeof abacusProperties?.start === 'function') {
+      abacusProperties.start(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -815,9 +815,9 @@ class View {
    */
   private _eventStopWrapper(event: Event = this._customEventStop): boolean {
     const dispatchEventResult = this._widgetContainer.htmlElement.dispatchEvent(this._customEventStop);
-    const abacusProperty = this._presenter.getModelAbacusProperty();
-    if (typeof abacusProperty?.stop === 'function') {
-      abacusProperty.stop(event, this._getEventUIData());
+    const abacusProperties = this._presenter.getModelAbacusProperties();
+    if (typeof abacusProperties?.stop === 'function') {
+      abacusProperties.stop(event, this._getEventUIData());
     }
 
     return dispatchEventResult;
@@ -830,8 +830,8 @@ class View {
    */
   private _mousePositionHandler(event: PointerEvent): void{
     const viewInstance = this;
-    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-    if (!abacusProperty.values?.length || !viewInstance._currentHandle) {
+    const abacusProperties = viewInstance._presenter.getModelAbacusProperties();
+    if (!abacusProperties.values?.length || !viewInstance._currentHandle) {
       return;
     }
 
@@ -840,9 +840,9 @@ class View {
     const percent = this.getPosPercent(coordinate - this._shiftClickOnHandle);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
 
-    const newValues: number[] = abacusProperty.values?.slice(0);
+    const newValues: number[] = abacusProperties.values?.slice(0);
     const [firstHandle, secondHandle] = viewInstance._handles;
-    const [firstValue, secondValue] = abacusProperty.values;
+    const [firstValue, secondValue] = abacusProperties.values;
 
     if (viewInstance._currentHandle.handleIndex === 0) {
       if (valueUnrounded >= secondValue) {
@@ -862,7 +862,7 @@ class View {
       }
     }
 
-    viewInstance._presenter.setModelAbacusProperty({
+    viewInstance._presenter.setModelAbacusProperties({
       values: newValues,
     } as AbacusOptions);
   }
@@ -878,23 +878,23 @@ class View {
     }
 
     const viewInstance = this;
-    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
-    if (!abacusProperty.values?.length) {
+    const abacusProperties = viewInstance._presenter.getModelAbacusProperties();
+    if (!abacusProperties.values?.length) {
       return;
     }
 
     let newValues: number[] = [];
-    if (abacusProperty.values) {
-      newValues = abacusProperty.values?.slice(0);
+    if (abacusProperties.values) {
+      newValues = abacusProperties.values?.slice(0);
     }
 
-    const checkNecessaryProps = abacusProperty.interval === true
-                                && abacusProperty.values?.length
-                                && abacusProperty.step;
+    const checkNecessaryProps = abacusProperties.interval === true
+                                && abacusProperties.values?.length
+                                && abacusProperties.step;
     if (checkNecessaryProps) {
-      let deltaMin = abacusProperty.values[0] - valueUnrounded;
+      let deltaMin = abacusProperties.values[0] - valueUnrounded;
       deltaMin = deltaMin < 0 ? deltaMin *= -1 : deltaMin;
-      let deltaMax = abacusProperty.values[1] - valueUnrounded;
+      let deltaMax = abacusProperties.values[1] - valueUnrounded;
       deltaMax = deltaMax < 0 ? deltaMax *= -1 : deltaMax;
 
       if (deltaMax < deltaMin) {
@@ -906,7 +906,7 @@ class View {
       newValues[0] = valueUnrounded;
     }
 
-    viewInstance._presenter.setModelAbacusProperty({
+    viewInstance._presenter.setModelAbacusProperties({
       values: newValues,
     } as AbacusOptions);
   }
@@ -960,11 +960,11 @@ class View {
   private _handleWidgetContainerPointerdown(event: PointerEvent): void{
     event.preventDefault();
     const viewInstance = this;
-    const abacusProperty = viewInstance._presenter.getModelAbacusProperty();
+    const abacusProperties = viewInstance._presenter.getModelAbacusProperties();
     const eventTarget = event.target as HTMLElement;
-    const handleClass = abacusProperty.classes?.handle ? abacusProperty.classes?.handle : '';
-    const markClass = abacusProperty.classes?.mark ? abacusProperty.classes?.mark : '';
-    const tooltipClass = abacusProperty.classes?.tooltip ? abacusProperty.classes?.tooltip : '';
+    const handleClass = abacusProperties.classes?.handle ? abacusProperties.classes?.handle : '';
+    const markClass = abacusProperties.classes?.mark ? abacusProperties.classes?.mark : '';
+    const tooltipClass = abacusProperties.classes?.tooltip ? abacusProperties.classes?.tooltip : '';
 
     const dontProcessEvent = viewInstance._isDisabled
                     || eventTarget.classList.contains(handleClass)
@@ -976,12 +976,12 @@ class View {
 
     const coordinate = this._isVertical ? event.clientY : event.clientX;
 
-    const currentValues = viewInstance._cachedAbacusProperty?.values;
+    const currentValues = viewInstance._cachedAbacusProperties?.values;
     const percent = this.getPosPercent(coordinate);
     const valueUnrounded: number = this.getValFromPosPercent(percent);
     viewInstance._calcHandleValues(valueUnrounded);
 
-    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
+    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
@@ -1069,12 +1069,12 @@ class View {
       this._removeScale();
     }
 
-    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties = this._presenter.getModelAbacusProperties();
 
     // 1. Добавляем первую и последнюю метку.
-    const firstMark = new Mark(abacusProperty.min, abacusProperty.classes);
+    const firstMark = new Mark(abacusProperties.min, abacusProperties.classes);
     this._widgetContainer.htmlElement.append(firstMark.htmlElement);
-    const lastMark = new Mark(abacusProperty.max, abacusProperty.classes);
+    const lastMark = new Mark(abacusProperties.max, abacusProperties.classes);
     this._widgetContainer.htmlElement.append(lastMark.htmlElement);
 
     // 2. Вычисляем максимальную длину метки.
@@ -1103,30 +1103,30 @@ class View {
     let countPossibleMarks = Math.floor(lengthWidget / maxLengthMarkItem);
 
     // 4. Вычисляем шаг, через который бедут добавляться метки.
-    let countAllMarks = (abacusProperty.max - abacusProperty.min) / abacusProperty.step;
+    let countAllMarks = (abacusProperties.max - abacusProperties.min) / abacusProperties.step;
     countAllMarks = countAllMarks < 0 ? countAllMarks * -1 : countAllMarks;
     countAllMarks = Math.ceil(countAllMarks);
-    if (abacusProperty.max % abacusProperty.step !== 0) {
+    if (abacusProperties.max % abacusProperties.step !== 0) {
       countPossibleMarks -= 1;
     }
     if (countPossibleMarks > countAllMarks) {
       countPossibleMarks = countAllMarks;
     }
-    let stepToAddMarks = (abacusProperty.max - abacusProperty.min) / countPossibleMarks;
-    if (abacusProperty.step > stepToAddMarks) {
-      stepToAddMarks = abacusProperty.step;
+    let stepToAddMarks = (abacusProperties.max - abacusProperties.min) / countPossibleMarks;
+    if (abacusProperties.step > stepToAddMarks) {
+      stepToAddMarks = abacusProperties.step;
     }
 
     // 5. Добавляем метки.
     let sumRealSteps = 0;
-    let value = abacusProperty.min;
-    for (; value <= abacusProperty.max; value += abacusProperty.step) {
-      sumRealSteps += abacusProperty.step;
+    let value = abacusProperties.min;
+    for (; value <= abacusProperties.max; value += abacusProperties.step) {
+      sumRealSteps += abacusProperties.step;
       const doAddMark = sumRealSteps >= stepToAddMarks
-                      || value === abacusProperty.min;
+                      || value === abacusProperties.min;
       if (doAddMark) {
-        value = View.round(value, abacusProperty.step);
-        const mark = new Mark(value, abacusProperty.classes);
+        value = View.round(value, abacusProperties.step);
+        const mark = new Mark(value, abacusProperties.classes);
         const positionMark = this.getPosFromValue(value);
 
         if (this._isVertical) mark.posBottom = positionMark;
@@ -1138,8 +1138,8 @@ class View {
     }
 
     // 6. Добавляем последнюю метку с макс. значением
-    const mark = new Mark(abacusProperty.max, abacusProperty.classes);
-    const positionMark = this.getPosFromValue(abacusProperty.max);
+    const mark = new Mark(abacusProperties.max, abacusProperties.classes);
+    const positionMark = this.getPosFromValue(abacusProperties.max);
 
     if (this._isVertical) mark.posBottom = positionMark;
     else mark.posLeft = positionMark;
@@ -1195,14 +1195,14 @@ class View {
       else lengthMarks += mark.htmlElement.offsetWidth + marginXMark;
     });
 
-    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties = this._presenter.getModelAbacusProperties();
 
     if (lengthWidget < lengthMarks) {
       let isDelete = false;
       this._collectionMarks.forEach((mapItem) => {
         const mark = mapItem;
-        const dontDeleteMark = mark.associatedValue === abacusProperty.min
-                              || mark.associatedValue === abacusProperty.max
+        const dontDeleteMark = mark.associatedValue === abacusProperties.min
+                              || mark.associatedValue === abacusProperties.max
                               || isDelete;
         if (dontDeleteMark) {
           isDelete = false;
@@ -1219,7 +1219,7 @@ class View {
     let markMax;
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      if (mark.associatedValue === abacusProperty.max) markMax = mark;
+      if (mark.associatedValue === abacusProperties.max) markMax = mark;
       else prevMarkMax = mark;
     });
     if (prevMarkMax && markMax) {
@@ -1263,16 +1263,16 @@ class View {
       return;
     }
 
-    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties = this._presenter.getModelAbacusProperties();
     const { rangeType } = this._range;
 
     this._collectionMarks.forEach((mapItem) => {
       const mark = mapItem;
-      const isValBetween0And1 = mark.associatedValue >= abacusProperty.values[0]
-                                && mark.associatedValue <= abacusProperty.values[1];
-      if (rangeType === 'min' && mark.associatedValue <= abacusProperty.values[0]) {
+      const isValBetween0And1 = mark.associatedValue >= abacusProperties.values[0]
+                                && mark.associatedValue <= abacusProperties.values[1];
+      if (rangeType === 'min' && mark.associatedValue <= abacusProperties.values[0]) {
         mark.isInrange(true);
-      } else if (rangeType === 'max' && mark.associatedValue >= abacusProperty.values[0]) {
+      } else if (rangeType === 'max' && mark.associatedValue >= abacusProperties.values[0]) {
         mark.isInrange(true);
       } else if (rangeType === 'between' && isValBetween0And1) {
         mark.isInrange(true);
@@ -1280,7 +1280,7 @@ class View {
         mark.isInrange(false);
       }
 
-      if (mark.associatedValue === abacusProperty.values[0] || mark.associatedValue === abacusProperty.values[1]) {
+      if (mark.associatedValue === abacusProperties.values[0] || mark.associatedValue === abacusProperties.values[1]) {
         mark.isSelected(true);
       } else {
         mark.isSelected(false);
@@ -1319,13 +1319,13 @@ class View {
     }
     const markAssociatedValue = parseFloat(markValueAttr);
 
-    const currentValues = viewInstance._cachedAbacusProperty?.values;
-    if (viewInstance._cachedAbacusProperty?.value !== markAssociatedValue) {
+    const currentValues = viewInstance._cachedAbacusProperties?.values;
+    if (viewInstance._cachedAbacusProperties?.value !== markAssociatedValue) {
       viewInstance._calcHandleValues(markAssociatedValue);
     }
 
-    const abacusProperty: AbacusProperty = viewInstance._presenter.getModelAbacusProperty();
-    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperty.values);
+    const abacusProperties: AbacusProperties = viewInstance._presenter.getModelAbacusProperties();
+    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
@@ -1333,12 +1333,12 @@ class View {
 
   /**
    * Установка css-свойства "transition" элементам интерфейса слайдера.
-   * Первоначальное значение берется из model.abacusProperty.aniamte.
+   * Первоначальное значение берется из model.abacusProperties.aniamte.
    * @private
    */
   private _setTransition(): void{
     let duration = '';
-    const { animate } = this._presenter.getModelAbacusProperty();
+    const { animate } = this._presenter.getModelAbacusProperties();
     if (typeof animate === 'number' && animate > 0) {
       duration = animate.toString();
     } else if (animate === true) {
@@ -1368,15 +1368,15 @@ class View {
 
   /**
    * Функция, копирующая объект со свойствами слайдера.
-   * @param {AbacusProperty} abacusProperty Свойства слайдера.
-   * @returns {AbacusProperty} Новый объект со свойствами слайдера.
+   * @param {AbacusProperties} abacusProperties Свойства слайдера.
+   * @returns {AbacusProperties} Новый объект со свойствами слайдера.
    */
-  static getCloneAbacusProperty(abacusProperty: AbacusProperty): AbacusProperty {
-    const cloneProperty = {} as AbacusProperty;
-    Object.assign(cloneProperty, abacusProperty);
-    cloneProperty.values = abacusProperty.values?.slice(0);
-    Object.assign(cloneProperty.classes, abacusProperty.classes);
-    return cloneProperty;
+  static getCloneAbacusProperties(abacusProperties: AbacusProperties): AbacusProperties {
+    const cloneProperties = {} as AbacusProperties;
+    Object.assign(cloneProperties, abacusProperties);
+    cloneProperties.values = abacusProperties.values?.slice(0);
+    Object.assign(cloneProperties.classes, abacusProperties.classes);
+    return cloneProperties;
   }
 
   /**
@@ -1384,12 +1384,12 @@ class View {
    * @returns {Handle} Возвращает ссылку на объект ручкы слайдера, которая передвинулась.
    */
   private _findMovedHandle(): Handle {
-    const abacusProperty = this._presenter.getModelAbacusProperty();
+    const abacusProperties = this._presenter.getModelAbacusProperties();
     const [firstHandle, secondHandle] = this._handles;
     this._currentHandle = firstHandle;
 
-    if (this._cachedAbacusProperty) {
-      if (this._cachedAbacusProperty.values[1] !== abacusProperty.values[1]) {
+    if (this._cachedAbacusProperties) {
+      if (this._cachedAbacusProperties.values[1] !== abacusProperties.values[1]) {
         this._currentHandle = secondHandle;
       }
     }

@@ -15,10 +15,10 @@ interface Abacus {
    * @param {string} funcName Название функции, которую надо выполнить.
    * @param {any} param1 Это может быть название свойства слайдера или значение свойства.
    * @param {any} param2 Значение свойства слайдера.
-   * @returns {JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View}
+   * @returns {JQuery | AbacusProperties | number | number[] | boolean | null | undefined | AbacusClasses | View}
    */
   (funcName: string,
     param1 ? : AbacusOptions | number | string | number[],
     param2 ? : number | string | boolean | null | AbacusClasses
-  ): JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
+  ): JQuery | AbacusProperties | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
 }

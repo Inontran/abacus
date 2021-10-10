@@ -11,7 +11,7 @@ $.fn.abacus = function (
   param2 ? : number | string | boolean | null | AbacusClasses,
 ) {
   let returnResult: JQuery<HTMLAbacusElement> |
-  AbacusProperty |
+  AbacusProperties |
   number |
   number[] |
   boolean |
@@ -40,7 +40,7 @@ $.fn.abacus = function (
 
     if (typeof paramOptions === 'string') {
       let resultOption: JQuery<HTMLAbacusElement> |
-      AbacusProperty |
+      AbacusProperties |
       number |
       number[] |
       boolean |

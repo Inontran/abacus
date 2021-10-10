@@ -11,7 +11,7 @@ class Model {
    * Свойства слайдера.
    * @private
    */
-  private _abacusProperty: AbacusProperty = {
+  private _abacusProperties: AbacusProperties = {
     animate: false,
     classes: {
       abacus: 'abacus',
@@ -55,7 +55,7 @@ class Model {
    */
   constructor(data?: AbacusOptions) {
     if (data) {
-      this.setAbacusProperty(data);
+      this.setAbacusProperties(data);
     }
 
     this._eventTarget = new EventTarget();
@@ -64,202 +64,202 @@ class Model {
 
   /**
    * Геттер свойств слайдера.
-   * @returns {AbacusProperty} Свойства слайдера, хранящиеся в Модели.
+   * @returns {AbacusProperties} Свойства слайдера, хранящиеся в Модели.
    */
-  public get abacusProperty() : AbacusProperty {
-    return this._abacusProperty;
+  public get abacusProperties() : AbacusProperties {
+    return this._abacusProperties;
   }
 
   /**
-   * @param {AbacusOptions} abacusProperty Свойства слайдера, которые нужно добавить в Модель.
+   * @param {AbacusOptions} abacusProperties Свойства слайдера, которые нужно добавить в Модель.
    */
-  public setAbacusProperty(newAbacusProperty: AbacusOptions | AbacusProperty) {
-    const abacusProperty = newAbacusProperty;
+  public setAbacusProperties(newAbacusProperties: AbacusOptions | AbacusProperties) {
+    const abacusProperties = newAbacusProperties;
 
     // animate
-    if (abacusProperty.animate !== undefined) {
-      const isAnimatePropFastOrSlow = abacusProperty.animate === 'fast' || abacusProperty.animate === 'slow';
-      const isAnimatePropBoolean = typeof abacusProperty.animate === 'boolean';
+    if (abacusProperties.animate !== undefined) {
+      const isAnimatePropFastOrSlow = abacusProperties.animate === 'fast' || abacusProperties.animate === 'slow';
+      const isAnimatePropBoolean = typeof abacusProperties.animate === 'boolean';
       const isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
       if (isAnimatePropResult) {
-        this._abacusProperty.animate = abacusProperty.animate;
-      } else if (parseInt(abacusProperty.animate as string, 10)) {
-        this._abacusProperty.animate = Math.round(parseInt(abacusProperty.animate as string, 10));
+        this._abacusProperties.animate = abacusProperties.animate;
+      } else if (parseInt(abacusProperties.animate as string, 10)) {
+        this._abacusProperties.animate = Math.round(parseInt(abacusProperties.animate as string, 10));
       } else {
-        this._abacusProperty.animate = false;
+        this._abacusProperties.animate = false;
       }
     }
 
     // classes
-    if (typeof abacusProperty.classes === 'object') {
-      if (!this._abacusProperty.classes) {
-        this._abacusProperty.classes = {} as AbacusClasses;
+    if (typeof abacusProperties.classes === 'object') {
+      if (!this._abacusProperties.classes) {
+        this._abacusProperties.classes = {} as AbacusClasses;
       }
 
-      if (typeof abacusProperty.classes.abacus === 'string' && abacusProperty.classes.abacus) {
-        this._abacusProperty.classes.abacus = abacusProperty.classes.abacus;
+      if (typeof abacusProperties.classes.abacus === 'string' && abacusProperties.classes.abacus) {
+        this._abacusProperties.classes.abacus = abacusProperties.classes.abacus;
       }
-      if (typeof abacusProperty.classes.disabled === 'string' && abacusProperty.classes.disabled) {
-        this._abacusProperty.classes.disabled = abacusProperty.classes.disabled;
+      if (typeof abacusProperties.classes.disabled === 'string' && abacusProperties.classes.disabled) {
+        this._abacusProperties.classes.disabled = abacusProperties.classes.disabled;
       }
-      if (typeof abacusProperty.classes.range === 'string' && abacusProperty.classes.range) {
-        this._abacusProperty.classes.range = abacusProperty.classes.range;
+      if (typeof abacusProperties.classes.range === 'string' && abacusProperties.classes.range) {
+        this._abacusProperties.classes.range = abacusProperties.classes.range;
       }
-      if (typeof abacusProperty.classes.handle === 'string' && abacusProperty.classes.handle) {
-        this._abacusProperty.classes.handle = abacusProperty.classes.handle;
+      if (typeof abacusProperties.classes.handle === 'string' && abacusProperties.classes.handle) {
+        this._abacusProperties.classes.handle = abacusProperties.classes.handle;
       }
-      if (typeof abacusProperty.classes.mark === 'string' && abacusProperty.classes.mark) {
-        this._abacusProperty.classes.mark = abacusProperty.classes.mark;
+      if (typeof abacusProperties.classes.mark === 'string' && abacusProperties.classes.mark) {
+        this._abacusProperties.classes.mark = abacusProperties.classes.mark;
       }
-      if (typeof abacusProperty.classes.markSelected === 'string' && abacusProperty.classes.markSelected) {
-        this._abacusProperty.classes.markSelected = abacusProperty.classes.markSelected;
+      if (typeof abacusProperties.classes.markSelected === 'string' && abacusProperties.classes.markSelected) {
+        this._abacusProperties.classes.markSelected = abacusProperties.classes.markSelected;
       }
-      if (typeof abacusProperty.classes.markInrange === 'string' && abacusProperty.classes.markInrange) {
-        this._abacusProperty.classes.markInrange = abacusProperty.classes.markInrange;
+      if (typeof abacusProperties.classes.markInrange === 'string' && abacusProperties.classes.markInrange) {
+        this._abacusProperties.classes.markInrange = abacusProperties.classes.markInrange;
       }
-      if (typeof abacusProperty.classes.tooltip === 'string' && abacusProperty.classes.tooltip) {
-        this._abacusProperty.classes.tooltip = abacusProperty.classes.tooltip;
+      if (typeof abacusProperties.classes.tooltip === 'string' && abacusProperties.classes.tooltip) {
+        this._abacusProperties.classes.tooltip = abacusProperties.classes.tooltip;
       }
     }
 
     // disabled
-    if (abacusProperty.disabled !== undefined) {
-      this._abacusProperty.disabled = !!abacusProperty.disabled;
+    if (abacusProperties.disabled !== undefined) {
+      this._abacusProperties.disabled = !!abacusProperties.disabled;
     }
 
     // max
-    if (abacusProperty.max !== undefined && abacusProperty.max !== null) {
-      if (typeof abacusProperty.max === 'number') {
-        this._abacusProperty.max = abacusProperty.max;
+    if (abacusProperties.max !== undefined && abacusProperties.max !== null) {
+      if (typeof abacusProperties.max === 'number') {
+        this._abacusProperties.max = abacusProperties.max;
       }
     }
 
     // scale
-    if (abacusProperty.scale !== undefined) {
-      this._abacusProperty.scale = !!abacusProperty.scale;
+    if (abacusProperties.scale !== undefined) {
+      this._abacusProperties.scale = !!abacusProperties.scale;
     }
 
     // min
-    if (abacusProperty.min !== undefined && abacusProperty.min !== null) {
-      if (typeof abacusProperty.min === 'number') {
-        this._abacusProperty.min = abacusProperty.min;
+    if (abacusProperties.min !== undefined && abacusProperties.min !== null) {
+      if (typeof abacusProperties.min === 'number') {
+        this._abacusProperties.min = abacusProperties.min;
       }
     }
 
-    if ((this._abacusProperty.max as number) < (this._abacusProperty.min as number)) {
-      const tmpMax = this._abacusProperty.max;
-      this._abacusProperty.max = this._abacusProperty.min;
-      this._abacusProperty.min = tmpMax;
+    if ((this._abacusProperties.max as number) < (this._abacusProperties.min as number)) {
+      const tmpMax = this._abacusProperties.max;
+      this._abacusProperties.max = this._abacusProperties.min;
+      this._abacusProperties.min = tmpMax;
     }
 
     // step
-    if (abacusProperty.step !== undefined && abacusProperty.step !== null) {
-      if (typeof abacusProperty.step === 'number') {
-        this._abacusProperty.step = abacusProperty.step;
+    if (abacusProperties.step !== undefined && abacusProperties.step !== null) {
+      if (typeof abacusProperties.step === 'number') {
+        this._abacusProperties.step = abacusProperties.step;
       }
     }
 
     // tooltip
-    if (abacusProperty.tooltip !== undefined) {
-      this._abacusProperty.tooltip = !!abacusProperty.tooltip;
+    if (abacusProperties.tooltip !== undefined) {
+      this._abacusProperties.tooltip = !!abacusProperties.tooltip;
     }
 
     // value
-    if (abacusProperty.value !== undefined && abacusProperty.value !== null) {
-      if (!Number.isNaN(abacusProperty.value)) {
-        if (typeof abacusProperty.value === 'string') {
-          abacusProperty.value = parseFloat(abacusProperty.value);
+    if (abacusProperties.value !== undefined && abacusProperties.value !== null) {
+      if (!Number.isNaN(abacusProperties.value)) {
+        if (typeof abacusProperties.value === 'string') {
+          abacusProperties.value = parseFloat(abacusProperties.value);
         }
-        abacusProperty.value = this.roundValuePerStep(abacusProperty.value);
-        this._abacusProperty.value = abacusProperty.value;
+        abacusProperties.value = this.roundValuePerStep(abacusProperties.value);
+        this._abacusProperties.value = abacusProperties.value;
 
-        if (!this._abacusProperty.values?.length) {
-          this._abacusProperty.values = [];
+        if (!this._abacusProperties.values?.length) {
+          this._abacusProperties.values = [];
         }
-        this._abacusProperty.values[0] = abacusProperty.value;
+        this._abacusProperties.values[0] = abacusProperties.value;
       }
     }
 
     // values
-    if (abacusProperty.values?.length) {
-      this._abacusProperty.values = [];
+    if (abacusProperties.values?.length) {
+      this._abacusProperties.values = [];
 
-      for (let i = 0; i < abacusProperty.values.length; i += 1) {
-        if (typeof abacusProperty.values[i] === 'string') {
-          abacusProperty.values[i] = parseFloat(abacusProperty.values[i].toString());
+      for (let i = 0; i < abacusProperties.values.length; i += 1) {
+        if (typeof abacusProperties.values[i] === 'string') {
+          abacusProperties.values[i] = parseFloat(abacusProperties.values[i].toString());
         }
-        abacusProperty.values[i] = this.roundValuePerStep(abacusProperty.values[i]);
-        this._abacusProperty.values[i] = abacusProperty.values[i];
+        abacusProperties.values[i] = this.roundValuePerStep(abacusProperties.values[i]);
+        this._abacusProperties.values[i] = abacusProperties.values[i];
 
         if (i === 0) {
-          this._abacusProperty.value = abacusProperty.values[i];
+          this._abacusProperties.value = abacusProperties.values[i];
         }
 
         if (i > 1) break;
       }
 
-      this._abacusProperty.values.sort((a, b) => {
+      this._abacusProperties.values.sort((a, b) => {
         if (a > b) return 1;
         if (a === b) return 0;
         return -1;
       });
 
-      if (this._abacusProperty.values.length < 2) this._abacusProperty.interval = false;
-      else this._abacusProperty.interval = true;
+      if (this._abacusProperties.values.length < 2) this._abacusProperties.interval = false;
+      else this._abacusProperties.interval = true;
     }
 
-    for (let i = 0; i < this._abacusProperty.values.length; i += 1) {
-      if (i === 0 && this._abacusProperty.values[0] < this._abacusProperty.min) {
-        this._abacusProperty.values[0] = this._abacusProperty.min;
+    for (let i = 0; i < this._abacusProperties.values.length; i += 1) {
+      if (i === 0 && this._abacusProperties.values[0] < this._abacusProperties.min) {
+        this._abacusProperties.values[0] = this._abacusProperties.min;
       }
-      if (i === 1 && this._abacusProperty.values[1] > this._abacusProperty.max) {
-        this._abacusProperty.values[1] = this._abacusProperty.max;
+      if (i === 1 && this._abacusProperties.values[1] > this._abacusProperties.max) {
+        this._abacusProperties.values[1] = this._abacusProperties.max;
       }
     }
 
     // range
-    if (abacusProperty.range !== undefined) {
-      if (abacusProperty.range === false || abacusProperty.range === true) {
-        this._abacusProperty.range = abacusProperty.range;
-      } else if (abacusProperty.range === 'max') {
-        this._abacusProperty.range = 'max';
-      } else if (abacusProperty.range === 'min') {
-        this._abacusProperty.range = 'min';
+    if (abacusProperties.range !== undefined) {
+      if (abacusProperties.range === false || abacusProperties.range === true) {
+        this._abacusProperties.range = abacusProperties.range;
+      } else if (abacusProperties.range === 'max') {
+        this._abacusProperties.range = 'max';
+      } else if (abacusProperties.range === 'min') {
+        this._abacusProperties.range = 'min';
       }
     }
 
     // orientation
-    if (abacusProperty.orientation !== undefined) {
-      if (abacusProperty.orientation === 'vertical' || abacusProperty.orientation === AbacusOrientationType.VERTICAL) {
-        this._abacusProperty.orientation = AbacusOrientationType.VERTICAL;
+    if (abacusProperties.orientation !== undefined) {
+      if (abacusProperties.orientation === 'vertical' || abacusProperties.orientation === AbacusOrientationType.VERTICAL) {
+        this._abacusProperties.orientation = AbacusOrientationType.VERTICAL;
       } else {
-        this._abacusProperty.orientation = AbacusOrientationType.HORIZONTAL;
+        this._abacusProperties.orientation = AbacusOrientationType.HORIZONTAL;
       }
     }
 
     // change
-    if (abacusProperty.change !== undefined) {
-      this._abacusProperty.change = abacusProperty.change;
+    if (abacusProperties.change !== undefined) {
+      this._abacusProperties.change = abacusProperties.change;
     }
 
     // create
-    if (abacusProperty.create !== undefined) {
-      this._abacusProperty.create = abacusProperty.create;
+    if (abacusProperties.create !== undefined) {
+      this._abacusProperties.create = abacusProperties.create;
     }
 
     // slide
-    if (abacusProperty.slide !== undefined) {
-      this._abacusProperty.slide = abacusProperty.slide;
+    if (abacusProperties.slide !== undefined) {
+      this._abacusProperties.slide = abacusProperties.slide;
     }
 
     // start
-    if (abacusProperty.start !== undefined) {
-      this._abacusProperty.start = abacusProperty.start;
+    if (abacusProperties.start !== undefined) {
+      this._abacusProperties.start = abacusProperties.start;
     }
 
     // stop
-    if (abacusProperty.stop !== undefined) {
-      this._abacusProperty.stop = abacusProperty.stop;
+    if (abacusProperties.stop !== undefined) {
+      this._abacusProperties.stop = abacusProperties.stop;
     }
 
     if (this._eventTarget) {
@@ -281,9 +281,9 @@ class Model {
    */
   roundValuePerStep(value: number): number {
     let result: number = value;
-    const minVal: number = this._abacusProperty.min as number;
-    const maxVal: number = this._abacusProperty.max as number;
-    const step: number = this._abacusProperty.step as number;
+    const minVal: number = this._abacusProperties.min as number;
+    const maxVal: number = this._abacusProperties.max as number;
+    const step: number = this._abacusProperties.step as number;
 
     if (value >= maxVal) {
       return maxVal;

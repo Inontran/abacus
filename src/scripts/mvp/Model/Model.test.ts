@@ -12,10 +12,10 @@ describe('roundValuePerStep', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         value: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.value).toEqual(reciviedVal);
+      expect(model.abacusProperties.value).toEqual(reciviedVal);
     });
   }
 
@@ -36,10 +36,10 @@ describe('roundValuePerStep2', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         value: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.value).toEqual(reciviedVal);
+      expect(model.abacusProperties.value).toEqual(reciviedVal);
     });
   }
 
@@ -55,10 +55,10 @@ describe('set animate property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         animate: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.animate).toBe(reciviedVal);
+      expect(model.abacusProperties.animate).toBe(reciviedVal);
     });
   }
 
@@ -74,12 +74,12 @@ describe('set classes property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         classes: {
           abacus: setValue,
         },
       } as AbacusOptions);
-      expect(model.abacusProperty.classes.abacus).toBe(reciviedVal);
+      expect(model.abacusProperties.classes.abacus).toBe(reciviedVal);
     });
   }
 
@@ -95,10 +95,10 @@ describe('set max property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         max: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.max).toBe(reciviedVal);
+      expect(model.abacusProperties.max).toBe(reciviedVal);
     });
   }
 
@@ -114,10 +114,10 @@ describe('set min property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         min: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.min).toBe(reciviedVal);
+      expect(model.abacusProperties.min).toBe(reciviedVal);
     });
   }
 
@@ -133,10 +133,10 @@ describe('set step property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         step: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.step).toBe(reciviedVal);
+      expect(model.abacusProperties.step).toBe(reciviedVal);
     });
   }
 
@@ -154,10 +154,10 @@ describe('set orientation property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         orientation: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.orientation).toBe(reciviedVal);
+      expect(model.abacusProperties.orientation).toBe(reciviedVal);
     });
   }
 
@@ -173,10 +173,10 @@ describe('set range property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         range: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.range).toBe(reciviedVal);
+      expect(model.abacusProperties.range).toBe(reciviedVal);
     });
   }
 
@@ -206,10 +206,10 @@ describe('set interval property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         values: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.interval).toBe(reciviedVal);
+      expect(model.abacusProperties.interval).toBe(reciviedVal);
     });
   }
 
@@ -244,10 +244,10 @@ describe('set values property', () => {
 
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
-      model.setAbacusProperty({
+      model.setAbacusProperties({
         values: setValue,
       } as AbacusOptions);
-      expect(model.abacusProperty.values).toEqual(expect.arrayContaining(reciviedVal));
+      expect(model.abacusProperties.values).toEqual(expect.arrayContaining(reciviedVal));
     });
   }
 

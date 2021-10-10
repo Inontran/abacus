@@ -41,17 +41,17 @@ class Presenter {
 
   /**
    * Функция получения свойств слайдера, полученные из Модели.
-   * @returns {AbacusProperty} Свойства слайдера, полученные из Модели.
+   * @returns {AbacusProperties} Свойства слайдера, полученные из Модели.
    */
-  getModelAbacusProperty(): AbacusProperty {
-    return this._model.abacusProperty;
+  getModelAbacusProperties(): AbacusProperties {
+    return this._model.abacusProperties;
   }
 
   /**
    * Функция установки свойств слайдера.
    */
-  setModelAbacusProperty(abacusProperty: AbacusOptions | AbacusProperty): void{
-    this._model.setAbacusProperty(abacusProperty);
+  setModelAbacusProperties(abacusProperties: AbacusOptions | AbacusProperties): void{
+    this._model.setAbacusProperties(abacusProperties);
   }
 
   /**

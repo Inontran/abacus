@@ -17,7 +17,7 @@ interface EventUIData {
 
   /**
    * Свойства слайдера.
-   * @type {AbacusProperty}
+   * @type {AbacusProperties}
    */
-  abacusProperty: AbacusProperty;
+  abacusProperties: AbacusProperties;
 }

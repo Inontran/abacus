@@ -1,7 +1,7 @@
 /**
  * Свойства слайдера.
  */
-interface AbacusProperty extends AbacusOptions {
+interface AbacusProperties extends AbacusOptions {
   animate: boolean | string | number;
   classes: AbacusClasses;
   disabled: boolean;
