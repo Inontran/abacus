@@ -36,8 +36,6 @@ $.fn.abacus = function (
       } else {
         return;
       }
-
-      instanceHTMLAbacus.jqueryAbacusInstance = view;
     }
 
     if (typeof paramOptions === 'string') {
@@ -94,7 +92,7 @@ $.fn.abacus = function (
           break;
 
         case 'widget':
-          resultOption = $(view.getHtmlWidget());
+          returnResult = $(view.getHtmlWidget());
           break;
 
         default:

@@ -1,6 +1,8 @@
 import './demo-page.scss';
 
 class AbacusDemo {
+  private _$abacusSliderWrapper!: JQuery<HTMLElement>;
+
   private _$abacusSlider!: JQuery<HTMLAbacusElement>;
 
   private _$form!: JQuery<HTMLFormElement>;
@@ -9,16 +11,16 @@ class AbacusDemo {
 
   private _sliderConfig?: AbacusOptions;
 
-  constructor($abacusSlider: JQuery, sliderConfig?: AbacusOptions) {
-    this._init($abacusSlider, sliderConfig);
+  constructor($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig?: AbacusOptions) {
+    this._init($abacusSliderWrapper, sliderConfig);
   }
 
-  private _init($abacusSlider: JQuery, sliderConfig?: AbacusOptions) {
-    this._$abacusSlider = $abacusSlider;
+  private _init($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig?: AbacusOptions) {
     this._sliderConfig = sliderConfig;
+    this._$abacusSliderWrapper = $abacusSliderWrapper;
 
-    this._searchDOMElements();
     this._initAbacus();
+    this._searchDOMElements();
     this._parsePropertyToForm(this._$abacusSlider.abacus('option'));
     this._bindEventListeners();
     this._addEventListeners();
@@ -26,10 +28,12 @@ class AbacusDemo {
 
   private _initAbacus() {
     if (this._sliderConfig) {
-      this._$abacusSlider.abacus(this._sliderConfig);
+      this._$abacusSliderWrapper.abacus(this._sliderConfig);
     } else {
-      this._$abacusSlider.abacus();
+      this._$abacusSliderWrapper.abacus();
     }
+
+    this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('widget');
   }
 
   private _searchDOMElements() {
@@ -50,7 +54,7 @@ class AbacusDemo {
   }
 
   private _addEventListeners() {
-    this._$abacusSlider.on('abacus-change', this._handleAbacusChange);
+    this._$abacusSliderWrapper.on('abacus-change', this._handleAbacusChange);
     this._$form.on('submit', this._handleFormOptionsSubmit);
   }
 
@@ -72,9 +76,10 @@ class AbacusDemo {
       const abacusOptions = this.parseFormToProperty();
 
       if (!this._$abacusSlider[0].jqueryAbacusInstance) {
-        this._$abacusSlider?.abacus(abacusOptions);
+        this._$abacusSliderWrapper.abacus(abacusOptions);
+        this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('widget');
       } else {
-        this._$abacusSlider?.abacus('option', abacusOptions);
+        this._$abacusSlider.abacus('option', abacusOptions);
       }
     }
 

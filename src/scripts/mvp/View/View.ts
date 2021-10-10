@@ -138,16 +138,17 @@ class View {
   /**
    * @constructor
    * @this   {View}
-   * @param  {HTMLAbacusElement} abacusHtmlContainer HTML-элемент,
-   * в котором будет находиться инициализированный плагин.
-   * @param  {AbacusOptions} options Параметры настройки плагина.
+   * @param  {HTMLElement} abacusHtmlContainer HTML-элемент,
+   * в котором будет находиться инициализированный слайдер.
+   * @param  {AbacusOptions} options Параметры настройки слайдера.
    */
-  constructor(abacusHtmlContainer: HTMLAbacusElement, options?: AbacusOptions) {
+  constructor(abacusHtmlContainer: HTMLElement, options?: AbacusOptions) {
     this._presenter = new Presenter(options);
 
     const abacusProperty = this._presenter.getModelAbacusProperty();
 
     this._widgetContainer = new WidgetContainer(abacusProperty.classes);
+    this._widgetContainer.htmlElement.jqueryAbacusInstance = this;
     abacusHtmlContainer.append(this._widgetContainer.htmlElement);
 
     this._range = new Range(abacusProperty.classes);
