@@ -21,7 +21,7 @@ class AbacusDemo {
 
     this._initAbacus();
     this._searchDOMElements();
-    this._parsePropertiesToForm(this._$abacusSlider.abacus('option'));
+    this._updateFormInputs(this._$abacusSlider.abacus('option'));
     this._bindEventListeners();
     this._addEventListeners();
   }
@@ -88,11 +88,11 @@ class AbacusDemo {
 
   private _handleAbacusChange() {
     if (this._$form.length && this._$abacusSlider[0].jqueryAbacusInstance) {
-      this._parsePropertiesToForm(this._$abacusSlider.abacus('option'));
+      this._updateFormInputs(this._$abacusSlider.abacus('option'));
     }
   }
 
-  private _parsePropertiesToForm(abacusProperties: AbacusOptions) {
+  private _updateFormInputs(abacusProperties: AbacusProperties) {
     const $inputAnimate = this._formInputs.get('animate');
     if (abacusProperties.animate !== undefined) {
       const stringValAnimate = abacusProperties.animate.toString();
