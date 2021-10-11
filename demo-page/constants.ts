@@ -1,4 +1,4 @@
-export const SLIDER_CONFIGS: Array<AbacusOptions> = [
+const SLIDER_CONFIGS: Array<AbacusOptions> = [
   {
     min: -10,
     max: 9,
@@ -24,3 +24,5 @@ export const SLIDER_CONFIGS: Array<AbacusOptions> = [
     scale: true,
   },
 ];
+
+export { SLIDER_CONFIGS };
