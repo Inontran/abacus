@@ -136,12 +136,7 @@ class Handle {
    * @param {string} name Название класса.
    */
   public set className(name: string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-    if (this._className) {
-      this._htmlElement.classList.remove(this._className);
-    }
+    this._htmlElement.classList.remove(this._className);
     this._htmlElement.classList.add(name);
     this._className = name;
   }

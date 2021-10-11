@@ -47,11 +47,11 @@ class WidgetContainer {
    *  disabled: 'abacus_disabled'
    * });
    */
-  constructor(classes?: AbacusClasses) {
+  constructor(classes: AbacusClasses) {
     this._htmlElement = document.createElement('div') as HTMLAbacusElement;
-    this.className = classes?.abacus ? classes.abacus : 'abacus';
-    this.classNameDisabled = classes?.disabled ? classes.disabled : 'abacus_disabled';
-    this.classNameVertical = classes?.vertical ? classes.vertical : 'abacus_vertical';
+    this.className = classes.abacus;
+    this.classNameDisabled = classes.disabled;
+    this.classNameVertical = classes.vertical;
   }
 
   /**
@@ -88,12 +88,12 @@ class WidgetContainer {
    * @param {string} name - Название класса.
    */
   public set className(name : string) {
-    if (this._className) {
-      this._htmlElement.classList.remove(this._className);
-      this._htmlElement.classList.remove(`js-${this._className}`);
-    }
+    this._htmlElement.classList.remove(this._className);
+    this._htmlElement.classList.remove(`js-${this._className}`);
+
     this._htmlElement.classList.add(name);
     this._htmlElement.classList.add(`js-${name}`);
+
     this._className = name;
   }
 
@@ -110,10 +110,6 @@ class WidgetContainer {
    * @param {string} name - Название класса.
    */
   public set classNameDisabled(name : string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-
     if (this._htmlElement.classList.contains(this._classNameDisabled)) {
       this._htmlElement.classList.remove(this._classNameDisabled);
       this._htmlElement.classList.add(name);
@@ -135,10 +131,6 @@ class WidgetContainer {
    * @param {string} name - Название класса.
    */
   public set classNameVertical(name: string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-
     if (this._htmlElement.classList.contains(this._classNameVertical)) {
       this._htmlElement.classList.remove(this._classNameVertical);
       this._htmlElement.classList.add(name);

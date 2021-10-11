@@ -103,12 +103,7 @@ class Mark {
    * @param {string} name Название класса.
    */
   public set className(name: string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-    if (this._className) {
-      this._htmlElement.classList.remove(this._className);
-    }
+    this._htmlElement.classList.remove(this._className);
     this._htmlElement.classList.add(name);
     this._className = name;
   }
@@ -126,10 +121,6 @@ class Mark {
    * @param {string} name Название класса.
    */
   public set classNameInrange(name: string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-
     if (this._htmlElement.classList.contains(this._classNameInrange)) {
       this._htmlElement.classList.remove(this._classNameInrange);
       this._htmlElement.classList.add(name);
@@ -150,10 +141,6 @@ class Mark {
    * @param {string} name Название класса.
    */
   public set classNameSelected(name : string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-
     if (this._htmlElement.classList.contains(this._classNameSelected)) {
       this._htmlElement.classList.remove(this._classNameSelected);
       this._htmlElement.classList.add(name);

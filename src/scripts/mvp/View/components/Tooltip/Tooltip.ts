@@ -58,7 +58,7 @@ class Tooltip {
     this._htmlElement = document.createElement('span');
     this.className = classes.tooltip;
 
-    if (tooltipIndex !== undefined && !Number.isNaN(tooltipIndex)) {
+    if (tooltipIndex !== undefined) {
       this._tooltipIndex = tooltipIndex;
       this._htmlElement.setAttribute('data-handle-index', tooltipIndex.toString());
     }
@@ -83,13 +83,7 @@ class Tooltip {
    * @param {string} name Название класса.
    */
   public set className(name: string) {
-    if (!name || typeof name !== 'string') {
-      return;
-    }
-    
-    if (this._className) {
-      this._htmlElement.classList.remove(this._className);
-    }
+    this._htmlElement.classList.remove(this._className);
     this._htmlElement.classList.add(name);
     this._className = name;
   }

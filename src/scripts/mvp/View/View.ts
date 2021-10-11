@@ -873,23 +873,11 @@ class View {
    * @param {number} valueUnrounded Значение, полученное из позиции клика мыши или касания.
    */
   private _calcHandleValues(valueUnrounded: number): void{
-    if (Number.isNaN(valueUnrounded)) {
-      return;
-    }
-
     const viewInstance = this;
     const abacusProperties = viewInstance._presenter.getModelAbacusProperties();
-    if (!abacusProperties.values?.length) {
-      return;
-    }
-
-    let newValues: number[] = [];
-    if (abacusProperties.values) {
-      newValues = abacusProperties.values?.slice(0);
-    }
+    let newValues: number[] = abacusProperties.values?.slice(0);
 
     const checkNecessaryProps = abacusProperties.interval === true
-                                && abacusProperties.values?.length
                                 && abacusProperties.step;
     if (checkNecessaryProps) {
       let deltaMin = abacusProperties.values[0] - valueUnrounded;
