@@ -9,13 +9,13 @@ class AbacusDemo {
 
   private _formInputs: Map<string, JQuery<HTMLElement>> = new Map();
 
-  private _sliderConfig?: AbacusOptions;
+  private _sliderConfig!: AbacusOptions;
 
-  constructor($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig?: AbacusOptions) {
+  constructor($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig: AbacusOptions) {
     this._init($abacusSliderWrapper, sliderConfig);
   }
 
-  private _init($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig?: AbacusOptions) {
+  private _init($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig: AbacusOptions) {
     this._sliderConfig = sliderConfig;
     this._$abacusSliderWrapper = $abacusSliderWrapper;
 
@@ -27,12 +27,7 @@ class AbacusDemo {
   }
 
   private _initAbacus() {
-    if (this._sliderConfig) {
-      this._$abacusSliderWrapper.abacus(this._sliderConfig);
-    } else {
-      this._$abacusSliderWrapper.abacus();
-    }
-
+    this._$abacusSliderWrapper.abacus(this._sliderConfig);
     this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('widget');
   }
 
