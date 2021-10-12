@@ -1,5 +1,5 @@
 import AbacusDemo from './AbacusDemo';
-import { SLIDER_CONFIGS } from './constants';
+import SLIDER_CONFIGS from './constants';
 
 $(() => {
   const $sliders = $('.js-sliders');

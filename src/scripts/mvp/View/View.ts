@@ -875,7 +875,7 @@ class View {
   private _calcHandleValues(valueUnrounded: number): void{
     const viewInstance = this;
     const abacusProperties = viewInstance._presenter.getModelAbacusProperties();
-    let newValues: number[] = abacusProperties.values?.slice(0);
+    const newValues: number[] = abacusProperties.values?.slice(0);
 
     const checkNecessaryProps = abacusProperties.interval === true
                                 && abacusProperties.step;

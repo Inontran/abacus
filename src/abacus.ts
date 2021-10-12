@@ -28,14 +28,12 @@ $.fn.abacus = function (
     // получение или инициализация плагина
     if (instanceHTMLAbacus.jqueryAbacusInstance instanceof View) {
       view = instanceHTMLAbacus.jqueryAbacusInstance;
+    } else if (typeof paramOptions === 'object') {
+      view = new View(instanceHTMLAbacus, paramOptions);
+    } else if (!paramOptions) {
+      view = new View(instanceHTMLAbacus);
     } else {
-      if (typeof paramOptions === 'object') {
-        view = new View(instanceHTMLAbacus, paramOptions);
-      } else if (!paramOptions) {
-        view = new View(instanceHTMLAbacus);
-      } else {
-        return;
-      }
+      return;
     }
 
     if (typeof paramOptions === 'string') {

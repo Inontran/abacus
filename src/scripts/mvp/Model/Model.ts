@@ -230,7 +230,8 @@ class Model {
 
     // orientation
     if (abacusProperties.orientation !== undefined) {
-      if (abacusProperties.orientation === 'vertical' || abacusProperties.orientation === AbacusOrientationType.VERTICAL) {
+      if (abacusProperties.orientation === 'vertical'
+        || abacusProperties.orientation === AbacusOrientationType.VERTICAL) {
         this._abacusProperties.orientation = AbacusOrientationType.VERTICAL;
       } else {
         this._abacusProperties.orientation = AbacusOrientationType.HORIZONTAL;

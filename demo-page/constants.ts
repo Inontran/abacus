@@ -25,4 +25,4 @@ const SLIDER_CONFIGS: Array<AbacusOptions> = [
   },
 ];
 
-export { SLIDER_CONFIGS };
+export default SLIDER_CONFIGS;
