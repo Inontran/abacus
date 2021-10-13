@@ -136,19 +136,27 @@ class View {
   private _currentHandle?: Handle;
 
   /**
+   * HTML-элемент, в котором будет находиться инициализированный слайдер.
+   * @type {HTMLElement}
+   * @private
+   */
+  private _abacusHtmlWrapper: HTMLElement;
+
+  /**
    * @constructor
    * @this   {View}
-   * @param  {HTMLElement} abacusHtmlContainer HTML-элемент,
+   * @param  {HTMLElement} abacusHtmlWrapper HTML-элемент,
    * в котором будет находиться инициализированный слайдер.
    * @param  {AbacusOptions} options Параметры настройки слайдера.
    */
-  constructor(abacusHtmlContainer: HTMLElement, options?: AbacusOptions) {
+  constructor(abacusHtmlWrapper: HTMLElement, options?: AbacusOptions) {
     this._presenter = new Presenter(options);
+    this._abacusHtmlWrapper = abacusHtmlWrapper;
 
     const abacusProperties = this._presenter.getModelAbacusProperties();
 
     this._widgetContainer = new WidgetContainer(abacusProperties.classes);
-    abacusHtmlContainer.append(this._widgetContainer.htmlElement);
+    this._abacusHtmlWrapper.append(this._widgetContainer.htmlElement);
 
     this._range = new Range(abacusProperties.classes);
 
@@ -1417,6 +1425,8 @@ class View {
     document.removeEventListener('pointermove', this._handleHandleItemPointermove);
     document.removeEventListener('pointerup', this._handleHandleItemPointerup);
     document.removeEventListener('pointercancel', this._handleHandleItemPointerup);
+
+    $.data(this._abacusHtmlWrapper, 'abacus', null);
   }
 
   /**

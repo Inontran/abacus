@@ -1,9 +1,11 @@
+import View from '../src/scripts/mvp/View/View';
+
 import './demo-page.scss';
 
 class AbacusDemo {
   private _$abacusSliderWrapper!: JQuery<HTMLElement>;
 
-  private _$abacusSlider!: JQuery<HTMLElement>;
+  private _abacusSlider!: View;
 
   private _$form!: JQuery<HTMLFormElement>;
 
@@ -21,15 +23,14 @@ class AbacusDemo {
 
     this._initAbacus();
     this._searchDOMElements();
-    this._updateFormInputs(this._$abacusSlider.abacus('getProperties'));
+    this._updateFormInputs(this._abacusSlider.getProperties() as AbacusProperties);
     this._bindEventListeners();
     this._addEventListeners();
   }
 
   private _initAbacus() {
     this._$abacusSliderWrapper.abacus(this._sliderConfig);
-    // this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getInstance');
-    this._$abacusSlider = this._$abacusSliderWrapper.abacus(this._sliderConfig);
+    this._abacusSlider = this._$abacusSliderWrapper.data('abacus');
   }
 
   private _searchDOMElements() {
@@ -60,16 +61,15 @@ class AbacusDemo {
     const $destroySwitch = this._formInputs.get('destroy');
 
     if ($destroySwitch?.prop('checked') === false) {
-      this._$abacusSlider.abacus('destroy');
+      this._abacusSlider.destroy();
     } else {
       const abacusOptions = this.parseFormToProperties();
 
-      if (!$.data(this._$abacusSliderWrapper[0], 'abacus')) {
+      if (!this._$abacusSliderWrapper.data('abacus')) {
         this._$abacusSliderWrapper.abacus(abacusOptions);
-        // this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getInstance');
-        this._$abacusSlider = this._$abacusSliderWrapper.abacus(abacusOptions);
+        this._abacusSlider = this._$abacusSliderWrapper.data('abacus');
       } else {
-        this._$abacusSlider.abacus('setProperties', abacusOptions);
+        this._abacusSlider.setProperties('', abacusOptions);
       }
     }
 
@@ -77,7 +77,7 @@ class AbacusDemo {
   }
 
   private _handleAbacusChange() {
-    this._updateFormInputs(this._$abacusSlider.abacus('getProperties'));
+    this._updateFormInputs(this._abacusSlider.getProperties() as AbacusProperties);
   }
 
   private _updateFormInputs(abacusProperties: AbacusProperties) {
