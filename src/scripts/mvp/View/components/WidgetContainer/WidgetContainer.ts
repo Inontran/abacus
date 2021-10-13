@@ -5,10 +5,10 @@
 class WidgetContainer {
   /**
    * HTML-элемент, в котором содержатся элементы слайдера.
-   * @type {HTMLAbacusElement}
+   * @type {HTMLElement}
    * @private
    */
-  private _htmlElement: HTMLAbacusElement;
+  private _htmlElement: HTMLElement;
 
   /**
    * Ширина HTML-элемента от 0 до 100 в процентах.
@@ -48,7 +48,7 @@ class WidgetContainer {
    * });
    */
   constructor(classes: AbacusClasses) {
-    this._htmlElement = document.createElement('div') as HTMLAbacusElement;
+    this._htmlElement = document.createElement('div');
     this.className = classes.abacus;
     this.classNameDisabled = classes.disabled;
     this.classNameVertical = classes.vertical;
@@ -72,7 +72,7 @@ class WidgetContainer {
   /**
    * Геттер ссылки на HTML-элемент.
    */
-  public get htmlElement() : HTMLAbacusElement {
+  public get htmlElement() : HTMLElement {
     return this._htmlElement;
   }
 

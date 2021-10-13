@@ -148,7 +148,6 @@ class View {
     const abacusProperties = this._presenter.getModelAbacusProperties();
 
     this._widgetContainer = new WidgetContainer(abacusProperties.classes);
-    this._widgetContainer.htmlElement.jqueryAbacusInstance = this;
     abacusHtmlContainer.append(this._widgetContainer.htmlElement);
 
     this._range = new Range(abacusProperties.classes);
@@ -1402,9 +1401,9 @@ class View {
 
   /**
    * Возвращает HTML-элемент контейнера слайдера.
-   * @returns {HTMLAbacusElement} Контейнер слайдера.
+   * @returns {HTMLElement} Контейнер слайдера.
    */
-  getHtmlWidget(): HTMLAbacusElement {
+  getHtmlWidget(): HTMLElement {
     return this._widgetContainer.htmlElement;
   }
 

@@ -7,7 +7,7 @@ function makeTest(testInfo: string, expectedVal: number, reciviedVal: number) {
 }
 
 describe('getPosFromValue', () => {
-  const abacusHtmlContainer: HTMLAbacusElement = document.createElement('div') as HTMLAbacusElement;
+  const abacusHtmlContainer: HTMLElement = document.createElement('div') as HTMLElement;
   const view = new View(abacusHtmlContainer, {
     min: -10,
     max: 10,

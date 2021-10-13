@@ -10,7 +10,7 @@ $.fn.abacus = function (
   param1 ? : AbacusOptions | number | string | number[],
   param2 ? : number | string | boolean | null | AbacusClasses,
 ) {
-  let returnResult: JQuery<HTMLAbacusElement> |
+  let returnResult: JQuery<HTMLElement> |
   AbacusProperties |
   number |
   number[] |
@@ -22,25 +22,26 @@ $.fn.abacus = function (
   string = this;
 
   this.each(function () {
-    const instanceHTMLAbacus: HTMLAbacusElement = this;
+    const instanceHTMLAbacus: HTMLElement = this;
     let view: View;
 
     // получение или инициализация плагина
-    if (instanceHTMLAbacus.jqueryAbacusInstance instanceof View) {
-      view = instanceHTMLAbacus.jqueryAbacusInstance;
-    } else if (typeof paramOptions === 'object') {
-      view = new View(instanceHTMLAbacus, paramOptions);
-    } else if (!paramOptions) {
-      view = new View(instanceHTMLAbacus);
+    if (!$.data(this, 'abacus')) {
+      if (typeof paramOptions === 'object') {
+        view = new View(instanceHTMLAbacus, paramOptions);
+      } else {
+        view = new View(instanceHTMLAbacus);
+      }
+      $.data(this, 'abacus', view);
     } else {
-      return;
+      view = $.data(this, 'abacus');
     }
 
     if (typeof paramOptions === 'string') {
       switch (paramOptions) {
         case 'destroy':
           view.destroy();
-          instanceHTMLAbacus.jqueryAbacusInstance = null;
+          $.data(this, 'abacus', null);
           break;
 
         case 'disable':

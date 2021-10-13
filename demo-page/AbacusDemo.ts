@@ -3,7 +3,7 @@ import './demo-page.scss';
 class AbacusDemo {
   private _$abacusSliderWrapper!: JQuery<HTMLElement>;
 
-  private _$abacusSlider!: JQuery<HTMLAbacusElement>;
+  private _$abacusSlider!: JQuery<HTMLElement>;
 
   private _$form!: JQuery<HTMLFormElement>;
 
@@ -28,11 +28,12 @@ class AbacusDemo {
 
   private _initAbacus() {
     this._$abacusSliderWrapper.abacus(this._sliderConfig);
-    this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getWidget');
+    // this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getInstance');
+    this._$abacusSlider = this._$abacusSliderWrapper.abacus(this._sliderConfig);
   }
 
   private _searchDOMElements() {
-    this._$form = this._$abacusSlider.closest('.js-form') as JQuery<HTMLFormElement>;
+    this._$form = this._$abacusSliderWrapper.closest('.js-form') as JQuery<HTMLFormElement>;
     const abacusDemoInstance = this;
 
     $('input, select', this._$form).each(function () {
@@ -63,9 +64,10 @@ class AbacusDemo {
     } else {
       const abacusOptions = this.parseFormToProperties();
 
-      if (!this._$abacusSlider[0].jqueryAbacusInstance) {
+      if (!$.data(this._$abacusSliderWrapper[0], 'abacus')) {
         this._$abacusSliderWrapper.abacus(abacusOptions);
-        this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getWidget');
+        // this._$abacusSlider = $('.js-abacus', this._$abacusSliderWrapper).abacus('getInstance');
+        this._$abacusSlider = this._$abacusSliderWrapper.abacus(abacusOptions);
       } else {
         this._$abacusSlider.abacus('setProperties', abacusOptions);
       }
@@ -75,9 +77,7 @@ class AbacusDemo {
   }
 
   private _handleAbacusChange() {
-    if (this._$abacusSlider[0].jqueryAbacusInstance) {
-      this._updateFormInputs(this._$abacusSlider.abacus('getProperties'));
-    }
+    this._updateFormInputs(this._$abacusSlider.abacus('getProperties'));
   }
 
   private _updateFormInputs(abacusProperties: AbacusProperties) {
