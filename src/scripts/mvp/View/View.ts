@@ -185,7 +185,7 @@ class View {
       cancelable: true,
     });
 
-    this.updateView();
+    this._updateView();
     this._bindEventListeners();
 
     this._eventCreateWrapper();
@@ -194,10 +194,11 @@ class View {
   /**
    * Функция, которая получает на входе координату клика по оси Х относительно окна браузера,
    * а возвращает количество процентов от начала (левого края) слайдера.
+   * @private
    * @param {number} coordXY Координата клика по оси Х относительно окна браузера.
    * @returns {number} Количество процентов от начала (левого края) слайдера.
    */
-  getPosPercent(coordXY: number): number {
+  private _getPosPercent(coordXY: number): number {
     let result = 0;
     if (this._isVertical) {
       const posTopWidget: number = this._widgetContainer.htmlElement.getBoundingClientRect().top;
@@ -223,11 +224,12 @@ class View {
   /**
    * Функция, которая на вход получает значение слайдера,
    * а возвращает количество процентов от начала слайдера (от левого или нижнего края).
-   * Выполняет действие обратное функции ``getValFromPosPercent``.
+   * Выполняет действие обратное функции ``_getValFromPosPercent``.
+   * @private
    * @param {number} value Значение слайдера.
    * @returns {number} Количество процентов от начала слайдера.
    */
-  getPosFromValue(value: number): number {
+  private _getPosFromValue(value: number): number {
     let result = 0;
     const options: AbacusOptions = this._presenter.getModelAbacusProperties();
     const minVal: number = options.min as number;
@@ -260,11 +262,12 @@ class View {
   /**
    * Функция, которая получает на вход процент от начала слайдера,
    * а возвращает соответствующее значение.
-   * Выполняет действие обратное функции ``getPosFromValue``.
+   * Выполняет действие обратное функции ``_getPosFromValue``.
+   * @private
    * @param {number} posPercent Позиция бегунка в процентах от начала слайдера.
    * @returns {number} Значение слайдера.
    */
-  getValFromPosPercent(posPercent: number): number {
+  private _getValFromPosPercent(posPercent: number): number {
     let abacusValue = 0;
     const options: AbacusOptions = this._presenter.getModelAbacusProperties();
     const minVal: number = options.min as number;
@@ -297,14 +300,20 @@ class View {
    * Функция установки свойств слайдера.
    * @param {string} optionName Название свойства, значение которого надо получить или изменить.
    * @param {any} propValue Значение свойства.
-   * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
    */
+  setProperties(
+    abacusOptions: AbacusOptions,
+  ): void;
   setProperties(
     optionName: string,
     propValue: any,
-  ) {
-    if (typeof optionName === 'string') {
-      switch (optionName) {
+  ): void;
+  setProperties(
+    param1: string | AbacusOptions,
+    propValue?: any,
+  ): void {
+    if (typeof param1 === 'string') {
+      switch (param1) {
         case 'animate':
         case 'classes':
         case 'disabled':
@@ -318,12 +327,11 @@ class View {
         case 'value':
         case 'values':
           const newProperties = {} as AbacusOptions;
-          newProperties[optionName] = propValue;
+          newProperties[param1] = propValue;
           this._presenter.setModelAbacusProperties(newProperties);
           break;
       }
-    } else if (typeof propValue === 'object') {
-      // это условие для установки одного или несколько свойств слайдера в виде объекта
+    } else if (typeof param1 === 'object') {
       this._presenter.setModelAbacusProperties(propValue as AbacusOptions);
     }
   }
@@ -333,6 +341,10 @@ class View {
    * @param {string} optionName Название свойства, значение которого надо получить или изменить.
    * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
    */
+  getProperties(): AbacusProperties;
+  getProperties(
+    optionName: string,
+  ): number | string | number[] | boolean | AbacusClasses | undefined;
   getProperties(
     optionName?: string,
   ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
@@ -352,7 +364,6 @@ class View {
         return this._presenter.getModelAbacusProperties()[optionName];
 
       default:
-        // это условие для получения всех свойств слайдера в виде объекта
         return this._presenter.getModelAbacusProperties();
     }
   }
@@ -360,7 +371,7 @@ class View {
   /**
    * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
    */
-  updateView(): void{
+  private _updateView(): void{
     const abacusProperties: AbacusProperties = this._presenter.getModelAbacusProperties();
 
     const hasRangeChanged = this._cachedAbacusProperties?.range !== abacusProperties.range;
@@ -431,7 +442,7 @@ class View {
 
     // Включаем или отключаем слайдер
     if (hasDisabledChanged) {
-      this.toggleDisable(abacusProperties.disabled);
+      this._toggleDisable(abacusProperties.disabled);
     }
 
     // Создаем шкалу значений
@@ -511,7 +522,7 @@ class View {
 
     for (let i = 0; i < abacusProperties.values.length; i += 1) {
       const currentValue: number = abacusProperties.values[i];
-      const posHandle = this.getPosFromValue(currentValue);
+      const posHandle = this._getPosFromValue(currentValue);
 
       if (this._handles[i]) {
         if (this._isVertical) {
@@ -557,7 +568,7 @@ class View {
 
     for (let i = 0; i < abacusProperties.values.length; i += 1) {
       const currentValue: number = abacusProperties.values[i];
-      const posHandle = this.getPosFromValue(currentValue);
+      const posHandle = this._getPosFromValue(currentValue);
 
       if (this._tooltips[i]) {
         if (this._isVertical) {
@@ -615,8 +626,8 @@ class View {
       return;
     }
 
-    const posHandle0 = this.getPosFromValue(abacusProperties.values[0]);
-    const posHandle1 = this.getPosFromValue(abacusProperties.values[1]);
+    const posHandle0 = this._getPosFromValue(abacusProperties.values[0]);
+    const posHandle1 = this._getPosFromValue(abacusProperties.values[1]);
 
     if (this._isVertical) {
       this._range.htmlElement.style.left = '';
@@ -726,9 +737,10 @@ class View {
 
   /**
    * Функция переключает состояние слайдера с активного на неактивный и обратно.
+   * @private
    * @param {boolean} off "true" значит отключить. "false" значит активировать.
    */
-  toggleDisable(off?: boolean): void{
+  private _toggleDisable(off?: boolean): void{
     if (off === undefined || off === null) {
       this._isDisabled = !this._isDisabled;
     } else {
@@ -859,8 +871,8 @@ class View {
 
     const coordinate = this._isVertical ? event.clientY : event.clientX;
 
-    const percent = this.getPosPercent(coordinate - this._shiftClickOnHandle);
-    const valueUnrounded: number = this.getValFromPosPercent(percent);
+    const percent = this._getPosPercent(coordinate - this._shiftClickOnHandle);
+    const valueUnrounded: number = this._getValFromPosPercent(percent);
 
     const newValues: number[] = abacusProperties.values?.slice(0);
     const [firstHandle, secondHandle] = viewInstance._handles;
@@ -960,7 +972,7 @@ class View {
    * @param {Event} event Объект события.
    */
   private _handleModelUpdate(): void{
-    this.updateView();
+    this._updateView();
   }
 
   /**
@@ -987,8 +999,8 @@ class View {
     const coordinate = this._isVertical ? event.clientY : event.clientX;
 
     const currentValues = viewInstance._cachedAbacusProperties?.values;
-    const percent = this.getPosPercent(coordinate);
-    const valueUnrounded: number = this.getValFromPosPercent(percent);
+    const percent = this._getPosPercent(coordinate);
+    const valueUnrounded: number = this._getValFromPosPercent(percent);
     viewInstance._calcHandleValues(valueUnrounded);
 
     const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
@@ -1137,7 +1149,7 @@ class View {
       if (doAddMark) {
         value = View.round(value, abacusProperties.step);
         const mark = new Mark(value, abacusProperties.classes);
-        const positionMark = this.getPosFromValue(value);
+        const positionMark = this._getPosFromValue(value);
 
         if (this._isVertical) mark.posBottom = positionMark;
         else mark.posLeft = positionMark;
@@ -1149,7 +1161,7 @@ class View {
 
     // 6. Добавляем последнюю метку с макс. значением
     const mark = new Mark(abacusProperties.max, abacusProperties.classes);
-    const positionMark = this.getPosFromValue(abacusProperties.max);
+    const positionMark = this._getPosFromValue(abacusProperties.max);
 
     if (this._isVertical) mark.posBottom = positionMark;
     else mark.posLeft = positionMark;
@@ -1416,7 +1428,7 @@ class View {
   }
 
   /**
-   * Возвращет контейнер слайдера в исходное состояние.
+   * Удаляет слайдер со страницы.
    */
   destroy() {
     this._widgetContainer.htmlElement.remove();

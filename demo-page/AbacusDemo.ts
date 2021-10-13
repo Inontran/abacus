@@ -23,7 +23,7 @@ class AbacusDemo {
 
     this._initAbacus();
     this._searchDOMElements();
-    this._updateFormInputs(this._abacusSlider.getProperties() as AbacusProperties);
+    this._updateFormInputs(this._abacusSlider.getProperties());
     this._bindEventListeners();
     this._addEventListeners();
   }
@@ -69,7 +69,7 @@ class AbacusDemo {
         this._$abacusSliderWrapper.abacus(abacusOptions);
         this._abacusSlider = this._$abacusSliderWrapper.data('abacus');
       } else {
-        this._abacusSlider.setProperties('', abacusOptions);
+        this._abacusSlider.setProperties(abacusOptions);
       }
     }
 
@@ -77,7 +77,7 @@ class AbacusDemo {
   }
 
   private _handleAbacusChange() {
-    this._updateFormInputs(this._abacusSlider.getProperties() as AbacusProperties);
+    this._updateFormInputs(this._abacusSlider.getProperties());
   }
 
   private _updateFormInputs(abacusProperties: AbacusProperties) {
