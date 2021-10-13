@@ -58,6 +58,8 @@ $.fn.abacus = function (
         case 'getProperties':
           if (typeof param1 === 'string') {
             returnResult = view.getProperties(param1);
+          } else {
+            returnResult = view.getProperties();
           }
           break;
 
