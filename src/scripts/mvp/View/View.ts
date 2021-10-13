@@ -287,15 +287,15 @@ class View {
   }
 
   /**
-   * Функция получения и установки свойств слайдера.
+   * Функция установки свойств слайдера.
    * @param {string} optionName Название свойства, значение которого надо получить или изменить.
    * @param {any} propValue Значение свойства.
    * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
    */
-  option(
-    optionName?: string,
-    propValue?: any,
-  ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
+  setProperties(
+    optionName: string,
+    propValue: any,
+  ) {
     if (typeof optionName === 'string') {
       switch (optionName) {
         case 'animate':
@@ -310,29 +310,44 @@ class View {
         case 'tooltip':
         case 'value':
         case 'values':
-          if (propValue !== undefined) {
-            // это условие для установки конкретного свойства слайдера
-            const newProperties = {} as AbacusOptions;
-            newProperties[optionName] = propValue;
-            this._presenter.setModelAbacusProperties(newProperties);
-          } else {
-            // это условие для получения конкретного свойства слайдера
-            return this._presenter.getModelAbacusProperties()[optionName];
-          }
-          break;
-
-        default:
+          const newProperties = {} as AbacusOptions;
+          newProperties[optionName] = propValue;
+          this._presenter.setModelAbacusProperties(newProperties);
           break;
       }
     } else if (typeof propValue === 'object') {
       // это условие для установки одного или несколько свойств слайдера в виде объекта
       this._presenter.setModelAbacusProperties(propValue as AbacusOptions);
-    } else {
-      // это условие для получения всех свойств слайдера в виде объекта
-      return this._presenter.getModelAbacusProperties();
     }
+  }
 
-    return undefined;
+  /**
+   * Функция получения свойств слайдера.
+   * @param {string} optionName Название свойства, значение которого надо получить или изменить.
+   * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
+   */
+  getProperties(
+    optionName?: string,
+  ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
+    switch (optionName) {
+      case 'animate':
+      case 'classes':
+      case 'disabled':
+      case 'max':
+      case 'scale':
+      case 'min':
+      case 'orientation':
+      case 'range':
+      case 'step':
+      case 'tooltip':
+      case 'value':
+      case 'values':
+        return this._presenter.getModelAbacusProperties()[optionName];
+
+      default:
+        // это условие для получения всех свойств слайдера в виде объекта
+        return this._presenter.getModelAbacusProperties();
+    }
   }
 
   /**

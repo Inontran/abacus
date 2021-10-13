@@ -37,17 +37,6 @@ $.fn.abacus = function (
     }
 
     if (typeof paramOptions === 'string') {
-      let resultOption: JQuery<HTMLAbacusElement> |
-      AbacusProperties |
-      number |
-      number[] |
-      boolean |
-      null |
-      undefined |
-      AbacusClasses |
-      View |
-      string;
-
       switch (paramOptions) {
         case 'destroy':
           view.destroy();
@@ -55,45 +44,43 @@ $.fn.abacus = function (
           break;
 
         case 'disable':
-          view.option('disabled', true);
+          view.setProperties('disabled', true);
           break;
 
         case 'enable':
-          view.option('disabled', false);
+          view.setProperties('disabled', false);
           break;
 
-        case 'instance':
+        case 'getInstance':
           returnResult = view;
           break;
 
-        case 'option':
+        case 'getProperties':
+          if (typeof param1 === 'string') {
+            returnResult = view.getProperties(param1);
+          }
+          break;
+
+        case 'setProperties':
           if (typeof param1 === 'object') {
-            resultOption = view.option(undefined, param1);
+            view.setProperties('', param1);
           } else if (typeof param1 === 'string') {
-            resultOption = view.option(param1, param2);
-          } else {
-            resultOption = view.option();
-          }
-
-          if (typeof resultOption !== undefined) {
-            returnResult = resultOption;
+            view.setProperties(param1, param2);
           }
           break;
 
-        case 'value':
-        case 'values':
-          resultOption = view.option(paramOptions, param1);
-
-          if (typeof resultOption !== undefined) {
-            returnResult = resultOption;
-          }
+        case 'getValue':
+        case 'getValues':
+          returnResult = view.getProperties(paramOptions);
           break;
 
-        case 'widget':
+        case 'setValue':
+        case 'setValues':
+          view.setProperties(paramOptions, param1);
+          break;
+
+        case 'getWidget':
           returnResult = $(view.getHtmlWidget());
-          break;
-
-        default:
           break;
       }
     }
