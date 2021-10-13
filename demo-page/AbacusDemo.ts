@@ -11,25 +11,22 @@ class AbacusDemo {
 
   private _formInputs: Map<string, JQuery<HTMLElement>> = new Map();
 
-  private _sliderConfig!: AbacusOptions;
-
   constructor($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig: AbacusOptions) {
     this._init($abacusSliderWrapper, sliderConfig);
   }
 
   private _init($abacusSliderWrapper: JQuery<HTMLElement>, sliderConfig: AbacusOptions) {
-    this._sliderConfig = sliderConfig;
     this._$abacusSliderWrapper = $abacusSliderWrapper;
 
-    this._initAbacus();
+    this._initAbacus(sliderConfig);
     this._searchDOMElements();
     this._updateFormInputs(this._abacusSlider.getProperties());
     this._bindEventListeners();
     this._addEventListeners();
   }
 
-  private _initAbacus() {
-    this._$abacusSliderWrapper.abacus(this._sliderConfig);
+  private _initAbacus(config: AbacusOptions) {
+    this._$abacusSliderWrapper.abacus(config);
     this._abacusSlider = this._$abacusSliderWrapper.data('abacus');
   }
 
@@ -63,13 +60,12 @@ class AbacusDemo {
     if ($destroySwitch?.prop('checked') === false) {
       this._abacusSlider.destroy();
     } else {
-      const abacusOptions = this.parseFormToProperties();
+      const sliderConfig = this._parseFormToProperties();
 
       if (!this._$abacusSliderWrapper.data('abacus')) {
-        this._$abacusSliderWrapper.abacus(abacusOptions);
-        this._abacusSlider = this._$abacusSliderWrapper.data('abacus');
+        this._initAbacus(sliderConfig);
       } else {
-        this._abacusSlider.setProperties(abacusOptions);
+        this._abacusSlider.setProperties(sliderConfig);
       }
     }
 
@@ -108,7 +104,7 @@ class AbacusDemo {
     this._formInputs.get('step')?.val(abacusProperties.step);
   }
 
-  parseFormToProperties(): AbacusOptions {
+  private _parseFormToProperties(): AbacusOptions {
     const abacusProperties: AbacusOptions = {};
 
     const $inputAnimate = this._formInputs.get('animate');

@@ -332,7 +332,7 @@ class View {
           break;
       }
     } else if (typeof param1 === 'object') {
-      this._presenter.setModelAbacusProperties(propValue as AbacusOptions);
+      this._presenter.setModelAbacusProperties(param1);
     }
   }
 
