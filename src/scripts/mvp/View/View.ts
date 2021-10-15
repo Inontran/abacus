@@ -1339,9 +1339,9 @@ class View {
     }
     const markAssociatedValue = parseFloat(markValueAttr);
 
-    viewInstance._calcHandleValues(markAssociatedValue);
-    
     const currentValues = viewInstance._cachedAbacusProperties?.values;
+    viewInstance._calcHandleValues(markAssociatedValue);
+
     const abacusProperties: AbacusProperties = viewInstance._presenter.getModelAbacusProperties();
     const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {
