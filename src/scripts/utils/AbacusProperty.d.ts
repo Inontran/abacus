@@ -26,6 +26,5 @@ interface AbacusProperties extends AbacusOptions {
   scale: boolean;
   step: number;
   tooltip: boolean;
-  value: number;
   values: number[];
 }

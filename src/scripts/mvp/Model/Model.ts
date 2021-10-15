@@ -33,7 +33,6 @@ class Model {
     scale: false,
     step: 1,
     tooltip: false,
-    value: 0,
     values: [0],
   };
 
@@ -164,22 +163,6 @@ class Model {
       this._abacusProperties.tooltip = !!abacusProperties.tooltip;
     }
 
-    // value
-    if (abacusProperties.value !== undefined && abacusProperties.value !== null) {
-      if (!Number.isNaN(abacusProperties.value)) {
-        if (typeof abacusProperties.value === 'string') {
-          abacusProperties.value = parseFloat(abacusProperties.value);
-        }
-        abacusProperties.value = this.roundValuePerStep(abacusProperties.value);
-        this._abacusProperties.value = abacusProperties.value;
-
-        if (!this._abacusProperties.values?.length) {
-          this._abacusProperties.values = [];
-        }
-        this._abacusProperties.values[0] = abacusProperties.value;
-      }
-    }
-
     // values
     if (abacusProperties.values?.length) {
       this._abacusProperties.values = [];
@@ -190,10 +173,6 @@ class Model {
         }
         abacusProperties.values[i] = this.roundValuePerStep(abacusProperties.values[i]);
         this._abacusProperties.values[i] = abacusProperties.values[i];
-
-        if (i === 0) {
-          this._abacusProperties.value = abacusProperties.values[i];
-        }
 
         if (i > 1) break;
       }

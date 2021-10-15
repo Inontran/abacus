@@ -324,7 +324,6 @@ class View {
         case 'range':
         case 'step':
         case 'tooltip':
-        case 'value':
         case 'values':
           const newProperties = {} as AbacusOptions;
           newProperties[param1] = propValue;
@@ -359,7 +358,6 @@ class View {
       case 'range':
       case 'step':
       case 'tooltip':
-      case 'value':
       case 'values':
         return this._presenter.getModelAbacusProperties()[optionName];
 
@@ -1341,11 +1339,9 @@ class View {
     }
     const markAssociatedValue = parseFloat(markValueAttr);
 
+    viewInstance._calcHandleValues(markAssociatedValue);
+    
     const currentValues = viewInstance._cachedAbacusProperties?.values;
-    if (viewInstance._cachedAbacusProperties?.value !== markAssociatedValue) {
-      viewInstance._calcHandleValues(markAssociatedValue);
-    }
-
     const abacusProperties: AbacusProperties = viewInstance._presenter.getModelAbacusProperties();
     const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {

@@ -243,29 +243,6 @@ interface AbacusOptions {
   tooltip?: boolean = false;
 
   /**
-   * @type {number}
-   * @default 0
-   * @description Значение ползунка, если у слайдера только одна ручка и нет интервала.
-   * Если у слайдера две ручки, тогда в свойстве хранится значение первой ручки.
-   * @example Инициализация слайдера с параметром ``value``:
-   * ```
-   * $('.selector').abacus({
-   *    value: 10,
-   * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``value`` после инициализации:
-   * ```
-   * // Получение значения
-   * let value = $('.selector').abacus('option', 'value');
-   *
-   * // Установка значения
-   * $('.selector').abacus('option', 'value', 10);
-   * ```
-   */
-  value?: number = 0;
-
-  /**
    * @type {number[]}
    * @defaultvalue [0]
    * @description Свойство, в котором указано значения первой и второй ручки слайдера.

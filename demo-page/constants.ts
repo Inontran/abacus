@@ -12,7 +12,7 @@ const SLIDER_CONFIGS: Array<AbacusOptions> = [
     animate: 'fast',
     max: 1000,
     step: 0.5,
-    value: 500,
+    values: [500],
     range: 'max',
   },
   {

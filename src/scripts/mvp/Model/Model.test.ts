@@ -5,7 +5,6 @@ describe('roundValuePerStep', () => {
     min: -10,
     max: 11,
     step: 2,
-    value: 0,
   });
   const arrSetValues: number[] = [-10, -9.7, -9.5, -9, -8.5, -7, -4, -1, -0.5, 0, 1, 2, 5, 7, 9.5, 10, 10.2];
   const arrRightValues: number[] = [-10, -10, -10, -8, -8, -6, -4, 0, 0, 0, 2, 2, 6, 8, 10, 10, 11];
@@ -13,9 +12,9 @@ describe('roundValuePerStep', () => {
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
       model.setAbacusProperties({
-        value: setValue,
+        values: [setValue],
       } as AbacusOptions);
-      expect(model.abacusProperties.value).toEqual(reciviedVal);
+      expect(model.abacusProperties.values[0]).toEqual(reciviedVal);
     });
   }
 
@@ -29,7 +28,7 @@ describe('roundValuePerStep2', () => {
     min: -2,
     max: 10,
     step: 3,
-    value: 4,
+    values: [4],
   });
   const arrSetValues: number[] = [-2, -1.9, -1.8, -1.7, -1.5, -1.3, -1, -0.7, -0.5, 0, 0.3, 0.5, 0.7, 0.8, 1];
   const arrRightValues: number[] = [-2, -2, -2, -2, -2, -2, -2, -2, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -37,9 +36,9 @@ describe('roundValuePerStep2', () => {
   function makeTest(setValue: any, reciviedVal: any) {
     it(`значение ${setValue} должно быть равным ${reciviedVal}`, () => {
       model.setAbacusProperties({
-        value: setValue,
+        values: [setValue],
       } as AbacusOptions);
-      expect(model.abacusProperties.value).toEqual(reciviedVal);
+      expect(model.abacusProperties.values[0]).toEqual(reciviedVal);
     });
   }
 
