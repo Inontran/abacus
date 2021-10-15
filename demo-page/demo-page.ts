@@ -10,7 +10,7 @@ $(() => {
     $('.js-sliders__number', $newSliderCard).text(i);
   }
 
-  $('.js-sliders__item-abacus-wrapper', $sliders).each(function (i) {
+  $('.js-sliders__abacus-wrapper', $sliders).each(function (i) {
     const $abacusItem = $(this);
     new AbacusDemo($abacusItem, SLIDER_CONFIGS[i]);
   });

@@ -5,7 +5,7 @@ import './demo-page.scss';
 class AbacusDemo {
   private _$abacusSliderWrapper!: JQuery<HTMLElement>;
 
-  private _abacusSlider!: View;
+  private _abacusSlider!: View | null;
 
   private _$form!: JQuery<HTMLFormElement>;
 
@@ -19,10 +19,13 @@ class AbacusDemo {
     this._$abacusSliderWrapper = $abacusSliderWrapper;
 
     this._initAbacus(sliderConfig);
-    this._searchDOMElements();
-    this._updateFormInputs(this._abacusSlider.getProperties());
-    this._bindEventListeners();
-    this._addEventListeners();
+
+    if (this._abacusSlider) {
+      this._searchDOMElements();
+      this._updateFormInputs(this._abacusSlider.getProperties());
+      this._bindEventListeners();
+      this._addEventListeners();
+    }
   }
 
   private _initAbacus(config: AbacusOptions) {
@@ -55,25 +58,28 @@ class AbacusDemo {
 
   private _handleFormSubmit(event: Event) {
     event.preventDefault();
-    const $destroySwitch = this._formInputs.get('destroy');
+    const $doDestroyAbacus = this._formInputs.get('destroy')?.prop('checked') === false;
 
-    if ($destroySwitch?.prop('checked') === false) {
-      this._abacusSlider.destroy();
+    if ($doDestroyAbacus) {
+      this._abacusSlider?.destroy();
+      this._abacusSlider = null;
     } else {
-      const sliderConfig = this._parseFormToProperties();
+      const sliderConfig = this._parseFormInAbacusOptions();
 
-      if (!this._$abacusSliderWrapper.data('abacus')) {
-        this._initAbacus(sliderConfig);
-      } else {
+      if (this._abacusSlider) {
         this._abacusSlider.setProperties(sliderConfig);
+      } else {
+        this._initAbacus(sliderConfig);
       }
     }
 
-    return null;
+    return;
   }
 
   private _handleAbacusChange() {
-    this._updateFormInputs(this._abacusSlider.getProperties());
+    if (this._abacusSlider) {
+      this._updateFormInputs(this._abacusSlider.getProperties());
+    }
   }
 
   private _updateFormInputs(abacusProperties: AbacusProperties) {
@@ -87,7 +93,7 @@ class AbacusDemo {
 
     this._formInputs.get('value-first')?.val(abacusProperties.values[0]);
 
-    if (abacusProperties.values[1] !== undefined || abacusProperties.values[1] !== null) {
+    if (typeof abacusProperties.values[1] === 'number') {
       this._formInputs.get('value-second')?.val(abacusProperties.values[1]);
     } else {
       this._formInputs.get('value-second')?.val('');
@@ -104,24 +110,22 @@ class AbacusDemo {
     this._formInputs.get('step')?.val(abacusProperties.step);
   }
 
-  private _parseFormToProperties(): AbacusOptions {
+  private _parseFormInAbacusOptions(): AbacusOptions {
     const abacusProperties: AbacusOptions = {};
 
-    const $inputAnimate = this._formInputs.get('animate');
-    if ($inputAnimate) {
-      switch ($inputAnimate.val()) {
-        case 'false':
-          abacusProperties.animate = false;
-          break;
+    const inputAnimateValue = this._formInputs.get('animate')?.val();
+    switch (inputAnimateValue) {
+      case 'false':
+        abacusProperties.animate = false;
+        break;
 
-        case 'true':
-          abacusProperties.animate = true;
-          break;
+      case 'true':
+        abacusProperties.animate = true;
+        break;
 
-        default:
-          abacusProperties.animate = $inputAnimate.val() as string;
-          break;
-      }
+      default:
+        abacusProperties.animate = inputAnimateValue as string;
+        break;
     }
 
     const $inputDisabled = this._formInputs.get('disabled');
@@ -140,13 +144,13 @@ class AbacusDemo {
     }
 
     abacusProperties.values = [];
-    const $inputValueFirst = this._formInputs.get('value-first');
-    if ($inputValueFirst?.val()) {
-      abacusProperties.values[0] = parseFloat($inputValueFirst.val() as string);
+    const inputValueFirst = this._formInputs.get('value-first')?.val();
+    if (inputValueFirst) {
+      abacusProperties.values[0] = parseFloat(inputValueFirst as string);
     }
-    const $inputValueSecond = this._formInputs.get('value-second');
-    if ($inputValueSecond?.val()) {
-      abacusProperties.values[1] = parseFloat($inputValueSecond.val() as string);
+    const inputValueSecond = this._formInputs.get('value-second')?.val();
+    if (inputValueSecond) {
+      abacusProperties.values[1] = parseFloat(inputValueSecond as string);
     }
 
     const $inputOrientation = this._formInputs.get('orientation');
@@ -154,30 +158,23 @@ class AbacusDemo {
       abacusProperties.orientation = $inputOrientation.val() as string;
     }
 
-    const $inputRange = this._formInputs.get('range');
-    if ($inputRange) {
-      const valRange = $inputRange.val() as string;
-      switch (valRange) {
-        case 'true':
-          abacusProperties.range = true;
-          break;
+    const inputRangeValue = this._formInputs.get('range')?.val();
+    switch (inputRangeValue) {
+      case 'true':
+        abacusProperties.range = true;
+        break;
 
-        case 'false':
-          abacusProperties.range = false;
-          break;
+      case 'false':
+        abacusProperties.range = false;
+        break;
 
-        case 'max':
-          abacusProperties.range = 'max';
-          break;
+      case 'max':
+        abacusProperties.range = 'max';
+        break;
 
-        case 'min':
-          abacusProperties.range = 'min';
-          break;
-
-        default:
-          abacusProperties.range = valRange;
-          break;
-      }
+      case 'min':
+        abacusProperties.range = 'min';
+        break;
     }
 
     const $inputScale = this._formInputs.get('scale');
