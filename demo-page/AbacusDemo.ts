@@ -85,7 +85,7 @@ class AbacusDemo {
   private _updateFormInputs(abacusProperties: AbacusProperties) {
     this._formInputs.get('animate')?.val(abacusProperties.animate.toString());
 
-    this._formInputs.get('disabled')?.prop('checked', !abacusProperties.disabled);
+    this._formInputs.get('disabled')?.prop('checked', !abacusProperties.isDisabled);
 
     this._formInputs.get('max')?.val(abacusProperties.max);
 
@@ -103,9 +103,9 @@ class AbacusDemo {
 
     this._formInputs.get('range')?.val(abacusProperties.range.toString());
 
-    this._formInputs.get('scale')?.prop('checked', !!abacusProperties.scale);
+    this._formInputs.get('scale')?.prop('checked', !!abacusProperties.hasMarks);
 
-    this._formInputs.get('tooltip')?.prop('checked', !!abacusProperties.tooltip);
+    this._formInputs.get('tooltip')?.prop('checked', !!abacusProperties.hasTooltip);
 
     this._formInputs.get('step')?.val(abacusProperties.step);
   }
@@ -130,7 +130,7 @@ class AbacusDemo {
 
     const $inputDisabled = this._formInputs.get('disabled');
     if ($inputDisabled) {
-      abacusProperties.disabled = !$inputDisabled.prop('checked');
+      abacusProperties.isDisabled = !$inputDisabled.prop('checked');
     }
 
     const $inputMax = this._formInputs.get('max');
@@ -179,12 +179,12 @@ class AbacusDemo {
 
     const $inputScale = this._formInputs.get('scale');
     if ($inputScale) {
-      abacusProperties.scale = !!$inputScale.prop('checked');
+      abacusProperties.hasMarks = !!$inputScale.prop('checked');
     }
 
     const $inputTooltip = this._formInputs.get('tooltip');
     if ($inputTooltip) {
-      abacusProperties.tooltip = !!$inputTooltip.prop('checked');
+      abacusProperties.hasTooltip = !!$inputTooltip.prop('checked');
     }
 
     const $inputStep = this._formInputs.get('step');

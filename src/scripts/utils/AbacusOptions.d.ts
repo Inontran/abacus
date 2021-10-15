@@ -59,23 +59,23 @@ interface AbacusOptions {
    * @type {boolean}
    * @defaultvalue false
    * @description Отключает ползунок, если установлено значение "true".
-   * @example Инициализация слайдера с параметром ``disabled``:
+   * @example Инициализация слайдера с параметром ``isDisabled``:
    * ```
    * $('.selector').abacus({
-   *    disabled: true,
+   *    isDisabled: true,
    * });
    * ```
    *
-   * @example Получение или установка значения опции ``disabled`` после инициализации:
+   * @example Получение или установка значения опции ``isDisabled`` после инициализации:
    * ```
    * // Получение значения
-   * let disabled = $('.selector').abacus('option', 'disabled');
+   * let isDisabled = $('.selector').abacus('option', 'isDisabled');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'disabled', true);
+   * $('.selector').abacus('option', 'isDisabled', true);
    * ```
    */
-  disabled?: boolean = false;
+  isDisabled?: boolean = false;
 
   /**
    * @type {number}
@@ -180,23 +180,23 @@ interface AbacusOptions {
    * @type {boolean}
    * @defaultvalue false
    * @description Включение или отключение шкалы значений.
-   * @example Инициализация слайдера с параметром ``scale``:
+   * @example Инициализация слайдера с параметром ``hasMarks``:
    * ```
    * $('.selector').abacus({
-   *    scale: true,
+   *    hasMarks: true,
    * });
    * ```
    *
-   * @example Получение или установка значения опции ``scale`` после инициализации:
+   * @example Получение или установка значения опции ``hasMarks`` после инициализации:
    * ```
    * // Получение значения
-   * let scale = $('.selector').abacus('option', 'scale');
+   * let hasMarks = $('.selector').abacus('option', 'hasMarks');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'scale', true);
+   * $('.selector').abacus('option', 'hasMarks', true);
    * ```
    */
-  scale?: boolean = false;
+  hasMarks?: boolean = false;
 
   /**
    * @type {number}
@@ -224,23 +224,23 @@ interface AbacusOptions {
    * @type {boolean}
    * @defaultvalue false
    * @description Включение или отключение подсказки с текущем значением, которое отображется над ручкой слайдера.
-   * @example Инициализация слайдера с параметром ``tooltip``:
+   * @example Инициализация слайдера с параметром ``hasTooltip``:
    * ```
    * $('.selector').abacus({
-   *    tooltip: true,
+   *    hasTooltip: true,
    * });
    * ```
    *
-   * @example Получение или установка значения опции ``tooltip`` после инициализации:
+   * @example Получение или установка значения опции ``hasTooltip`` после инициализации:
    * ```
    * // Получение значения
-   * let tooltip = $('.selector').abacus('option', 'tooltip');
+   * let hasTooltip = $('.selector').abacus('option', 'hasTooltip');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'tooltip', true);
+   * $('.selector').abacus('option', 'hasTooltip', true);
    * ```
    */
-  tooltip?: boolean = false;
+  hasTooltip?: boolean = false;
 
   /**
    * @type {number[]}

@@ -44,13 +44,13 @@ class WidgetContainer {
    * @param  {AbacusClasses} classes - Объект с названиями классов.
    * @example new WidgetContainer({
    *  abacus: 'abacus',
-   *  disabled: 'abacus_disabled'
+   *  isDisabled: 'abacus_disabled'
    * });
    */
   constructor(classes: AbacusClasses) {
     this._htmlElement = document.createElement('div');
     this.className = classes.abacus;
-    this.classNameDisabled = classes.disabled;
+    this.classNameDisabled = classes.isDisabled;
     this.classNameVertical = classes.vertical;
   }
 

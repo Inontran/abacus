@@ -4,7 +4,7 @@
 interface AbacusProperties extends AbacusOptions {
   animate: boolean | string | number;
   classes: AbacusClasses;
-  disabled: boolean;
+  isDisabled: boolean;
 
   /**
    * Свойство, указывающее на то, работает ли слайдер в режиме интервала или нет.
@@ -23,8 +23,8 @@ interface AbacusProperties extends AbacusOptions {
   orientation: AbacusOrientationType;
 
   range: boolean | string;
-  scale: boolean;
+  hasMarks: boolean;
   step: number;
-  tooltip: boolean;
+  hasTooltip: boolean;
   values: number[];
 }

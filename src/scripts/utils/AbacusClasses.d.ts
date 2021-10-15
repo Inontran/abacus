@@ -17,7 +17,7 @@ interface AbacusClasses {
   /**
    * Класс HTML-элемента контейнера слайдера в неактивном состоянии.
    */
-  disabled: string;
+  isDisabled: string;
 
   /**
    * Класс HTML-элемента ручек слайдера.

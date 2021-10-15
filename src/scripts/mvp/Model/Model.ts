@@ -16,7 +16,7 @@ class Model {
     classes: {
       abacus: 'abacus',
       vertical: 'abacus_vertical',
-      disabled: 'abacus_disabled',
+      isDisabled: 'abacus_disabled',
       handle: 'abacus__handle',
       range: 'abacus__range',
       mark: 'abacus__mark',
@@ -24,15 +24,15 @@ class Model {
       markInrange: 'abacus__mark_in-range',
       tooltip: 'abacus__tooltip',
     },
-    disabled: false,
+    isDisabled: false,
     interval: false,
     max: 100,
     min: 0,
     orientation: AbacusOrientationType.HORIZONTAL,
     range: false,
-    scale: false,
+    hasMarks: false,
     step: 1,
-    tooltip: false,
+    hasTooltip: false,
     values: [0],
   };
 
@@ -98,8 +98,8 @@ class Model {
       if (typeof abacusProperties.classes.abacus === 'string' && abacusProperties.classes.abacus) {
         this._abacusProperties.classes.abacus = abacusProperties.classes.abacus;
       }
-      if (typeof abacusProperties.classes.disabled === 'string' && abacusProperties.classes.disabled) {
-        this._abacusProperties.classes.disabled = abacusProperties.classes.disabled;
+      if (typeof abacusProperties.classes.isDisabled === 'string' && abacusProperties.classes.isDisabled) {
+        this._abacusProperties.classes.isDisabled = abacusProperties.classes.isDisabled;
       }
       if (typeof abacusProperties.classes.range === 'string' && abacusProperties.classes.range) {
         this._abacusProperties.classes.range = abacusProperties.classes.range;
@@ -121,9 +121,9 @@ class Model {
       }
     }
 
-    // disabled
-    if (abacusProperties.disabled !== undefined) {
-      this._abacusProperties.disabled = !!abacusProperties.disabled;
+    // isDisabled
+    if (abacusProperties.isDisabled !== undefined) {
+      this._abacusProperties.isDisabled = !!abacusProperties.isDisabled;
     }
 
     // max
@@ -133,9 +133,9 @@ class Model {
       }
     }
 
-    // scale
-    if (abacusProperties.scale !== undefined) {
-      this._abacusProperties.scale = !!abacusProperties.scale;
+    // hasMarks
+    if (abacusProperties.hasMarks !== undefined) {
+      this._abacusProperties.hasMarks = !!abacusProperties.hasMarks;
     }
 
     // min
@@ -158,9 +158,9 @@ class Model {
       }
     }
 
-    // tooltip
-    if (abacusProperties.tooltip !== undefined) {
-      this._abacusProperties.tooltip = !!abacusProperties.tooltip;
+    // hasTooltip
+    if (abacusProperties.hasTooltip !== undefined) {
+      this._abacusProperties.hasTooltip = !!abacusProperties.hasTooltip;
     }
 
     // values

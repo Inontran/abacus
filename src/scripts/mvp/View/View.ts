@@ -316,14 +316,14 @@ class View {
       switch (param1) {
         case 'animate':
         case 'classes':
-        case 'disabled':
+        case 'isDisabled':
         case 'max':
-        case 'scale':
+        case 'hasMarks':
         case 'min':
         case 'orientation':
         case 'range':
         case 'step':
-        case 'tooltip':
+        case 'hasTooltip':
         case 'values':
           const newProperties = {} as AbacusOptions;
           newProperties[param1] = propValue;
@@ -350,14 +350,14 @@ class View {
     switch (optionName) {
       case 'animate':
       case 'classes':
-      case 'disabled':
+      case 'isDisabled':
       case 'max':
-      case 'scale':
+      case 'hasMarks':
       case 'min':
       case 'orientation':
       case 'range':
       case 'step':
-      case 'tooltip':
+      case 'hasTooltip':
       case 'values':
         return this._presenter.getModelAbacusProperties()[optionName];
 
@@ -374,13 +374,13 @@ class View {
 
     const hasRangeChanged = this._cachedAbacusProperties?.range !== abacusProperties.range;
     const hasOrientationChanged = this._cachedAbacusProperties?.orientation !== abacusProperties.orientation;
-    const hasTooltipChanged = this._cachedAbacusProperties?.tooltip !== abacusProperties.tooltip;
+    const hasTooltipChanged = this._cachedAbacusProperties?.hasTooltip !== abacusProperties.hasTooltip;
     const hasAnimateChanged = this._cachedAbacusProperties?.animate !== abacusProperties.animate;
     const hasMaxChanged = this._cachedAbacusProperties?.max !== abacusProperties.max;
     const hasMinChanged = this._cachedAbacusProperties?.min !== abacusProperties.min;
     const hasValuesChanged = !View.arrayCompare(this._cachedAbacusProperties?.values, abacusProperties.values);
-    const hasDisabledChanged = this._cachedAbacusProperties?.disabled !== abacusProperties.disabled;
-    const hasScaleChanged = this._cachedAbacusProperties?.scale !== abacusProperties.scale;
+    const hasDisabledChanged = this._cachedAbacusProperties?.isDisabled !== abacusProperties.isDisabled;
+    const hasScaleChanged = this._cachedAbacusProperties?.hasMarks !== abacusProperties.hasMarks;
     const hasStepChanged = this._cachedAbacusProperties?.step !== abacusProperties.step;
     const hasIntervalChanged = this._cachedAbacusProperties?.interval !== abacusProperties.interval;
 
@@ -440,7 +440,7 @@ class View {
 
     // Включаем или отключаем слайдер
     if (hasDisabledChanged) {
-      this._toggleDisable(abacusProperties.disabled);
+      this._toggleDisable(abacusProperties.isDisabled);
     }
 
     // Создаем шкалу значений
@@ -450,7 +450,7 @@ class View {
                                                     || hasMinChanged
                                                     || hasOrientationChanged;
     if (resultScaleStepMaxMinOrientationChanged) {
-      if (abacusProperties.scale) {
+      if (abacusProperties.hasMarks) {
         this._createScale();
         this._setTransition();
       } else {
@@ -545,7 +545,7 @@ class View {
     }
     this._tooltips = [];
 
-    if (abacusProperties.tooltip) {
+    if (abacusProperties.hasTooltip) {
       const countTooltips = abacusProperties.interval === true ? 2 : 1;
       for (let i = 0; i < countTooltips; i += 1) {
         this._tooltips[i] = new Tooltip(abacusProperties.classes, i);
@@ -560,7 +560,7 @@ class View {
    * @param {AbacusProperties} abacusProperties Свойства плагина.
    */
   private _updateViewTooltips(abacusProperties: AbacusProperties): void{
-    if (!abacusProperties.values || !abacusProperties.tooltip) {
+    if (!abacusProperties.values || !abacusProperties.hasTooltip) {
       return;
     }
 
@@ -696,8 +696,8 @@ class View {
     if (this._cachedAbacusProperties?.classes?.vertical !== abacusClasses?.vertical) {
       this._widgetContainer.classNameVertical = abacusClasses?.vertical;
     }
-    if (this._cachedAbacusProperties?.classes?.disabled !== abacusClasses?.disabled) {
-      this._widgetContainer.classNameDisabled = abacusClasses?.disabled;
+    if (this._cachedAbacusProperties?.classes?.isDisabled !== abacusClasses?.isDisabled) {
+      this._widgetContainer.classNameDisabled = abacusClasses?.isDisabled;
     }
 
     if (this._cachedAbacusProperties?.classes?.handle !== abacusClasses?.handle) {

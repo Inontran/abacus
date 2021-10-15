@@ -5,8 +5,8 @@ const SLIDER_CONFIGS: Array<AbacusOptions> = [
     step: 2,
     values: [-4, 6],
     range: true,
-    scale: true,
-    tooltip: true,
+    hasMarks: true,
+    hasTooltip: true,
   },
   {
     animate: 'fast',
@@ -21,7 +21,7 @@ const SLIDER_CONFIGS: Array<AbacusOptions> = [
     step: 1,
     range: 'min',
     orientation: 'vertical',
-    scale: true,
+    hasMarks: true,
   },
 ];
 
