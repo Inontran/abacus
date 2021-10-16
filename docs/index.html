@@ -154,9 +154,7 @@
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
-				<p><a href="https://inontran.github.io/abacus/docs">Документация</a>.</p>
-				<p>API данного слайдера делалось на основе слайдера из библиотеки jQuery UI.
-				Поэтому в качестве дополнительного источника можно пользоваться <a href="https://api.jqueryui.com/slider/">документацией jQuery UI</a>, но есть отличия.</p>
+				<p><a href="https://inontran.github.io/abacus/docs">Документация</a>.  </p>
 				<table>
 					<thead>
 						<tr>
@@ -172,37 +170,37 @@
 						</tr>
 						<tr>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#classes">classes</a></td>
-							<td align="left"><a href="#method-disable">disable</a></td>
+							<td align="left"><a href="#method-getWidget">getWidget</a></td>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#create">create</a></td>
 						</tr>
 						<tr>
-							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#disabled">disabled</a></td>
-							<td align="left"><a href="#method-enable">enable</a></td>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#isDisabled">isDisabled</a></td>
+							<td align="left"><a href="#method-getProperties">getProperties</a></td>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#slide">slide</a></td>
 						</tr>
 						<tr>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#max">max</a></td>
-							<td align="left"><a href="#method-instance">instance</a></td>
+							<td align="left"><a href="#method-setProperties">setProperties</a></td>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#start">start</a></td>
 						</tr>
 						<tr>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#min">min</a></td>
-							<td align="left"><a href="#method-option">option</a></td>
+							<td align="left"></td>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#stop">stop</a></td>
 						</tr>
 						<tr>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#orientation">orientation</a></td>
-							<td align="left"><a href="#method-value">value</a></td>
+							<td align="left"></td>
 							<td align="left"></td>
 						</tr>
 						<tr>
 							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#range">range</a></td>
-							<td align="left"><a href="#method-values">values</a></td>
+							<td align="left"></td>
 							<td align="left"></td>
 						</tr>
 						<tr>
-							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#scale">scale</a></td>
-							<td align="left"><a href="#method-widget">widget</a></td>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#hasMarks">hasMarks</a></td>
+							<td align="left"></td>
 							<td align="left"></td>
 						</tr>
 						<tr>
@@ -211,12 +209,7 @@
 							<td align="left"></td>
 						</tr>
 						<tr>
-							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#tooltip">tooltip</a></td>
-							<td align="left"></td>
-							<td align="left"></td>
-						</tr>
-						<tr>
-							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#value">value</a></td>
+							<td align="left"><a href="https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#hasTooltip">hasTooltip</a></td>
 							<td align="left"></td>
 							<td align="left"></td>
 						</tr>
@@ -236,150 +229,78 @@
 					<a href="#destroy" id="destroy" style="color: inherit; text-decoration: none;">
 						<h4>destroy()</h4>
 					</a>
-					<p>  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.<br>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>destroy</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;destroy&#039;</span><span style="color: #000000">);</span>
+					<p>  Удаляет слайдер.  </p>
+					<p>  <strong>Пример:</strong><br>  Вызов метода <code>destroy</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">destroy</span><span style="color: #000000">();</span>
 </code></pre>
 				</div>
 				<hr>
-				<div id="method-disable">
-					<a href="#disable" id="disable" style="color: inherit; text-decoration: none;">
-						<h4>disable()</h4>
+				<div id="method-getWidget">
+					<a href="#getwidget" id="getwidget" style="color: inherit; text-decoration: none;">
+						<h4>getWidget()</h4>
 					</a>
-					<p>  Отключает слайдер, как атрибут <code>disabled</code> поля ввода.<br>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>disable</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;disable&#039;</span><span style="color: #000000">);</span>
+					<p>  Возвращает объект jQuery, содержащий слайдер.<br>  <strong>Возвращает:</strong> <code>HTMLElement</code></p>
+					<p>  <strong>Пример:</strong><br>  Вызов метода <code>getWidget</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">widget</span><span style="color: #000000"> = </span><span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">getWidget</span><span style="color: #000000">();</span>
 </code></pre>
 				</div>
 				<hr>
-				<div id="method-enable">
-					<a href="#enable" id="enable" style="color: inherit; text-decoration: none;">
-						<h4>enable()</h4>
+				<div id="method-getProperties">
+					<a href="#getproperties" id="getproperties" style="color: inherit; text-decoration: none;">
+						<h4>getProperties()</h4>
 					</a>
-					<p>  Включает слайдер, возвращает его в активное состояние. Например, после применения метода <code>disable</code>.<br>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>enable</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;enable&#039;</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div id="method-instance">
-					<a href="#instance" id="instance" style="color: inherit; text-decoration: none;">
-						<h4>instance()</h4>
-					</a>
-					<p>  Возвращает экземпляр объекта слайдера.<br>  <strong>Возвращает:</strong> <code>View</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>instance</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;instance&#039;</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div id="method-option">
-					<a href="#option" id="option" style="color: inherit; text-decoration: none;">
-						<h4>option()</h4>
-					</a>
-					<p>  Возвращает объект, содеражащий пары ключ-значение, в которых записаны свойства слайдера.<br>  <strong>Возвращает:</strong> <code>AbacusProperty</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>option</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;option&#039;</span><span style="color: #000000">);</span>
+					<p>  Возвращает объект, содеражащий пары ключ-значение, в которых записаны свойства слайдера.<br>  <strong>Возвращает:</strong> <code>AbacusProperties</code></p>
+					<p>  <strong>Пример:</strong><br>  Вызов метода <code>getProperties</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">props</span><span style="color: #000000"> = </span><span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">getProperties</span><span style="color: #000000">();</span>
 </code></pre>
 				</div>
 				<hr>
 				<div>
-					<a href="#optionoptionname" id="optionoptionname" style="color: inherit; text-decoration: none;">
-						<h4>option(optionName)</h4>
+					<a href="#getpropertiesoptionname" id="getpropertiesoptionname" style="color: inherit; text-decoration: none;">
+						<h4>getProperties(optionName)</h4>
 					</a>
-					<p>  Возвращает значение свойства слайдера, название которого соответствует <code>optionName</code>.  </p>
+					<p>  Возвращает значение свойства слайдера, название которого соответствует <code>optionName</code>.   </p>
 					<ul>
 						<li><strong>optionName</strong><br>Тип: <code>string</code><br>Название свойства, которое требуется получить.</li>
 					</ul>
 					<p>  <strong>Возвращает:</strong> <code>number</code> или <code>string</code> или <code>number[]</code> или <code>boolean</code> или <code>AbacusClasses</code> или <code>undefined</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>option</code>:</p>
-					<pre><code><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">optionValue</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;option&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;disabled&#039;</span><span style="color: #000000">);</span>
+					<p>  <strong>Пример:</strong><br>  Вызов метода <code>getProperties</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">animate</span><span style="color: #000000"> = </span><span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">getProperties</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;animate&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				</div>
+				<hr>
+				<div id="method-setProperties">
+					<a href="#setpropertiesabacusoptions" id="setpropertiesabacusoptions" style="color: inherit; text-decoration: none;">
+						<h4>setProperties(abacusOptions)</h4>
+					</a>
+					<p>  Установка одного и более значений свойства слайдера.  </p>
+					<ul>
+						<li><strong>abacusOptions</strong><br>Тип: <code>AbacusOptions</code><br>Объект, содержащий значения свойств в виде пар ключ-значение.  </li>
+					</ul>
+					<p>  <strong>Пример:</strong><br>  Вызов метода <code>setProperties</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">setProperties</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">isDisabled:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">});</span>
 </code></pre>
 				</div>
 				<hr>
 				<div>
-					<a href="#optionoptionname-value" id="optionoptionname-value" style="color: inherit; text-decoration: none;">
-						<h4>option(optionName, value)</h4>
+					<a href="#setpropertiesoptionname-propvalue" id="setpropertiesoptionname-propvalue" style="color: inherit; text-decoration: none;">
+						<h4>setProperties(optionName, propValue)</h4>
 					</a>
 					<p>  Установка значения свойства слайдера, название которого соответствует <code>optionName</code>.  </p>
 					<ul>
 						<li><strong>optionName</strong><br>Тип: <code>string</code><br>Название свойства, значение которого требуется обновить.  </li>
-						<li><strong>value</strong><br>Тип: <code>string</code><br>Значение, устанавливаемое для свойства.  </li>
+						<li><strong>propValue</strong><br>Тип: <code>number</code> или <code>string</code> или <code>number[]</code> или <code>boolean</code> или <code>AbacusClasses</code><br>Значение, устанавливаемое для свойства.  </li>
 					</ul>
-					<p>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>option</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;option&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;disabled&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">true</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div>
-					<a href="#optionoptions" id="optionoptions" style="color: inherit; text-decoration: none;">
-						<h4>option(options)</h4>
-					</a>
-					<p>  Установка одного и более значений свойства слайдера.  </p>
-					<ul>
-						<li><strong>options</strong><br>Тип: <code>Object</code><br>Объект, содержащий значения свойств в виде пар ключ-значение.  </li>
-					</ul>
-					<p>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>option</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;option&#039;</span><span style="color: #000000">, {</span><span style="color: #001080">disabled:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">});</span>
-</code></pre>
-				</div>
-				<hr>
-				<div id="method-value">
-					<a href="#value" id="value" style="color: inherit; text-decoration: none;">
-						<h4>value()</h4>
-					</a>
-					<p>  Возвращает значение слайдера.<br>  <strong>Возвращает:</strong> <code>number</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>value</code>:</p>
-					<pre><code><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">value</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;value&#039;</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div>
-					<a href="#valuevalue" id="valuevalue" style="color: inherit; text-decoration: none;">
-						<h4>value(value)</h4>
-					</a>
-					<p>  Устанавливает значение слайдера.  </p>
-					<ul>
-						<li><strong>value</strong><br>Тип: <code>number</code><br>Значение для установки.  </li>
-					</ul>
-					<p>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>value</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;value&#039;</span><span style="color: #000000">, </span><span style="color: #098658">55</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div id="method-values">
-					<a href="#values" id="values" style="color: inherit; text-decoration: none;">
-						<h4>values()</h4>
-					</a>
-					<p>  Возвращает значения всех ручек слайдера.<br>  <strong>Возвращает:</strong> <code>number[]</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>values</code>:</p>
-					<pre><code><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">values</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;values&#039;</span><span style="color: #000000">);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div>
-					<a href="#valuesvalues" id="valuesvalues" style="color: inherit; text-decoration: none;">
-						<h4>values(values)</h4>
-					</a>
-					<p>  Устанавливает значения всех ручек слайдера.  </p>
-					<ul>
-						<li><strong>values</strong><br>Тип: <code>number[]</code><br>Массив для установки значений ручек слайдера.  </li>
-					</ul>
-					<p>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>values</code>:</p>
-					<pre><code><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;values&#039;</span><span style="color: #000000">, [</span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #098658">25</span><span style="color: #000000">]);</span>
-</code></pre>
-				</div>
-				<hr>
-				<div id="method-widget">
-					<a href="#widget" id="widget" style="color: inherit; text-decoration: none;">
-						<h4>widget()</h4>
-					</a>
-					<p>  Возвращает объект jQuery, содержащий слайдер.<br>  <strong>Возвращает:</strong> <code>jQuery</code></p>
-					<p>  <strong>Примеры кода:</strong><br>  Вызов метода <code>widget</code>:</p>
-					<pre><code><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">widget</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.selector&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">abacus</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;widget&#039;</span><span style="color: #000000">);</span>
+					<p>  <strong>Пример кода:</strong><br>  Вызов метода <code>setProperties</code>:</p>
+					<pre><code><span style="color: #001080">abacusInstance</span><span style="color: #000000"> = </span><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#example-wrapper&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">data</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;abacus&#039;</span><span style="color: #000000">);</span>
+<span style="color: #001080">abacusInstance</span><span style="color: #000000">.</span><span style="color: #795E26">setProperties</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;isDisabled&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">true</span><span style="color: #000000">);</span>
 </code></pre>
 				</div>
 				<hr>
@@ -410,9 +331,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/mvp_view_view.html">mvp/<wbr>View/<wbr>View</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/mvp_view_view_test.html">mvp/<wbr>View/<wbr>View.test</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/mvp_view_components_handle_handle.html">mvp/<wbr>View/components/<wbr>Handle/<wbr>Handle</a>
@@ -449,9 +367,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/utils_eventuidata.html">utils/<wbr>EventUIData</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/utils_htmlabacuselement.html">utils/HTMLAbacus<wbr>Element</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/utils_jquery.html">utils/JQuery</a>
