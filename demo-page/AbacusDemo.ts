@@ -64,12 +64,12 @@ class AbacusDemo {
       this._abacusSlider?.destroy();
       this._abacusSlider = null;
     } else {
-      const sliderConfig = this._parseFormInAbacusOptions();
+      const newSliderConfig = this._parseFormInAbacusOptions();
 
       if (this._abacusSlider) {
-        this._abacusSlider.setProperties(sliderConfig);
+        this._abacusSlider.setProperties(newSliderConfig);
       } else {
-        this._initAbacus(sliderConfig);
+        this._initAbacus(newSliderConfig);
       }
     }
 
