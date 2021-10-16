@@ -16,8 +16,6 @@ EventUIData "0.." *-- "1" AbacusProperty
 
 JQuery "1" <-- "1" Abacus
 
-HTMLAbacusElement "0..*" <-- "0..1" View
-
 enum AbacusOrientationType {
     HORIZONTAL
     VERTICAL
@@ -45,14 +43,14 @@ class Presenter {
     +eventTarget(): EventTarget
 }
 class WidgetContainer {
-    -_htmlElement: HTMLAbacusElement
+    -_htmlElement: HTMLElement
     -_width: number
     -_className: string
     -_classNameDisabled: string
     -_classNameVertical: string
     +width(): number
     +width(width : number)
-    +htmlElement(): HTMLAbacusElement
+    +htmlElement(): HTMLElement
     +className(): string
     +className(name : string)
     +classNameDisabled(): string
@@ -160,11 +158,11 @@ class View {
     -_cachedAbacusProperty: AbacusProperty
     -_isVertical: boolean
     -_currentHandle?: Handle | undefined
-    +getPosPercent(coordXY: number): number
-    +getPosFromValue(value: number): number
-    +getValFromPosPercent(posPercent: number): number
-    +option(optionName?: string | undefined, value?: any): string | number | boolean | AbacusProperty | number[] | AbacusClasses | undefined
-    +updateView(): void
+    +getProperties(): AbacusProperties
+    +getProperties(optionName: string): number | string | number[] | boolean | AbacusClasses | undefined
+    +getWidget(): HTMLElement
+    +setProperties(abacusOptions: AbacusOptions): void
+    +setProperties(optionName: string, propValue: any): void
     -_createViewHandles(abacusProperty: AbacusProperty): void
     -_updateViewHandles(abacusProperty: AbacusProperty): void
     -_createViewTooltips(abacusProperty: AbacusProperty): void
@@ -172,7 +170,7 @@ class View {
     -_createViewRange(abacusProperty: AbacusProperty): void
     -_updateViewRange(abacusProperty: AbacusProperty): void
     -_updateClassNames(abacusClasses: AbacusClasses): void
-    +toggleDisable(off?: boolean | undefined): void
+    -_toggleDisable(off?: boolean | undefined): void
     -_getEventUIData(): EventUIData
     -_eventChangeWrapper(event?: Event | undefined): boolean
     -_eventCreateWrapper(event?: Event | undefined): boolean
@@ -194,7 +192,11 @@ class View {
     -_bindEventListenersOnMarks(): void
     -_setTransition(): void
     -_getCloneAbacusProperty(abacusProperty: AbacusProperty): AbacusProperty
+    -_getPosPercent(coordXY: number): number
+    -_getPosFromValue(value: number): number
+    -_getValFromPosPercent(posPercent: number): number
     -_findMovedHandle(): Handle
+    -_updateView(): void
     +{static} countNumAfterPoint(x: number): number
     +{static} round(value: number, fractionalNum: number): number
     +{static} arrayCompare(a?: any[] | undefined, b?: any[] | undefined): boolean
@@ -215,15 +217,14 @@ interface AbacusClasses {
 interface AbacusOptions {
     +animate?: string | number | boolean | undefined
     +classes?: AbacusClasses | undefined
-    +disabled?: boolean | undefined
+    +isDisabled?: boolean | undefined
     +max?: number | undefined
     +min?: number | undefined
     +orientation?: string | undefined
     +range?: string | boolean | undefined
-    +scale?: boolean | undefined
+    +hasMarks?: boolean | undefined
     +step?: number | undefined
-    +tooltip?: boolean | undefined
-    +value?: number | undefined
+    +hasTooltip?: boolean | undefined
     +values?: number[] | undefined
     +change?: ((event: Event, ui: EventUIData) => void) | undefined
     +create?: ((event: Event, ui: EventUIData) => void) | undefined
@@ -235,29 +236,23 @@ interface AbacusOptions {
 interface AbacusProperty {
     +animate: string | number | boolean
     +classes: AbacusClasses
-    +disabled: boolean
+    +isDisabled: boolean
     +max: number
     +min: number
     +orientation: AbacusOrientationType
     +range: string | boolean
-    +scale: boolean
+    +hasMarks: boolean
     +step: number
-    +tooltip: boolean
-    +value: number
+    +hasTooltip: boolean
     +values: number[]
 }
 
 interface Abacus{
-  +(options ?: AbacusOptions): JQuery;
-  +(funcName: string, param1 ? : AbacusOptions | number | string | number[],param2 ? : number | string | boolean | null | AbacusClasses): JQuery | AbacusProperty | number | number[] | boolean | null | undefined | AbacusClasses | View | string;
+    +(options ?: AbacusOptions): JQuery;
 }
 
 interface JQuery{
-  abacus: Abacus
-}
-
-interface HTMLAbacusElement extends HTMLElement {
-    +jqueryAbacusInstance?: View
+    abacus: Abacus
 }
 
 interface EventUIData {
