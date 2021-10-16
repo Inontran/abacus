@@ -1419,7 +1419,7 @@ class View {
    * Возвращает HTML-элемент контейнера слайдера.
    * @returns {HTMLElement} Контейнер слайдера.
    */
-  getHtmlWidget(): HTMLElement {
+  getWidget(): HTMLElement {
     return this._widgetContainer.htmlElement;
   }
 

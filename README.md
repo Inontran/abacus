@@ -135,21 +135,18 @@ $('#example-wrapper').abacus({
 ***
 
 ## API
-[Документация](https://inontran.github.io/abacus/docs).
+[Документация](https://inontran.github.io/abacus/docs).  
 
-API данного слайдера делалось на основе слайдера из библиотеки jQuery UI.
-Поэтому в качестве дополнительного источника можно пользоваться [документацией jQuery UI](https://api.jqueryui.com/slider/), но есть отличия.
-
-| [Опции](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)                    | [Методы](#methods)            | [События](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)        |
-|:-------------------------------------------------------------------------------------------------------------------- |:----------------------------- |:---------------------------------------------------------------------------------------------------------- |
-| [animate](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#animate)          | [destroy](#method-destroy)    | [change](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#change)  |
-| [classes](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#classes)          | [disable](#method-disable)    | [create](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#create)  |
-| [disabled](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#disabled)        | [enable](#method-enable)      | [slide](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#slide)    |
-| [max](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#max)                  | [instance](#method-instance)  | [start](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#start)    |
-| [min](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#min)                  | [option](#method-option)      | [stop](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#stop)      |
-| [orientation](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#orientation)  | [value](#method-value)
-| [range](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#range)              | [values](#method-values)
-| [scale](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#scale)              | [widget](#method-widget)
+| [Опции](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)                    | [Методы](#methods)                     | [События](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html)        |
+|:-------------------------------------------------------------------------------------------------------------------- |:-----------------------------          |:---------------------------------------------------------------------------------------------------------- |
+| [animate](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#animate)          | [destroy](#method-destroy)             | [change](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#change)  |
+| [classes](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#classes)          | [getWidget](#method-getWidget)         | [create](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#create)  |
+| [disabled](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#disabled)        | [getProperties](#method-getProperties) | [slide](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#slide)    |
+| [max](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#max)                  | [setProperties](#method-setProperties) | [start](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#start)    |
+| [min](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#min)                  |                                        | [stop](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#stop)      |
+| [orientation](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#orientation)  | 
+| [range](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#range)              | 
+| [scale](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#scale)              | 
 | [step](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#step)
 | [tooltip](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#tooltip)
 | [value](https://inontran.github.io/abacus/docs/interfaces/utils_abacusoptions.abacusoptions.html#value)
@@ -168,77 +165,47 @@ API данного слайдера делалось на основе слай�
 
   #### destroy()
 
-  Удаляет функционал слайдера. Возвращает элемент в состояние до инициализации.  
-  **Возвращает:** ``jQuery``
+  Удаляет слайдер.  
 
-  **Примеры кода:**  
+  **Пример:**  
   Вызов метода ``destroy``:
   ```
-  $('.selector').abacus('destroy');
+  abacusInstance = $('#example-wrapper').data('abacus');
+  abacusInstance.destroy();
   ```
 </div>
 
 ***
 
-<div id="method-disable">
+<div id="method-getWidget">
 
-  #### disable()
+  #### getWidget()
 
-  Отключает слайдер, как атрибут ``disabled`` поля ввода.  
-  **Возвращает:** ``jQuery``
+  Возвращает объект jQuery, содержащий слайдер.  
+  **Возвращает:** ``HTMLElement``
 
-  **Примеры кода:**  
-  Вызов метода ``disable``:
+  **Пример:**  
+  Вызов метода ``getWidget``:
   ```
-  $('.selector').abacus('disable');
-  ```
-</div>
-
-***
-
-<div id="method-enable">
-
-  #### enable()
-
-  Включает слайдер, возвращает его в активное состояние. Например, после применения метода ``disable``.  
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``enable``:
-  ```
-  $('.selector').abacus('enable');
+  abacusInstance = $('#example-wrapper').data('abacus');
+  let widget = abacusInstance.getWidget();
   ```
 </div>
 
 ***
 
-<div id="method-instance">
+<div id="method-getProperties">
 
-  #### instance()
-
-  Возвращает экземпляр объекта слайдера.  
-  **Возвращает:** ``View``
-
-  **Примеры кода:**  
-  Вызов метода ``instance``:
-  ```
-  $('.selector').abacus('instance');
-  ```
-</div>
-
-***
-
-<div id="method-option">
-
-  #### option()
+  #### getProperties()
 
   Возвращает объект, содеражащий пары ключ-значение, в которых записаны свойства слайдера.  
-  **Возвращает:** ``AbacusProperty``
+  **Возвращает:** ``AbacusProperties``
 
-  **Примеры кода:**  
-  Вызов метода ``option``:
+  **Пример:**  
+  Вызов метода ``getProperties``:
   ```
-  $('.selector').abacus('option');
+  abacusInstance = $('#example-wrapper').data('abacus');
+  let props = abacusInstance.getProperties();
   ```
 </div>
 
@@ -246,20 +213,43 @@ API данного слайдера делалось на основе слай�
 
 <div>
 
-  #### option(optionName)
+  #### getProperties(optionName)
 
-  Возвращает значение свойства слайдера, название которого соответствует ``optionName``.  
+  Возвращает значение свойства слайдера, название которого соответствует ``optionName``.   
 
   - **optionName**  
     Тип: ``string``  
     Название свойства, которое требуется получить.
-  
+
   **Возвращает:** ``number`` или ``string`` или ``number[]`` или ``boolean`` или ``AbacusClasses`` или ``undefined``
 
-  **Примеры кода:**  
-  Вызов метода ``option``:
+  **Пример:**  
+  Вызов метода ``getProperties``:
   ```
-  let optionValue = $('.selector').abacus('option', 'disabled');
+  abacusInstance = $('#example-wrapper').data('abacus');
+  let animate = abacusInstance.getProperties('animate');
+  ```
+</div>
+
+***
+
+<div id="method-setProperties">
+
+  #### setProperties(abacusOptions)
+
+  Установка одного и более значений свойства слайдера.  
+
+  - **abacusOptions**  
+    Тип: ``AbacusOptions``  
+    Объект, содержащий значения свойств в виде пар ключ-значение.  
+
+  **Пример:**  
+  Вызов метода ``setProperties``:
+  ```
+  abacusInstance = $('#example-wrapper').data('abacus');
+  abacusInstance.setProperties({
+    isDisabled: true,
+  });
   ```
 </div>
 
@@ -267,134 +257,22 @@ API данного слайдера делалось на основе слай�
 
 <div>
 
-  #### option(optionName, value)
+  #### setProperties(optionName, propValue)
 
   Установка значения свойства слайдера, название которого соответствует ``optionName``.  
 
   - **optionName**  
     Тип: ``string``  
     Название свойства, значение которого требуется обновить.  
-  - **value**  
-    Тип: ``string``  
+  - **propValue**  
+    Тип: ``number`` или ``string`` или ``number[]`` или ``boolean`` или ``AbacusClasses``  
     Значение, устанавливаемое для свойства.  
 
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``option``:
+  **Пример кода:**  
+  Вызов метода ``setProperties``:
   ```
-  $('.selector').abacus('option', 'disabled', true);
-  ```
-</div>
-
-***
-
-<div>
-
-  #### option(options)
-
-  Установка одного и более значений свойства слайдера.  
-
-  - **options**  
-    Тип: ``Object``  
-    Объект, содержащий значения свойств в виде пар ключ-значение.  
-
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``option``:
-  ```
-  $('.selector').abacus('option', {disabled: true});
-  ```
-</div>
-
-***
-
-<div id="method-value">
-
-  #### value()
-
-  Возвращает значение слайдера.  
-  **Возвращает:** ``number``
-
-  **Примеры кода:**  
-  Вызов метода ``value``:
-  ```
-  let value = $('.selector').abacus('value');
-  ```
-</div>
-
-***
-
-<div>
-
-  #### value(value)
-
-  Устанавливает значение слайдера.  
-
-  - **value**  
-    Тип: ``number``  
-    Значение для установки.  
-
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``value``:
-  ```
-  $('.selector').abacus('value', 55);
-  ```
-</div>
-
-***
-
-<div id="method-values">
-
-  #### values()
-
-  Возвращает значения всех ручек слайдера.  
-  **Возвращает:** ``number[]``
-
-  **Примеры кода:**  
-  Вызов метода ``values``:
-  ```
-  let values = $('.selector').abacus('values');
-  ```
-</div>
-
-***
-
-<div>
-
-  #### values(values)
-
-  Устанавливает значения всех ручек слайдера.  
-
-  - **values**  
-    Тип: ``number[]``  
-    Массив для установки значений ручек слайдера.  
-
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``values``:
-  ```
-  $('.selector').abacus('values', [10, 25]);
-  ```
-</div>
-
-***
-
-<div id="method-widget">
-
-  #### widget()
-
-  Возвращает объект jQuery, содержащий слайдер.  
-  **Возвращает:** ``jQuery``
-
-  **Примеры кода:**  
-  Вызов метода ``widget``:
-  ```
-  let widget = $('.selector').abacus('widget');
+  abacusInstance = $('#example-wrapper').data('abacus');
+  abacusInstance.setProperties('isDisabled', true);
   ```
 </div>
 
