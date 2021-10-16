@@ -14,43 +14,43 @@ interface AbacusOptions {
    * - **string**: Название продолжительности анимации. Принимает значения ``fast``(200 мс) или ``slow``(600 мс).
    * - **number**: Продолжительность анимации в миллисекундах.
    *
-   * @example Инициализация слайдера с параметром ``animate``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром animate
    * $('.selector').abacus({
    *    animate: 'fast',
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``animate`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let animate = $('.selector').abacus('option', 'animate');
+   * let animate = abacusInstance.getProperties('animate');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'animate', 'fast');
+   * abacusInstance.getProperties('animate', 'fast');
    * ```
    */
   animate?: boolean | string | number = false;
 
   /**
-   * Классы элементов виджета.
+   * @description Классы элементов виджета.
    * @type {AbacusClasses}
-   * @example Инициализация слайдера с параметром ``classes``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром classes
    * $('.selector').abacus({
    *   classes: {
    *     abacus: 'slider',
    *   },
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``classes`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let classes = $('.selector').abacus('option', 'classes');
+   * let animate = abacusInstance.getProperties('classes');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'classes', {vertical: 'slider_vertical'});
+   * abacusInstance.getProperties('classes', {vertical: 'slider_vertical'});
    * ```
    */
   classes?: AbacusClasses;
@@ -58,21 +58,21 @@ interface AbacusOptions {
   /**
    * @type {boolean}
    * @defaultvalue false
-   * @description Отключает ползунок, если установлено значение "true".
-   * @example Инициализация слайдера с параметром ``isDisabled``:
+   * @description Отключает слайдер, если установлено значение "true".
+   * @example
    * ```
+   * // Инициализация слайдера с параметром isDisabled
    * $('.selector').abacus({
    *    isDisabled: true,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``isDisabled`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let isDisabled = $('.selector').abacus('option', 'isDisabled');
+   * let animate = abacusInstance.getProperties('isDisabled');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'isDisabled', true);
+   * abacusInstance.getProperties('isDisabled', true);
    * ```
    */
   isDisabled?: boolean = false;
@@ -81,20 +81,20 @@ interface AbacusOptions {
    * @type {number}
    * @defaultvalue 100
    * @description Максимальное значение ползунка.
-   * @example Инициализация слайдера с параметром ``max``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром max
    * $('.selector').abacus({
    *    max: 50,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``max`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let max = $('.selector').abacus('option', 'max');
+   * let animate = abacusInstance.getProperties('max');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'max', 50);
+   * abacusInstance.getProperties('max', 50);
    * ```
    */
   max?: number = 100;
@@ -103,20 +103,20 @@ interface AbacusOptions {
    * @type {number}
    * @defaultvalue 0
    * @description Минимальное значение ползунка.
-   * @example Инициализация слайдера с параметром ``min``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром min
    * $('.selector').abacus({
    *    min: 10,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``min`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let min = $('.selector').abacus('option', 'min');
+   * let animate = abacusInstance.getProperties('min');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'min', 10);
+   * abacusInstance.getProperties('min', 10);
    * ```
    */
   min?: number = 0;
@@ -127,20 +127,20 @@ interface AbacusOptions {
    * @description Определяет, перемещаются ли ручки ползунка по горизонтали (минимум слева, максимум справа)
    * или вертикально (минимум внизу, максимум вверху).
    * Возможные значения: "horizontal" (по горизонтали), "vertical" (по вертикали).
-   * @example Инициализация слайдера с параметром ``orientation``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром orientation
    * $('.selector').abacus({
    *    orientation: 'vertical',
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``orientation`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let orientation = $('.selector').abacus('option', 'orientation');
+   * let animate = abacusInstance.getProperties('orientation');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'orientation', 'vertical');
+   * abacusInstance.getProperties('orientation', 'vertical');
    * ```
    */
   orientation?: string = 'horizontal';
@@ -157,21 +157,21 @@ interface AbacusOptions {
    * то элемент диапазона отображается между минимальным значением и это ручкой.
    * - **string**: Если установлено значение ``min``, элемент диапазона идет от минимального значения ползунка до ручки.
    * Если установлено значение ``max``, элемент диапазона идет от максимального значения ползунка до ручки.
-   *
-   * @example Инициализация слайдера с параметром ``range``:
+   * 
+   * @example
    * ```
+   * // Инициализация слайдера с параметром range
    * $('.selector').abacus({
    *    range: true,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``range`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let range = $('.selector').abacus('option', 'range');
+   * let animate = abacusInstance.getProperties('range');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'range', true);
+   * abacusInstance.getProperties('range', true);
    * ```
    */
   range?: boolean | string = false;
@@ -180,20 +180,20 @@ interface AbacusOptions {
    * @type {boolean}
    * @defaultvalue false
    * @description Включение или отключение шкалы значений.
-   * @example Инициализация слайдера с параметром ``hasMarks``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром hasMarks
    * $('.selector').abacus({
    *    hasMarks: true,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``hasMarks`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let hasMarks = $('.selector').abacus('option', 'hasMarks');
+   * let animate = abacusInstance.getProperties('hasMarks');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'hasMarks', true);
+   * abacusInstance.getProperties('hasMarks', true);
    * ```
    */
   hasMarks?: boolean = false;
@@ -202,20 +202,20 @@ interface AbacusOptions {
    * @type {number}
    * @defaultvalue 1
    * @description Число, на которое увеличивается значение слайдера.
-   * @example Инициализация слайдера с параметром ``step``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром step
    * $('.selector').abacus({
    *    step: 5,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``step`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let step = $('.selector').abacus('option', 'step');
+   * let animate = abacusInstance.getProperties('step');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'step', 5);
+   * abacusInstance.getProperties('step', 5);
    * ```
    */
   step?: number = 1;
@@ -224,20 +224,20 @@ interface AbacusOptions {
    * @type {boolean}
    * @defaultvalue false
    * @description Включение или отключение подсказки с текущем значением, которое отображется над ручкой слайдера.
-   * @example Инициализация слайдера с параметром ``hasTooltip``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром hasTooltip
    * $('.selector').abacus({
    *    hasTooltip: true,
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``hasTooltip`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let hasTooltip = $('.selector').abacus('option', 'hasTooltip');
+   * let animate = abacusInstance.getProperties('hasTooltip');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'hasTooltip', true);
+   * abacusInstance.getProperties('hasTooltip', true);
    * ```
    */
   hasTooltip?: boolean = false;
@@ -248,20 +248,20 @@ interface AbacusOptions {
    * @description Свойство, в котором указано значения первой и второй ручки слайдера.
    * Если указано второе значение, то слайдер будет работать в режиме интервала.
    * Если слайдер работает не в режиме интервала, то в массиве хранится значение только первой ручки.
-   * @example Инициализация слайдера с параметром ``values``:
+   * @example
    * ```
+   * // Инициализация слайдера с параметром values
    * $('.selector').abacus({
    *    values: [10, 25],
    * });
-   * ```
-   *
-   * @example Получение или установка значения опции ``values`` после инициализации:
-   * ```
+   * 
+   * abacusInstance = $('.selector').data('abacus');
+   * 
    * // Получение значения
-   * let values = $('.selector').abacus('option', 'values');
+   * let animate = abacusInstance.getProperties('values');
    *
    * // Установка значения
-   * $('.selector').abacus('option', 'values', [10, 25]);
+   * abacusInstance.getProperties('values', [10, 25]);
    * ```
    */
   values?: number[] = [0];
@@ -278,7 +278,7 @@ interface AbacusOptions {
    * ```
    * @example Установка слушателя на событие ``abacus-change`` после инициализации:
    * ```
-   * $('.selector').on('abacus-change', function(event, ui){});
+   * $('.selector').on('abacus-change', function(event){});
    * ```
    */
   change?: (event: Event, ui: EventUIData) => void;
@@ -294,7 +294,7 @@ interface AbacusOptions {
    * ```
    * @example Установка слушателя на событие ``abacus-create`` после инициализации:
    * ```
-   * $('.selector').on('abacus-create', function(event, ui){});
+   * $('.selector').on('abacus-create', function(event){});
    * ```
    */
   create?: (event: Event, ui: EventUIData) => void;
@@ -312,7 +312,7 @@ interface AbacusOptions {
    * ```
    * @example Установка слушателя на событие ``abacus-slide`` после инициализации:
    * ```
-   * $('.selector').on('abacus-slide', function(event, ui){});
+   * $('.selector').on('abacus-slide', function(event){});
    * ```
    */
   slide?: (event: Event, ui: EventUIData) => void;
@@ -328,7 +328,7 @@ interface AbacusOptions {
    * ```
    * @example Установка слушателя на событие ``abacus-start`` после инициализации:
    * ```
-   * $('.selector').on('abacus-start', function(event, ui){});
+   * $('.selector').on('abacus-start', function(event){});
    * ```
    */
   start?: (event: Event, ui: EventUIData) => void;
@@ -344,7 +344,7 @@ interface AbacusOptions {
    * ```
    * @example Установка слушателя на событие ``abacus-stop`` после инициализации:
    * ```
-   * $('.selector').on('abacus-stop', function(event, ui){});
+   * $('.selector').on('abacus-stop', function(event){});
    * ```
    */
   stop?: (event: Event, ui: EventUIData) => void;
