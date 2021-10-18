@@ -7,11 +7,11 @@ import View from './scripts/mvp/View/View';
 import './styles/abacus.scss';
 
 $.fn.abacus = function (paramOptions ? : AbacusOptions) {
-  let returnResult: JQuery<HTMLElement> = this;
+  const returnResult: JQuery<HTMLElement> = this;
 
   this.each(function () {
     const abacusHtmlWrapper: HTMLElement = this;
-    
+
     if (!$.data(this, 'abacus')) {
       let view: View;
 

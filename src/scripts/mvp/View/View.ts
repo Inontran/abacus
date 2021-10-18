@@ -313,6 +313,8 @@ class View {
     propValue?: any,
   ): void {
     if (typeof param1 === 'string') {
+      const newProperties = {} as AbacusOptions;
+
       switch (param1) {
         case 'animate':
         case 'classes':
@@ -325,9 +327,11 @@ class View {
         case 'step':
         case 'hasTooltip':
         case 'values':
-          const newProperties = {} as AbacusOptions;
           newProperties[param1] = propValue;
           this._presenter.setModelAbacusProperties(newProperties);
+          break;
+
+        default:
           break;
       }
     } else if (typeof param1 === 'object') {

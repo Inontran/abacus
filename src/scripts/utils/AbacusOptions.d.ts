@@ -20,9 +20,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    animate: 'fast',
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('animate');
    *
@@ -43,9 +43,9 @@ interface AbacusOptions {
    *     abacus: 'slider',
    *   },
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('classes');
    *
@@ -65,9 +65,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    isDisabled: true,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('isDisabled');
    *
@@ -87,9 +87,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    max: 50,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('max');
    *
@@ -109,9 +109,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    min: 10,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('min');
    *
@@ -133,9 +133,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    orientation: 'vertical',
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('orientation');
    *
@@ -157,16 +157,16 @@ interface AbacusOptions {
    * то элемент диапазона отображается между минимальным значением и это ручкой.
    * - **string**: Если установлено значение ``min``, элемент диапазона идет от минимального значения ползунка до ручки.
    * Если установлено значение ``max``, элемент диапазона идет от максимального значения ползунка до ручки.
-   * 
+   *
    * @example
    * ```
    * // Инициализация слайдера с параметром range
    * $('.selector').abacus({
    *    range: true,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('range');
    *
@@ -186,9 +186,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    hasMarks: true,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('hasMarks');
    *
@@ -208,9 +208,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    step: 5,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('step');
    *
@@ -230,9 +230,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    hasTooltip: true,
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('hasTooltip');
    *
@@ -254,9 +254,9 @@ interface AbacusOptions {
    * $('.selector').abacus({
    *    values: [10, 25],
    * });
-   * 
+   *
    * abacusInstance = $('.selector').data('abacus');
-   * 
+   *
    * // Получение значения
    * let animate = abacusInstance.getProperties('values');
    *

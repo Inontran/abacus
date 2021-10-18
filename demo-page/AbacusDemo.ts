@@ -72,8 +72,6 @@ class AbacusDemo {
         this._initAbacus(newSliderConfig);
       }
     }
-
-    return;
   }
 
   private _handleAbacusChange() {
@@ -174,6 +172,9 @@ class AbacusDemo {
 
       case 'min':
         abacusProperties.range = 'min';
+        break;
+
+      default:
         break;
     }
 
