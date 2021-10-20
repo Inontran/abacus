@@ -1,6 +1,7 @@
 import EventTarget from '@ungap/event-target';
 
 import AbacusOrientationType from '../../utils/AbacusOrientationType';
+import { round } from '../../utils/helpers';
 
 /**
  * Класс Model реализует "Модель" паттерна проектирования MVP.
@@ -294,36 +295,8 @@ class Model {
       }
     }
 
-    result = Model.round(result, step);
+    result = round(result, step);
     return result;
-  }
-
-  /**
-   * Функция получения количества знаков после запятой.
-   * @param {number} x Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} Количество знаков после запятой.
-   */
-  static countNumAfterPoint(x: number): number {
-    const xStr = x.toString();
-    return (`${xStr}`).indexOf('.') >= 0 ? (`${xStr}`).split('.')[1].length : 0;
-  }
-
-  /**
-   * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-   * @param {number} value Число, которое надо округлить.
-   * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} Округленное число.
-   */
-  static round(value: number, fractionalNum: number): number {
-    const numbersAfterPoint = Model.countNumAfterPoint(fractionalNum);
-    let roundedValue = value;
-    if (numbersAfterPoint > 0) {
-      roundedValue = parseFloat(value.toFixed(numbersAfterPoint));
-    } else {
-      roundedValue = Math.round(value);
-    }
-
-    return roundedValue;
   }
 }
 

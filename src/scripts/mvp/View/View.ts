@@ -1,4 +1,5 @@
 import AbacusOrientationType from '../../utils/AbacusOrientationType';
+import { getCloneAbacusProperties, round, arrayCompare } from '../../utils/helpers';
 
 import Presenter from '../Presenter/Presenter';
 
@@ -382,7 +383,7 @@ class View {
     const hasAnimateChanged = this._cachedAbacusProperties?.animate !== abacusProperties.animate;
     const hasMaxChanged = this._cachedAbacusProperties?.max !== abacusProperties.max;
     const hasMinChanged = this._cachedAbacusProperties?.min !== abacusProperties.min;
-    const hasValuesChanged = !View.arrayCompare(this._cachedAbacusProperties?.values, abacusProperties.values);
+    const hasValuesChanged = !arrayCompare(this._cachedAbacusProperties?.values, abacusProperties.values);
     const hasDisabledChanged = this._cachedAbacusProperties?.isDisabled !== abacusProperties.isDisabled;
     const hasScaleChanged = this._cachedAbacusProperties?.hasMarks !== abacusProperties.hasMarks;
     const hasStepChanged = this._cachedAbacusProperties?.step !== abacusProperties.step;
@@ -464,7 +465,7 @@ class View {
       this._highlightMarks();
     }
 
-    this._cachedAbacusProperties = View.getCloneAbacusProperties(abacusProperties);
+    this._cachedAbacusProperties = getCloneAbacusProperties(abacusProperties);
   }
 
   /**
@@ -765,7 +766,7 @@ class View {
     }
 
     const modelData = this._presenter.getModelAbacusProperties();
-    uiData.abacusProperties = View.getCloneAbacusProperties(modelData);
+    uiData.abacusProperties = getCloneAbacusProperties(modelData);
     return uiData;
   }
 
@@ -1005,7 +1006,7 @@ class View {
     const valueUnrounded: number = this._getValFromPosPercent(percent);
     viewInstance._calcHandleValues(valueUnrounded);
 
-    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
+    const hasValuesChanged = !arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
@@ -1149,7 +1150,7 @@ class View {
       const doAddMark = sumRealSteps >= stepToAddMarks
                       || value === abacusProperties.min;
       if (doAddMark) {
-        value = View.round(value, abacusProperties.step);
+        value = round(value, abacusProperties.step);
         const mark = new Mark(value, abacusProperties.classes);
         const positionMark = this._getPosFromValue(value);
 
@@ -1347,7 +1348,7 @@ class View {
     viewInstance._calcHandleValues(markAssociatedValue);
 
     const abacusProperties: AbacusProperties = viewInstance._presenter.getModelAbacusProperties();
-    const hasValuesChanged = !View.arrayCompare(currentValues, abacusProperties.values);
+    const hasValuesChanged = !arrayCompare(currentValues, abacusProperties.values);
     if (hasValuesChanged) {
       this._eventChangeWrapper(event);
     }
@@ -1389,19 +1390,6 @@ class View {
   }
 
   /**
-   * Функция, копирующая объект со свойствами слайдера.
-   * @param {AbacusProperties} abacusProperties Свойства слайдера.
-   * @returns {AbacusProperties} Новый объект со свойствами слайдера.
-   */
-  static getCloneAbacusProperties(abacusProperties: AbacusProperties): AbacusProperties {
-    const cloneProperties = {} as AbacusProperties;
-    Object.assign(cloneProperties, abacusProperties);
-    cloneProperties.values = abacusProperties.values?.slice(0);
-    Object.assign(cloneProperties.classes, abacusProperties.classes);
-    return cloneProperties;
-  }
-
-  /**
    * Функция, которая определяет, какая ручка слайдера сдвинулась.
    * @returns {Handle} Возвращает ссылку на объект ручкы слайдера, которая передвинулась.
    */
@@ -1439,57 +1427,6 @@ class View {
     document.removeEventListener('pointercancel', this._handleHandleItemPointerup);
 
     $.data(this._abacusHtmlWrapper, 'abacus', null);
-  }
-
-  /**
-   * Функция получения количества знаков после запятой.
-   * @static
-   * @param {number} x Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} Количество знаков после запятой.
-   */
-  static countNumAfterPoint(x: number): number {
-    const xStr = x.toString();
-    return (`${xStr}`).indexOf('.') >= 0 ? (`${xStr}`).split('.')[1].length : 0;
-  }
-
-  /**
-   * Функция окргуления числа до того количества знаков после запятой, сколько этих знаков у числа fractionalNum.
-   * @static
-   * @param {number} value Число, которое надо округлить.
-   * @param {number} fractionalNum Число, у которого надо узнать количество знаков после запятой.
-   * @returns {number} Округленное число.
-   */
-  static round(value: number, fractionalNum: number): number {
-    const numbersAfterPoint = View.countNumAfterPoint(fractionalNum);
-    let roundedValue = value;
-    if (numbersAfterPoint > 0) {
-      roundedValue = parseFloat(value.toFixed(numbersAfterPoint));
-    } else {
-      roundedValue = Math.round(value);
-    }
-
-    return roundedValue;
-  }
-
-  /**
-   * Функция сравнения двух массивов с произвольними примитивными значениями.
-   * @static
-   * @param {Array<any>} a Массив
-   * @param {Array<any>} b Массив
-   * @returns {boolean} Возвращает "true" если массивы одинаковые. Иначе "false".
-   */
-  static arrayCompare(a?: Array<any>, b?: Array<any>): boolean {
-    if (!a || !b) return false;
-
-    if (a?.length !== b?.length) return false;
-
-    for (let i = 0; i < a.length; i += 1) {
-      if (a[i] !== b[i]) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }
 
