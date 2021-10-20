@@ -11,7 +11,7 @@
     box-sizing: border-box;
   }
 
-  .abacus__handle {
+  &__handle {
     display: inline-block;
     width: 9px;
     height: 20px;
@@ -39,7 +39,7 @@
     }
   }
 
-  .abacus__range {
+  &__range {
     display: inline-block;
     position: absolute;
     top: 50%;
@@ -50,7 +50,7 @@
     background-color: brown;
   }
 
-  .abacus__mark {
+  &__mark {
     display: inline-block;
     position: absolute;
     top: 13px;
@@ -79,7 +79,7 @@
     }
   }
 
-  .abacus__tooltip {
+  &__tooltip {
     display: inline-block;
     position: absolute;
     bottom: 16px;
