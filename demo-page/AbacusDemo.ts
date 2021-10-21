@@ -1,11 +1,11 @@
-import View from '../src/scripts/mvp/View/View';
+import Presenter from '../src/scripts/mvp/Presenter/Presenter';
 
 import './demo-page.scss';
 
 class AbacusDemo {
   private _$abacusSliderWrapper!: JQuery<HTMLElement>;
 
-  private _abacusSlider!: View | null;
+  private _abacusSlider!: Presenter | null;
 
   private _$form!: JQuery<HTMLFormElement>;
 

@@ -150,8 +150,8 @@ class View {
    * в котором будет находиться инициализированный слайдер.
    * @param  {AbacusOptions} options Параметры настройки слайдера.
    */
-  constructor(abacusHtmlWrapper: HTMLElement, options?: AbacusOptions) {
-    this._presenter = new Presenter(options);
+  constructor(abacusHtmlWrapper: HTMLElement, presenter: Presenter, options?: AbacusOptions) {
+    this._presenter = presenter;
     this._abacusHtmlWrapper = abacusHtmlWrapper;
 
     const abacusProperties = this._presenter.getModelAbacusProperties();
@@ -295,80 +295,6 @@ class View {
     }
 
     return abacusValue;
-  }
-
-  /**
-   * Функция установки свойств слайдера.
-   * @param {string} optionName Название свойства, значение которого надо получить или изменить.
-   * @param {any} propValue Значение свойства.
-   */
-  setProperties(
-    abacusOptions: AbacusOptions,
-  ): void;
-  setProperties(
-    optionName: string,
-    propValue: any,
-  ): void;
-  setProperties(
-    param1: string | AbacusOptions,
-    propValue?: any,
-  ): void {
-    if (typeof param1 === 'string') {
-      const newProperties = {} as AbacusOptions;
-
-      switch (param1) {
-        case 'animate':
-        case 'classes':
-        case 'isDisabled':
-        case 'max':
-        case 'hasMarks':
-        case 'min':
-        case 'orientation':
-        case 'range':
-        case 'step':
-        case 'hasTooltip':
-        case 'values':
-          newProperties[param1] = propValue;
-          this._presenter.setModelAbacusProperties(newProperties);
-          break;
-
-        default:
-          break;
-      }
-    } else if (typeof param1 === 'object') {
-      this._presenter.setModelAbacusProperties(param1);
-    }
-  }
-
-  /**
-   * Функция получения свойств слайдера.
-   * @param {string} optionName Название свойства, значение которого надо получить или изменить.
-   * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
-   */
-  getProperties(): AbacusProperties;
-  getProperties(
-    optionName: string,
-  ): number | string | number[] | boolean | AbacusClasses | undefined;
-  getProperties(
-    optionName?: string,
-  ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
-    switch (optionName) {
-      case 'animate':
-      case 'classes':
-      case 'isDisabled':
-      case 'max':
-      case 'hasMarks':
-      case 'min':
-      case 'orientation':
-      case 'range':
-      case 'step':
-      case 'hasTooltip':
-      case 'values':
-        return this._presenter.getModelAbacusProperties()[optionName];
-
-      default:
-        return this._presenter.getModelAbacusProperties();
-    }
   }
 
   /**

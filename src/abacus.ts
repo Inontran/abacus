@@ -2,7 +2,7 @@
  * @fileoverview В этом файле находится функция, реализующая внешний API плагина.
  */
 
-import View from './scripts/mvp/View/View';
+import Presenter from './scripts/mvp/Presenter/Presenter';
 
 import './styles/abacus.scss';
 
@@ -13,15 +13,15 @@ $.fn.abacus = function (paramOptions ? : AbacusOptions) {
     const abacusHtmlWrapper: HTMLElement = this;
 
     if (!$.data(this, 'abacus')) {
-      let view: View;
+      let presenter: Presenter;
 
       if (typeof paramOptions === 'object') {
-        view = new View(abacusHtmlWrapper, paramOptions);
+        presenter = new Presenter(abacusHtmlWrapper, paramOptions);
       } else {
-        view = new View(abacusHtmlWrapper);
+        presenter = new Presenter(abacusHtmlWrapper);
       }
 
-      $.data(this, 'abacus', view);
+      $.data(this, 'abacus', presenter);
     }
   });
 

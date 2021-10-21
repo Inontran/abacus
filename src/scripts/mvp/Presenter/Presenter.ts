@@ -1,6 +1,7 @@
 import EventTarget from '@ungap/event-target';
 
 import Model from '../Model/Model';
+import View from '../View/View';
 
 /**
  * Класс Presenter реализует "Представителя" паттерна проектирования MVP.
@@ -13,6 +14,8 @@ class Presenter {
    * @private
    */
   private _model: Model;
+
+  private _view: View;
 
   /**
    * Объект, который может генерировать события и может иметь подписчиков на эти события.
@@ -32,11 +35,103 @@ class Presenter {
    * @this Presenter
    * @param {AbacusOptions} options Свойства слайдера. Например, минимальное, максимальное и текущее значения.
    */
-  constructor(options?: AbacusOptions) {
-    this._model = new Model(options);
+  constructor(abacusHtmlWrapper: HTMLElement, options?: AbacusOptions) {
     this._eventTarget = new EventTarget();
     this._eventUpdateModel = new CustomEvent('update-model');
+    
+    this._model = new Model(options);
+    this._view = new View(abacusHtmlWrapper, this, options);
+
     this._bindEventListeners();
+  }
+
+  /**
+   * Функция установки свойств слайдера.
+   * @param {string} optionName Название свойства, значение которого надо получить или изменить.
+   * @param {any} propValue Значение свойства.
+   */
+  setProperties(
+    abacusOptions: AbacusOptions,
+  ): void;
+  setProperties(
+    optionName: string,
+    propValue: any,
+  ): void;
+  setProperties(
+    param1: string | AbacusOptions,
+    propValue?: any,
+  ): void {
+    if (typeof param1 === 'string') {
+      const newProperties = {} as AbacusOptions;
+
+      switch (param1) {
+        case 'animate':
+        case 'classes':
+        case 'isDisabled':
+        case 'max':
+        case 'hasMarks':
+        case 'min':
+        case 'orientation':
+        case 'range':
+        case 'step':
+        case 'hasTooltip':
+        case 'values':
+          newProperties[param1] = propValue;
+          this._model.setAbacusProperties(newProperties);
+          break;
+
+        default:
+          break;
+      }
+    } else if (typeof param1 === 'object') {
+      this._model.setAbacusProperties(param1);
+    }
+  }
+
+  /**
+   * Функция получения свойств слайдера.
+   * @param {string} optionName Название свойства, значение которого надо получить или изменить.
+   * @returns {AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined}
+   */
+  getProperties(): AbacusProperties;
+  getProperties(
+    optionName: string,
+  ): number | string | number[] | boolean | AbacusClasses | undefined;
+  getProperties(
+    optionName?: string,
+  ): AbacusProperties | number | string | number[] | boolean | AbacusClasses | undefined {
+    switch (optionName) {
+      case 'animate':
+      case 'classes':
+      case 'isDisabled':
+      case 'max':
+      case 'hasMarks':
+      case 'min':
+      case 'orientation':
+      case 'range':
+      case 'step':
+      case 'hasTooltip':
+      case 'values':
+        return this._model.abacusProperties[optionName];
+
+      default:
+        return this._model.abacusProperties;
+    }
+  }
+
+  /**
+   * Возвращает HTML-элемент контейнера слайдера.
+   * @returns {HTMLElement} Контейнер слайдера.
+   */
+  getWidget(): HTMLElement {
+    return this._view.getWidget();
+  }
+
+  /**
+   * Удаляет слайдер со страницы.
+   */
+  destroy() {
+    this._view.destroy();
   }
 
   /**
