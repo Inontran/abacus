@@ -143,6 +143,26 @@ class View {
    */
   private _abacusHtmlWrapper: HTMLElement;
 
+  private _animate: boolean | string | number = false;
+
+  private _orientation: AbacusOrientationType = AbacusOrientationType.HORIZONTAL;
+
+  private _hasMarks: boolean = false;
+
+  private _hasTooltip: boolean = false;
+
+  private _classes: AbacusClasses = {
+    abacus: 'abacus',
+    vertical: 'abacus_vertical',
+    isDisabled: 'abacus_disabled',
+    handle: 'abacus__handle',
+    range: 'abacus__range',
+    mark: 'abacus__mark',
+    markSelected: 'abacus__mark_selected',
+    markInrange: 'abacus__mark_in-range',
+    tooltip: 'abacus__tooltip',
+  };
+
   /**
    * @constructor
    * @this   {View}
@@ -190,6 +210,98 @@ class View {
     this._bindEventListeners();
 
     this._eventCreateWrapper();
+  }
+
+  set animate(propValue: boolean | string | number) {
+    const isAnimatePropFastOrSlow = propValue === 'fast' || propValue === 'slow';
+    const isAnimatePropBoolean = typeof propValue === 'boolean';
+    const isAnimatePropResult = isAnimatePropFastOrSlow || isAnimatePropBoolean;
+    if (isAnimatePropResult) {
+      this._animate = propValue;
+    } else if (parseInt(propValue as string, 10)) {
+      this._animate = Math.round(parseInt(propValue as string, 10));
+    } else {
+      this._animate = false;
+    }
+  }
+
+  get animate(): boolean | string | number {
+    return this._animate;
+  }
+
+  set classes(newClasses: AbacusClasses) {
+    if (!this._classes) {
+      this._classes = {} as AbacusClasses;
+    }
+
+    if (typeof newClasses.abacus === 'string' && newClasses.abacus) {
+      this._classes.abacus = newClasses.abacus;
+    }
+    if (typeof newClasses.isDisabled === 'string' && newClasses.isDisabled) {
+      this._classes.isDisabled = newClasses.isDisabled;
+    }
+    if (typeof newClasses.range === 'string' && newClasses.range) {
+      this._classes.range = newClasses.range;
+    }
+    if (typeof newClasses.handle === 'string' && newClasses.handle) {
+      this._classes.handle = newClasses.handle;
+    }
+    if (typeof newClasses.mark === 'string' && newClasses.mark) {
+      this._classes.mark = newClasses.mark;
+    }
+    if (typeof newClasses.markSelected === 'string' && newClasses.markSelected) {
+      this._classes.markSelected = newClasses.markSelected;
+    }
+    if (typeof newClasses.markInrange === 'string' && newClasses.markInrange) {
+      this._classes.markInrange = newClasses.markInrange;
+    }
+    if (typeof newClasses.tooltip === 'string' && newClasses.tooltip) {
+      this._classes.tooltip = newClasses.tooltip;
+    }
+  }
+
+  get classes(): AbacusClasses {
+    return this._classes;
+  }
+
+  set orientation(propValue: string) {
+    if (propValue === 'vertical' || propValue === AbacusOrientationType.VERTICAL) {
+      this._orientation = AbacusOrientationType.VERTICAL;
+    } else {
+      this._orientation = AbacusOrientationType.HORIZONTAL;
+    }
+  }
+
+  get orientation() {
+    return this._orientation;
+  }
+
+  set hasMarks(propValue: boolean) {
+    this._hasMarks = !!propValue;
+  }
+
+  get hasMarks(): boolean {
+    return this._hasMarks;
+  }
+
+  set hasTooltip(propValue: boolean) {
+    this._hasTooltip = !!propValue;
+  }
+
+  get hasTooltip(): boolean {
+    return this._hasTooltip;
+  }
+
+  set isDisabled(propValue: boolean) {
+    this._isDisabled = !!propValue;
+  }
+
+  get isDisabled(): boolean {
+    return this._isDisabled;
+  }
+
+  getRangeType(): boolean | string {
+    return this._range.rangeType;
   }
 
   /**

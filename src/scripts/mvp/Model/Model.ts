@@ -38,6 +38,20 @@ class Model {
   };
 
   /**
+   * Свойство, указывающее на то, работает ли слайдер в режиме интервала или нет.
+   * @type {boolean}
+   */
+  private _interval: boolean = false;
+
+  private _maxValue: number = 100;
+
+  private _minValue: number = 0;
+
+  private _valChangeStep: number = 1;
+
+  private _values: number[] = [0];
+
+  /**
    * Объект, который может генерировать события и может иметь подписчиков на эти события.
    * @private
    */
@@ -251,8 +265,74 @@ class Model {
   /**
    * Геттер объекта, который может генерировать события и может иметь подписчиков на эти события.
    */
-  public get eventTarget(): EventTarget {
+  get eventTarget(): EventTarget {
     return this._eventTarget;
+  }
+
+  get interval(): boolean {
+    return this._interval;
+  }
+
+  set maxValue(propValue: number) {
+    this._maxValue = propValue;
+  }
+
+  get maxValue(): number {
+    return this._maxValue;
+  }
+
+  set minValue(propValue: number) {
+    this._minValue = propValue;
+  }
+
+  get minValue(): number {
+    return this._minValue;
+  }
+
+  set valChangeStep(propValue: number) {
+    this._valChangeStep = propValue;
+  }
+
+  get valChangeStep(): number {
+    return this._valChangeStep;
+  }
+
+  set values(propValue: number[]) {
+    if (propValue?.length) {
+      this._values = [] as number[];
+
+      for (let i = 0; i < propValue.length; i += 1) {
+        if (typeof propValue[i] === 'string') {
+          propValue[i] = parseFloat(propValue[i].toString());
+        }
+        propValue[i] = this.roundValuePerStep(propValue[i]);
+        this._values[i] = propValue[i];
+
+        if (i > 1) break;
+      }
+
+      this._values.sort((a, b) => {
+        if (a > b) return 1;
+        if (a === b) return 0;
+        return -1;
+      });
+
+      if (this._values.length < 2) this._interval = false;
+      else this._interval = true;
+    }
+
+    for (let i = 0; i < this._values.length; i += 1) {
+      if (i === 0 && this._values[0] < this._minValue) {
+        this._values[0] = this._minValue;
+      }
+      if (i === 1 && this._values[1] > this._maxValue) {
+        this._values[1] = this._maxValue;
+      }
+    }
+  }
+
+  get values(): number[] {
+    return this._values;
   }
 
   /**
