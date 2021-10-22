@@ -101,7 +101,7 @@ class Presenter {
           break;
 
         case 'range':
-          // доделать
+          this._view.rangeOption = propValue;
           break;
 
         case 'step':
@@ -166,7 +166,7 @@ class Presenter {
             this._view.orientation = param1.orientation;
           }
           if (param1.range !== undefined) {
-            // доделать
+            this._view.rangeOption = param1.range;
           }
           if (typeof param1.step === 'number') {
             this._model.valChangeStep = param1.step;
@@ -182,9 +182,6 @@ class Presenter {
 
       this._model.setAbacusProperties(param1);
     }
-
-    console.log(this.getProperties());
-    console.log('===================');
   }
 
   /**
@@ -231,7 +228,7 @@ class Presenter {
         break;
 
       case 'range':
-        resultGettingProp = this._view.getRangeType();
+        resultGettingProp = this._view.rangeOption;
         break;
 
       case 'step':
@@ -247,28 +244,7 @@ class Presenter {
         break;
 
       default:
-        break;
-    }
-
-    switch (optionName) {
-      case 'animate':
-      case 'classes':
-      case 'isDisabled':
-      case 'max':
-      case 'hasMarks':
-      case 'min':
-      case 'orientation':
-      case 'range':
-      case 'step':
-      case 'hasTooltip':
-      case 'values':
-        console.log(optionName + ' == ');
-        console.log(resultGettingProp);
-        console.log('=============');
-        return this._model.abacusProperties[optionName];
-
-      default:
-        const abacusProperties = {} as AbacusProperties;
+        const abacusProperties: AbacusProperties = {} as AbacusProperties;
         abacusProperties.animate = this._view.animate;
         abacusProperties.classes = this._view.classes;
         abacusProperties.isDisabled = this._view.isDisabled;
@@ -276,14 +252,33 @@ class Presenter {
         abacusProperties.hasMarks = this._view.hasMarks;
         abacusProperties.min = this._model.minValue;
         abacusProperties.orientation = this._view.orientation;
-        abacusProperties.range = this._view.getRangeType();
+        abacusProperties.range = this._view.rangeOption;
         abacusProperties.step = this._model.valChangeStep;
         abacusProperties.hasTooltip = this._view.hasTooltip;
         abacusProperties.values = this._model.values;
-        console.log(abacusProperties);
-
-        return this._model.abacusProperties;
+        return abacusProperties;
+        break;
     }
+
+    return resultGettingProp;
+
+    // switch (optionName) {
+    //   case 'animate':
+    //   case 'classes':
+    //   case 'isDisabled':
+    //   case 'max':
+    //   case 'hasMarks':
+    //   case 'min':
+    //   case 'orientation':
+    //   case 'range':
+    //   case 'step':
+    //   case 'hasTooltip':
+    //   case 'values':
+    //     return this._model.abacusProperties[optionName];
+
+    //   default:
+    //     return this._model.abacusProperties;
+    // }
   }
 
   /**

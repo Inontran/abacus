@@ -163,6 +163,8 @@ class View {
     tooltip: 'abacus__tooltip',
   };
 
+  private _rangeOption: boolean | string = false;
+
   /**
    * @constructor
    * @this   {View}
@@ -174,12 +176,10 @@ class View {
     this._presenter = presenter;
     this._abacusHtmlWrapper = abacusHtmlWrapper;
 
-    const abacusProperties = this._presenter.getModelAbacusProperties();
-
-    this._widgetContainer = new WidgetContainer(abacusProperties.classes);
+    this._widgetContainer = new WidgetContainer(this.classes);
     this._abacusHtmlWrapper.append(this._widgetContainer.htmlElement);
 
-    this._range = new Range(abacusProperties.classes);
+    this._range = new Range(this.classes);
 
     this._customEventChange = new CustomEvent('abacus-change', {
       bubbles: true,
@@ -206,7 +206,7 @@ class View {
       cancelable: true,
     });
 
-    this._updateView();
+    this.updateView();
     this._bindEventListeners();
 
     this._eventCreateWrapper();
@@ -300,8 +300,28 @@ class View {
     return this._isDisabled;
   }
 
-  getRangeType(): boolean | string {
-    return this._range.rangeType;
+  set rangeOption(propValue: boolean | string) {
+    switch (propValue) {
+      case true:
+        this._rangeOption = true;
+        break;
+
+      case 'max':
+        this._rangeOption = 'max';
+        break;
+
+      case 'min':
+        this._rangeOption = 'min';
+        break;
+    
+      default:
+        this._rangeOption = false;
+        break;
+    }
+  }
+
+  get rangeOption(): boolean | string {
+    return this._rangeOption;
   }
 
   /**
@@ -412,7 +432,7 @@ class View {
   /**
    * Функция обновления Вида плагина (в том числе пользовательского интерфейса).
    */
-  private _updateView(): void{
+  updateView(): void{
     const abacusProperties: AbacusProperties = this._presenter.getModelAbacusProperties();
 
     const hasRangeChanged = this._cachedAbacusProperties?.range !== abacusProperties.range;
@@ -1013,7 +1033,7 @@ class View {
    * @param {Event} event Объект события.
    */
   private _handleModelUpdate(): void{
-    this._updateView();
+    this.updateView();
   }
 
   /**
